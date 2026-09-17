@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBN Games — Profile</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ 
+  <header id="main-header">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="cart.html" title="Cart" style="position:relative;">🛒<span class="cart-badge" style="display:none; position:absolute; top:-6px; right:-8px; background:#ff5a1f; color:#0b0d10; font-size:0.65rem; font-weight:700; border-radius:20px; padding:1px 5px; min-width:14px; text-align:center;">0</span></a>
+        <a href="profile.html" class="profile-link active" title="Profile">👤 <span>Profile</span></a>
+      </div>
+    </div>
+  </header>
+ 
+  <section>
+    <div class="container">
+ 
+      <div id="login-gate">
+        <div class="login-card">
+          <span class="eyebrow-tag">Welcome back</span>
+          <h2 style="margin-bottom: 6px;">Log in to NBN Games</h2>
+          <p style="margin-bottom: 26px;">Sign in to see your profile, library and wallet.</p>
+ 
+          <form id="login-form">
+            <div class="form-row">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-row">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+            </div>
+            <p id="login-error" style="display:none; color:#ff5a1f; font-size:0.85rem; margin-bottom:14px;">Incorrect email or password. Try again.</p>
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+          </form>
+ 
+          <p style="margin-top: 18px; font-size: 0.82rem; color:#6b7280;">Demo accounts — bekzat@nbngames.kz / bekzat123, nurkhan@nbngames.kz / nurkhan123, nursultan@nbngames.kz / nursultan123</p>
+        </div>
+      </div>
+ 
+      <div id="profile-content" style="display:none;">
+      <div class="section-heading"><h2>My profile</h2></div>
+ 
+      <div class="profile-layout">
+ 
+        <aside class="profile-sidebar" id="profile-sidebar">
+          <ul>
+            <li><a href="#" class="active" data-section="profile">Profile</a></li>
+            <li><a href="#" data-section="games">My games</a></li>
+            <li><a href="#" data-section="wallet">Wallet</a></li>
+            <li><a href="#" data-section="settings">Settings</a></li>
+            <li><a href="#" data-section="security">Security</a></li>
+            <li><a href="#" data-section="notifications">Notifications</a></li>
+            <li><a href="#" id="logout-link" style="color:#ff5a1f; margin-top: 8px; display:block; border-top: 1px solid #23272e; padding-top: 20px;">Log out</a></li>
+          </ul>
+        </aside>
+ 
+        <div>
+          <div class="profile-summary">
+            <img class="profile-img" id="profile-avatar" src="images/user-avatar.jpg" alt="User avatar">
+            <div>
+              <h3 id="profile-username">—</h3>
+              <p><span>Wallet balance:</span> <strong style="color:#fff;" id="profile-balance">—</strong></p>
+              <a href="#" class="btn btn-outline" style="margin-top: 10px; display:inline-block;">Top up balance</a>
+            </div>
+          </div>
+ 
+          <h3 style="margin-bottom: 14px;">Account information</h3>
+          <div class="info-list" style="margin-bottom: 34px;">
+            <div><span>Email</span><span id="profile-email">—</span></div>
+            <div><span>Account status</span><span>Verified</span></div>
+            <div><span>Country</span><span>Kazakhstan</span></div>
+            <div><span>Registration date</span><span id="profile-joined">—</span></div>
+          </div>
+ 
+          <h3 style="margin-bottom: 14px;">My games (<span id="library-count">0</span>)</h3>
+          <div class="game-grid" id="library-grid" style="margin-bottom: 10px;"></div>
+        </div>
+ 
+      </div>
+      </div>
+ 
+    </div>
+  </section>
+ 
+  <footer>
+    <div class="container">
+      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
+      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
+      <p class="team-credit"><span>Page created by:</span> Bekzat Amanbek</p>
+    </div>
+  </footer>
+  <script>
+    const ACCOUNTS = {
+      'bekzat@nbngames.kz': {
+        password: 'bekzat123',
+        name: 'Bekzat Amanbek',
+        balance: '18 200 ₸',
+        joined: 'September 2, 2025',
+        library: ['Cyberpunk 2077', 'Elden Ring', 'Forza Horizon 5']
+      },
+      'nurkhan@nbngames.kz': {
+        password: 'nurkhan123',
+        name: 'Nurkhan Nurzhau',
+        balance: '9 450 ₸',
+        joined: 'September 5, 2025',
+        library: ['Grand Theft Auto V', 'The Witcher 3']
+      },
+      'nursultan@nbngames.kz': {
+        password: 'nursultan123',
+        name: 'Nursultan Rassulov',
+        balance: '25 000 ₸',
+        joined: 'September 10, 2025',
+        library: ['Baldur\'s Gate 3', 'God of War', 'Gran Turismo 7', 'DOOM Eternal']
+      }
+    };
+ 
+    const loginGate = document.getElementById('login-gate');
+    const profileContent = document.getElementById('profile-content');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutLink = document.getElementById('logout-link');
+ 
+    function renderAccount(email) {
+      const acc = ACCOUNTS[email];
+      if (!acc) return;
+      document.getElementById('profile-username').textContent = acc.name;
+      document.getElementById('profile-balance').textContent = acc.balance;
+      document.getElementById('profile-email').textContent = email;
+      document.getElementById('profile-joined').textContent = acc.joined;
+ 
+      const grid = document.getElementById('library-grid');
+      document.getElementById('library-count').textContent = acc.library.length;
+      grid.innerHTML = acc.library.map(title => `
+        <div class="card">
+          <div class="card-body">
+            <h3>${title}</h3>
+            <a href="#" class="btn btn-outline" style="margin-top:10px; display:inline-block;">Play</a>
+          </div>
+        </div>
+      `).join('');
+    }
+ 
+    function showProfile(email) {
+      loginGate.style.display = 'none';
+      profileContent.style.display = 'block';
+      sessionStorage.setItem('nbn_logged_in', email);
+      renderAccount(email);
+    }
+ 
+    function showLogin() {
+      loginGate.style.display = 'block';
+      profileContent.style.display = 'none';
+      sessionStorage.removeItem('nbn_logged_in');
+      loginForm.reset();
+      loginError.style.display = 'none';
+    }
+ 
+    const savedEmail = sessionStorage.getItem('nbn_logged_in');
+    if (savedEmail && ACCOUNTS[savedEmail]) {
+      showProfile(savedEmail);
+    }
+ 
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const password = document.getElementById('login-password').value;
+      const acc = ACCOUNTS[email];
+ 
+      if (acc && acc.password === password) {
+        loginError.style.display = 'none';
+        showProfile(email);
+      } else {
+        loginError.style.display = 'block';
+      }
+    });
+ 
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showLogin();
+    });
+ 
+    const sidebar = document.getElementById('profile-sidebar');
+    const links = sidebar.querySelectorAll('a:not(#logout-link)');
+ 
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:#14171c; border:1px solid #ff5a1f; color:#f2f0ea; padding:10px 18px; border-radius:8px; font-size:0.9rem; opacity:0; transition:opacity .2s ease, transform .2s ease; pointer-events:none; z-index:100;';
+    document.body.appendChild(toast);
+ 
+    function showToast(text) {
+      toast.textContent = text;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(20px)';
+      }, 1800);
+    }
+ 
+    sidebar.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link || link.id === 'logout-link') return;
+      e.preventDefault();
+ 
+      links.forEach(a => a.classList.toggle('active', a === link));
+ 
+      const section = link.getAttribute('data-section');
+      if (section === 'profile') return;
+      showToast(`${link.textContent} — coming soon`);
+    });
+  </script>
+ 
+</body>
+</html>

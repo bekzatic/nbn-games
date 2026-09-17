@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBN Games — Cart</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ 
+  <header id="main-header">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="cart.html" class="active" title="Cart" style="position:relative;">🛒<span class="cart-badge" style="display:none; position:absolute; top:-6px; right:-8px; background:#ff5a1f; color:#0b0d10; font-size:0.65rem; font-weight:700; border-radius:20px; padding:1px 5px; min-width:14px; text-align:center;">0</span></a>
+        <a href="profile.html" class="profile-link" title="Profile">👤 <span>Profile</span></a>
+      </div>
+    </div>
+  </header>
+ 
+  <section>
+    <div class="container">
+      <div class="section-heading"><h2 id="cart-heading">Your cart (0)</h2></div>
+ 
+      <div class="cart-layout">
+ 
+        <div id="cart-items">
+          <p style="color:#6b7280;">Your cart is empty. Head to the <a href="catalog.html" style="color:#ff5a1f;">catalog</a> to add games.</p>
+        </div>
+ 
+        <aside class="summary-box">
+          <h3 style="margin-bottom: 16px;">Promo code</h3>
+          <form style="display:flex; gap:8px; margin-bottom: 22px;" onsubmit="return false;">
+            <input type="text" placeholder="Enter promo code" style="flex:1; background:#0b0d10; border:1px solid #3a4048; border-radius:8px; padding:10px 12px; color:#f2f0ea;">
+            <button type="submit" class="btn btn-outline">Apply</button>
+          </form>
+ 
+          <div><span>Items</span><span id="sum-items">0 ₸</span></div>
+          <div class="total"><span>Total</span><span id="sum-total">0 ₸</span></div>
+ 
+          <a href="#" class="btn btn-primary btn-block" style="margin-top: 20px;">Proceed to checkout</a>
+        </aside>
+ 
+      </div>
+    </div>
+  </section>
+ 
+  <footer>
+    <div class="container">
+      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
+      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
+      <p class="team-credit"><span>Page created by:</span> Nursultan Rassulov</p>
+    </div>
+  </footer>
+ 
+  <script src="js/cart.js"></script>
+  <script>
+    const cartItemsEl = document.getElementById('cart-items');
+    const headingEl = document.getElementById('cart-heading');
+    const sumItemsEl = document.getElementById('sum-items');
+    const sumTotalEl = document.getElementById('sum-total');
+ 
+    function formatTenge(n) {
+      return n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
+    }
+ 
+    function renderCart() {
+      const cart = getCart();
+      headingEl.textContent = `Your cart (${cart.reduce((s, i) => s + i.qty, 0)})`;
+ 
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p style="color:#6b7280;">Your cart is empty. Head to the <a href="catalog.html" style="color:#ff5a1f;">catalog</a> to add games.</p>';
+        sumItemsEl.textContent = formatTenge(0);
+        sumTotalEl.textContent = formatTenge(0);
+        return;
+      }
+ 
+      cartItemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item" data-name="${item.name}">
+          <img src="${item.img}" alt="${item.name} cover">
+          <div>
+            <h3>${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</h3>
+            <p>Windows</p>
+          </div>
+          <div style="text-align:right;">
+            <div class="card-price"><span>${formatTenge(item.price * item.qty)}</span></div>
+            <span class="remove">Remove</span>
+          </div>
+        </div>
+      `).join('');
+ 
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      sumItemsEl.textContent = formatTenge(total);
+      sumTotalEl.textContent = formatTenge(total);
+    }
+ 
+    cartItemsEl.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove')) {
+        const name = e.target.closest('.cart-item').getAttribute('data-name');
+        removeFromCart(name);
+        renderCart();
+      }
+    });
+ 
+    renderCart();
+  </script>
+ 
+</body>
+</html>
+ 
