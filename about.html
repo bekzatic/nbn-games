@@ -1,150 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <!-- Assignment #2 (Flexbox & Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — About</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
+  <!-- Task 1: Navigation bar — Flexbox (logo left, links right) -->
   <header id="main-header">
     <div class="container">
       <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
-      <nav class="nav-menu">
+      <nav class="nav-menu" id="nav-menu" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="catalog.html">Catalog</a>
-        <a href="about.html" class="active">About</a>
+        <a href="about.html" class="active" aria-current="page">About</a>
       </nav>
       <div class="nav-actions">
-        <a href="cart.html" title="Cart">🛒</a>
+        <a href="cart.html" class="cart-link" title="Cart" aria-label="Cart">🛒<span class="cart-badge">0</span></a>
         <a href="profile.html" class="profile-link" title="Profile">👤 <span>Profile</span></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <section class="about-hero">
-    <div class="container">
-      <span class="eyebrow-tag">About us</span>
-      <h1>We're building NBN Games for players, not for a grade</h1>
-      <p>NBN Games is a small team that grew out of a shared passion for games. We're building the store we'd actually
-        want to use: fast, honest about pricing, and free of noise.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="section-heading">
-        <h2>Our principles</h2>
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <span class="eyebrow-tag">About us</span>
+        <h1>We're building NBN Games for players, not for a grade</h1>
+        <p>NBN Games is a small team that grew out of a shared passion for games. We're building the store we'd actually want to use: fast, honest about pricing, and free of noise.</p>
       </div>
-      <ul class="values-grid">
-        <li class="value-card">
-          <h3>Players first</h3>
-          <p>Every product decision is checked against one question: does this make things easier for a real player.</p>
-        </li>
-        <li class="value-card">
-          <h3>Price transparency</h3>
-          <p>No hidden markups — the price on the shelf always matches the price at checkout.</p>
-        </li>
-        <li class="value-card">
-          <h3>Always improving</h3>
-          <p>NBN Games is a student project we keep refining with every iteration.</p>
-        </li>
-      </ul>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow-tag" style="display:block; margin-bottom: 6px;">Team name</span>
-          <h2 style="margin-bottom:0;">Project team — Next Step</h2>
+    <section>
+      <div class="container">
+        <div class="section-heading">
+          <h2>Our principles</h2>
         </div>
+        <ul class="values-grid">
+          <li class="value-card">
+            <span class="value-icon">🎯</span>
+            <h3>Players first</h3>
+            <p>Every product decision is checked against one question: does this make things easier for a real player.</p>
+          </li>
+          <li class="value-card">
+            <span class="value-icon">🔍</span>
+            <h3>Price transparency</h3>
+            <p>No hidden markups — the price on the shelf always matches the price at checkout.</p>
+          </li>
+          <li class="value-card">
+            <span class="value-icon">🚀</span>
+            <h3>Always improving</h3>
+            <p>NBN Games is a student project we keep refining with every iteration.</p>
+          </li>
+        </ul>
       </div>
-      <ol class="team-grid">
-        <li class="team-card">
-          <img class="profile-img" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
-          <h3>Bekzat Amanbek</h3>
-          <p class="team-role">Frontend · Catalog and Profile</p>
-          <p>Built the catalog structure and Profile page.s</p>
-        </li>
-        <li class="team-card">
-          <img class="profile-img" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
-          <h3>Nurkhan Nurzhau</h3>
-          <p class="team-role">Frontend Homepage and About page</p>
-          <p>Built the homepage, the About page and the contact form.</p>
-        </li>
-        <li class="team-card">
-          <img class="profile-img" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
-          <h3>Nursultan Rassulov</h3>
-          <p class="team-role">Frontend · Game & Cart</p>
-          <p> Cart and the game page, including the system requirements table.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="container">
-      <div class="section-heading">
-        <h2>Get in touch</h2>
-      </div>
-      <p style="margin-bottom: 24px;">Got a question, a suggestion, or want to join the team? Fill out the form — we'll
-        reply within a working day.</p>
-
-      <form id="contact-form">
-        <div class="form-row">
-          <label for="fullname">Name</label>
-          <input type="text" id="fullname" name="fullname" placeholder="Your name" required>
-        </div>
-
-        <div class="form-row">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required>
-        </div>
-
-        <div class="form-row">
-          <label for="platform">Your main platform</label>
-          <select id="platform" name="platform">
-            <option value="pc">PC</option>
-            <option value="playstation">PlayStation</option>
-            <option value="xbox">Xbox</option>
-            <option value="switch">Nintendo Switch</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label>Purpose of contact</label>
-          <div class="radio-group">
-            <label><input type="radio" name="topic" value="support" checked> <span>Support</span></label>
-            <label><input type="radio" name="topic" value="partnership"> <span>Partnership</span></label>
-            <label><input type="radio" name="topic" value="feedback"> <span>Feedback</span></label>
+    <section>
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow-tag">Team name</span>
+            <h2>Project team — Next Step</h2>
           </div>
         </div>
+        <ol class="team-grid">
+          <li class="team-card">
+            <img class="profile-img" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
+            <h3>Bekzat Amanbek</h3>
+            <p class="team-role">Frontend · Catalog &amp; Profile</p>
+            <p>Built the catalog structure and the Profile page.</p>
+          </li>
+          <li class="team-card">
+            <img class="profile-img" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
+            <h3>Nurkhan Nurzhau</h3>
+            <p class="team-role">Frontend · Home &amp; About</p>
+            <p>Built the homepage, the About page and the contact form.</p>
+          </li>
+          <li class="team-card">
+            <img class="profile-img" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
+            <h3>Nursultan Rassulov</h3>
+            <p class="team-role">Frontend · Game &amp; Cart</p>
+            <p>Built the cart and the game page, including the system requirements table.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-        <div class="form-row">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" placeholder="Tell us more..."></textarea>
+    <section id="contact">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Get in touch</h2>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Send message</button>
-      </form>
-    </div>
-  </section>
+        <!-- Contact block: info + form side by side (Flexbox) -->
+        <div class="contact-layout">
+          <div class="contact-info">
+            <p>Got a question, a suggestion, or want to join the team? Fill out the form — we'll reply within a working day.</p>
+            <ul class="contact-list">
+              <li>📍 <span>Astana, Kazakhstan</span></li>
+              <li>✉️ <span>hello@nbngames.kz</span></li>
+              <li>🕘 <span>Mon–Fri, 9:00–18:00</span></li>
+            </ul>
+          </div>
 
+          <form id="contact-form">
+            <div class="form-split">
+              <div class="form-row">
+                <label for="fullname">Name</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Your name" required>
+              </div>
+              <div class="form-row">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="platform">Your main platform</label>
+              <select id="platform" name="platform">
+                <option value="pc">PC</option>
+                <option value="playstation">PlayStation</option>
+                <option value="xbox">Xbox</option>
+                <option value="switch">Nintendo Switch</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label>Purpose of contact</label>
+              <div class="radio-group">
+                <label><input type="radio" name="topic" value="support" checked> <span>Support</span></label>
+                <label><input type="radio" name="topic" value="partnership"> <span>Partnership</span></label>
+                <label><input type="radio" name="topic" value="feedback"> <span>Feedback</span></label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell us more..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Send message</button>
+            <p class="form-success" id="form-success">Thanks! Your message has been sent — we'll get back to you soon.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer spans across the bottom — Grid of 4 columns, Flexbox inside -->
   <footer>
     <div class="container">
-      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
-      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
-      <p class="team-credit"><span>Page created by:</span> Nurkhan Nurzhau</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo-mark.png" alt="NBN Games logo">
+          <p>Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="footer-col" aria-label="Footer">
+          <h4>Store</h4>
+          <a href="index.html">Home</a>
+          <a href="catalog.html">Catalog</a>
+          <a href="cart.html">Cart</a>
+        </nav>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About us</a>
+          <a href="about.html#contact">Contact</a>
+          <a href="profile.html">My account</a>
+        </div>
+        <div class="footer-col">
+          <h4>Team Next Step</h4>
+          <span>Bekzat Amanbek</span>
+          <span>Nurkhan Nurzhau</span>
+          <span>Nursultan Rassulov</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NBN Games. Student project — Assignment #2.</p>
+        <p>Page created by: <strong>Nurkhan Nurzhau</strong></p>
+      </div>
     </div>
   </footer>
 
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Demo only: no backend, just show a confirmation
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      e.target.reset();
+      document.getElementById('form-success').style.display = 'block';
+    });
+  </script>
 </body>
-
 </html>

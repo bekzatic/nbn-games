@@ -1,228 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <!-- Assignment #2 (Flexbox & Grid) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Profile</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
- 
+<!-- Task 3: grid layout with grid-template-areas (header / sidebar + main / footer).
+     While the user is logged out the body gets .no-sidebar and main spans both columns. -->
+<body class="grid-page no-sidebar">
+
+  <!-- Task 1: Navigation bar — Flexbox (logo left, links right) -->
   <header id="main-header">
     <div class="container">
       <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
-      <nav class="nav-menu">
+      <nav class="nav-menu" id="nav-menu" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="catalog.html">Catalog</a>
         <a href="about.html">About</a>
       </nav>
       <div class="nav-actions">
-        <a href="cart.html" title="Cart" style="position:relative;">🛒<span class="cart-badge" style="display:none; position:absolute; top:-6px; right:-8px; background:#ff5a1f; color:#0b0d10; font-size:0.65rem; font-weight:700; border-radius:20px; padding:1px 5px; min-width:14px; text-align:center;">0</span></a>
+        <a href="cart.html" class="cart-link" title="Cart" aria-label="Cart">🛒<span class="cart-badge">0</span></a>
         <a href="profile.html" class="profile-link active" title="Profile">👤 <span>Profile</span></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
- 
-  <section>
-    <div class="container">
- 
-      <div id="login-gate">
-        <div class="login-card">
-          <span class="eyebrow-tag">Welcome back</span>
-          <h2 style="margin-bottom: 6px;">Log in to NBN Games</h2>
-          <p style="margin-bottom: 26px;">Sign in to see your profile, library and wallet.</p>
- 
-          <form id="login-form">
-            <div class="form-row">
-              <label for="login-email">Email</label>
-              <input type="email" id="login-email" name="email" placeholder="you@example.com" required>
-            </div>
-            <div class="form-row">
-              <label for="login-password">Password</label>
-              <input type="password" id="login-password" name="password" placeholder="••••••••" required>
-            </div>
-            <p id="login-error" style="display:none; color:#ff5a1f; font-size:0.85rem; margin-bottom:14px;">Incorrect email or password. Try again.</p>
-            <button type="submit" class="btn btn-primary btn-block">Log in</button>
-          </form>
- 
-          <p style="margin-top: 18px; font-size: 0.82rem; color:#6b7280;">Demo accounts — bekzat@nbngames.kz / bekzat123, nurkhan@nbngames.kz / nurkhan123, nursultan@nbngames.kz / nursultan123</p>
-        </div>
-      </div>
- 
-      <div id="profile-content" style="display:none;">
-      <div class="section-heading"><h2>My profile</h2></div>
- 
-      <div class="profile-layout">
- 
-        <aside class="profile-sidebar" id="profile-sidebar">
-          <ul>
-            <li><a href="#" class="active" data-section="profile">Profile</a></li>
-            <li><a href="#" data-section="games">My games</a></li>
-            <li><a href="#" data-section="wallet">Wallet</a></li>
-            <li><a href="#" data-section="settings">Settings</a></li>
-            <li><a href="#" data-section="security">Security</a></li>
-            <li><a href="#" data-section="notifications">Notifications</a></li>
-            <li><a href="#" id="logout-link" style="color:#ff5a1f; margin-top: 8px; display:block; border-top: 1px solid #23272e; padding-top: 20px;">Log out</a></li>
-          </ul>
-        </aside>
- 
-        <div>
-          <div class="profile-summary">
-            <img class="profile-img" id="profile-avatar" src="images/user-avatar.jpg" alt="User avatar">
-            <div>
-              <h3 id="profile-username">—</h3>
-              <p><span>Wallet balance:</span> <strong style="color:#fff;" id="profile-balance">—</strong></p>
-              <a href="#" class="btn btn-outline" style="margin-top: 10px; display:inline-block;">Top up balance</a>
-            </div>
+
+  <!-- grid-area: sidebar -->
+  <aside class="page-sidebar" aria-label="Profile menu">
+   <div class="sidebar-sticky profile-sidebar" id="profile-sidebar">
+    <ul>
+      <li><a href="#profile" class="active" data-section="profile">👤 Profile</a></li>
+      <li><a href="#games" data-section="games">🎮 My games</a></li>
+      <li><a href="#wallet" data-section="wallet">💳 Wallet</a></li>
+      <li><a href="#settings" data-section="settings">⚙️ Settings</a></li>
+      <li><a href="#security" data-section="security">🔒 Security</a></li>
+      <li><a href="#notifications" data-section="notifications">🔔 Notifications <span class="side-badge" id="notif-badge" hidden>0</span></a></li>
+      <li><a href="#" id="logout-link" class="logout">↩ Log out</a></li>
+    </ul>
+   </div>
+  </aside>
+
+  <!-- grid-area: main -->
+  <main class="page-main">
+    <div id="login-gate">
+      <div class="login-card">
+        <span class="eyebrow-tag">Welcome back</span>
+        <h2 style="margin-bottom: 6px;">Log in to NBN Games</h2>
+        <p style="margin-bottom: 26px;">Sign in to see your profile, library and wallet.</p>
+
+        <form id="login-form">
+          <div class="form-row">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" placeholder="you@example.com" required>
           </div>
- 
-          <h3 style="margin-bottom: 14px;">Account information</h3>
-          <div class="info-list" style="margin-bottom: 34px;">
-            <div><span>Email</span><span id="profile-email">—</span></div>
-            <div><span>Account status</span><span>Verified</span></div>
-            <div><span>Country</span><span>Kazakhstan</span></div>
-            <div><span>Registration date</span><span id="profile-joined">—</span></div>
+          <div class="form-row">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" placeholder="••••••••" required>
           </div>
- 
-          <h3 style="margin-bottom: 14px;">My games (<span id="library-count">0</span>)</h3>
-          <div class="game-grid" id="library-grid" style="margin-bottom: 10px;"></div>
-        </div>
- 
+          <p id="login-error" class="login-error">Incorrect email or password. Try again.</p>
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </form>
+
+        <p class="login-hint">Demo accounts — bekzat@nbngames.kz / bekzat123, nurkhan@nbngames.kz / nurkhan123, nursultan@nbngames.kz / nursultan123</p>
       </div>
-      </div>
- 
     </div>
-  </section>
- 
+
+    <div id="profile-content" hidden>
+
+      <!-- ===================== PROFILE ===================== -->
+      <section class="panel" data-panel="profile">
+        <div class="section-heading"><h2>My profile</h2></div>
+
+        <!-- Summary card — Flexbox -->
+        <div class="profile-summary">
+          <img class="profile-img" src="images/user-avatar.jpg" alt="User avatar">
+          <div class="profile-summary-info">
+            <h3 class="js-name">—</h3>
+            <p class="js-email">—</p>
+          </div>
+          <a href="#wallet" class="btn btn-outline btn-sm" data-goto="wallet">Top up balance</a>
+        </div>
+
+        <!-- Stat tiles — Flexbox -->
+        <div class="profile-stats">
+          <div><strong class="js-balance">—</strong><span>Wallet balance</span></div>
+          <div><strong class="js-library-count">0</strong><span>Games owned</span></div>
+          <div><strong id="profile-joined-short">—</strong><span>Member since</span></div>
+        </div>
+
+        <h3 style="margin-bottom: 14px;">Account information</h3>
+        <div class="info-list">
+          <div><span>Email</span><span class="js-email">—</span></div>
+          <div><span>Account status</span><span>Verified ✓</span></div>
+          <div><span>Country</span><span id="info-country">—</span></div>
+          <div><span>Main platform</span><span id="info-platform">—</span></div>
+          <div><span>Registration date</span><span id="profile-joined">—</span></div>
+        </div>
+      </section>
+
+      <!-- ===================== MY GAMES ===================== -->
+      <section class="panel" data-panel="games" hidden>
+        <div class="section-heading">
+          <h2>My games (<span class="js-library-count">0</span>)</h2>
+          <input type="search" class="input panel-search" id="library-search" placeholder="Search your library…">
+        </div>
+        <div class="game-grid" id="library-grid"></div>
+        <div class="empty-state" id="library-empty">
+          <h3>No games found</h3>
+          <p>Try another search or buy something new in the catalog.</p>
+          <a href="catalog.html" class="btn btn-primary btn-sm">Open catalog</a>
+        </div>
+      </section>
+
+      <!-- ===================== WALLET ===================== -->
+      <section class="panel" data-panel="wallet" hidden>
+        <div class="section-heading"><h2>Wallet</h2></div>
+
+        <div class="wallet-layout">
+          <div class="wallet-card">
+            <span>Current balance</span>
+            <strong class="js-balance">—</strong>
+            <small>NBN Games wallet · KZT</small>
+          </div>
+
+          <form class="panel-card" id="topup-form">
+            <h3>Top up balance</h3>
+            <div class="chip-row" id="amount-chips">
+              <button type="button" class="chip" data-amount="1000">1 000 ₸</button>
+              <button type="button" class="chip" data-amount="5000">5 000 ₸</button>
+              <button type="button" class="chip" data-amount="10000">10 000 ₸</button>
+              <button type="button" class="chip" data-amount="20000">20 000 ₸</button>
+            </div>
+            <div class="form-row">
+              <label for="topup-amount">Amount, ₸</label>
+              <input type="text" inputmode="numeric" id="topup-amount" placeholder="e.g. 5000">
+            </div>
+            <div class="form-row">
+              <label for="topup-method">Payment method</label>
+              <select id="topup-method">
+                <option>Kaspi (demo)</option>
+                <option>Bank card (demo)</option>
+                <option>Gift card code (demo)</option>
+              </select>
+            </div>
+            <p class="form-msg" id="topup-msg"></p>
+            <button type="submit" class="btn btn-primary btn-block">Top up</button>
+          </form>
+        </div>
+
+        <h3 style="margin: 30px 0 14px;">Transaction history</h3>
+        <ul class="tx-list" id="tx-list"></ul>
+      </section>
+
+      <!-- ===================== SETTINGS ===================== -->
+      <section class="panel" data-panel="settings" hidden>
+        <div class="section-heading"><h2>Settings</h2></div>
+        <form class="panel-card" id="settings-form">
+          <div class="form-split">
+            <div class="form-row">
+              <label for="set-name">Display name</label>
+              <input type="text" id="set-name" required>
+            </div>
+            <div class="form-row">
+              <label for="set-country">Country</label>
+              <select id="set-country">
+                <option>Kazakhstan</option>
+                <option>Kyrgyzstan</option>
+                <option>Uzbekistan</option>
+                <option>Russia</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-split">
+            <div class="form-row">
+              <label for="set-platform">Main platform</label>
+              <select id="set-platform">
+                <option>PC</option>
+                <option>PlayStation</option>
+                <option>Xbox</option>
+                <option>Nintendo Switch</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="set-currency">Price display</label>
+              <select id="set-currency">
+                <option>₸ Tenge</option>
+                <option>$ US Dollar</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Profile visibility</label>
+            <div class="radio-group">
+              <label><input type="radio" name="visibility" value="public"> <span>Public</span></label>
+              <label><input type="radio" name="visibility" value="friends"> <span>Friends only</span></label>
+              <label><input type="radio" name="visibility" value="private"> <span>Private</span></label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-outline" id="settings-reset">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===================== SECURITY ===================== -->
+      <section class="panel" data-panel="security" hidden>
+        <div class="section-heading"><h2>Security</h2></div>
+
+        <div class="security-grid">
+          <form class="panel-card" id="password-form">
+            <h3>Change password</h3>
+            <div class="form-row">
+              <label for="pw-current">Current password</label>
+              <input type="password" id="pw-current" required>
+            </div>
+            <div class="form-row">
+              <label for="pw-new">New password</label>
+              <input type="password" id="pw-new" required minlength="6">
+            </div>
+            <div class="form-row">
+              <label for="pw-confirm">Repeat new password</label>
+              <input type="password" id="pw-confirm" required minlength="6">
+            </div>
+            <p class="form-msg" id="pw-msg"></p>
+            <button type="submit" class="btn btn-primary btn-block">Update password</button>
+          </form>
+
+          <div class="panel-card">
+            <h3>Protection</h3>
+            <label class="switch-row">
+              <span><strong>Two-factor authentication</strong><small>Ask for a code from the app when logging in</small></span>
+              <input type="checkbox" class="switch" id="sec-2fa">
+            </label>
+            <label class="switch-row">
+              <span><strong>Login alerts</strong><small>Email me when someone logs in from a new device</small></span>
+              <input type="checkbox" class="switch" id="sec-alerts">
+            </label>
+
+            <h3 style="margin-top: 20px;">Active sessions</h3>
+            <ul class="session-list" id="session-list"></ul>
+            <button type="button" class="btn btn-outline btn-sm" id="sessions-out">Log out other devices</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== NOTIFICATIONS ===================== -->
+      <section class="panel" data-panel="notifications" hidden>
+        <div class="section-heading">
+          <h2>Notifications</h2>
+          <button type="button" class="btn btn-outline btn-sm" id="notif-read-all">Mark all as read</button>
+        </div>
+
+        <ul class="notif-list" id="notif-list"></ul>
+
+        <div class="panel-card" style="margin-top: 26px;">
+          <h3>Email me about</h3>
+          <label class="switch-row">
+            <span><strong>Sales and discounts</strong><small>Weekly deals on games you might like</small></span>
+            <input type="checkbox" class="switch" data-pref="deals">
+          </label>
+          <label class="switch-row">
+            <span><strong>New releases</strong><small>When big games come out in your favourite genres</small></span>
+            <input type="checkbox" class="switch" data-pref="releases">
+          </label>
+          <label class="switch-row">
+            <span><strong>Purchase receipts</strong><small>Keys and receipts after every order</small></span>
+            <input type="checkbox" class="switch" data-pref="receipts">
+          </label>
+          <label class="switch-row">
+            <span><strong>NBN newsletter</strong><small>Monthly news from the team</small></span>
+            <input type="checkbox" class="switch" data-pref="newsletter">
+          </label>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer spans across the bottom — Grid of 4 columns, Flexbox inside -->
   <footer>
     <div class="container">
-      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
-      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
-      <p class="team-credit"><span>Page created by:</span> Bekzat Amanbek</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo-mark.png" alt="NBN Games logo">
+          <p>Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="footer-col" aria-label="Footer">
+          <h4>Store</h4>
+          <a href="index.html">Home</a>
+          <a href="catalog.html">Catalog</a>
+          <a href="cart.html">Cart</a>
+        </nav>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About us</a>
+          <a href="about.html#contact">Contact</a>
+          <a href="profile.html">My account</a>
+        </div>
+        <div class="footer-col">
+          <h4>Team Next Step</h4>
+          <span>Bekzat Amanbek</span>
+          <span>Nurkhan Nurzhau</span>
+          <span>Nursultan Rassulov</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NBN Games. Student project — Assignment #2.</p>
+        <p>Page created by: <strong>Bekzat Amanbek</strong></p>
+      </div>
     </div>
   </footer>
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
   <script>
+    /* =========================================================
+       Profile page — demo accounts + per-user data.
+       Changes (balance, settings, password…) are kept in this
+       browser's localStorage, so they survive a page reload.
+       NOTE: a real site would do all of this on a server.
+       ========================================================= */
     const ACCOUNTS = {
       'bekzat@nbngames.kz': {
-        password: 'bekzat123',
-        name: 'Bekzat Amanbek',
-        balance: '18 200 ₸',
-        joined: 'September 2, 2025',
+        password: 'bekzat123', name: 'Bekzat Amanbek', balance: 18200, joined: 'September 2, 2025',
         library: ['Cyberpunk 2077', 'Elden Ring', 'Forza Horizon 5']
       },
       'nurkhan@nbngames.kz': {
-        password: 'nurkhan123',
-        name: 'Nurkhan Nurzhau',
-        balance: '9 450 ₸',
-        joined: 'September 5, 2025',
+        password: 'nurkhan123', name: 'Nurkhan Nurzhau', balance: 9450, joined: 'September 5, 2025',
         library: ['Grand Theft Auto V', 'The Witcher 3']
       },
       'nursultan@nbngames.kz': {
-        password: 'nursultan123',
-        name: 'Nursultan Rassulov',
-        balance: '25 000 ₸',
-        joined: 'September 10, 2025',
-        library: ['Baldur\'s Gate 3', 'God of War', 'Gran Turismo 7', 'DOOM Eternal']
+        password: 'nursultan123', name: 'Nursultan Rassulov', balance: 25000, joined: 'September 10, 2025',
+        library: ["Baldur's Gate 3", 'God of War', 'Gran Turismo 7', 'DOOM Eternal']
       }
     };
- 
-    const loginGate = document.getElementById('login-gate');
-    const profileContent = document.getElementById('profile-content');
-    const loginForm = document.getElementById('login-form');
-    const loginError = document.getElementById('login-error');
-    const logoutLink = document.getElementById('logout-link');
- 
-    function renderAccount(email) {
-      const acc = ACCOUNTS[email];
-      if (!acc) return;
-      document.getElementById('profile-username').textContent = acc.name;
-      document.getElementById('profile-balance').textContent = acc.balance;
-      document.getElementById('profile-email').textContent = email;
-      document.getElementById('profile-joined').textContent = acc.joined;
- 
-      const grid = document.getElementById('library-grid');
-      document.getElementById('library-count').textContent = acc.library.length;
-      grid.innerHTML = acc.library.map(title => `
-        <div class="card">
-          <div class="card-body">
-            <h3>${title}</h3>
-            <a href="#" class="btn btn-outline" style="margin-top:10px; display:inline-block;">Play</a>
-          </div>
-        </div>
-      `).join('');
+
+    const COVERS = {
+      'Cyberpunk 2077': 'Cyberpunk_2077.jpg', 'Elden Ring': 'Elden_Ring.jpg',
+      'Forza Horizon 5': 'Forza_Horizon_5.jpg', 'Grand Theft Auto V': 'Grand_Theft_Auto_V.png',
+      'The Witcher 3': 'Witcher_3_cover_art.jpg', "Baldur's Gate 3": 'Baldur’s_Gate_3.jpg',
+      'God of War': 'God_of_War_Ragnarök_cover.jpg', 'Gran Turismo 7': 'Gran_Turismo_7_cover_art.jpg',
+      'DOOM Eternal': 'Doom_Eternal.png'
+    };
+
+    const NOTIFICATIONS = [
+      { id: 'n1', icon: '🔥', title: 'Weekend sale: up to −40%', text: 'Cyberpunk 2077 and other RPGs are on sale until Sunday.', time: '2 hours ago' },
+      { id: 'n2', icon: '🎁', title: 'Promo code for you', text: 'Use NEXTSTEP in the cart to get −10% on your next order.', time: 'Yesterday' },
+      { id: 'n3', icon: '🎮', title: 'New in catalog', text: 'Farming Simulator 25 and F1 25 are now available.', time: '3 days ago' },
+      { id: 'n4', icon: '🔒', title: 'New login', text: 'Your account was accessed from Chrome on Windows.', time: 'Last week' }
+    ];
+
+    const $ = id => document.getElementById(id);
+    const $$ = sel => document.querySelectorAll(sel);
+    const slugify = t => t.toLowerCase().replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const tenge = n => n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
+    const today = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    /* ---------- storage helpers (wrapped: storage can be blocked) ---------- */
+    function load(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
     }
- 
-    function showProfile(email) {
-      loginGate.style.display = 'none';
-      profileContent.style.display = 'block';
-      sessionStorage.setItem('nbn_logged_in', email);
-      renderAccount(email);
+    function save(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
     }
- 
+    function session(action, value) {
+      try {
+        if (action === 'get') return sessionStorage.getItem('nbn_logged_in');
+        if (action === 'set') sessionStorage.setItem('nbn_logged_in', value);
+        if (action === 'del') sessionStorage.removeItem('nbn_logged_in');
+      } catch { return null; }
+    }
+
+    /* The user's saved data = defaults from ACCOUNTS + whatever they changed */
+    let email = null;
+    let user = null;
+
+    function loadUser(mail) {
+      const acc = ACCOUNTS[mail];
+      const defaults = {
+        name: acc.name, country: 'Kazakhstan', platform: 'PC', currency: '₸ Tenge', visibility: 'public',
+        balance: acc.balance, password: acc.password,
+        transactions: [{ label: 'Welcome bonus', amount: acc.balance, date: acc.joined }],
+        twoFA: false, alerts: true,
+        prefs: { deals: true, releases: true, receipts: true, newsletter: false },
+        read: [], sessionsCleared: false
+      };
+      return Object.assign(defaults, load('nbn_user_' + mail, {}));
+    }
+    function saveUser() { save('nbn_user_' + email, user); }
+
+    /* ---------- Login / logout ---------- */
+    const body = document.body;
+    const loginGate = $('login-gate');
+    const profileContent = $('profile-content');
+    const loginForm = $('login-form');
+    const loginError = $('login-error');
+
+    function passwordFor(mail) {
+      const saved = load('nbn_user_' + mail, {});
+      return saved.password || ACCOUNTS[mail].password;
+    }
+
+    function showProfile(mail) {
+      email = mail;
+      user = loadUser(mail);
+      loginGate.hidden = true;
+      profileContent.hidden = false;
+      body.classList.remove('no-sidebar');      // sidebar appears in its grid area
+      session('set', mail);
+      renderAll();
+      openSection((location.hash || '#profile').slice(1));
+    }
+
     function showLogin() {
-      loginGate.style.display = 'block';
-      profileContent.style.display = 'none';
-      sessionStorage.removeItem('nbn_logged_in');
+      email = null; user = null;
+      loginGate.hidden = false;
+      profileContent.hidden = true;
+      body.classList.add('no-sidebar');         // main takes the whole row
+      session('del');
       loginForm.reset();
       loginError.style.display = 'none';
+      history.replaceState(null, '', location.pathname);
     }
- 
-    const savedEmail = sessionStorage.getItem('nbn_logged_in');
-    if (savedEmail && ACCOUNTS[savedEmail]) {
-      showProfile(savedEmail);
-    }
- 
-    loginForm.addEventListener('submit', (e) => {
+
+    loginForm.addEventListener('submit', e => {
       e.preventDefault();
-      const email = document.getElementById('login-email').value.trim().toLowerCase();
-      const password = document.getElementById('login-password').value;
-      const acc = ACCOUNTS[email];
- 
-      if (acc && acc.password === password) {
+      const mail = $('login-email').value.trim().toLowerCase();
+      if (ACCOUNTS[mail] && passwordFor(mail) === $('login-password').value) {
         loginError.style.display = 'none';
-        showProfile(email);
+        showProfile(mail);
       } else {
         loginError.style.display = 'block';
       }
     });
- 
-    logoutLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      showLogin();
-    });
- 
-    const sidebar = document.getElementById('profile-sidebar');
-    const links = sidebar.querySelectorAll('a:not(#logout-link)');
- 
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:#14171c; border:1px solid #ff5a1f; color:#f2f0ea; padding:10px 18px; border-radius:8px; font-size:0.9rem; opacity:0; transition:opacity .2s ease, transform .2s ease; pointer-events:none; z-index:100;';
-    document.body.appendChild(toast);
- 
-    function showToast(text) {
-      toast.textContent = text;
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateX(-50%) translateY(0)';
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(-50%) translateY(20px)';
-      }, 1800);
+
+    $('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
+
+    /* ---------- Sidebar: switch between panels ---------- */
+    const SECTIONS = ['profile', 'games', 'wallet', 'settings', 'security', 'notifications'];
+
+    function openSection(name) {
+      if (!SECTIONS.includes(name)) name = 'profile';
+      $$('.panel').forEach(p => p.hidden = p.dataset.panel !== name);
+      $$('#profile-sidebar a[data-section]').forEach(a => a.classList.toggle('active', a.dataset.section === name));
+      history.replaceState(null, '', '#' + name);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
- 
-    sidebar.addEventListener('click', (e) => {
-      const link = e.target.closest('a');
-      if (!link || link.id === 'logout-link') return;
+
+    document.addEventListener('click', e => {
+      const link = e.target.closest('[data-section], [data-goto]');
+      if (!link || !email) return;
       e.preventDefault();
- 
-      links.forEach(a => a.classList.toggle('active', a === link));
- 
-      const section = link.getAttribute('data-section');
-      if (section === 'profile') return;
-      showToast(`${link.textContent} — coming soon`);
+      openSection(link.dataset.section || link.dataset.goto);
     });
+
+    /* ---------- Render everything that depends on the user ---------- */
+    function renderAll() {
+      const acc = ACCOUNTS[email];
+      $$('.js-name').forEach(el => el.textContent = user.name);
+      $$('.js-email').forEach(el => el.textContent = email);
+      $$('.js-balance').forEach(el => el.textContent = tenge(user.balance));
+      $$('.js-library-count').forEach(el => el.textContent = acc.library.length);
+      $('profile-joined').textContent = acc.joined;
+      $('profile-joined-short').textContent = acc.joined.split(' ').slice(-1)[0];
+      $('info-country').textContent = user.country;
+      $('info-platform').textContent = user.platform;
+      renderLibrary();
+      renderTransactions();
+      fillSettings();
+      renderSecurity();
+      renderNotifications();
+    }
+
+    /* ---------- My games ---------- */
+    function renderLibrary() {
+      const q = $('library-search').value.trim().toLowerCase();
+      const games = ACCOUNTS[email].library.filter(t => t.toLowerCase().includes(q));
+      $('library-grid').innerHTML = games.map(title => `
+        <div class="card">
+          <a href="game.html?id=${slugify(title)}" class="card-link">
+            <img class="card-cover" src="images/${COVERS[title] || ''}" alt="${title} cover">
+            <div class="card-body">
+              <h3>${title}</h3>
+              <p>In your library</p>
+            </div>
+          </a>
+          <div class="card-actions">
+            <button type="button" class="btn btn-primary btn-sm play-btn" data-title="${title.replace(/"/g, '&quot;')}">▶ Play</button>
+          </div>
+        </div>`).join('');
+      $('library-empty').classList.toggle('show', games.length === 0);
+    }
+
+    $('library-search').addEventListener('input', renderLibrary);
+
+    $('library-grid').addEventListener('click', e => {
+      const btn = e.target.closest('.play-btn');
+      if (!btn) return;
+      btn.textContent = 'Launching…';
+      btn.disabled = true;
+      showToast(`Launching ${btn.dataset.title}…`);
+      setTimeout(() => { btn.textContent = '▶ Play'; btn.disabled = false; }, 1500);
+    });
+
+    /* ---------- Wallet ---------- */
+    function renderTransactions() {
+      $('tx-list').innerHTML = user.transactions.slice().reverse().map(t => `
+        <li>
+          <span class="tx-icon">${t.amount >= 0 ? '➕' : '➖'}</span>
+          <span class="tx-info"><strong>${t.label}</strong><small>${t.date}</small></span>
+          <span class="tx-amount ${t.amount >= 0 ? 'plus' : 'minus'}">${t.amount >= 0 ? '+' : '−'}${tenge(Math.abs(t.amount))}</span>
+        </li>`).join('');
+    }
+
+    $('amount-chips').addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('#amount-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
+      $('topup-amount').value = chip.dataset.amount;
+    });
+
+    $('topup-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const amount = parseInt($('topup-amount').value.replace(/\s/g, ''), 10);
+      const msg = $('topup-msg');
+      if (!amount || amount < 100 || amount > 500000) {
+        msg.textContent = 'Enter an amount between 100 and 500 000 ₸.';
+        msg.className = 'form-msg error';
+        return;
+      }
+      user.balance += amount;
+      user.transactions.push({ label: 'Top up · ' + $('topup-method').value, amount, date: today() });
+      saveUser();
+      renderAll();
+      $('topup-form').reset();
+      $$('#amount-chips .chip').forEach(c => c.classList.remove('active'));
+      msg.textContent = `Done! ${tenge(amount)} added to your wallet.`;
+      msg.className = 'form-msg success';
+      showToast('Balance topped up');
+    });
+
+    /* ---------- Settings ---------- */
+    function fillSettings() {
+      $('set-name').value = user.name;
+      $('set-country').value = user.country;
+      $('set-platform').value = user.platform;
+      $('set-currency').value = user.currency;
+      $$('input[name="visibility"]').forEach(r => r.checked = r.value === user.visibility);
+    }
+
+    $('settings-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('set-name').value.trim();
+      if (!name) return;
+      user.name = name;
+      user.country = $('set-country').value;
+      user.platform = $('set-platform').value;
+      user.currency = $('set-currency').value;
+      user.visibility = document.querySelector('input[name="visibility"]:checked').value;
+      saveUser();
+      renderAll();
+      showToast('Settings saved');
+    });
+
+    $('settings-reset').addEventListener('click', () => { fillSettings(); showToast('Changes discarded'); });
+
+    /* ---------- Security ---------- */
+    function renderSecurity() {
+      $('sec-2fa').checked = user.twoFA;
+      $('sec-alerts').checked = user.alerts;
+      const sessions = [{ device: '💻 This browser', place: 'Astana, Kazakhstan · now', current: true }];
+      if (!user.sessionsCleared) {
+        sessions.push({ device: '📱 iPhone · NBN app', place: 'Astana, Kazakhstan · 2 days ago' });
+        sessions.push({ device: '🖥️ Windows · Chrome', place: 'Almaty, Kazakhstan · last week' });
+      }
+      $('session-list').innerHTML = sessions.map(s => `
+        <li><span>${s.device}<small>${s.place}</small></span>${s.current ? '<em>Current</em>' : ''}</li>`).join('');
+      $('sessions-out').disabled = !!user.sessionsCleared;
+    }
+
+    $('password-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const msg = $('pw-msg');
+      const current = $('pw-current').value, next = $('pw-new').value, again = $('pw-confirm').value;
+      let error = '';
+      if (current !== user.password) error = 'Current password is incorrect.';
+      else if (next.length < 6) error = 'New password must be at least 6 characters.';
+      else if (next !== again) error = 'The new passwords do not match.';
+      else if (next === current) error = 'The new password must be different.';
+      if (error) { msg.textContent = error; msg.className = 'form-msg error'; return; }
+      user.password = next;
+      saveUser();
+      $('password-form').reset();
+      msg.textContent = 'Password updated. Use it the next time you log in.';
+      msg.className = 'form-msg success';
+      showToast('Password changed');
+    });
+
+    $('sec-2fa').addEventListener('change', e => {
+      user.twoFA = e.target.checked; saveUser();
+      showToast(user.twoFA ? 'Two-factor authentication on' : 'Two-factor authentication off');
+    });
+    $('sec-alerts').addEventListener('change', e => {
+      user.alerts = e.target.checked; saveUser();
+      showToast(user.alerts ? 'Login alerts on' : 'Login alerts off');
+    });
+    $('sessions-out').addEventListener('click', () => {
+      user.sessionsCleared = true; saveUser(); renderSecurity();
+      showToast('Other devices logged out');
+    });
+
+    /* ---------- Notifications ---------- */
+    function renderNotifications() {
+      const unread = NOTIFICATIONS.filter(n => !user.read.includes(n.id)).length;
+      const badge = $('notif-badge');
+      badge.textContent = unread;
+      badge.hidden = unread === 0;
+      $('notif-read-all').disabled = unread === 0;
+      $('notif-list').innerHTML = NOTIFICATIONS.map(n => `
+        <li class="${user.read.includes(n.id) ? '' : 'unread'}" data-id="${n.id}">
+          <span class="notif-icon">${n.icon}</span>
+          <span class="notif-text"><strong>${n.title}</strong><span>${n.text}</span><small>${n.time}</small></span>
+          ${user.read.includes(n.id) ? '' : '<button type="button" class="notif-read">Mark read</button>'}
+        </li>`).join('');
+      $$('[data-pref]').forEach(input => input.checked = !!user.prefs[input.dataset.pref]);
+    }
+
+    $('notif-list').addEventListener('click', e => {
+      const li = e.target.closest('li[data-id]');
+      if (!li || user.read.includes(li.dataset.id)) return;
+      user.read.push(li.dataset.id);
+      saveUser();
+      renderNotifications();
+    });
+
+    $('notif-read-all').addEventListener('click', () => {
+      user.read = NOTIFICATIONS.map(n => n.id);
+      saveUser();
+      renderNotifications();
+      showToast('All notifications marked as read');
+    });
+
+    $$('[data-pref]').forEach(input => input.addEventListener('change', () => {
+      user.prefs[input.dataset.pref] = input.checked;
+      saveUser();
+      showToast('Email preferences saved');
+    }));
+
+    /* ---------- Start ---------- */
+    const savedEmail = session('get');
+    if (savedEmail && ACCOUNTS[savedEmail]) showProfile(savedEmail);
   </script>
- 
 </body>
 </html>

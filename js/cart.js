@@ -1,8 +1,8 @@
-/* =========================================================
+/* ==========================================================
    NBN GAMES — shared cart logic (localStorage)
-   Used by: catalog.html, game.html, cart.html
+   Used by: index, catalog, game, cart, about, profile
    Cart item shape: { name, price (number, no spaces), img, qty }
-   ========================================================= */
+   ========================================================== */
 
 const CART_KEY = 'nbn_cart';
 
@@ -15,7 +15,9 @@ function getCart() {
 }
 
 function saveCart(cart) {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  } catch { /* storage unavailable (private mode) — ignore */ }
   updateCartBadge();
 }
 
@@ -44,12 +46,8 @@ function cartItemCount() {
 function updateCartBadge() {
   const count = cartItemCount();
   document.querySelectorAll('.cart-badge').forEach(badge => {
-    if (count > 0) {
-      badge.textContent = count;
-      badge.style.display = 'inline-block';
-    } else {
-      badge.style.display = 'none';
-    }
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'inline-block' : 'none';
   });
 }
 
@@ -61,13 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const name = btn.getAttribute('data-name');
-      const price = btn.getAttribute('data-price');
-      const img = btn.getAttribute('data-img');
-      addToCart(name, price, img);
+      addToCart(name, btn.getAttribute('data-price'), btn.getAttribute('data-img'));
 
       const original = btn.textContent;
       btn.textContent = 'Added ✓';
       btn.disabled = true;
+      if (window.showToast) window.showToast(`${name} added to cart`);
       setTimeout(() => {
         btn.textContent = original;
         btn.disabled = false;

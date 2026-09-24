@@ -1,597 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <!-- Assignment #2 (Flexbox & Grid) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Catalog</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
- 
+<!-- Task 3: this page uses a grid layout with grid-template-areas:
+     header (top) / sidebar (left) + main (right) / footer (bottom) -->
+<body class="grid-page">
+
+  <!-- Task 1: Navigation bar — Flexbox (logo left, links right) -->
   <header id="main-header">
     <div class="container">
       <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
-      <nav class="nav-menu">
+      <nav class="nav-menu" id="nav-menu" aria-label="Main">
         <a href="index.html">Home</a>
-        <a href="catalog.html" class="active">Catalog</a>
+        <a href="catalog.html" class="active" aria-current="page">Catalog</a>
         <a href="about.html">About</a>
       </nav>
       <div class="nav-actions">
-        <a href="cart.html" title="Cart">🛒</a>
+        <a href="cart.html" class="cart-link" title="Cart" aria-label="Cart">🛒<span class="cart-badge">0</span></a>
         <a href="profile.html" class="profile-link" title="Profile">👤 <span>Profile</span></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
- 
-  <section>
-    <div class="container">
-      <div class="section-heading">
-        <h2>Game catalog</h2>
-      </div>
- 
-      <div class="catalog-layout">
- 
-        <aside class="filters">
-          <div class="filter-group">
-            <h3>Genres</h3>
-            <ul id="genre-filter">
-              <li class="active" data-genre="all">All games</li>
-              <li data-genre="action">Action</li>
-              <li data-genre="adventure">Adventure</li>
-              <li data-genre="rpg">RPG</li>
-              <li data-genre="strategy">Strategy</li>
-              <li data-genre="simulation">Simulation</li>
-              <li data-genre="sport">Sport</li>
-              <li data-genre="racing">Racing</li>
-            </ul>
-          </div>
-          <div class="filter-group">
-            <h3>Platform</h3>
-            <ul id="platform-filter">
-              <li class="active" data-platform="all">All platforms</li>
-              <li data-platform="windows">Windows</li>
-              <li data-platform="macos">macOS</li>
-              <li data-platform="playstation">PlayStation</li>
-              <li data-platform="xbox">Xbox</li>
-            </ul>
-          </div>
-          <div class="filter-group">
-            <h3>Price</h3>
-            <ul id="price-filter">
-              <li class="active" data-price="all">All prices</li>
-              <li data-price="low">Under ₸5,000</li>
-              <li data-price="mid">₸5,000 – ₸10,000</li>
-              <li data-price="high">₸10,000+</li>
-            </ul>
-          </div>
-        </aside>
- 
-        <div id="catalog-content">
-      <div class="genre-section" data-genre-section="action">
-        <h2 class="genre-heading"><span class="genre-emoji">🎮</span><span>Action</span></h2>
-        <div class="game-grid">
-          <div class="card price-low" data-genre="action" data-platform="windows playstation xbox" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover">
-              <div class="card-body">
-                <h3>Grand Theft Auto V</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Grand Theft Auto V" data-price="14999" data-img="images/Grand_Theft_Auto_V.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="action" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Call_of_duty.jpg" alt="Call of Duty: Modern Warfare III cover">
-              <div class="card-body">
-                <h3>Call of Duty: Modern Warfare III</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>34 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Call of Duty: Modern Warfare III" data-price="34999" data-img="images/Call_of_duty.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="action" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Doom_Eternal.png" alt="DOOM Eternal cover">
-              <div class="card-body">
-                <h3>DOOM Eternal</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 000 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="DOOM Eternal" data-price="14000" data-img="images/Doom_Eternal.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="action" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Devil_May_Cry_5.jpg" alt="Devil May Cry 5 cover">
-              <div class="card-body">
-                <h3>Devil May Cry 5</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>11 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Devil May Cry 5" data-price="11999" data-img="images/Devil_May_Cry_5.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="action" data-platform="windows playstation" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/God_of_War_Ragnarök_cover.jpg" alt="God of War cover">
-              <div class="card-body">
-                <h3>God of War</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="God of War" data-price="19999" data-img="images/God_of_War_Ragnarök_cover.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="action" data-platform="windows playstation xbox" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover">
-              <div class="card-body">
-                <h3>Elden Ring</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>17 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Elden Ring" data-price="17999" data-img="images/Elden_Ring.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="genre-section" data-genre-section="adventure">
-        <h2 class="genre-heading"><span class="genre-emoji">🗺️</span><span>Adventure</span></h2>
-        <div class="game-grid">
-          <div class="card price-low" data-genre="adventure" data-platform="windows playstation xbox" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Red_Dead_Redemption_2.jpg" alt="Red Dead Redemption 2 cover">
-              <div class="card-body">
-                <h3>Red Dead Redemption 2</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Red Dead Redemption 2" data-price="29999" data-img="images/Red_Dead_Redemption_2.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="adventure" data-platform="playstation" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Uncharted4.jpg" alt="Uncharted 4 cover">
-              <div class="card-body">
-                <h3>Uncharted 4</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>18 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Uncharted 4" data-price="18999" data-img="images/Uncharted4.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="adventure" data-platform="windows playstation xbox macos" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Tomb_raider.jpg" alt="Tomb Raider cover">
-              <div class="card-body">
-                <h3>Tomb Raider</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>7 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Tomb Raider" data-price="7999" data-img="images/Tomb_raider.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="adventure" data-platform="windows playstation" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/The_Last_of_Us_Part_I_cover.jpg" alt="The Last of Us Part I cover">
-              <div class="card-body">
-                <h3>The Last of Us Part I</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>23499 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="The Last of Us Part I" data-price="23499" data-img="images/The_Last_of_Us_Part_I_cover.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="adventure" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Assassins_Creed.jpg" alt="Assassin's Creed Valhalla cover">
-              <div class="card-body">
-                <h3>Assassin's Creed Valhalla</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Assassin\'s Creed Valhalla" data-price="14999" data-img="images/Assassins_Creed.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="adventure" data-platform="windows playstation xbox macos" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Life_is_Strange_cover.jpg" alt="Life is Strange cover">
-              <div class="card-body">
-                <h3>Life is Strange</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>7 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Life is Strange" data-price="7999" data-img="images/Life_is_Strange_cover.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="genre-section" data-genre-section="rpg">
-        <h2 class="genre-heading"><span class="genre-emoji">⚔️</span><span>RPG</span></h2>
-        <div class="game-grid">
-          <div class="card price-low" data-genre="rpg" data-platform="windows playstation xbox" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3 cover">
-              <div class="card-body">
-                <h3>The Witcher 3</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>11 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="The Witcher 3" data-price="11999" data-img="images/Witcher_3_cover_art.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="rpg" data-platform="windows playstation macos" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Baldur’s_Gate_3.jpg" alt="Baldur's Gate 3 cover">
-              <div class="card-body">
-                <h3>Baldur's Gate 3</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 000 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Baldur\'s Gate 3" data-price="14000" data-img="images/Baldur’s_Gate_3.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover">
-              <div class="card-body">
-                <h3>Cyberpunk 2077</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Cyberpunk 2077" data-price="14999" data-img="images/Cyberpunk_2077.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="rpg" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Skyrim.png" alt="Skyrim cover">
-              <div class="card-body">
-                <h3>Skyrim</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>8 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Skyrim" data-price="8999" data-img="images/Skyrim.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="rpg" data-platform="windows playstation xbox" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Diablo_IV_cover_art.png" alt="Diablo IV cover">
-              <div class="card-body">
-                <h3>Diablo IV</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>22 614 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Diablo IV" data-price="22614" data-img="images/Diablo_IV_cover_art.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="rpg" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Dragon_Age.jpg" alt="Dragon Age: Inquisition cover">
-              <div class="card-body">
-                <h3>Dragon Age: Inquisition</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>9 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Dragon Age: Inquisition" data-price="9999" data-img="images/Dragon_Age.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="genre-section" data-genre-section="strategy">
-        <h2 class="genre-heading"><span class="genre-emoji">♟️</span><span>Strategy</span></h2>
-        <div class="game-grid">
-          <div class="card price-low" data-genre="strategy" data-platform="windows macos" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Civilization_VI_cover_art.jpg" alt="Civilization VI cover">
-              <div class="card-body">
-                <h3>Civilization VI</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Civilization VI" data-price="14999" data-img="images/Civilization_VI_cover_art.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="strategy" data-platform="windows" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Ageof_Empires_IV.png" alt="Age of Empires IV cover">
-              <div class="card-body">
-                <h3>Age of Empires IV</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Age of Empires IV" data-price="14999" data-img="images/Ageof_Empires_IV.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="strategy" data-platform="windows" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Total_War_Warhammer_3_cover_art.jpg" alt="Total War: Warhammer III cover">
-              <div class="card-body">
-                <h3>Total War: Warhammer III</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Total War: Warhammer III" data-price="19999" data-img="images/Total_War_Warhammer_3_cover_art.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="strategy" data-platform="windows macos" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/StarCraft_II_-_Box_Art.jpg" alt="StarCraft II cover">
-              <div class="card-body">
-                <h3>StarCraft II</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>Free</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="StarCraft II" data-price="0" data-img="images/StarCraft_II_-_Box_Art.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="strategy" data-platform="windows playstation xbox macos" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/XCOM_2.jpg" alt="XCOM 2 cover">
-              <div class="card-body">
-                <h3>XCOM 2</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="XCOM 2" data-price="14999" data-img="images/XCOM_2.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="strategy" data-platform="windows macos" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Crusader_Kings_III.jpg" alt="Crusader Kings III cover">
-              <div class="card-body">
-                <h3>Crusader Kings III</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Crusader Kings III" data-price="14999" data-img="images/Crusader_Kings_III.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="genre-section" data-genre-section="simulation">
-        <h2 class="genre-heading"><span class="genre-emoji">🏗️</span><span>Simulation</span></h2>
-        <div class="game-grid">
-          <div class="card price-low" data-genre="simulation" data-platform="windows macos" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Sims4_Rebrand.png" alt="The Sims 4 cover">
-              <div class="card-body">
-                <h3>The Sims 4</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>Free</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="The Sims 4" data-price="0" data-img="images/Sims4_Rebrand.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="simulation" data-platform="windows macos" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Euro_Truck_Simulator_2.jpg" alt="Euro Truck Simulator 2 cover">
-              <div class="card-body">
-                <h3>Euro Truck Simulator 2</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>8 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Euro Truck Simulator 2" data-price="8999" data-img="images/Euro_Truck_Simulator_2.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="simulation" data-platform="windows xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Microsoft_Flight_Simulator.jpg" alt="Microsoft Flight Simulator cover">
-              <div class="card-body">
-                <h3>Microsoft Flight Simulator</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Microsoft Flight Simulator" data-price="29999" data-img="images/Microsoft_Flight_Simulator.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="simulation" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Farming_Simulator_25.jpg" alt="Farming Simulator 25 cover">
-              <div class="card-body">
-                <h3>Farming Simulator 25</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Farming Simulator 25" data-price="14999" data-img="images/Farming_Simulator_25.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="simulation" data-platform="windows playstation xbox macos" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Cities_Skylines.jpg" alt="Cities: Skylines cover">
-              <div class="card-body">
-                <h3>Cities: Skylines</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>8 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Cities: Skylines" data-price="8999" data-img="images/Cities_Skylines.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="simulation" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/PowerWash_Simulator.jpg" alt="PowerWash Simulator cover">
-              <div class="card-body">
-                <h3>PowerWash Simulator</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>11 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="PowerWash Simulator" data-price="11999" data-img="images/PowerWash_Simulator.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="genre-section" data-genre-section="sport">
-        <h2 class="genre-heading"><span class="genre-emoji">⚽</span><span>Sport</span></h2>
-        <div class="game-grid">
-          <div class="card price-mid" data-genre="sport" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/EA_Sports_FC_25.jpg" alt="EA Sports FC 25 cover">
-              <div class="card-body">
-                <h3>EA Sports FC 25</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="EA Sports FC 25" data-price="29999" data-img="images/EA_Sports_FC_25.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="sport" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/NBA_2K25.jpg" alt="NBA 2K25 cover">
-              <div class="card-body">
-                <h3>NBA 2K25</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="NBA 2K25" data-price="29999" data-img="images/NBA_2K25.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="sport" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/F1_25.jpg" alt="F1 25 cover">
-              <div class="card-body">
-                <h3>F1 25</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="F1 25" data-price="29999" data-img="images/F1_25.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="sport" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/WWE_2K25.jpg" alt="WWE 2K25 cover">
-              <div class="card-body">
-                <h3>WWE 2K25</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="WWE 2K25" data-price="29999" data-img="images/WWE_2K25.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="sport" data-platform="windows playstation xbox" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Tony_Hawk’s_Pro_Skater.jpg" alt="Tony Hawk's Pro Skater 1 + 2 cover">
-              <div class="card-body">
-                <h3>Tony Hawk's Pro Skater 1 + 2</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Tony Hawk\'s Pro Skater 1 + 2" data-price="19999" data-img="images/Tony_Hawk’s_Pro_Skater.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="sport" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Riders_Republic.jpg" alt="Riders Republic cover">
-              <div class="card-body">
-                <h3>Riders Republic</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Riders Republic" data-price="14999" data-img="images/Riders_Republic.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="genre-section" data-genre-section="racing">
-        <h2 class="genre-heading"><span class="genre-emoji">🏎️</span><span>Racing</span></h2>
-        <div class="game-grid">
-          <div class="card price-high" data-genre="racing" data-platform="windows xbox" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover">
-              <div class="card-body">
-                <h3>Forza Horizon 5</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Forza Horizon 5" data-price="29999" data-img="images/Forza_Horizon_5.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="racing" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Need_for_Speed_Unbound.png" alt="Need for Speed Unbound cover">
-              <div class="card-body">
-                <h3>Need for Speed Unbound</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Need for Speed Unbound" data-price="29999" data-img="images/Need_for_Speed_Unbound.png" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-high" data-genre="racing" data-platform="playstation" data-price="high">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Gran_Turismo_7_cover_art.jpg" alt="Gran Turismo 7 cover">
-              <div class="card-body">
-                <h3>Gran Turismo 7</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Gran Turismo 7" data-price="19999" data-img="images/Gran_Turismo_7_cover_art.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="racing" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/The_Crew_Motorfest.jpg" alt="The Crew Motorfest cover">
-              <div class="card-body">
-                <h3>The Crew Motorfest</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="The Crew Motorfest" data-price="29999" data-img="images/The_Crew_Motorfest.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-mid" data-genre="racing" data-platform="windows playstation xbox" data-price="mid">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Assetto_Corsa_Competizione.jpg" alt="Assetto Corsa Competizione cover">
-              <div class="card-body">
-                <h3>Assetto Corsa Competizione</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Assetto Corsa Competizione" data-price="19999" data-img="images/Assetto_Corsa_Competizione.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-          <div class="card price-low" data-genre="racing" data-platform="windows playstation xbox" data-price="low">
-            <a href="game.html" class="card-link">
-              <img class="card-cover" src="images/Dirt_5.jpg" alt="Dirt 5 cover">
-              <div class="card-body">
-                <h3>Dirt 5</h3>
-                <div class="card-price-simple"><span class="price-dot"></span>3 990 ₸</div>
-              </div>
-            </a>
-            <button class="btn btn-primary btn-block add-to-cart-btn" data-name="Dirt 5" data-price="3990" data-img="images/Dirt_5.jpg" style="margin-top:8px; font-size:0.82rem; padding:9px;">Add to cart</button>
-          </div>
-        </div>
-      </div>
- 
-        </div>
-      </div>
+
+  <!-- grid-area: sidebar -->
+  <aside class="page-sidebar" aria-label="Filters">
+   <div class="sidebar-sticky filters">
+    <div class="filter-group">
+      <h3>Genres</h3>
+      <ul id="genre-filter">
+            <li class="active" data-genre="all">All games</li>
+            <li data-genre="action">Action</li>
+            <li data-genre="adventure">Adventure</li>
+            <li data-genre="rpg">RPG</li>
+            <li data-genre="strategy">Strategy</li>
+            <li data-genre="simulation">Simulation</li>
+            <li data-genre="sport">Sport</li>
+            <li data-genre="racing">Racing</li>
+      </ul>
     </div>
-  </section>
- 
+    <div class="filter-group">
+      <h3>Platform</h3>
+      <ul id="platform-filter">
+        <li class="active" data-platform="all">All platforms</li>
+        <li data-platform="windows">Windows</li>
+        <li data-platform="macos">macOS</li>
+        <li data-platform="playstation">PlayStation</li>
+        <li data-platform="xbox">Xbox</li>
+      </ul>
+    </div>
+    <div class="filter-group">
+      <h3>Price</h3>
+      <ul id="price-filter">
+        <li class="active" data-price="all">All prices</li>
+        <li data-price="low">Under ₸5,000</li>
+        <li data-price="mid">₸5,000 – ₸10,000</li>
+        <li data-price="high">₸10,000+</li>
+      </ul>
+    </div>
+   </div>
+  </aside>
+
+  <!-- grid-area: main -->
+  <main class="page-main">
+    <div class="section-heading">
+      <h2>Game catalog</h2>
+      <span class="results-count" id="results-count">42 games</span>
+    </div>
+
+    <div id="catalog-content">
+        <div class="genre-section" data-genre-section="action">
+          <h2 class="genre-heading"><span class="genre-emoji">🎮</span><span>Action</span></h2>
+          <div class="game-grid">
+            <div class="card price-high" data-genre="action" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=grand-theft-auto-v" class="card-link">
+                <img class="card-cover" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Grand Theft Auto V</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Grand Theft Auto V" data-price="14999" data-img="images/Grand_Theft_Auto_V.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="action" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=call-of-duty-modern-warfare-iii" class="card-link">
+                <img class="card-cover" src="images/Call_of_duty.jpg" alt="Call of Duty: Modern Warfare III cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Call of Duty: Modern Warfare III</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>34 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Call of Duty: Modern Warfare III" data-price="34999" data-img="images/Call_of_duty.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="action" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=doom-eternal" class="card-link">
+                <img class="card-cover" src="images/Doom_Eternal.png" alt="DOOM Eternal cover" loading="lazy">
+                <div class="card-body">
+                  <h3>DOOM Eternal</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 000 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="DOOM Eternal" data-price="14000" data-img="images/Doom_Eternal.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="action" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=devil-may-cry-5" class="card-link">
+                <img class="card-cover" src="images/Devil_May_Cry_5.jpg" alt="Devil May Cry 5 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Devil May Cry 5</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>11 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Devil May Cry 5" data-price="11999" data-img="images/Devil_May_Cry_5.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="action" data-platform="windows playstation" data-price="high">
+              <a href="game.html?id=god-of-war" class="card-link">
+                <img class="card-cover" src="images/God_of_War_Ragnarök_cover.jpg" alt="God of War cover" loading="lazy">
+                <div class="card-body">
+                  <h3>God of War</h3>
+                  <p>Windows · PlayStation</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="God of War" data-price="19999" data-img="images/God_of_War_Ragnarök_cover.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="action" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=elden-ring" class="card-link">
+                <img class="card-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Elden Ring</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>17 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Elden Ring" data-price="17999" data-img="images/Elden_Ring.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="genre-section" data-genre-section="adventure">
+          <h2 class="genre-heading"><span class="genre-emoji">🗺️</span><span>Adventure</span></h2>
+          <div class="game-grid">
+            <div class="card price-high" data-genre="adventure" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=red-dead-redemption-2" class="card-link">
+                <img class="card-cover" src="images/Red_Dead_Redemption_2.jpg" alt="Red Dead Redemption 2 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Red Dead Redemption 2</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Red Dead Redemption 2" data-price="29999" data-img="images/Red_Dead_Redemption_2.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="adventure" data-platform="playstation" data-price="high">
+              <a href="game.html?id=uncharted-4" class="card-link">
+                <img class="card-cover" src="images/Uncharted4.jpg" alt="Uncharted 4 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Uncharted 4</h3>
+                  <p>PlayStation</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>18 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Uncharted 4" data-price="18999" data-img="images/Uncharted4.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-mid" data-genre="adventure" data-platform="windows playstation xbox macos" data-price="mid">
+              <a href="game.html?id=tomb-raider" class="card-link">
+                <img class="card-cover" src="images/Tomb_raider.jpg" alt="Tomb Raider cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Tomb Raider</h3>
+                  <p>Windows · PlayStation · Xbox · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>7 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Tomb Raider" data-price="7999" data-img="images/Tomb_raider.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="adventure" data-platform="windows playstation" data-price="high">
+              <a href="game.html?id=the-last-of-us-part-i" class="card-link">
+                <img class="card-cover" src="images/The_Last_of_Us_Part_I_cover.jpg" alt="The Last of Us Part I cover" loading="lazy">
+                <div class="card-body">
+                  <h3>The Last of Us Part I</h3>
+                  <p>Windows · PlayStation</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>23 499 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="The Last of Us Part I" data-price="23499" data-img="images/The_Last_of_Us_Part_I_cover.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="adventure" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=assassins-creed-valhalla" class="card-link">
+                <img class="card-cover" src="images/Assassins_Creed.jpg" alt="Assassin&#x27;s Creed Valhalla cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Assassin&#x27;s Creed Valhalla</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Assassin&#x27;s Creed Valhalla" data-price="14999" data-img="images/Assassins_Creed.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-mid" data-genre="adventure" data-platform="windows playstation xbox macos" data-price="mid">
+              <a href="game.html?id=life-is-strange" class="card-link">
+                <img class="card-cover" src="images/Life_is_Strange_cover.jpg" alt="Life is Strange cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Life is Strange</h3>
+                  <p>Windows · PlayStation · Xbox · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>7 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Life is Strange" data-price="7999" data-img="images/Life_is_Strange_cover.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="genre-section" data-genre-section="rpg">
+          <h2 class="genre-heading"><span class="genre-emoji">⚔️</span><span>RPG</span></h2>
+          <div class="game-grid">
+            <div class="card price-high" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=the-witcher-3" class="card-link">
+                <img class="card-cover" src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>The Witcher 3</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>11 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="The Witcher 3" data-price="11999" data-img="images/Witcher_3_cover_art.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="rpg" data-platform="windows playstation macos" data-price="high">
+              <a href="game.html?id=baldurs-gate-3" class="card-link">
+                <img class="card-cover" src="images/Baldur’s_Gate_3.jpg" alt="Baldur&#x27;s Gate 3 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Baldur&#x27;s Gate 3</h3>
+                  <p>Windows · PlayStation · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 000 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Baldur&#x27;s Gate 3" data-price="14000" data-img="images/Baldur’s_Gate_3.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=cyberpunk-2077" class="card-link">
+                <img class="card-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Cyberpunk 2077</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Cyberpunk 2077" data-price="14999" data-img="images/Cyberpunk_2077.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-mid" data-genre="rpg" data-platform="windows playstation xbox" data-price="mid">
+              <a href="game.html?id=skyrim" class="card-link">
+                <img class="card-cover" src="images/Skyrim.png" alt="Skyrim cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Skyrim</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>8 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Skyrim" data-price="8999" data-img="images/Skyrim.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=diablo-iv" class="card-link">
+                <img class="card-cover" src="images/Diablo_IV_cover_art.png" alt="Diablo IV cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Diablo IV</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>22 614 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Diablo IV" data-price="22614" data-img="images/Diablo_IV_cover_art.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-mid" data-genre="rpg" data-platform="windows playstation xbox" data-price="mid">
+              <a href="game.html?id=dragon-age-inquisition" class="card-link">
+                <img class="card-cover" src="images/Dragon_Age.jpg" alt="Dragon Age: Inquisition cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Dragon Age: Inquisition</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>9 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Dragon Age: Inquisition" data-price="9999" data-img="images/Dragon_Age.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="genre-section" data-genre-section="strategy">
+          <h2 class="genre-heading"><span class="genre-emoji">♟️</span><span>Strategy</span></h2>
+          <div class="game-grid">
+            <div class="card price-high" data-genre="strategy" data-platform="windows macos" data-price="high">
+              <a href="game.html?id=civilization-vi" class="card-link">
+                <img class="card-cover" src="images/Civilization_VI_cover_art.jpg" alt="Civilization VI cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Civilization VI</h3>
+                  <p>Windows · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Civilization VI" data-price="14999" data-img="images/Civilization_VI_cover_art.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="strategy" data-platform="windows" data-price="high">
+              <a href="game.html?id=age-of-empires-iv" class="card-link">
+                <img class="card-cover" src="images/Ageof_Empires_IV.png" alt="Age of Empires IV cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Age of Empires IV</h3>
+                  <p>Windows</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Age of Empires IV" data-price="14999" data-img="images/Ageof_Empires_IV.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="strategy" data-platform="windows" data-price="high">
+              <a href="game.html?id=total-war-warhammer-iii" class="card-link">
+                <img class="card-cover" src="images/Total_War_Warhammer_3_cover_art.jpg" alt="Total War: Warhammer III cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Total War: Warhammer III</h3>
+                  <p>Windows</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Total War: Warhammer III" data-price="19999" data-img="images/Total_War_Warhammer_3_cover_art.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-low" data-genre="strategy" data-platform="windows macos" data-price="low">
+              <a href="game.html?id=starcraft-ii" class="card-link">
+                <img class="card-cover" src="images/StarCraft_II_-_Box_Art.jpg" alt="StarCraft II cover" loading="lazy">
+                <div class="card-body">
+                  <h3>StarCraft II</h3>
+                  <p>Windows · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>Free</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="StarCraft II" data-price="0" data-img="images/StarCraft_II_-_Box_Art.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="strategy" data-platform="windows playstation xbox macos" data-price="high">
+              <a href="game.html?id=xcom-2" class="card-link">
+                <img class="card-cover" src="images/XCOM_2.jpg" alt="XCOM 2 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>XCOM 2</h3>
+                  <p>Windows · PlayStation · Xbox · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="XCOM 2" data-price="14999" data-img="images/XCOM_2.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="strategy" data-platform="windows macos" data-price="high">
+              <a href="game.html?id=crusader-kings-iii" class="card-link">
+                <img class="card-cover" src="images/Crusader_Kings_III.jpg" alt="Crusader Kings III cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Crusader Kings III</h3>
+                  <p>Windows · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Crusader Kings III" data-price="14999" data-img="images/Crusader_Kings_III.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="genre-section" data-genre-section="simulation">
+          <h2 class="genre-heading"><span class="genre-emoji">🏗️</span><span>Simulation</span></h2>
+          <div class="game-grid">
+            <div class="card price-low" data-genre="simulation" data-platform="windows macos" data-price="low">
+              <a href="game.html?id=the-sims-4" class="card-link">
+                <img class="card-cover" src="images/Sims4_Rebrand.png" alt="The Sims 4 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>The Sims 4</h3>
+                  <p>Windows · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>Free</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="The Sims 4" data-price="0" data-img="images/Sims4_Rebrand.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-mid" data-genre="simulation" data-platform="windows macos" data-price="mid">
+              <a href="game.html?id=euro-truck-simulator-2" class="card-link">
+                <img class="card-cover" src="images/Euro_Truck_Simulator_2.jpg" alt="Euro Truck Simulator 2 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Euro Truck Simulator 2</h3>
+                  <p>Windows · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>8 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Euro Truck Simulator 2" data-price="8999" data-img="images/Euro_Truck_Simulator_2.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="simulation" data-platform="windows xbox" data-price="high">
+              <a href="game.html?id=microsoft-flight-simulator" class="card-link">
+                <img class="card-cover" src="images/Microsoft_Flight_Simulator.jpg" alt="Microsoft Flight Simulator cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Microsoft Flight Simulator</h3>
+                  <p>Windows · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Microsoft Flight Simulator" data-price="29999" data-img="images/Microsoft_Flight_Simulator.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="simulation" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=farming-simulator-25" class="card-link">
+                <img class="card-cover" src="images/Farming_Simulator_25.jpg" alt="Farming Simulator 25 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Farming Simulator 25</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Farming Simulator 25" data-price="14999" data-img="images/Farming_Simulator_25.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-mid" data-genre="simulation" data-platform="windows playstation xbox macos" data-price="mid">
+              <a href="game.html?id=cities-skylines" class="card-link">
+                <img class="card-cover" src="images/Cities_Skylines.jpg" alt="Cities: Skylines cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Cities: Skylines</h3>
+                  <p>Windows · PlayStation · Xbox · macOS</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>8 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Cities: Skylines" data-price="8999" data-img="images/Cities_Skylines.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="simulation" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=powerwash-simulator" class="card-link">
+                <img class="card-cover" src="images/PowerWash_Simulator.jpg" alt="PowerWash Simulator cover" loading="lazy">
+                <div class="card-body">
+                  <h3>PowerWash Simulator</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>11 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="PowerWash Simulator" data-price="11999" data-img="images/PowerWash_Simulator.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="genre-section" data-genre-section="sport">
+          <h2 class="genre-heading"><span class="genre-emoji">⚽</span><span>Sport</span></h2>
+          <div class="game-grid">
+            <div class="card price-high" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=ea-sports-fc-25" class="card-link">
+                <img class="card-cover" src="images/EA_Sports_FC_25.jpg" alt="EA Sports FC 25 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>EA Sports FC 25</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="EA Sports FC 25" data-price="29999" data-img="images/EA_Sports_FC_25.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=nba-2k25" class="card-link">
+                <img class="card-cover" src="images/NBA_2K25.jpg" alt="NBA 2K25 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>NBA 2K25</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="NBA 2K25" data-price="29999" data-img="images/NBA_2K25.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=f1-25" class="card-link">
+                <img class="card-cover" src="images/F1_25.jpg" alt="F1 25 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>F1 25</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="F1 25" data-price="29999" data-img="images/F1_25.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=wwe-2k25" class="card-link">
+                <img class="card-cover" src="images/WWE_2K25.jpg" alt="WWE 2K25 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>WWE 2K25</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="WWE 2K25" data-price="29999" data-img="images/WWE_2K25.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=tony-hawks-pro-skater-1-2" class="card-link">
+                <img class="card-cover" src="images/Tony_Hawk’s_Pro_Skater.jpg" alt="Tony Hawk&#x27;s Pro Skater 1 + 2 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Tony Hawk&#x27;s Pro Skater 1 + 2</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Tony Hawk&#x27;s Pro Skater 1 + 2" data-price="19999" data-img="images/Tony_Hawk’s_Pro_Skater.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=riders-republic" class="card-link">
+                <img class="card-cover" src="images/Riders_Republic.jpg" alt="Riders Republic cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Riders Republic</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>14 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Riders Republic" data-price="14999" data-img="images/Riders_Republic.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="genre-section" data-genre-section="racing">
+          <h2 class="genre-heading"><span class="genre-emoji">🏎️</span><span>Racing</span></h2>
+          <div class="game-grid">
+            <div class="card price-high" data-genre="racing" data-platform="windows xbox" data-price="high">
+              <a href="game.html?id=forza-horizon-5" class="card-link">
+                <img class="card-cover" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Forza Horizon 5</h3>
+                  <p>Windows · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Forza Horizon 5" data-price="29999" data-img="images/Forza_Horizon_5.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="racing" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=need-for-speed-unbound" class="card-link">
+                <img class="card-cover" src="images/Need_for_Speed_Unbound.png" alt="Need for Speed Unbound cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Need for Speed Unbound</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Need for Speed Unbound" data-price="29999" data-img="images/Need_for_Speed_Unbound.png">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="racing" data-platform="playstation" data-price="high">
+              <a href="game.html?id=gran-turismo-7" class="card-link">
+                <img class="card-cover" src="images/Gran_Turismo_7_cover_art.jpg" alt="Gran Turismo 7 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Gran Turismo 7</h3>
+                  <p>PlayStation</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Gran Turismo 7" data-price="19999" data-img="images/Gran_Turismo_7_cover_art.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="racing" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=the-crew-motorfest" class="card-link">
+                <img class="card-cover" src="images/The_Crew_Motorfest.jpg" alt="The Crew Motorfest cover" loading="lazy">
+                <div class="card-body">
+                  <h3>The Crew Motorfest</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>29 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="The Crew Motorfest" data-price="29999" data-img="images/The_Crew_Motorfest.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-high" data-genre="racing" data-platform="windows playstation xbox" data-price="high">
+              <a href="game.html?id=assetto-corsa-competizione" class="card-link">
+                <img class="card-cover" src="images/Assetto_Corsa_Competizione.jpg" alt="Assetto Corsa Competizione cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Assetto Corsa Competizione</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>19 999 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Assetto Corsa Competizione" data-price="19999" data-img="images/Assetto_Corsa_Competizione.jpg">Add to cart</button>
+              </div>
+            </div>
+            <div class="card price-low" data-genre="racing" data-platform="windows playstation xbox" data-price="low">
+              <a href="game.html?id=dirt-5" class="card-link">
+                <img class="card-cover" src="images/Dirt_5.jpg" alt="Dirt 5 cover" loading="lazy">
+                <div class="card-body">
+                  <h3>Dirt 5</h3>
+                  <p>Windows · PlayStation · Xbox</p>
+                  <div class="card-price-simple"><span class="price-dot"></span>3 990 ₸</div>
+                </div>
+              </a>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Dirt 5" data-price="3990" data-img="images/Dirt_5.jpg">Add to cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="empty-state" id="empty-state">
+      <h3>No games match these filters</h3>
+      <p>Try another genre, platform or price range.</p>
+      <button class="btn btn-outline btn-sm" id="reset-filters" type="button">Reset filters</button>
+    </div>
+  </main>
+
+  <!-- Footer spans across the bottom — Grid of 4 columns, Flexbox inside -->
   <footer>
     <div class="container">
-      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
-      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
-      <p class="team-credit"><span>Page created by:</span> Bekzat Amanbek</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo-mark.png" alt="NBN Games logo">
+          <p>Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="footer-col" aria-label="Footer">
+          <h4>Store</h4>
+          <a href="index.html">Home</a>
+          <a href="catalog.html">Catalog</a>
+          <a href="cart.html">Cart</a>
+        </nav>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About us</a>
+          <a href="about.html#contact">Contact</a>
+          <a href="profile.html">My account</a>
+        </div>
+        <div class="footer-col">
+          <h4>Team Next Step</h4>
+          <span>Bekzat Amanbek</span>
+          <span>Nurkhan Nurzhau</span>
+          <span>Nursultan Rassulov</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NBN Games. Student project — Assignment #2.</p>
+        <p>Page created by: <strong>Bekzat Amanbek</strong></p>
+      </div>
     </div>
   </footer>
- 
+
   <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
   <script>
     const genreList = document.getElementById('genre-filter');
     const priceList = document.getElementById('price-filter');
     const platformList = document.getElementById('platform-filter');
     const genreSections = document.querySelectorAll('[data-genre-section]');
     const cards = document.querySelectorAll('#catalog-content .card');
- 
-    let activeGenre = 'all';
-    let activePrice = 'all';
-    let activePlatform = 'all';
- 
+    const countEl = document.getElementById('results-count');
+    const emptyEl = document.getElementById('empty-state');
+
+    const state = { genre: 'all', price: 'all', platform: 'all' };
+
     function refresh() {
-      genreSections.forEach(sec => {
-        const g = sec.getAttribute('data-genre-section');
-        sec.style.display = (activeGenre === 'all' || activeGenre === g) ? '' : 'none';
-      });
+      let visible = 0;
       cards.forEach(card => {
-        const matchesGenre = activeGenre === 'all' || card.getAttribute('data-genre') === activeGenre;
-        const matchesPrice = activePrice === 'all' || card.getAttribute('data-price') === activePrice;
-        const platforms = (card.getAttribute('data-platform') || '').split(' ');
-        const matchesPlatform = activePlatform === 'all' || platforms.includes(activePlatform);
-        card.style.display = (matchesGenre && matchesPrice && matchesPlatform) ? '' : 'none';
+        const okGenre = state.genre === 'all' || card.dataset.genre === state.genre;
+        const okPrice = state.price === 'all' || card.dataset.price === state.price;
+        const okPlatform = state.platform === 'all' || card.dataset.platform.split(' ').includes(state.platform);
+        const show = okGenre && okPrice && okPlatform;
+        card.hidden = !show;
+        if (show) visible++;
       });
-      // hide genre section entirely if no visible cards inside it (e.g. price/platform filter empties it)
+      // hide a genre section when none of its cards are visible
       genreSections.forEach(sec => {
-        if (sec.style.display === 'none') return;
-        const visibleCards = sec.querySelectorAll('.card:not([style*="display: none"])');
-        sec.style.display = visibleCards.length ? '' : 'none';
+        sec.hidden = !sec.querySelector('.card:not([hidden])');
+      });
+      countEl.textContent = visible + (visible === 1 ? ' game' : ' games');
+      emptyEl.classList.toggle('show', visible === 0);
+    }
+
+    function bind(list, key) {
+      list.addEventListener('click', e => {
+        const li = e.target.closest('li');
+        if (!li) return;
+        state[key] = li.dataset[key];
+        [...list.children].forEach(el => el.classList.toggle('active', el === li));
+        refresh();
       });
     }
- 
-    genreList.addEventListener('click', (e) => {
-      const li = e.target.closest('li');
-      if (!li) return;
-      activeGenre = li.getAttribute('data-genre');
-      [...genreList.children].forEach(el => el.classList.toggle('active', el === li));
-      refresh();
-    });
- 
-    priceList.addEventListener('click', (e) => {
-      const li = e.target.closest('li');
-      if (!li) return;
-      activePrice = li.getAttribute('data-price');
-      [...priceList.children].forEach(el => el.classList.toggle('active', el === li));
-      refresh();
-    });
- 
-    platformList.addEventListener('click', (e) => {
-      const li = e.target.closest('li');
-      if (!li) return;
-      activePlatform = li.getAttribute('data-platform');
-      [...platformList.children].forEach(el => el.classList.toggle('active', el === li));
-      refresh();
+
+    bind(genreList, 'genre');
+    bind(priceList, 'price');
+    bind(platformList, 'platform');
+
+    document.getElementById('reset-filters').addEventListener('click', () => {
+      [genreList, priceList, platformList].forEach(list => list.firstElementChild.click());
     });
   </script>
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <!-- Assignment #2 (Flexbox & Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Cart</title>
@@ -9,109 +9,159 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
+
+  <!-- Task 1: Navigation bar — Flexbox (logo left, links right) -->
   <header id="main-header">
     <div class="container">
       <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
-      <nav class="nav-menu">
+      <nav class="nav-menu" id="nav-menu" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="catalog.html">Catalog</a>
         <a href="about.html">About</a>
       </nav>
       <div class="nav-actions">
-        <a href="cart.html" class="active" title="Cart" style="position:relative;">🛒<span class="cart-badge" style="display:none; position:absolute; top:-6px; right:-8px; background:#ff5a1f; color:#0b0d10; font-size:0.65rem; font-weight:700; border-radius:20px; padding:1px 5px; min-width:14px; text-align:center;">0</span></a>
+        <a href="cart.html" class="cart-link active" title="Cart" aria-label="Cart">🛒<span class="cart-badge">0</span></a>
         <a href="profile.html" class="profile-link" title="Profile">👤 <span>Profile</span></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
- 
-  <section>
-    <div class="container">
-      <div class="section-heading"><h2 id="cart-heading">Your cart (0)</h2></div>
- 
-      <div class="cart-layout">
- 
-        <div id="cart-items">
-          <p style="color:#6b7280;">Your cart is empty. Head to the <a href="catalog.html" style="color:#ff5a1f;">catalog</a> to add games.</p>
+
+  <main>
+    <section>
+      <div class="container">
+        <div class="section-heading"><h2 id="cart-heading">Your cart (0)</h2></div>
+
+        <!-- Items | summary — Grid; each cart row is a flex container -->
+        <div class="cart-layout">
+          <div id="cart-items" class="cart-list"></div>
+
+          <aside class="summary-box">
+            <h3 style="margin-bottom: 16px;">Promo code</h3>
+            <form class="promo-form" id="promo-form">
+              <input type="text" class="input" id="promo-input" placeholder="Enter promo code">
+              <button type="submit" class="btn btn-outline btn-sm">Apply</button>
+            </form>
+
+            <div class="summary-row"><span>Items</span><span id="sum-items">0 ₸</span></div>
+            <div class="summary-row" id="discount-row" style="display:none;"><span>Discount (NEXTSTEP)</span><span id="sum-discount">0 ₸</span></div>
+            <div class="summary-row total"><span>Total</span><span id="sum-total">0 ₸</span></div>
+
+            <a href="#" class="btn btn-primary btn-block" id="checkout-btn" style="margin-top: 20px;">Proceed to checkout</a>
+          </aside>
         </div>
- 
-        <aside class="summary-box">
-          <h3 style="margin-bottom: 16px;">Promo code</h3>
-          <form style="display:flex; gap:8px; margin-bottom: 22px;" onsubmit="return false;">
-            <input type="text" placeholder="Enter promo code" style="flex:1; background:#0b0d10; border:1px solid #3a4048; border-radius:8px; padding:10px 12px; color:#f2f0ea;">
-            <button type="submit" class="btn btn-outline">Apply</button>
-          </form>
- 
-          <div><span>Items</span><span id="sum-items">0 ₸</span></div>
-          <div class="total"><span>Total</span><span id="sum-total">0 ₸</span></div>
- 
-          <a href="#" class="btn btn-primary btn-block" style="margin-top: 20px;">Proceed to checkout</a>
-        </aside>
- 
       </div>
-    </div>
-  </section>
- 
+    </section>
+  </main>
+
+  <!-- Footer spans across the bottom — Grid of 4 columns, Flexbox inside -->
   <footer>
     <div class="container">
-      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
-      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
-      <p class="team-credit"><span>Page created by:</span> Nursultan Rassulov</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo-mark.png" alt="NBN Games logo">
+          <p>Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="footer-col" aria-label="Footer">
+          <h4>Store</h4>
+          <a href="index.html">Home</a>
+          <a href="catalog.html">Catalog</a>
+          <a href="cart.html">Cart</a>
+        </nav>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About us</a>
+          <a href="about.html#contact">Contact</a>
+          <a href="profile.html">My account</a>
+        </div>
+        <div class="footer-col">
+          <h4>Team Next Step</h4>
+          <span>Bekzat Amanbek</span>
+          <span>Nurkhan Nurzhau</span>
+          <span>Nursultan Rassulov</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NBN Games. Student project — Assignment #2.</p>
+        <p>Page created by: <strong>Nursultan Rassulov</strong></p>
+      </div>
     </div>
   </footer>
- 
+
   <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
   <script>
     const cartItemsEl = document.getElementById('cart-items');
     const headingEl = document.getElementById('cart-heading');
     const sumItemsEl = document.getElementById('sum-items');
     const sumTotalEl = document.getElementById('sum-total');
- 
+    const discountRow = document.getElementById('discount-row');
+    const sumDiscountEl = document.getElementById('sum-discount');
+    let promo = 0; // discount rate
+
     function formatTenge(n) {
       return n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
     }
- 
+
     function renderCart() {
       const cart = getCart();
       headingEl.textContent = `Your cart (${cart.reduce((s, i) => s + i.qty, 0)})`;
- 
+
       if (cart.length === 0) {
-        cartItemsEl.innerHTML = '<p style="color:#6b7280;">Your cart is empty. Head to the <a href="catalog.html" style="color:#ff5a1f;">catalog</a> to add games.</p>';
-        sumItemsEl.textContent = formatTenge(0);
-        sumTotalEl.textContent = formatTenge(0);
-        return;
+        cartItemsEl.innerHTML = `
+          <div class="cart-empty">
+            <span class="emoji">🛒</span>
+            <h3>Your cart is empty</h3>
+            <p>Head to the catalog to find your next game.</p>
+            <a href="catalog.html" class="btn btn-primary btn-sm">Browse catalog</a>
+          </div>`;
+      } else {
+        cartItemsEl.innerHTML = cart.map(item => `
+          <div class="cart-item" data-name="${item.name.replace(/"/g, '&quot;')}">
+            <img src="${item.img}" alt="${item.name} cover">
+            <div class="cart-item-info">
+              <h3>${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</h3>
+              <p>Digital key · Windows</p>
+            </div>
+            <div class="cart-item-side">
+              <div class="card-price" style="padding-top:0"><span>${formatTenge(item.price * item.qty)}</span></div>
+              <button class="remove" type="button">Remove</button>
+            </div>
+          </div>
+        `).join('');
       }
- 
-      cartItemsEl.innerHTML = cart.map(item => `
-        <div class="cart-item" data-name="${item.name}">
-          <img src="${item.img}" alt="${item.name} cover">
-          <div>
-            <h3>${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</h3>
-            <p>Windows</p>
-          </div>
-          <div style="text-align:right;">
-            <div class="card-price"><span>${formatTenge(item.price * item.qty)}</span></div>
-            <span class="remove">Remove</span>
-          </div>
-        </div>
-      `).join('');
- 
+
       const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const discount = Math.round(total * promo);
       sumItemsEl.textContent = formatTenge(total);
-      sumTotalEl.textContent = formatTenge(total);
+      discountRow.style.display = discount ? 'flex' : 'none';
+      sumDiscountEl.textContent = '−' + formatTenge(discount);
+      sumTotalEl.textContent = formatTenge(total - discount);
     }
- 
+
     cartItemsEl.addEventListener('click', (e) => {
       if (e.target.classList.contains('remove')) {
-        const name = e.target.closest('.cart-item').getAttribute('data-name');
-        removeFromCart(name);
+        removeFromCart(e.target.closest('.cart-item').dataset.name);
         renderCart();
       }
     });
- 
+
+    document.getElementById('promo-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const code = document.getElementById('promo-input').value.trim().toUpperCase();
+      if (code === 'NEXTSTEP') { promo = 0.1; showToast('Promo code applied: −10%'); }
+      else { promo = 0; showToast('Unknown promo code'); }
+      renderCart();
+    });
+
+    document.getElementById('checkout-btn').addEventListener('click', e => {
+      e.preventDefault();
+      showToast(getCart().length ? 'Checkout is coming soon' : 'Your cart is empty');
+    });
+
     renderCart();
   </script>
- 
 </body>
 </html>
- 

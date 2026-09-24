@@ -1,143 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <!-- Assignment #2 (Flexbox & Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NBN Games — Cyberpunk 2077</title>
+  <title>NBN Games — Game</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
+
+  <!-- Task 1: Navigation bar — Flexbox (logo left, links right) -->
   <header id="main-header">
     <div class="container">
       <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
-      <nav class="nav-menu">
+      <nav class="nav-menu" id="nav-menu" aria-label="Main">
         <a href="index.html">Home</a>
-        <a href="catalog.html" class="active">Catalog</a>
+        <a href="catalog.html" class="active" aria-current="page">Catalog</a>
         <a href="about.html">About</a>
       </nav>
       <div class="nav-actions">
-        <a href="cart.html" title="Cart">🛒</a>
+        <a href="cart.html" class="cart-link" title="Cart" aria-label="Cart">🛒<span class="cart-badge">0</span></a>
         <a href="profile.html" class="profile-link" title="Profile">👤 <span>Profile</span></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
- 
-  <section>
-    <div class="container">
-      <div class="game-header">
-        <img class="card-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover">
- 
-        <div>
-          <h1>Cyberpunk 2077</h1>
-          <p>CD Projekt Red · ★ 4.6 (125K reviews)</p>
- 
-          <div class="platform-tags">
-            <span>Windows</span>
-            <span>PlayStation</span>
-            <span>Xbox</span>
+
+  <!-- ONE page for ALL games: the game is chosen by the URL parameter,
+       e.g. game.html?id=elden-ring. The data for every game lives below. -->
+  <main id="game-page">
+    <section>
+      <div class="container">
+        <!-- Breadcrumbs — Flexbox -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span>/</span>
+          <a href="catalog.html">Catalog</a><span>/</span>
+          <span id="crumb-genre">—</span><span>/</span>
+          <strong id="crumb-title">—</strong>
+        </nav>
+
+        <!-- Cover | information — Grid; info column itself is a flex column -->
+        <div class="game-header">
+          <img class="game-cover" id="game-cover" src="images/logo-full.jpg" alt="">
+
+          <div class="game-info">
+            <span class="eyebrow-tag" id="game-genre" style="margin-bottom:0">—</span>
+            <h1 id="game-title">Loading…</h1>
+            <div class="rating-line">
+              <span class="stars" id="game-stars" aria-hidden="true"></span>
+              <span id="game-rating">—</span>
+            </div>
+
+            <div class="platform-tags" id="game-platforms"></div>
+
+            <div class="price-block" id="game-price"></div>
+
+            <div class="game-buttons">
+              <button class="btn btn-primary add-to-cart-btn" id="game-buy">Add to cart</button>
+              <a href="catalog.html" class="btn btn-outline">Back to catalog</a>
+            </div>
+
+            <!-- Key facts — Grid of small tiles -->
+            <dl class="game-facts">
+              <div><dt>Developer</dt><dd id="fact-dev">—</dd></div>
+              <div><dt>Release</dt><dd id="fact-year">—</dd></div>
+              <div><dt>Genre</dt><dd id="fact-genre">—</dd></div>
+              <div><dt>Delivery</dt><dd>Instant key</dd></div>
+            </dl>
+
+            <h3 style="margin-top: 6px;">About the game</h3>
+            <p id="game-desc"></p>
           </div>
- 
-          <div class="price-block">
-            <span class="price-tag">-40%</span>
-            <span class="current">14 990 ₸</span>
-            <span class="price-old">24 990 ₸</span>
-          </div>
- 
-          <button class="btn btn-primary add-to-cart-btn" data-name="Cyberpunk 2077" data-price="14999" data-img="images/Cyberpunk_2077.jpg">Add to cart</button>
- 
-          <h3 style="margin-top: 28px;">About the game</h3>
-          <p>Cyberpunk 2077 is an open-world action RPG set in Night City, a megalopolis obsessed with power, glamour and body modification. Become a mercenary and decide who you want to be.</p>
         </div>
       </div>
-    </div>
-  </section>
- 
-  <section>
-    <div class="container">
-      <div class="section-heading"><h2>System requirements</h2></div>
- 
-      <table>
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>Minimum</th>
-            <th>Recommended</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Operating system</td>
-            <td>Windows 10 (64-bit)</td>
-            <td>Windows 11 (64-bit)</td>
-          </tr>
-          <tr>
-            <td>Processor</td>
-            <td>Intel Core i5-3570K</td>
-            <td>Intel Core i7-9700K</td>
-          </tr>
-          <tr>
-            <td>Memory</td>
-            <td>8 GB</td>
-            <td>16 GB</td>
-          </tr>
-          <tr>
-            <td>Graphics</td>
-            <td>NVIDIA GTX 780 (3 GB)</td>
-            <td>NVIDIA RTX 2060 (6 GB)</td>
-          </tr>
-          <tr>
-            <td>Storage</td>
-            <td>70 GB</td>
-            <td>70 GB (SSD)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
- 
-  <section>
-    <div class="container">
-      <div class="section-heading"><h2>Similar games</h2></div>
-      <div class="game-grid">
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover">
-          <div class="card-body">
-            <h3>Elden Ring</h3>
-            <p>RPG · Souls-like</p>
-            <div class="card-price"><span>24 990 ₸</span></div>
-          </div>
-        </a>
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Baldur’s_Gate_3.jpg" alt="Baldur's Gate 3 cover">
-          <div class="card-body">
-            <h3>Baldur's Gate 3</h3>
-            <p>RPG · Turn-based</p>
-            <div class="card-price"><span>14 000 ₸</span></div>
-          </div>
-        </a>
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3 cover">
-          <div class="card-body">
-            <h3>The Witcher 3</h3>
-            <p>RPG · Open world</p>
-            <div class="card-price"><span>4 490 ₸</span></div>
-          </div>
-        </a>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-heading"><h2>System requirements</h2></div>
+        <div id="req-box"></div>
       </div>
-    </div>
-  </section>
- 
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-heading"><h2>More <span id="similar-genre">games</span></h2><a href="catalog.html" id="similar-link">See all →</a></div>
+        <!-- Flexbox card row -->
+        <div class="card-row" id="similar-row"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shown when the id in the URL does not exist -->
+  <main id="not-found" hidden>
+    <section>
+      <div class="container">
+        <div class="cart-empty">
+          <span class="emoji">🕹️</span>
+          <h2>Game not found</h2>
+          <p>We couldn't find this game. It may have been removed from the catalog.</p>
+          <a href="catalog.html" class="btn btn-primary btn-sm">Open catalog</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer spans across the bottom — Grid of 4 columns, Flexbox inside -->
   <footer>
     <div class="container">
-      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
-      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
-      <p class="team-credit"><span>Page created by:</span> Nursultan Rassulov</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo-mark.png" alt="NBN Games logo">
+          <p>Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="footer-col" aria-label="Footer">
+          <h4>Store</h4>
+          <a href="index.html">Home</a>
+          <a href="catalog.html">Catalog</a>
+          <a href="cart.html">Cart</a>
+        </nav>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About us</a>
+          <a href="about.html#contact">Contact</a>
+          <a href="profile.html">My account</a>
+        </div>
+        <div class="footer-col">
+          <h4>Team Next Step</h4>
+          <span>Bekzat Amanbek</span>
+          <span>Nurkhan Nurzhau</span>
+          <span>Nursultan Rassulov</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NBN Games. Student project — Assignment #2.</p>
+        <p>Page created by: <strong>Nursultan Rassulov</strong></p>
+      </div>
     </div>
   </footer>
+
+
+  <script>
+    /* =========================================================
+       Data for every game in the store (42 games).
+       To add a game: add one object here + a card in catalog.html
+       ========================================================= */
+    const GAMES = [
+      {"id": "grand-theft-auto-v", "title": "Grand Theft Auto V", "genre": "action", "genreLabel": "Action", "emoji": "🎮", "img": "images/Grand_Theft_Auto_V.png", "price": 14999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Rockstar Games", "year": 2013, "rating": 4.7, "reviews": "1.6M", "description": "Three very different criminals plan a series of daring heists in the sun-soaked city of Los Santos. Includes GTA Online — an ever-growing shared world for up to 30 players.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "120 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "120 GB (SSD)"}}},
+      {"id": "call-of-duty-modern-warfare-iii", "title": "Call of Duty: Modern Warfare III", "genre": "action", "genreLabel": "Action", "emoji": "🎮", "img": "images/Call_of_duty.jpg", "price": 34999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Sledgehammer Games", "year": 2023, "rating": 3.9, "reviews": "210K", "description": "Captain Price and Task Force 141 face off against the ultimate threat, Vladimir Makarov. Fast campaign, classic maps in multiplayer and open-world Zombies.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "149 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "149 GB (SSD)"}}},
+      {"id": "doom-eternal", "title": "DOOM Eternal", "genre": "action", "genreLabel": "Action", "emoji": "🎮", "img": "images/Doom_Eternal.png", "price": 14000, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "id Software", "year": 2020, "rating": 4.8, "reviews": "320K", "description": "Hell's armies have invaded Earth. Become the Slayer and rip and tear through demons with the most powerful arsenal in the series, from the super shotgun to the Crucible blade.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "devil-may-cry-5", "title": "Devil May Cry 5", "genre": "action", "genreLabel": "Action", "emoji": "🎮", "img": "images/Devil_May_Cry_5.jpg", "price": 11999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Capcom", "year": 2019, "rating": 4.7, "reviews": "140K", "description": "Demon hunters Nero, Dante and the mysterious V return in a stylish action game built around combos, style ranks and over-the-top boss fights.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "35 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "35 GB (SSD)"}}},
+      {"id": "god-of-war", "title": "God of War", "genre": "action", "genreLabel": "Action", "emoji": "🎮", "img": "images/God_of_War_Ragnarök_cover.jpg", "price": 19999, "oldPrice": null, "platforms": ["Windows", "PlayStation"], "developer": "Santa Monica Studio", "year": 2018, "rating": 4.9, "reviews": "280K", "description": "Kratos lives as a man in the realm of Norse gods and monsters. Together with his son Atreus he must fight to survive — and learn to be a father.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "70 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "70 GB (SSD)"}}},
+      {"id": "elden-ring", "title": "Elden Ring", "genre": "action", "genreLabel": "Action", "emoji": "🎮", "img": "images/Elden_Ring.jpg", "price": 17999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "FromSoftware", "year": 2022, "rating": 4.8, "reviews": "750K", "description": "Rise, Tarnished, and explore the Lands Between — a vast open world full of hidden dungeons, legendary bosses and a story written with George R. R. Martin.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "60 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "60 GB (SSD)"}}},
+      {"id": "red-dead-redemption-2", "title": "Red Dead Redemption 2", "genre": "adventure", "genreLabel": "Adventure", "emoji": "🗺️", "img": "images/Red_Dead_Redemption_2.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Rockstar Games", "year": 2018, "rating": 4.8, "reviews": "610K", "description": "America, 1899. Arthur Morgan and the Van der Linde gang are outlaws on the run across a huge, living frontier as the age of the Wild West comes to an end.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "150 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "150 GB (SSD)"}}},
+      {"id": "uncharted-4", "title": "Uncharted 4", "genre": "adventure", "genreLabel": "Adventure", "emoji": "🗺️", "img": "images/Uncharted4.jpg", "price": 18999, "oldPrice": null, "platforms": ["PlayStation"], "developer": "Naughty Dog", "year": 2016, "rating": 4.8, "reviews": "95K", "description": "Years after his last adventure, retired fortune hunter Nathan Drake is pulled back into the world of thieves to find the lost treasure of pirate Henry Avery.", "req": null},
+      {"id": "tomb-raider", "title": "Tomb Raider", "genre": "adventure", "genreLabel": "Adventure", "emoji": "🗺️", "img": "images/Tomb_raider.jpg", "price": 7999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox", "macOS"], "developer": "Crystal Dynamics", "year": 2013, "rating": 4.6, "reviews": "180K", "description": "A young Lara Croft is shipwrecked on a dangerous island and must use her wits and survival skills to escape — the origin story of an icon.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "12 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "12 GB (SSD)"}}},
+      {"id": "the-last-of-us-part-i", "title": "The Last of Us Part I", "genre": "adventure", "genreLabel": "Adventure", "emoji": "🗺️", "img": "images/The_Last_of_Us_Part_I_cover.jpg", "price": 23499, "oldPrice": null, "platforms": ["Windows", "PlayStation"], "developer": "Naughty Dog", "year": 2022, "rating": 4.7, "reviews": "120K", "description": "Twenty years after a pandemic, hardened survivor Joel is hired to smuggle 14-year-old Ellie out of a military quarantine zone on a brutal journey across the U.S.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "100 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "100 GB (SSD)"}}},
+      {"id": "assassins-creed-valhalla", "title": "Assassin's Creed Valhalla", "genre": "adventure", "genreLabel": "Adventure", "emoji": "🗺️", "img": "images/Assassins_Creed.jpg", "price": 14999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Ubisoft Montreal", "year": 2020, "rating": 4.3, "reviews": "150K", "description": "Become Eivor, a Viking raider, and lead your clan from Norway to the kingdoms of England to build a new home — by axe, by bow or by alliance.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "160 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "160 GB (SSD)"}}},
+      {"id": "life-is-strange", "title": "Life is Strange", "genre": "adventure", "genreLabel": "Adventure", "emoji": "🗺️", "img": "images/Life_is_Strange_cover.jpg", "price": 7999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox", "macOS"], "developer": "Dontnod Entertainment", "year": 2015, "rating": 4.7, "reviews": "160K", "description": "Photography student Max Caulfield discovers she can rewind time. An episodic story about friendship, choices and their consequences in Arcadia Bay.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "3 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "3 GB (SSD)"}}},
+      {"id": "the-witcher-3", "title": "The Witcher 3", "genre": "rpg", "genreLabel": "RPG", "emoji": "⚔️", "img": "images/Witcher_3_cover_art.jpg", "price": 11999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "CD Projekt Red", "year": 2015, "rating": 4.9, "reviews": "700K", "description": "As monster slayer Geralt of Rivia, search for your adopted daughter Ciri in a war-torn open world full of meaningful choices. Includes both story expansions.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "baldurs-gate-3", "title": "Baldur's Gate 3", "genre": "rpg", "genreLabel": "RPG", "emoji": "⚔️", "img": "images/Baldur’s_Gate_3.jpg", "price": 14000, "oldPrice": null, "platforms": ["Windows", "PlayStation", "macOS"], "developer": "Larian Studios", "year": 2023, "rating": 4.9, "reviews": "590K", "description": "Gather your party and return to the Forgotten Realms in a huge turn-based RPG based on Dungeons & Dragons, where every choice shapes the story.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "150 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "150 GB (SSD)"}}},
+      {"id": "cyberpunk-2077", "title": "Cyberpunk 2077", "genre": "rpg", "genreLabel": "RPG", "emoji": "⚔️", "img": "images/Cyberpunk_2077.jpg", "price": 14999, "oldPrice": 24999, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "CD Projekt Red", "year": 2020, "rating": 4.6, "reviews": "125K", "description": "Cyberpunk 2077 is an open-world action RPG set in Night City, a megalopolis obsessed with power, glamour and body modification. Become a mercenary and decide who you want to be.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-3570K", "ram": "8 GB", "gpu": "NVIDIA GTX 780 (3 GB)", "storage": "70 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K", "ram": "16 GB", "gpu": "NVIDIA RTX 2060 (6 GB)", "storage": "70 GB (SSD)"}}},
+      {"id": "skyrim", "title": "Skyrim", "genre": "rpg", "genreLabel": "RPG", "emoji": "⚔️", "img": "images/Skyrim.png", "price": 8999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Bethesda Game Studios", "year": 2011, "rating": 4.8, "reviews": "900K", "description": "The dragons have returned to Tamriel. As the Dragonborn, explore a massive open world at your own pace — join guilds, learn shouts and write your own legend.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "12 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "12 GB (SSD)"}}},
+      {"id": "diablo-iv", "title": "Diablo IV", "genre": "rpg", "genreLabel": "RPG", "emoji": "⚔️", "img": "images/Diablo_IV_cover_art.png", "price": 22614, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Blizzard Entertainment", "year": 2023, "rating": 4.1, "reviews": "95K", "description": "Lilith has returned to Sanctuary. Battle through a shared open world of dark dungeons and endless loot, solo or with friends.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "90 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "90 GB (SSD)"}}},
+      {"id": "dragon-age-inquisition", "title": "Dragon Age: Inquisition", "genre": "rpg", "genreLabel": "RPG", "emoji": "⚔️", "img": "images/Dragon_Age.jpg", "price": 9999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "BioWare", "year": 2014, "rating": 4.4, "reviews": "85K", "description": "Lead the Inquisition to close a tear in the sky that is unleashing demons upon the world of Thedas. Build alliances, romance companions and shape the fate of nations.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "26 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "26 GB (SSD)"}}},
+      {"id": "civilization-vi", "title": "Civilization VI", "genre": "strategy", "genreLabel": "Strategy", "emoji": "♟️", "img": "images/Civilization_VI_cover_art.jpg", "price": 14999, "oldPrice": null, "platforms": ["Windows", "macOS"], "developer": "Firaxis Games", "year": 2016, "rating": 4.5, "reviews": "190K", "description": "Build an empire to stand the test of time: expand your cities across the map, research technologies and lead your people from the Stone Age to the Information Age.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "23 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "23 GB (SSD)"}}},
+      {"id": "age-of-empires-iv", "title": "Age of Empires IV", "genre": "strategy", "genreLabel": "Strategy", "emoji": "♟️", "img": "images/Ageof_Empires_IV.png", "price": 14999, "oldPrice": null, "platforms": ["Windows"], "developer": "Relic Entertainment", "year": 2021, "rating": 4.4, "reviews": "70K", "description": "The classic real-time strategy returns: lead historic civilizations through famous battles across 500 years of history, from the Mongols to the English.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "total-war-warhammer-iii", "title": "Total War: Warhammer III", "genre": "strategy", "genreLabel": "Strategy", "emoji": "♟️", "img": "images/Total_War_Warhammer_3_cover_art.jpg", "price": 19999, "oldPrice": null, "platforms": ["Windows"], "developer": "Creative Assembly", "year": 2022, "rating": 4.2, "reviews": "60K", "description": "The Realm of Chaos awaits. Lead huge armies of daemons and mortals in epic real-time battles and a vast turn-based campaign.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "120 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "120 GB (SSD)"}}},
+      {"id": "starcraft-ii", "title": "StarCraft II", "genre": "strategy", "genreLabel": "Strategy", "emoji": "♟️", "img": "images/StarCraft_II_-_Box_Art.jpg", "price": 0, "oldPrice": null, "platforms": ["Windows", "macOS"], "developer": "Blizzard Entertainment", "year": 2010, "rating": 4.6, "reviews": "140K", "description": "The legendary sci-fi real-time strategy — command Terran, Zerg or Protoss in the full campaign trilogy or ranked multiplayer. Free to play.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "30 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "30 GB (SSD)"}}},
+      {"id": "xcom-2", "title": "XCOM 2", "genre": "strategy", "genreLabel": "Strategy", "emoji": "♟️", "img": "images/XCOM_2.jpg", "price": 14999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox", "macOS"], "developer": "Firaxis Games", "year": 2016, "rating": 4.6, "reviews": "90K", "description": "Earth has changed. Lead a guerrilla resistance force against alien occupation in tense turn-based tactical combat where every soldier's death is permanent.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "45 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "45 GB (SSD)"}}},
+      {"id": "crusader-kings-iii", "title": "Crusader Kings III", "genre": "strategy", "genreLabel": "Strategy", "emoji": "♟️", "img": "images/Crusader_Kings_III.jpg", "price": 14999, "oldPrice": null, "platforms": ["Windows", "macOS"], "developer": "Paradox Development Studio", "year": 2020, "rating": 4.5, "reviews": "75K", "description": "Lead your medieval dynasty through centuries of intrigue, marriages, wars and betrayals. Every character has their own personality and ambitions.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "8 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "8 GB (SSD)"}}},
+      {"id": "the-sims-4", "title": "The Sims 4", "genre": "simulation", "genreLabel": "Simulation", "emoji": "🏗️", "img": "images/Sims4_Rebrand.png", "price": 0, "oldPrice": null, "platforms": ["Windows", "macOS"], "developer": "Maxis", "year": 2014, "rating": 4.3, "reviews": "400K", "description": "Create unique Sims, build their dream homes and control their lives in the world's most popular life simulation. The base game is free to play.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "26 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "26 GB (SSD)"}}},
+      {"id": "euro-truck-simulator-2", "title": "Euro Truck Simulator 2", "genre": "simulation", "genreLabel": "Simulation", "emoji": "🏗️", "img": "images/Euro_Truck_Simulator_2.jpg", "price": 8999, "oldPrice": null, "platforms": ["Windows", "macOS"], "developer": "SCS Software", "year": 2012, "rating": 4.9, "reviews": "500K", "description": "Travel across Europe as a truck driver: deliver cargo across dozens of countries, grow your own trucking company and customize your truck.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "12 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "12 GB (SSD)"}}},
+      {"id": "microsoft-flight-simulator", "title": "Microsoft Flight Simulator", "genre": "simulation", "genreLabel": "Simulation", "emoji": "🏗️", "img": "images/Microsoft_Flight_Simulator.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "Xbox"], "developer": "Asobo Studio", "year": 2020, "rating": 4.4, "reviews": "80K", "description": "Fly anywhere on the planet in incredibly detailed aircraft over a world built from real satellite data and live weather.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 3600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "150 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-10700 / AMD Ryzen 7 5800X", "ram": "32 GB", "gpu": "NVIDIA RTX 3070 (8 GB)", "storage": "150 GB (SSD)"}}},
+      {"id": "farming-simulator-25", "title": "Farming Simulator 25", "genre": "simulation", "genreLabel": "Simulation", "emoji": "🏗️", "img": "images/Farming_Simulator_25.jpg", "price": 14999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "GIANTS Software", "year": 2024, "rating": 4.3, "reviews": "40K", "description": "Grow crops, raise animals and run your farm with hundreds of licensed vehicles and machines in new environments across Europe, America and Asia.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "cities-skylines", "title": "Cities: Skylines", "genre": "simulation", "genreLabel": "Simulation", "emoji": "🏗️", "img": "images/Cities_Skylines.jpg", "price": 8999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox", "macOS"], "developer": "Colossal Order", "year": 2015, "rating": 4.6, "reviews": "240K", "description": "Design and build the city of your dreams — plan roads, zones, public transport and services, and watch your city grow from a small town to a metropolis.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "4 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "4 GB (SSD)"}}},
+      {"id": "powerwash-simulator", "title": "PowerWash Simulator", "genre": "simulation", "genreLabel": "Simulation", "emoji": "🏗️", "img": "images/PowerWash_Simulator.jpg", "price": 11999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "FuturLab", "year": 2022, "rating": 4.8, "reviews": "110K", "description": "Wash away your worries: grab a pressure washer and blast dirt off cars, houses and even a skatepark in this surprisingly relaxing simulator.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "5 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "5 GB (SSD)"}}},
+      {"id": "ea-sports-fc-25", "title": "EA Sports FC 25", "genre": "sport", "genreLabel": "Sport", "emoji": "⚽", "img": "images/EA_Sports_FC_25.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "EA Vancouver", "year": 2024, "rating": 3.6, "reviews": "70K", "description": "Play the world's game with over 19,000 licensed players and 700 teams. New 5v5 Rush mode, Career, Ultimate Team and more.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "100 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "100 GB (SSD)"}}},
+      {"id": "nba-2k25", "title": "NBA 2K25", "genre": "sport", "genreLabel": "Sport", "emoji": "⚽", "img": "images/NBA_2K25.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Visual Concepts", "year": 2024, "rating": 3.8, "reviews": "35K", "description": "Take your game to the next level with realistic basketball, MyCAREER, MyTEAM and The City — all powered by ProPLAY technology.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "150 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "150 GB (SSD)"}}},
+      {"id": "f1-25", "title": "F1 25", "genre": "sport", "genreLabel": "Sport", "emoji": "⚽", "img": "images/F1_25.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Codemasters", "year": 2025, "rating": 4.1, "reviews": "20K", "description": "The official game of the FIA Formula One World Championship: all teams, drivers and circuits of the season plus the story mode Braking Point.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600", "ram": "12 GB", "gpu": "NVIDIA GTX 1060 (6 GB)", "storage": "90 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X", "ram": "16 GB", "gpu": "NVIDIA RTX 2070 (8 GB)", "storage": "90 GB (SSD)"}}},
+      {"id": "wwe-2k25", "title": "WWE 2K25", "genre": "sport", "genreLabel": "Sport", "emoji": "⚽", "img": "images/WWE_2K25.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Visual Concepts", "year": 2025, "rating": 4.0, "reviews": "15K", "description": "Step into the ring with the biggest WWE Superstars and Legends. Showcase, MyRISE, MyFACTION and the new online Island mode.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "100 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "100 GB (SSD)"}}},
+      {"id": "tony-hawks-pro-skater-1-2", "title": "Tony Hawk's Pro Skater 1 + 2", "genre": "sport", "genreLabel": "Sport", "emoji": "⚽", "img": "images/Tony_Hawk’s_Pro_Skater.jpg", "price": 19999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Vicarious Visions", "year": 2020, "rating": 4.7, "reviews": "40K", "description": "The iconic skateboarding games rebuilt from the ground up: all the original parks, pro skaters and legendary soundtrack in stunning HD.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i3-2100 / AMD FX-4100", "ram": "4 GB", "gpu": "NVIDIA GTX 650 (1 GB)", "storage": "30 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 960 (2 GB)", "storage": "30 GB (SSD)"}}},
+      {"id": "riders-republic", "title": "Riders Republic", "genre": "sport", "genreLabel": "Sport", "emoji": "⚽", "img": "images/Riders_Republic.jpg", "price": 14999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Ubisoft Annecy", "year": 2021, "rating": 4.1, "reviews": "45K", "description": "Bike, ski, snowboard and wingsuit through a massive open-world playground built from U.S. national parks — with up to 64 players in mass races.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "60 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "60 GB (SSD)"}}},
+      {"id": "forza-horizon-5", "title": "Forza Horizon 5", "genre": "racing", "genreLabel": "Racing", "emoji": "🏎️", "img": "images/Forza_Horizon_5.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "Xbox"], "developer": "Playground Games", "year": 2021, "rating": 4.8, "reviews": "200K", "description": "Explore the vibrant open world of Mexico in hundreds of the world's greatest cars — races, festivals and seasons that change every week.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "110 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "110 GB (SSD)"}}},
+      {"id": "need-for-speed-unbound", "title": "Need for Speed Unbound", "genre": "racing", "genreLabel": "Racing", "emoji": "🏎️", "img": "images/Need_for_Speed_Unbound.png", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Criterion Games", "year": 2022, "rating": 4.2, "reviews": "55K", "description": "Race to the top of Lakeshore's street racing scene in a unique art style that mixes realistic cars with graffiti-inspired effects.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "gran-turismo-7", "title": "Gran Turismo 7", "genre": "racing", "genreLabel": "Racing", "emoji": "🏎️", "img": "images/Gran_Turismo_7_cover_art.jpg", "price": 19999, "oldPrice": null, "platforms": ["PlayStation"], "developer": "Polyphony Digital", "year": 2022, "rating": 4.5, "reviews": "60K", "description": "The real driving simulator returns with more than 400 cars, legendary tracks and the classic GT Campaign — a celebration of car culture.", "req": null},
+      {"id": "the-crew-motorfest", "title": "The Crew Motorfest", "genre": "racing", "genreLabel": "Racing", "emoji": "🏎️", "img": "images/The_Crew_Motorfest.jpg", "price": 29999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Ubisoft Ivory Tower", "year": 2023, "rating": 4.0, "reviews": "30K", "description": "A festival of car culture on the island of O'ahu, Hawaii: themed playlists, hundreds of cars, boats and planes in an open world.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "assetto-corsa-competizione", "title": "Assetto Corsa Competizione", "genre": "racing", "genreLabel": "Racing", "emoji": "🏎️", "img": "images/Assetto_Corsa_Competizione.jpg", "price": 19999, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Kunos Simulazioni", "year": 2019, "rating": 4.4, "reviews": "35K", "description": "The official GT World Challenge game: ultra-realistic racing simulation with laser-scanned tracks, dynamic weather and real GT3 cars.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "50 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "50 GB (SSD)"}}},
+      {"id": "dirt-5", "title": "Dirt 5", "genre": "racing", "genreLabel": "Racing", "emoji": "🏎️", "img": "images/Dirt_5.jpg", "price": 3990, "oldPrice": null, "platforms": ["Windows", "PlayStation", "Xbox"], "developer": "Codemasters", "year": 2020, "rating": 4.0, "reviews": "25K", "description": "An off-road racing festival across the world — ice, sand, mud and gravel, plus a career mode voiced by Troy Baker and Nolan North.", "req": {"min": {"os": "Windows 10 (64-bit)", "cpu": "Intel Core i5-4460 / AMD Ryzen 3 1200", "ram": "8 GB", "gpu": "NVIDIA GTX 970 (4 GB)", "storage": "60 GB"}, "rec": {"os": "Windows 11 (64-bit)", "cpu": "Intel Core i7-6700 / AMD Ryzen 5 1600", "ram": "16 GB", "gpu": "NVIDIA GTX 1070 (8 GB)", "storage": "60 GB (SSD)"}}}
+    ];
+
+    const $ = id => document.getElementById(id);
+    const formatPrice = n => n === 0 ? 'Free' : n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
+    const escapeHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+    // Which game? ?id=elden-ring  (default — Cyberpunk 2077, as before)
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id') || 'cyberpunk-2077';
+    const game = GAMES.find(g => g.id === id);
+
+    if (!game) {
+      $('game-page').hidden = true;
+      $('not-found').hidden = false;
+      document.title = 'NBN Games — Game not found';
+    } else {
+      document.title = 'NBN Games — ' + game.title;
+
+      $('crumb-genre').innerHTML = `<a href="catalog.html">${game.genreLabel}</a>`;
+      $('crumb-title').textContent = game.title;
+      $('game-cover').src = game.img;
+      $('game-cover').alt = game.title + ' cover';
+      $('game-genre').textContent = game.emoji + ' ' + game.genreLabel;
+      $('game-title').textContent = game.title;
+
+      const full = Math.round(game.rating);
+      $('game-stars').textContent = '★'.repeat(full) + '☆'.repeat(5 - full);
+      $('game-rating').textContent = `${game.rating.toFixed(1)} · ${game.reviews} reviews · ${game.developer}`;
+
+      $('game-platforms').innerHTML = game.platforms.map(p => `<span>${p}</span>`).join('');
+
+      let priceHtml = `<span class="current">${formatPrice(game.price)}</span>`;
+      if (game.oldPrice) {
+        const pct = Math.round((1 - game.price / game.oldPrice) * 100);
+        priceHtml = `<span class="price-tag">-${pct}%</span>` + priceHtml +
+                    `<span class="price-old">${formatPrice(game.oldPrice)}</span>`;
+      }
+      $('game-price').innerHTML = priceHtml;
+
+      const buy = $('game-buy');
+      buy.dataset.name = game.title;
+      buy.dataset.price = game.price;
+      buy.dataset.img = game.img;
+      if (game.price === 0) buy.textContent = 'Get for free';
+
+      $('fact-dev').textContent = game.developer;
+      $('fact-year').textContent = game.year;
+      $('fact-genre').textContent = game.genreLabel;
+      $('game-desc').textContent = game.description;
+
+      // System requirements table (console-only games get a note instead)
+      if (game.req) {
+        const rows = [['Operating system', 'os'], ['Processor', 'cpu'], ['Memory', 'ram'], ['Graphics', 'gpu'], ['Storage', 'storage']];
+        $('req-box').innerHTML = `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Parameter</th><th>Minimum</th><th>Recommended</th></tr></thead>
+              <tbody>${rows.map(([label, key]) => `
+                <tr><td>${label}</td><td>${game.req.min[key]}</td><td>${game.req.rec[key]}</td></tr>`).join('')}
+              </tbody>
+            </table>
+          </div>`;
+      } else {
+        $('req-box').innerHTML = `<div class="req-note">🎮 <span>${escapeHtml(game.title)} is a console game (${game.platforms.join(', ')}) — no PC requirements.</span></div>`;
+      }
+
+      // Similar games: 3 other games from the same genre
+      const similar = GAMES.filter(g => g.genre === game.genre && g.id !== game.id).slice(0, 3);
+      $('similar-genre').textContent = game.genreLabel + ' games';
+      $('similar-row').innerHTML = similar.map(g => `
+        <article class="card">
+          <a href="game.html?id=${g.id}" class="card-link">
+            <img class="card-cover" src="${g.img}" alt="${escapeHtml(g.title)} cover">
+            <div class="card-body">
+              <h3>${g.title}</h3>
+              <p>${g.developer} · ${g.year}</p>
+              <div class="card-price"><span>${formatPrice(g.price)}</span></div>
+            </div>
+          </a>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="${escapeHtml(g.title)}" data-price="${g.price}" data-img="${g.img}">Add to cart</button>
+          </div>
+        </article>`).join('');
+    }
+  </script>
   <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
- 

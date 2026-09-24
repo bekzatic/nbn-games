@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Assignment #1 — NBN Games | Team: Next Step -->
+  <!-- Assignment #2 (Flexbox & Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Home</title>
@@ -9,117 +9,264 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
+
+  <!-- Task 1: Navigation bar — Flexbox (logo left, links right) -->
   <header id="main-header">
     <div class="container">
       <a href="index.html" class="logo"><img src="images/logo-mark.png" alt="NBN Games logo"></a>
-      <nav class="nav-menu">
-        <a href="index.html" class="active">Home</a>
+      <nav class="nav-menu" id="nav-menu" aria-label="Main">
+        <a href="index.html" class="active" aria-current="page">Home</a>
         <a href="catalog.html">Catalog</a>
         <a href="about.html">About</a>
       </nav>
       <div class="nav-actions">
-        <a href="cart.html" title="Cart">🛒</a>
+        <a href="cart.html" class="cart-link" title="Cart" aria-label="Cart">🛒<span class="cart-badge">0</span></a>
         <a href="profile.html" class="profile-link" title="Profile">👤 <span>Profile</span></a>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
- 
-  <section id="hero">
-    <div class="container">
-      <img src="images/logo-full.jpg" alt="NBN Games logo" style="width:160px; margin-bottom:24px; border-radius:12px;">
-      <span class="eyebrow-tag">Your next level</span>
-      <h1>Games bring us together</h1>
-      <p>Thousands of games for PC, PlayStation and Xbox — one click away. Deals, new releases and a community that lives games every day.</p>
-      <div class="hero-actions">
-        <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
-        <a href="about.html" class="btn btn-outline">About us</a>
+
+  <main>
+    <section id="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <span class="eyebrow-tag">Your next level</span>
+          <h1>Games bring us together</h1>
+          <p>Thousands of games for PC, PlayStation and Xbox — one click away. Deals, new releases and a community that lives games every day.</p>
+          <div class="hero-actions">
+            <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
+            <a href="about.html" class="btn btn-outline">About us</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>40+</strong><span>games in catalog</span></div>
+            <div><strong>4</strong><span>platforms</span></div>
+            <div><strong>24/7</strong><span>instant delivery</span></div>
+          </div>
+        </div>
+        <img class="hero-logo" src="images/logo-full.jpg" alt="NBN Games logo">
       </div>
-    </div>
-  </section>
- 
-  <section>
-    <div class="container">
-      <div class="section-heading">
-        <h2>Popular games</h2>
-        <a href="catalog.html">See all →</a>
-      </div>
-      <div class="game-grid">
- 
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover">
-          <div class="card-body">
-            <h3>Cyberpunk 2077</h3>
-            <p>CD Projekt Red · RPG</p>
-            <div class="card-price">
+    </section>
+
+    <!-- Task 2: Card row — Flexbox (equal-height cards, gap, hover) -->
+    <section>
+      <div class="container">
+        <div class="section-heading">
+          <h2>Popular games</h2>
+          <a href="catalog.html">See all →</a>
+        </div>
+        <div class="card-row">
+        <article class="card">
+          <a href="game.html?id=cyberpunk-2077" class="card-link">
+            <img class="card-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover">
+            <div class="card-body">
+              <h3>Cyberpunk 2077</h3>
+              <p>CD Projekt Red · RPG</p>
+              <p>Open-world action RPG in Night City.</p>
+              <div class="card-price">
               <span class="price-tag">-40%</span>
-              <span>14 990 ₸</span>
-              <span class="price-old">24 990 ₸</span>
+              <span>14 999 ₸</span>
+              <span class="price-old">24 999 ₸</span>
+              </div>
             </div>
+          </a>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Cyberpunk 2077" data-price="14999" data-img="images/Cyberpunk_2077.jpg">Add to cart</button>
           </div>
-        </a>
- 
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover">
-          <div class="card-body">
-            <h3>Grand Theft Auto V</h3>
-            <p>Rockstar Games · Action</p>
-            <div class="card-price"><span>4 990 ₸</span></div>
+        </article>
+        <article class="card">
+          <a href="game.html?id=grand-theft-auto-v" class="card-link">
+            <img class="card-cover" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover">
+            <div class="card-body">
+              <h3>Grand Theft Auto V</h3>
+              <p>Rockstar Games · Action</p>
+              <p>Three criminals, one huge city, endless chaos.</p>
+              <div class="card-price">
+              <span>14 999 ₸</span>
+              </div>
+            </div>
+          </a>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Grand Theft Auto V" data-price="14999" data-img="images/Grand_Theft_Auto_V.png">Add to cart</button>
           </div>
-        </a>
- 
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover">
-          <div class="card-body">
+        </article>
+        <article class="card">
+          <a href="game.html?id=elden-ring" class="card-link">
+            <img class="card-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover">
+            <div class="card-body">
+              <h3>Elden Ring</h3>
+              <p>FromSoftware · RPG</p>
+              <p>A vast dark-fantasy world from the makers of Dark Souls.</p>
+              <div class="card-price">
+              <span>17 999 ₸</span>
+              </div>
+            </div>
+          </a>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Elden Ring" data-price="17999" data-img="images/Elden_Ring.jpg">Add to cart</button>
+          </div>
+        </article>
+        <article class="card">
+          <a href="game.html?id=forza-horizon-5" class="card-link">
+            <img class="card-cover" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover">
+            <div class="card-body">
+              <h3>Forza Horizon 5</h3>
+              <p>Playground Games · Racing</p>
+              <p>Open-world racing across the landscapes of Mexico.</p>
+              <div class="card-price">
+              <span>29 999 ₸</span>
+              </div>
+            </div>
+          </a>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm add-to-cart-btn" data-name="Forza Horizon 5" data-price="29999" data-img="images/Forza_Horizon_5.jpg">Add to cart</button>
+          </div>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Task 4: Image gallery — CSS Grid (3×3, hover caption overlay) -->
+    <section>
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Game gallery</h2>
+            <p>Hover over a cover to see details, click to open it full size.</p>
+          </div>
+          <a href="catalog.html">Open catalog →</a>
+        </div>
+        <div class="gallery">
+        <figure class="gallery-item">
+          <img src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077" loading="lazy">
+          <figcaption>
+            <h3>Cyberpunk 2077</h3>
+            <span>RPG · Night City</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/Elden_Ring.jpg" alt="Elden Ring" loading="lazy">
+          <figcaption>
             <h3>Elden Ring</h3>
-            <p>FromSoftware · RPG</p>
-            <div class="card-price"><span>24 990 ₸</span></div>
-          </div>
-        </a>
- 
-        <a href="game.html" class="card">
-          <img class="card-cover" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover">
-          <div class="card-body">
+            <span>RPG · Souls-like</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/Red_Dead_Redemption_2.jpg" alt="Red Dead Redemption 2" loading="lazy">
+          <figcaption>
+            <h3>Red Dead Redemption 2</h3>
+            <span>Adventure · Wild West</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3" loading="lazy">
+          <figcaption>
+            <h3>The Witcher 3</h3>
+            <span>RPG · Open world</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/God_of_War_Ragnarök_cover.jpg" alt="God of War" loading="lazy">
+          <figcaption>
+            <h3>God of War</h3>
+            <span>Action · Norse myth</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5" loading="lazy">
+          <figcaption>
             <h3>Forza Horizon 5</h3>
-            <p>Playground Games · Racing</p>
-            <div class="card-price"><span>13 990 ₸</span></div>
-          </div>
-        </a>
- 
+            <span>Racing · Mexico</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/The_Last_of_Us_Part_I_cover.jpg" alt="The Last of Us Part I" loading="lazy">
+          <figcaption>
+            <h3>The Last of Us Part I</h3>
+            <span>Adventure · Survival</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/Baldur’s_Gate_3.jpg" alt="Baldur&#x27;s Gate 3" loading="lazy">
+          <figcaption>
+            <h3>Baldur&#x27;s Gate 3</h3>
+            <span>RPG · Turn-based</span>
+          </figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="images/Doom_Eternal.png" alt="DOOM Eternal" loading="lazy">
+          <figcaption>
+            <h3>DOOM Eternal</h3>
+            <span>Action · Shooter</span>
+          </figcaption>
+        </figure>
+        </div>
       </div>
-    </div>
-  </section>
- 
-  <section>
-    <div class="container">
-      <div class="section-heading">
-        <h2>Why NBN Games</h2>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-heading">
+          <h2>Why NBN Games</h2>
+        </div>
+        <ul class="values-grid">
+          <li class="value-card">
+            <span class="value-icon">⚡</span>
+            <h3>Instant delivery</h3>
+            <p>Your activation key lands in your library right after payment — no waiting.</p>
+          </li>
+          <li class="value-card">
+            <span class="value-icon">💸</span>
+            <h3>Fair prices</h3>
+            <p>We track discounts across every platform and offer the best price in the region.</p>
+          </li>
+          <li class="value-card">
+            <span class="value-icon">🤝</span>
+            <h3>Real community</h3>
+            <p>Reviews and ratings from real players, not bots.</p>
+          </li>
+        </ul>
       </div>
-      <ul class="values-grid">
-        <li class="value-card">
-          <h3>Instant delivery</h3>
-          <p>Your activation key lands in your library right after payment — no waiting.</p>
-        </li>
-        <li class="value-card">
-          <h3>Fair prices</h3>
-          <p>We track discounts across every platform and offer the best price in the region.</p>
-        </li>
-        <li class="value-card">
-          <h3>Real community</h3>
-          <p>Reviews and ratings from real players, not bots.</p>
-        </li>
-      </ul>
-    </div>
-  </section>
- 
+    </section>
+  </main>
+
+  <!-- Footer spans across the bottom — Grid of 4 columns, Flexbox inside -->
   <footer>
     <div class="container">
-      <p>© 2026 NBN Games. Student project — Assignment #1.</p>
-      <p class="team-credit"><strong>Team Next Step:</strong> Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
-      <p class="team-credit"><span>Page created by:</span> Nurkhan Nurzhau</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo-mark.png" alt="NBN Games logo">
+          <p>Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="footer-col" aria-label="Footer">
+          <h4>Store</h4>
+          <a href="index.html">Home</a>
+          <a href="catalog.html">Catalog</a>
+          <a href="cart.html">Cart</a>
+        </nav>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About us</a>
+          <a href="about.html#contact">Contact</a>
+          <a href="profile.html">My account</a>
+        </div>
+        <div class="footer-col">
+          <h4>Team Next Step</h4>
+          <span>Bekzat Amanbek</span>
+          <span>Nurkhan Nurzhau</span>
+          <span>Nursultan Rassulov</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NBN Games. Student project — Assignment #2.</p>
+        <p>Page created by: <strong>Nurkhan Nurzhau</strong></p>
+      </div>
     </div>
   </footer>
- 
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
- 
