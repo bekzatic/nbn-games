@@ -265,17 +265,56 @@ h2, .h2 { font-size: 1.45rem; }
 .eyebrow-tag { color: var(--nbn-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
 .stat-number { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; color: #ffffff; line-height: 1.2; }
 
-/* Carousel (Task 7) */
-.featured-carousel { border: 1px solid var(--nbn-border); background: var(--nbn-surface); }
-.featured-carousel .slide-cover { width: 100%; height: 240px; object-fit: cover; }
-.featured-carousel .carousel-indicators [data-bs-target] { background-color: var(--nbn-accent); }
-.featured-carousel .carousel-control-prev,
-.featured-carousel .carousel-control-next { width: 8%; }
-.featured-carousel .slide-text { min-height: 240px; }
+/* Carousel (Task 7)
+   Bootstrap's dark mode paints the arrows and indicators dark (invisible on our
+   dark background), so they are re-coloured: white arrows in a dark round
+   button with an orange border, orange indicators. */
+[data-bs-theme="dark"] .featured-carousel {
+  border: 1px solid var(--nbn-border);
+  background: var(--nbn-surface);
+  --bs-carousel-control-icon-filter: none;
+  --bs-carousel-indicator-active-bg: var(--nbn-accent);
+  --bs-carousel-control-opacity: 0.9;
+  --bs-carousel-control-hover-opacity: 1;
+}
+[data-bs-theme="dark"] .featured-carousel .slide-cover { width: 100%; height: 240px; object-fit: cover; }
+[data-bs-theme="dark"] .featured-carousel .carousel-control-prev,
+[data-bs-theme="dark"] .featured-carousel .carousel-control-next { width: 4.5rem; opacity: 0.9; }
+[data-bs-theme="dark"] .featured-carousel .carousel-control-prev-icon,
+[data-bs-theme="dark"] .featured-carousel .carousel-control-next-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  background-size: 45%;
+  background-color: rgba(11, 13, 16, 0.92);
+  border: 2px solid var(--nbn-accent);
+  border-radius: 50%;
+  filter: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+[data-bs-theme="dark"] .featured-carousel .carousel-control-prev:hover .carousel-control-prev-icon,
+[data-bs-theme="dark"] .featured-carousel .carousel-control-next:hover .carousel-control-next-icon,
+[data-bs-theme="dark"] .featured-carousel .carousel-control-prev:focus-visible .carousel-control-prev-icon,
+[data-bs-theme="dark"] .featured-carousel .carousel-control-next:focus-visible .carousel-control-next-icon {
+  background-color: var(--nbn-accent);
+  transform: scale(1.08);
+}
+[data-bs-theme="dark"] .featured-carousel .carousel-indicators [data-bs-target] {
+  background-color: var(--nbn-accent);
+  opacity: 0.45;
+}
+[data-bs-theme="dark"] .featured-carousel .carousel-indicators .active { opacity: 1; }
+[data-bs-theme="dark"] .featured-carousel .slide-text { min-height: 240px; }
+
+/* Phones: cover is on top, so keep the arrows over the cover image */
+@media (max-width: 767.98px) {
+  [data-bs-theme="dark"] .featured-carousel .carousel-control-prev,
+  [data-bs-theme="dark"] .featured-carousel .carousel-control-next { bottom: auto; height: 240px; }
+}
 
 @media (min-width: 768px) {
-  .featured-carousel .slide-cover { height: 400px; }
-  .featured-carousel .slide-text { min-height: 400px; }
+  [data-bs-theme="dark"] .featured-carousel .slide-cover { height: 400px; }
+  [data-bs-theme="dark"] .featured-carousel .slide-text { min-height: 400px; }
 }
 
 /* Game cards: equal height, hover lift, cover zoom */
