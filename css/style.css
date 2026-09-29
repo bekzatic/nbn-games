@@ -1,0 +1,373 @@
+/* ==========================================================================
+   NBN Games — theme stylesheet (loaded AFTER Bootstrap 5.3)
+   Assignment #3 — Media Queries + Bootstrap Grid · Team: Next Step
+   --------------------------------------------------------------------------
+   Layout, spacing, buttons, cards, forms, navbar and carousel come from
+   Bootstrap classes in the HTML. This file only contains:
+     1. Theme: NBN colours and fonts mapped onto Bootstrap CSS variables
+     2. Task 1: responsive typography with media queries
+     3. Visual details Bootstrap has no utility for (hover effects,
+        gradients, image sizes). No margin / padding is set here — all
+        spacing is done with Bootstrap m-* / p-* / gap-* utilities (Task 4).
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- 1. Theme: NBN colours on top of Bootstrap's dark mode ---------- */
+:root,
+[data-bs-theme="dark"] {
+  --nbn-bg: #0b0d10;
+  --nbn-surface: #14171c;
+  --nbn-surface-2: #1c2026;
+  --nbn-border: #23272e;
+  --nbn-border-strong: #3a4048;
+  --nbn-text: #f2f0ea;
+  --nbn-muted: #b7bcc4;
+  --nbn-dim: #8a919c;
+  --nbn-accent: #ff5a1f;
+  --nbn-accent-hover: #ff7a45;
+  --nbn-green: #3ecf6e;
+  --nbn-yellow: #f2c94c;
+
+  --bs-body-bg: var(--nbn-bg);
+  --bs-body-bg-rgb: 11, 13, 16;
+  --bs-body-color: var(--nbn-text);
+  --bs-body-font-family: 'Inter', system-ui, sans-serif;
+  --bs-secondary-color: var(--nbn-muted);
+  --bs-tertiary-color: var(--nbn-dim);
+  --bs-secondary-bg: var(--nbn-surface);
+  --bs-secondary-bg-rgb: 20, 23, 28;
+  --bs-body-color-rgb: 242, 240, 234;
+  --bs-secondary-color-rgb: 183, 188, 196;
+  --bs-tertiary-color-rgb: 138, 145, 156;
+  --bs-tertiary-bg: var(--nbn-surface-2);
+  --bs-tertiary-bg-rgb: 28, 32, 38;
+  --bs-border-color: var(--nbn-border);
+  --bs-emphasis-color: #ffffff;
+  --bs-heading-color: #ffffff;
+  --bs-primary: var(--nbn-accent);
+  --bs-primary-rgb: 255, 90, 31;
+  --bs-primary-text-emphasis: var(--nbn-accent-hover);
+  --bs-primary-bg-subtle: rgba(255, 90, 31, 0.12);
+  --bs-primary-border-subtle: rgba(255, 90, 31, 0.45);
+  --bs-link-color: var(--nbn-accent);
+  --bs-link-color-rgb: 255, 90, 31;
+  --bs-link-hover-color: var(--nbn-accent-hover);
+  --bs-link-hover-color-rgb: 255, 122, 69;
+  --bs-success: var(--nbn-green);
+  --bs-success-rgb: 62, 207, 110;
+  --bs-danger: #ff6b4a;
+  --bs-danger-rgb: 255, 107, 74;
+  --bs-focus-ring-color: rgba(255, 90, 31, 0.35);
+  --bs-border-radius: 10px;
+  --bs-border-radius-lg: 12px;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.navbar-brand, .display-6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+
+/* Bootstrap buttons re-coloured with the NBN accent (Task 6) */
+.btn-primary {
+  --bs-btn-color: var(--nbn-bg);
+  --bs-btn-bg: var(--nbn-accent);
+  --bs-btn-border-color: var(--nbn-accent);
+  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-bg: var(--nbn-accent-hover);
+  --bs-btn-hover-border-color: var(--nbn-accent-hover);
+  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-bg: #e84d15;
+  --bs-btn-active-border-color: #e84d15;
+  --bs-btn-disabled-color: var(--nbn-bg);
+  --bs-btn-disabled-bg: var(--nbn-accent);
+  --bs-btn-disabled-border-color: var(--nbn-accent);
+  --bs-btn-focus-shadow-rgb: 255, 90, 31;
+  font-weight: 600;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--nbn-accent);
+  --bs-btn-border-color: var(--nbn-accent);
+  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-bg: var(--nbn-accent);
+  --bs-btn-hover-border-color: var(--nbn-accent);
+  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-bg: var(--nbn-accent);
+  --bs-btn-active-border-color: var(--nbn-accent);
+  --bs-btn-focus-shadow-rgb: 255, 90, 31;
+  font-weight: 600;
+}
+
+.btn-outline-light {
+  --bs-btn-color: var(--nbn-text);
+  --bs-btn-border-color: var(--nbn-border-strong);
+  --bs-btn-hover-color: var(--nbn-accent);
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-border-color: var(--nbn-accent);
+  --bs-btn-active-color: var(--nbn-accent);
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: var(--nbn-accent);
+  font-weight: 600;
+}
+
+.btn-primary:not(:disabled):hover { transform: translateY(-2px); }
+.btn { transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+
+/* Forms (Task 9) */
+.form-control,
+.form-select {
+  background-color: var(--nbn-bg);
+  border-color: var(--nbn-border-strong);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--nbn-bg);
+  border-color: var(--nbn-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255, 90, 31, 0.25);
+}
+
+.form-control::placeholder { color: var(--nbn-dim); }
+
+.form-check-input { border-color: #7a828e; }
+
+.form-check-input:checked {
+  background-color: var(--nbn-accent);
+  border-color: var(--nbn-accent);
+}
+
+.form-check-input:focus { box-shadow: 0 0 0 0.2rem rgba(255, 90, 31, 0.25); border-color: var(--nbn-accent); }
+
+.input-group-text {
+  background-color: var(--nbn-surface-2);
+  border-color: var(--nbn-border-strong);
+}
+
+/* Nav pills (catalog filters, profile menu) */
+.nav-pills {
+  --bs-nav-pills-link-active-bg: rgba(255, 90, 31, 0.14);
+  --bs-nav-pills-link-active-color: var(--nbn-accent);
+  --bs-nav-link-color: var(--nbn-muted);
+  --bs-nav-link-hover-color: var(--nbn-accent);
+}
+
+.nav-pills .nav-link { text-align: left; }
+
+/* Cards (Task 8) */
+.card {
+  --bs-card-bg: var(--nbn-surface);
+  --bs-card-border-color: var(--nbn-border);
+  --bs-card-cap-bg: transparent;
+}
+
+.list-group {
+  --bs-list-group-bg: var(--nbn-surface);
+  --bs-list-group-border-color: var(--nbn-border);
+  --bs-list-group-action-hover-bg: var(--nbn-surface-2);
+}
+
+.table {
+  --bs-table-bg: var(--nbn-surface);
+  --bs-table-striped-bg: var(--nbn-surface-2);
+  --bs-table-hover-bg: #232830;
+  --bs-table-border-color: var(--nbn-border);
+}
+
+.table thead th {
+  color: var(--nbn-accent);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.breadcrumb {
+  --bs-breadcrumb-divider-color: var(--nbn-dim);
+  --bs-breadcrumb-item-active-color: var(--nbn-text);
+}
+
+.breadcrumb a { color: var(--nbn-muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--nbn-accent); }
+
+:focus-visible { outline: 2px solid var(--nbn-accent); outline-offset: 3px; }
+
+[hidden] { display: none !important; }
+
+/* ---------- 2. Task 1 — Responsive typography (Media Queries) ----------
+   Mobile first: small font sizes by default,
+   medium from 768px (tablet), large from 1200px (desktop).          */
+body { font-size: 0.95rem; line-height: 1.6; }
+h1, .h1 { font-size: 1.9rem; }
+h2, .h2 { font-size: 1.45rem; }
+.lead { font-size: 1.02rem; }
+
+@media (min-width: 768px) {               /* tablet */
+  body { font-size: 1rem; }
+  h1, .h1 { font-size: 2.4rem; }
+  h2, .h2 { font-size: 1.7rem; }
+  .lead { font-size: 1.1rem; }
+}
+
+@media (min-width: 1200px) {              /* desktop */
+  body { font-size: 1.02rem; }
+  h1, .h1 { font-size: 2.9rem; }
+  h2, .h2 { font-size: 1.9rem; }
+  .lead { font-size: 1.15rem; }
+}
+
+/* ---------- 3. Visual details ---------- */
+
+/* Navbar (Task 5) */
+.nbn-navbar {
+  background-color: rgba(11, 13, 16, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--nbn-border);
+  --bs-navbar-color: var(--nbn-muted);
+  --bs-navbar-hover-color: #ffffff;
+  --bs-navbar-active-color: #ffffff;
+  --bs-navbar-toggler-border-color: var(--nbn-border-strong);
+}
+
+.nbn-navbar .navbar-brand img { height: 30px; width: auto; }
+
+.nbn-navbar .navbar-nav .nav-link { border-bottom: 2px solid transparent; font-weight: 500; }
+.nbn-navbar .navbar-nav .nav-link.active,
+.nbn-navbar .navbar-nav .nav-link:hover { border-bottom-color: var(--nbn-accent); }
+
+.nav-icon-link {
+  color: var(--nbn-text);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-icon-link:hover,
+.nav-icon-link.active { background-color: var(--nbn-surface-2); color: var(--nbn-accent); }
+
+.cart-badge { display: none; font-size: 0.65rem; }  /* cart.js shows it when count > 0 */
+
+/* Hero */
+.hero {
+  background:
+    radial-gradient(circle at 85% 30%, rgba(255, 90, 31, 0.18), transparent 45%),
+    linear-gradient(135deg, var(--nbn-surface-2) 0%, var(--nbn-bg) 60%);
+  border-bottom: 1px solid var(--nbn-border);
+}
+
+.hero-logo {
+  max-width: 320px;
+  border-radius: 20px;
+  box-shadow: 0 30px 60px rgba(255, 90, 31, 0.15);
+}
+
+.eyebrow-tag { color: var(--nbn-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
+.stat-number { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; color: #ffffff; line-height: 1.2; }
+
+/* Carousel (Task 7) */
+.featured-carousel { border: 1px solid var(--nbn-border); background: var(--nbn-surface); }
+.featured-carousel .slide-cover { width: 100%; height: 240px; object-fit: cover; }
+.featured-carousel .carousel-indicators [data-bs-target] { background-color: var(--nbn-accent); }
+.featured-carousel .carousel-control-prev,
+.featured-carousel .carousel-control-next { width: 8%; }
+.featured-carousel .slide-text { min-height: 240px; }
+
+@media (min-width: 768px) {
+  .featured-carousel .slide-cover { height: 400px; }
+  .featured-carousel .slide-text { min-height: 400px; }
+}
+
+/* Game cards: equal height, hover lift, cover zoom */
+.game-card { overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease; }
+.game-card:hover { transform: translateY(-6px); border-color: var(--nbn-accent); box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45); }
+.game-card .card-img-top { height: 170px; object-fit: cover; background-color: var(--nbn-border); transition: transform 0.4s ease; }
+.game-card:hover .card-img-top { transform: scale(1.05); }
+.game-card .card-body { position: relative; background-color: var(--nbn-surface); }
+
+/* card-group on the home page: 2 per row on tablets, 4 in a row on desktop */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .card-group { flex-wrap: wrap; }
+  .card-group > .card { flex: 0 0 50%; }
+}
+
+.price-old { color: var(--nbn-dim); text-decoration: line-through; font-weight: 400; font-size: 0.85rem; }
+.price-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.price-low .price-dot { background-color: var(--nbn-green); }
+.price-mid .price-dot { background-color: var(--nbn-yellow); }
+.price-high .price-dot { background-color: var(--nbn-accent); }
+
+/* Feature / value tiles */
+.value-card { transition: border-color 0.2s ease, transform 0.25s ease; }
+.value-card:hover { border-color: var(--nbn-accent) !important; transform: translateY(-4px); }
+.value-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 90, 31, 0.12);
+  font-size: 1.4rem;
+}
+
+/* Team */
+.team-card { transition: transform 0.25s ease, border-color 0.2s ease; }
+.team-card:hover { transform: translateY(-6px); border-color: var(--nbn-accent); }
+.profile-img { width: 96px; height: 96px; object-fit: cover; border: 3px solid var(--nbn-accent); }
+.profile-img-sm { width: 76px; height: 76px; }
+
+/* Sticky sidebars sit below the sticky navbar */
+.sticky-below-nav { top: 88px; z-index: 1; }
+
+/* Game page */
+.game-cover-lg { width: 100%; max-height: 520px; object-fit: cover; }
+.stars { color: var(--nbn-yellow); letter-spacing: 2px; }
+
+/* Cart */
+.cart-thumb { width: 84px; height: 56px; object-fit: cover; }
+.empty-box { border: 1px dashed var(--nbn-border-strong); }
+.emoji-lg { font-size: 2.4rem; }
+
+/* Profile */
+.wallet-card {
+  min-height: 190px;
+  background: linear-gradient(135deg, #ff5a1f 0%, #b8360a 100%);
+  color: #ffffff;
+  box-shadow: 0 20px 40px rgba(255, 90, 31, 0.2);
+}
+.wallet-card strong { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; }
+.wallet-card span, .wallet-card small { color: rgba(255, 255, 255, 0.9); }
+.form-msg.error { color: var(--bs-danger); }
+.form-msg.success { color: var(--nbn-green); }
+.list-group-item.unread { border-left: 3px solid var(--nbn-accent); cursor: pointer; }
+.form-switch .form-check-input { width: 2.6em; height: 1.4em; cursor: pointer; }
+
+/* Footer */
+.site-footer { background-color: #111419; border-top: 1px solid var(--nbn-border); }
+.site-footer img { height: 30px; width: auto; }
+.site-footer a,
+.site-footer .footer-text { color: #c9ced6; text-decoration: none; }
+.site-footer a:hover { color: var(--nbn-accent); }
+
+/* Toast helper from js/main.js (named nbn-toast so it does not clash with Bootstrap .toast) */
+.nbn-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  background: var(--nbn-surface);
+  border: 1px solid var(--nbn-accent);
+  color: var(--nbn-text);
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1100;
+}
+.nbn-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+}
+
+@media (max-width: 991.98px) {
+  .hero-logo { width: 45%; max-width: 200px; }
+}

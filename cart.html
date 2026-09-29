@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- Assignment #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBN Games — Cart</title>
+  <link rel="icon" type="image/png" href="images/logo-mark.png">
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <header>
+    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
+          <a href="cart.html" class="nav-icon-link active position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart" aria-current="page">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="nav-icon-link d-inline-flex align-items-center gap-1 px-2 py-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
+                  aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav ms-lg-auto gap-lg-4 pt-2 pt-lg-0">
+            <li class="nav-item"><a class="nav-link px-lg-1" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="about.html">About us</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="about.html#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow-1">
+    <section class="pt-4 pb-5 pt-lg-5">
+      <div class="container">
+        <h1 class="h2 mb-4" id="cart-heading">Your cart (0)</h1>
+
+        <!-- Task 3: items (col-lg-8) | summary (col-lg-4) -->
+        <div class="row g-4 align-items-start">
+          <div class="col-12 col-lg-8">
+            <ul id="cart-items" class="list-unstyled d-grid gap-3 mb-0"></ul>
+          </div>
+
+          <aside class="col-12 col-lg-4" aria-label="Order summary">
+            <div class="card p-4 sticky-lg-top sticky-below-nav">
+              <h2 class="h5 mb-3">Promo code</h2>
+              <!-- Task 9: Bootstrap input-group -->
+              <form id="promo-form" class="mb-4">
+                <label for="promo-input" class="visually-hidden">Promo code</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="promo-input" placeholder="Enter promo code">
+                  <button type="submit" class="btn btn-outline-primary">Apply</button>
+                </div>
+              </form>
+
+              <div class="d-flex justify-content-between small text-body-secondary py-2"><span>Items</span><span id="sum-items">0 ₸</span></div>
+              <div class="justify-content-between small text-success py-2" id="discount-row" style="display:none;"><span>Discount (NEXTSTEP)</span><span id="sum-discount">0 ₸</span></div>
+              <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-3 mt-2"><span>Total</span><span id="sum-total">0 ₸</span></div>
+
+              <div class="d-grid gap-2 mt-4">
+                <a href="#" class="btn btn-primary btn-lg" id="checkout-btn">Proceed to checkout</a>
+                <a href="catalog.html" class="btn btn-outline-light">Continue shopping</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer pt-5 pb-4 mt-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-lg-5">
+          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
+          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
+          <h2 class="h6 text-white mb-3">Store</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="media-queries.html">Media queries demo</a></li>
+          </ul>
+        </nav>
+        <div class="col-6 col-md-4 col-lg-2">
+          <h2 class="h6 text-white mb-3">Company</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0">
+            <li><a href="about.html">About us</a></li>
+            <li><a href="about.html#contact">Contact</a></li>
+            <li><a href="profile.html">My account</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4 col-lg-3">
+          <h2 class="h6 text-white mb-3">Team Next Step</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+            <li>Bekzat Amanbek</li>
+            <li>Nurkhan Nurzhau</li>
+            <li>Nursultan Rassulov</li>
+          </ul>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
+        <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const cartItemsEl = document.getElementById('cart-items');
+    const headingEl = document.getElementById('cart-heading');
+    const sumItemsEl = document.getElementById('sum-items');
+    const sumTotalEl = document.getElementById('sum-total');
+    const discountRow = document.getElementById('discount-row');
+    const sumDiscountEl = document.getElementById('sum-discount');
+    let promo = 0; // discount rate
+
+    function formatTenge(n) {
+      return n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      headingEl.textContent = `Your cart (${cart.reduce((s, i) => s + i.qty, 0)})`;
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = `
+          <li class="empty-box rounded-3 text-center p-5">
+            <span class="emoji-lg d-block mb-2" aria-hidden="true">🛒</span>
+            <h2 class="h5">Your cart is empty</h2>
+            <p class="text-body-secondary">Head to the catalog to find your next game.</p>
+            <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
+          </li>`;
+      } else {
+        cartItemsEl.innerHTML = cart.map(item => `
+          <li class="card cart-item" data-name="${item.name.replace(/"/g, '&quot;')}">
+            <div class="card-body d-flex flex-wrap flex-sm-nowrap align-items-center gap-3 p-3">
+              <img src="${item.img}" alt="${item.name} cover" class="cart-thumb rounded-2 flex-shrink-0">
+              <div class="flex-grow-1">
+                <h3 class="h6 fw-bold mb-1">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</h3>
+                <p class="small text-body-secondary mb-0">Digital key · Windows</p>
+              </div>
+              <div class="d-flex flex-sm-column align-items-center align-items-sm-end gap-2 ms-auto">
+                <span class="fw-semibold">${formatTenge(item.price * item.qty)}</span>
+                <button class="btn btn-outline-danger btn-sm remove" type="button">Remove</button>
+              </div>
+            </div>
+          </li>
+        `).join('');
+      }
+
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const discount = Math.round(total * promo);
+      sumItemsEl.textContent = formatTenge(total);
+      discountRow.style.display = discount ? 'flex' : 'none';
+      sumDiscountEl.textContent = '−' + formatTenge(discount);
+      sumTotalEl.textContent = formatTenge(total - discount);
+    }
+
+    cartItemsEl.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove')) {
+        removeFromCart(e.target.closest('.cart-item').dataset.name);
+        renderCart();
+      }
+    });
+
+    document.getElementById('promo-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const code = document.getElementById('promo-input').value.trim().toUpperCase();
+      if (code === 'NEXTSTEP') { promo = 0.1; showToast('Promo code applied: −10%'); }
+      else { promo = 0; showToast('Unknown promo code'); }
+      renderCart();
+    });
+
+    document.getElementById('checkout-btn').addEventListener('click', e => {
+      e.preventDefault();
+      showToast(getCart().length ? 'Checkout is coming soon' : 'Your cart is empty');
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>

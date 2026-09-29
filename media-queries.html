@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Assignment #3 Part 1 (Media Queries, no Bootstrap) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBN Games — Media Queries</title>
+  <link rel="icon" type="image/png" href="images/logo-mark.png">
+  <!-- This page uses ONLY custom CSS media queries — Bootstrap is not loaded here -->
+  <link rel="stylesheet" href="css/media-queries.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="about.html">About us</a>
+        <a href="media-queries.html" aria-current="page">Media queries</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= TASK 1: Responsive typography ================= -->
+    <section class="typo" aria-labelledby="task1-title">
+      <div class="wrap">
+        <span class="tag">Part 1 · Task 1 — Responsive typography</span><br>
+        <span class="screen-label">Current layout: </span>
+        <h1 id="task1-title">Games bring us together</h1>
+        <p>Resize the browser window. The font size of the headings and paragraphs on this block changes with
+           CSS media queries: small on a phone, medium on a tablet and large on a desktop screen.</p>
+        <h2>Why the font size changes</h2>
+        <p>On a narrow phone screen a huge heading would take the whole screen, while on a wide monitor small text is
+           hard to read. With media queries we choose a comfortable size for each device.</p>
+        <div class="table-wrap"><table class="size-table">
+          <thead><tr><th>Screen</th><th>Width</th><th>h1</th><th>h2</th><th>p</th></tr></thead>
+          <tbody>
+            <tr><td>Mobile</td><td>&lt; 768px</td><td>1.75rem</td><td>1.3rem</td><td>0.95rem</td></tr>
+            <tr><td>Tablet</td><td>768 – 1023px</td><td>2.5rem</td><td>1.7rem</td><td>1.08rem</td></tr>
+            <tr><td>Desktop</td><td>≥ 1024px</td><td>3.4rem</td><td>2.1rem</td><td>1.2rem</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ================= TASK 2: Card group ================= -->
+    <section aria-labelledby="task2-title">
+      <div class="wrap">
+        <span class="tag">Part 1 · Task 2 — Card group</span>
+        <h2 id="task2-title">Deals of the week</h2>
+        <p>Desktop: three cards side by side · Tablet: two in a row · Mobile: stacked vertically. Only CSS media queries, no Bootstrap.</p>
+
+        <div class="card-group">
+          <article class="card">
+            <img src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover">
+            <div class="card-body">
+              <h3>Cyberpunk 2077</h3>
+              <p class="card-meta">CD Projekt Red · RPG</p>
+              <p>Open-world action RPG in Night City.</p>
+              <p class="card-price">14 999 ₸</p>
+              <a class="button" href="game.html?id=cyberpunk-2077">View game</a>
+            </div>
+          </article>
+          <article class="card">
+            <img src="images/Red_Dead_Redemption_2.jpg" alt="Red Dead Redemption 2 cover">
+            <div class="card-body">
+              <h3>Red Dead Redemption 2</h3>
+              <p class="card-meta">Rockstar Games · Adventure</p>
+              <p>An epic tale of outlaw life in America's unforgiving heartland.</p>
+              <p class="card-price">29 999 ₸</p>
+              <a class="button" href="game.html?id=red-dead-redemption-2">View game</a>
+            </div>
+          </article>
+          <article class="card">
+            <img src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3 cover">
+            <div class="card-body">
+              <h3>The Witcher 3</h3>
+              <p class="card-meta">CD Projekt Red · RPG</p>
+              <p>Hunt monsters and search for Ciri across a huge open world.</p>
+              <p class="card-price">11 999 ₸</p>
+              <a class="button" href="game.html?id=the-witcher-3">View game</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© 2026 NBN Games. Student project — Assignment #3 (Part 1: Media Queries).</p>
+      <p>Team Next Step: Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
+      <p>Page created by: <strong>Bekzat Amanbek</strong></p>
+    </div>
+  </footer>
+
+</body>
+</html>

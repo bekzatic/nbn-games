@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- Assignment #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBN Games — Profile</title>
+  <link rel="icon" type="image/png" href="images/logo-mark.png">
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <header>
+    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
+          <a href="cart.html" class="nav-icon-link position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="nav-icon-link active d-inline-flex align-items-center gap-1 px-2 py-1" aria-current="page">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
+                  aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav ms-lg-auto gap-lg-4 pt-2 pt-lg-0">
+            <li class="nav-item"><a class="nav-link px-lg-1" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="about.html">About us</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="about.html#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Task 3: sidebar (col-lg-3) + content (col-lg-9). While logged out the sidebar is hidden
+       and the login card is centred. -->
+  <div class="container flex-grow-1 pt-4 pt-lg-5">
+    <div class="row g-4 justify-content-center">
+      <aside class="col-12 col-lg-3 d-none" id="profile-aside" aria-label="Profile menu">
+        <div class="bg-body-secondary border rounded-3 p-2 p-lg-3 sticky-lg-top sticky-below-nav">
+          <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="profile-sidebar">
+            <li class="nav-item"><a href="#profile" class="nav-link active" data-section="profile">👤 Profile</a></li>
+            <li class="nav-item"><a href="#games" class="nav-link" data-section="games">🎮 My games</a></li>
+            <li class="nav-item"><a href="#wallet" class="nav-link" data-section="wallet">💳 Wallet</a></li>
+            <li class="nav-item"><a href="#settings" class="nav-link" data-section="settings">⚙️ Settings</a></li>
+            <li class="nav-item"><a href="#security" class="nav-link" data-section="security">🔒 Security</a></li>
+            <li class="nav-item"><a href="#notifications" class="nav-link d-flex align-items-center gap-2" data-section="notifications">🔔 Notifications <span class="badge rounded-pill text-bg-primary ms-lg-auto" id="notif-badge" hidden>0</span></a></li>
+            <li class="nav-item mt-lg-2"><a href="#" id="logout-link" class="nav-link text-primary">↩ Log out</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="col-12 col-lg-9">
+        <div id="login-gate" class="row justify-content-center">
+          <div class="col-12 col-sm-10 col-md-8 col-xl-6">
+            <div class="card p-4 p-md-5 my-lg-4">
+              <span class="eyebrow-tag mb-2">Welcome back</span>
+              <h1 class="h3 mb-2">Log in to NBN Games</h1>
+              <p class="text-body-secondary mb-4">Sign in to see your profile, library and wallet.</p>
+
+              <!-- Task 9: Bootstrap form with input groups -->
+              <form id="login-form">
+                <div class="mb-3">
+                  <label for="login-email" class="form-label fw-semibold">Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true">@</span>
+                    <input type="email" class="form-control" id="login-email" name="email" placeholder="you@example.com" required autocomplete="username">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="login-password" class="form-label fw-semibold">Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true">🔑</span>
+                    <input type="password" class="form-control" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                  </div>
+                </div>
+                <p id="login-error" class="text-danger small mb-3" style="display:none" role="alert">Incorrect email or password. Try again.</p>
+                <button type="submit" class="btn btn-primary btn-lg w-100">Log in</button>
+              </form>
+
+              <p class="small text-body-tertiary mt-4 mb-0">Demo accounts — bekzat@nbngames.kz / bekzat123, nurkhan@nbngames.kz / nurkhan123, nursultan@nbngames.kz / nursultan123</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="profile-content" hidden>
+
+          <!-- ===================== PROFILE ===================== -->
+          <section class="panel" data-panel="profile">
+            <h1 class="h2 mb-4">My profile</h1>
+
+            <div class="card mb-4">
+              <div class="card-body d-flex flex-wrap align-items-center gap-3 gap-md-4 p-4">
+                <img class="profile-img profile-img-sm rounded-circle" src="images/user-avatar.jpg" alt="User avatar">
+                <div class="flex-grow-1">
+                  <h2 class="h5 mb-1 js-name">—</h2>
+                  <p class="text-body-secondary mb-0 js-email">—</p>
+                </div>
+                <a href="#wallet" class="btn btn-outline-primary btn-sm" data-goto="wallet">Top up balance</a>
+              </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-3 g-3 mb-4">
+              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="stat-number js-balance">—</div><small class="text-body-tertiary">Wallet balance</small></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="stat-number js-library-count">0</div><small class="text-body-tertiary">Games owned</small></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="stat-number" id="profile-joined-short">—</div><small class="text-body-tertiary">Member since</small></div></div>
+            </div>
+
+            <h2 class="h5 mb-3">Account information</h2>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Email</span><span class="js-email text-break">—</span></li>
+              <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Account status</span><span>Verified ✓</span></li>
+              <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Country</span><span id="info-country">—</span></li>
+              <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Main platform</span><span id="info-platform">—</span></li>
+              <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Registration date</span><span id="profile-joined">—</span></li>
+            </ul>
+          </section>
+
+          <!-- ===================== MY GAMES ===================== -->
+          <section class="panel" data-panel="games" hidden>
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+              <h1 class="h2 mb-0">My games (<span class="js-library-count">0</span>)</h1>
+              <div class="col-12 col-sm-6 col-md-5">
+                <label for="library-search" class="visually-hidden">Search your library</label>
+                <input type="search" class="form-control" id="library-search" placeholder="Search your library…">
+              </div>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4" id="library-grid"></div>
+            <div class="empty-box rounded-3 text-center p-5" id="library-empty" hidden>
+              <h2 class="h5">No games found</h2>
+              <p class="text-body-secondary">Try another search or buy something new in the catalog.</p>
+              <a href="catalog.html" class="btn btn-primary btn-sm">Open catalog</a>
+            </div>
+          </section>
+
+          <!-- ===================== WALLET ===================== -->
+          <section class="panel" data-panel="wallet" hidden>
+            <h1 class="h2 mb-4">Wallet</h1>
+
+            <div class="row g-4 align-items-start">
+              <div class="col-12 col-md-5">
+                <div class="wallet-card rounded-4 p-4 d-flex flex-column justify-content-between gap-2">
+                  <span>Current balance</span>
+                  <strong class="js-balance">—</strong>
+                  <small>NBN Games wallet · KZT</small>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-7">
+                <form class="card p-4" id="topup-form">
+                  <h2 class="h5 mb-3">Top up balance</h2>
+                  <!-- Task 6: button group for quick amounts -->
+                  <div class="btn-group flex-wrap mb-3" role="group" aria-label="Quick amounts" id="amount-chips">
+                    <button type="button" class="btn btn-outline-primary btn-sm chip" data-amount="1000">1 000 ₸</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm chip" data-amount="5000">5 000 ₸</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm chip" data-amount="10000">10 000 ₸</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm chip" data-amount="20000">20 000 ₸</button>
+                  </div>
+                  <div class="mb-3">
+                    <label for="topup-amount" class="form-label fw-semibold">Amount</label>
+                    <div class="input-group">
+                      <input type="text" inputmode="numeric" class="form-control" id="topup-amount" placeholder="e.g. 5000">
+                      <span class="input-group-text">₸</span>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="topup-method" class="form-label fw-semibold">Payment method</label>
+                    <select id="topup-method" class="form-select">
+                      <option>Kaspi (demo)</option>
+                      <option>Bank card (demo)</option>
+                      <option>Gift card code (demo)</option>
+                    </select>
+                  </div>
+                  <p class="form-msg small mb-3" id="topup-msg" role="status"></p>
+                  <button type="submit" class="btn btn-primary w-100">Top up</button>
+                </form>
+              </div>
+            </div>
+
+            <h2 class="h5 mt-5 mb-3">Transaction history</h2>
+            <ul class="list-group" id="tx-list"></ul>
+          </section>
+
+          <!-- ===================== SETTINGS ===================== -->
+          <section class="panel" data-panel="settings" hidden>
+            <h1 class="h2 mb-4">Settings</h1>
+            <form class="card p-4" id="settings-form">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="set-name" class="form-label fw-semibold">Display name</label>
+                  <input type="text" class="form-control" id="set-name" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="set-country" class="form-label fw-semibold">Country</label>
+                  <select id="set-country" class="form-select"><option>Kazakhstan</option><option>Kyrgyzstan</option><option>Uzbekistan</option><option>Russia</option><option>Other</option></select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="set-platform" class="form-label fw-semibold">Main platform</label>
+                  <select id="set-platform" class="form-select"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option></select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="set-currency" class="form-label fw-semibold">Price display</label>
+                  <select id="set-currency" class="form-select"><option>₸ Tenge</option><option>$ US Dollar</option></select>
+                </div>
+                <fieldset class="col-12">
+                  <legend class="form-label fw-semibold fs-6">Profile visibility</legend>
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="visibility" id="vis-public" value="public"><label class="form-check-label" for="vis-public">Public</label></div>
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="visibility" id="vis-friends" value="friends"><label class="form-check-label" for="vis-friends">Friends only</label></div>
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="visibility" id="vis-private" value="private"><label class="form-check-label" for="vis-private">Private</label></div>
+                </fieldset>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-outline-light" id="settings-reset">Reset</button>
+                </div>
+              </div>
+            </form>
+          </section>
+
+          <!-- ===================== SECURITY ===================== -->
+          <section class="panel" data-panel="security" hidden>
+            <h1 class="h2 mb-4">Security</h1>
+
+            <div class="row g-4 align-items-start">
+              <div class="col-12 col-xl-6">
+                <form class="card p-4" id="password-form">
+                  <h2 class="h5 mb-3">Change password</h2>
+                  <div class="mb-3">
+                    <label for="pw-current" class="form-label fw-semibold">Current password</label>
+                    <input type="password" class="form-control" id="pw-current" required autocomplete="current-password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="pw-new" class="form-label fw-semibold">New password</label>
+                    <input type="password" class="form-control" id="pw-new" required minlength="6" autocomplete="new-password">
+                    <div class="form-text">At least 6 characters.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="pw-confirm" class="form-label fw-semibold">Repeat new password</label>
+                    <input type="password" class="form-control" id="pw-confirm" required minlength="6" autocomplete="new-password">
+                  </div>
+                  <p class="form-msg small mb-3" id="pw-msg" role="status"></p>
+                  <button type="submit" class="btn btn-primary w-100">Update password</button>
+                </form>
+              </div>
+
+              <div class="col-12 col-xl-6">
+                <div class="card p-4">
+                  <h2 class="h5 mb-1">Protection</h2>
+                  <div class="form-check form-switch d-flex justify-content-between align-items-center gap-3 border-bottom py-3 ps-0 mb-0">
+              <label class="form-check-label d-flex flex-column" for="sec-2fa"><strong class="small">Two-factor authentication</strong><small class="text-body-tertiary">Ask for a code from the app when logging in</small></label>
+              <input class="form-check-input flex-shrink-0 ms-0" type="checkbox" role="switch" id="sec-2fa">
+            </div>
+                  <div class="form-check form-switch d-flex justify-content-between align-items-center gap-3 border-bottom py-3 ps-0 mb-0">
+              <label class="form-check-label d-flex flex-column" for="sec-alerts"><strong class="small">Login alerts</strong><small class="text-body-tertiary">Email me when someone logs in from a new device</small></label>
+              <input class="form-check-input flex-shrink-0 ms-0" type="checkbox" role="switch" id="sec-alerts">
+            </div>
+
+                  <h2 class="h5 mt-4 mb-1">Active sessions</h2>
+                  <ul class="list-group list-group-flush mb-3" id="session-list"></ul>
+                  <button type="button" class="btn btn-outline-light btn-sm align-self-start" id="sessions-out">Log out other devices</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================== NOTIFICATIONS ===================== -->
+          <section class="panel" data-panel="notifications" hidden>
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+              <h1 class="h2 mb-0">Notifications</h1>
+              <button type="button" class="btn btn-outline-light btn-sm" id="notif-read-all">Mark all as read</button>
+            </div>
+
+            <ul class="list-group mb-4" id="notif-list"></ul>
+
+            <div class="card p-4">
+              <h2 class="h5 mb-1">Email me about</h2>
+              <div class="form-check form-switch d-flex justify-content-between align-items-center gap-3 border-bottom py-3 ps-0 mb-0">
+              <label class="form-check-label d-flex flex-column" for="pref-deals"><strong class="small">Sales and discounts</strong><small class="text-body-tertiary">Weekly deals on games you might like</small></label>
+              <input class="form-check-input flex-shrink-0 ms-0" type="checkbox" role="switch" id="pref-deals" data-pref="deals">
+            </div>
+              <div class="form-check form-switch d-flex justify-content-between align-items-center gap-3 border-bottom py-3 ps-0 mb-0">
+              <label class="form-check-label d-flex flex-column" for="pref-releases"><strong class="small">New releases</strong><small class="text-body-tertiary">When big games come out in your favourite genres</small></label>
+              <input class="form-check-input flex-shrink-0 ms-0" type="checkbox" role="switch" id="pref-releases" data-pref="releases">
+            </div>
+              <div class="form-check form-switch d-flex justify-content-between align-items-center gap-3 border-bottom py-3 ps-0 mb-0">
+              <label class="form-check-label d-flex flex-column" for="pref-receipts"><strong class="small">Purchase receipts</strong><small class="text-body-tertiary">Keys and receipts after every order</small></label>
+              <input class="form-check-input flex-shrink-0 ms-0" type="checkbox" role="switch" id="pref-receipts" data-pref="receipts">
+            </div>
+              <div class="form-check form-switch d-flex justify-content-between align-items-center gap-3 border-bottom py-3 ps-0 mb-0">
+              <label class="form-check-label d-flex flex-column" for="pref-newsletter"><strong class="small">NBN newsletter</strong><small class="text-body-tertiary">Monthly news from the team</small></label>
+              <input class="form-check-input flex-shrink-0 ms-0" type="checkbox" role="switch" id="pref-newsletter" data-pref="newsletter">
+            </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <footer class="site-footer pt-5 pb-4 mt-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-lg-5">
+          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
+          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+        </div>
+        <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
+          <h2 class="h6 text-white mb-3">Store</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="media-queries.html">Media queries demo</a></li>
+          </ul>
+        </nav>
+        <div class="col-6 col-md-4 col-lg-2">
+          <h2 class="h6 text-white mb-3">Company</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0">
+            <li><a href="about.html">About us</a></li>
+            <li><a href="about.html#contact">Contact</a></li>
+            <li><a href="profile.html">My account</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4 col-lg-3">
+          <h2 class="h6 text-white mb-3">Team Next Step</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+            <li>Bekzat Amanbek</li>
+            <li>Nurkhan Nurzhau</li>
+            <li>Nursultan Rassulov</li>
+          </ul>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
+        <p class="mb-0">Page created by: <strong class="text-white">Bekzat Amanbek</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    /* =========================================================
+       Profile page — demo accounts + per-user data.
+       Changes (balance, settings, password…) are kept in this
+       browser's localStorage, so they survive a page reload.
+       NOTE: a real site would do all of this on a server.
+       ========================================================= */
+    const ACCOUNTS = {
+      'bekzat@nbngames.kz': {
+        password: 'bekzat123', name: 'Bekzat Amanbek', balance: 18200, joined: 'September 2, 2025',
+        library: ['Cyberpunk 2077', 'Elden Ring', 'Forza Horizon 5']
+      },
+      'nurkhan@nbngames.kz': {
+        password: 'nurkhan123', name: 'Nurkhan Nurzhau', balance: 9450, joined: 'September 5, 2025',
+        library: ['Grand Theft Auto V', 'The Witcher 3']
+      },
+      'nursultan@nbngames.kz': {
+        password: 'nursultan123', name: 'Nursultan Rassulov', balance: 25000, joined: 'September 10, 2025',
+        library: ["Baldur's Gate 3", 'God of War', 'Gran Turismo 7', 'DOOM Eternal']
+      }
+    };
+
+    const COVERS = {
+      'Cyberpunk 2077': 'Cyberpunk_2077.jpg', 'Elden Ring': 'Elden_Ring.jpg',
+      'Forza Horizon 5': 'Forza_Horizon_5.jpg', 'Grand Theft Auto V': 'Grand_Theft_Auto_V.png',
+      'The Witcher 3': 'Witcher_3_cover_art.jpg', "Baldur's Gate 3": 'Baldurs_Gate_3.jpg',
+      'God of War': 'God_of_War_Ragnarok_cover.jpg', 'Gran Turismo 7': 'Gran_Turismo_7_cover_art.jpg',
+      'DOOM Eternal': 'Doom_Eternal.png'
+    };
+
+    const NOTIFICATIONS = [
+      { id: 'n1', icon: '🔥', title: 'Weekend sale: up to −40%', text: 'Cyberpunk 2077 and other RPGs are on sale until Sunday.', time: '2 hours ago' },
+      { id: 'n2', icon: '🎁', title: 'Promo code for you', text: 'Use NEXTSTEP in the cart to get −10% on your next order.', time: 'Yesterday' },
+      { id: 'n3', icon: '🎮', title: 'New in catalog', text: 'Farming Simulator 25 and F1 25 are now available.', time: '3 days ago' },
+      { id: 'n4', icon: '🔒', title: 'New login', text: 'Your account was accessed from Chrome on Windows.', time: 'Last week' }
+    ];
+
+    const $ = id => document.getElementById(id);
+    const $$ = sel => document.querySelectorAll(sel);
+    const slugify = t => t.toLowerCase().replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const tenge = n => n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
+    const today = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    /* ---------- storage helpers (wrapped: storage can be blocked) ---------- */
+    function load(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+    }
+    function save(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+    }
+    function session(action, value) {
+      try {
+        if (action === 'get') return sessionStorage.getItem('nbn_logged_in');
+        if (action === 'set') sessionStorage.setItem('nbn_logged_in', value);
+        if (action === 'del') sessionStorage.removeItem('nbn_logged_in');
+      } catch { return null; }
+    }
+
+    /* The user's saved data = defaults from ACCOUNTS + whatever they changed */
+    let email = null;
+    let user = null;
+
+    function loadUser(mail) {
+      const acc = ACCOUNTS[mail];
+      const defaults = {
+        name: acc.name, country: 'Kazakhstan', platform: 'PC', currency: '₸ Tenge', visibility: 'public',
+        balance: acc.balance, password: acc.password,
+        transactions: [{ label: 'Welcome bonus', amount: acc.balance, date: acc.joined }],
+        twoFA: false, alerts: true,
+        prefs: { deals: true, releases: true, receipts: true, newsletter: false },
+        read: [], sessionsCleared: false
+      };
+      return Object.assign(defaults, load('nbn_user_' + mail, {}));
+    }
+    function saveUser() { save('nbn_user_' + email, user); }
+
+    /* ---------- Login / logout ---------- */
+    const body = document.body;
+    const loginGate = $('login-gate');
+    const profileContent = $('profile-content');
+    const loginForm = $('login-form');
+    const loginError = $('login-error');
+
+    function passwordFor(mail) {
+      const saved = load('nbn_user_' + mail, {});
+      return saved.password || ACCOUNTS[mail].password;
+    }
+
+    function showProfile(mail) {
+      email = mail;
+      user = loadUser(mail);
+      loginGate.hidden = true;
+      profileContent.hidden = false;
+      $('profile-aside').classList.remove('d-none');  // sidebar column appears (col-lg-3)
+      session('set', mail);
+      renderAll();
+      openSection((location.hash || '#profile').slice(1));
+    }
+
+    function showLogin() {
+      email = null; user = null;
+      loginGate.hidden = false;
+      profileContent.hidden = true;
+      $('profile-aside').classList.add('d-none');     // main column is centred alone
+      session('del');
+      loginForm.reset();
+      loginError.style.display = 'none';
+      history.replaceState(null, '', location.pathname);
+    }
+
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const mail = $('login-email').value.trim().toLowerCase();
+      if (ACCOUNTS[mail] && passwordFor(mail) === $('login-password').value) {
+        loginError.style.display = 'none';
+        showProfile(mail);
+      } else {
+        loginError.style.display = 'block';
+      }
+    });
+
+    $('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
+
+    /* ---------- Sidebar: switch between panels ---------- */
+    const SECTIONS = ['profile', 'games', 'wallet', 'settings', 'security', 'notifications'];
+
+    function openSection(name) {
+      if (!SECTIONS.includes(name)) name = 'profile';
+      $$('.panel').forEach(p => p.hidden = p.dataset.panel !== name);
+      $$('#profile-sidebar a[data-section]').forEach(a => a.classList.toggle('active', a.dataset.section === name));
+      history.replaceState(null, '', '#' + name);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('click', e => {
+      const link = e.target.closest('[data-section], [data-goto]');
+      if (!link || !email) return;
+      e.preventDefault();
+      openSection(link.dataset.section || link.dataset.goto);
+    });
+
+    /* ---------- Render everything that depends on the user ---------- */
+    function renderAll() {
+      const acc = ACCOUNTS[email];
+      $$('.js-name').forEach(el => el.textContent = user.name);
+      $$('.js-email').forEach(el => el.textContent = email);
+      $$('.js-balance').forEach(el => el.textContent = tenge(user.balance));
+      $$('.js-library-count').forEach(el => el.textContent = acc.library.length);
+      $('profile-joined').textContent = acc.joined;
+      $('profile-joined-short').textContent = acc.joined.split(' ').slice(-1)[0];
+      $('info-country').textContent = user.country;
+      $('info-platform').textContent = user.platform;
+      renderLibrary();
+      renderTransactions();
+      fillSettings();
+      renderSecurity();
+      renderNotifications();
+    }
+
+    /* ---------- My games ---------- */
+    function renderLibrary() {
+      const q = $('library-search').value.trim().toLowerCase();
+      const games = ACCOUNTS[email].library.filter(t => t.toLowerCase().includes(q));
+      $('library-grid').innerHTML = games.map(title => `
+        <div class="col">
+          <article class="card game-card h-100">
+            <a href="game.html?id=${slugify(title)}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
+              <img class="card-img-top" src="images/${COVERS[title] || ''}" alt="${title} cover">
+              <div class="card-body p-3">
+                <h3 class="card-title h6 fw-bold mb-1">${title}</h3>
+                <p class="card-text small text-body-secondary mb-0">In your library</p>
+              </div>
+            </a>
+            <div class="card-footer border-0 px-3 pb-3 pt-0">
+              <button type="button" class="btn btn-primary btn-sm w-100 play-btn" data-title="${title.replace(/"/g, '&quot;')}">▶ Play</button>
+            </div>
+          </article>
+        </div>`).join('');
+      $('library-empty').hidden = games.length !== 0;
+    }
+
+    $('library-search').addEventListener('input', renderLibrary);
+
+    $('library-grid').addEventListener('click', e => {
+      const btn = e.target.closest('.play-btn');
+      if (!btn) return;
+      btn.textContent = 'Launching…';
+      btn.disabled = true;
+      showToast(`Launching ${btn.dataset.title}…`);
+      setTimeout(() => { btn.textContent = '▶ Play'; btn.disabled = false; }, 1500);
+    });
+
+    /* ---------- Wallet ---------- */
+    function renderTransactions() {
+      $('tx-list').innerHTML = user.transactions.slice().reverse().map(t => `
+        <li class="list-group-item d-flex align-items-center gap-3 py-3">
+          <span aria-hidden="true">${t.amount >= 0 ? '➕' : '➖'}</span>
+          <span class="d-flex flex-column flex-grow-1"><strong>${t.label}</strong><small class="text-body-tertiary">${t.date}</small></span>
+          <span class="fw-bold ${t.amount >= 0 ? 'text-success' : 'text-primary'}">${t.amount >= 0 ? '+' : '−'}${tenge(Math.abs(t.amount))}</span>
+        </li>`).join('');
+    }
+
+    $('amount-chips').addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('#amount-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
+      $('topup-amount').value = chip.dataset.amount;
+    });
+
+    $('topup-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const amount = parseInt($('topup-amount').value.replace(/\s/g, ''), 10);
+      const msg = $('topup-msg');
+      if (!amount || amount < 100 || amount > 500000) {
+        msg.textContent = 'Enter an amount between 100 and 500 000 ₸.';
+        msg.className = 'form-msg error small mb-3';
+        return;
+      }
+      user.balance += amount;
+      user.transactions.push({ label: 'Top up · ' + $('topup-method').value, amount, date: today() });
+      saveUser();
+      renderAll();
+      $('topup-form').reset();
+      $$('#amount-chips .chip').forEach(c => c.classList.remove('active'));
+      msg.textContent = `Done! ${tenge(amount)} added to your wallet.`;
+      msg.className = 'form-msg success small mb-3';
+      showToast('Balance topped up');
+    });
+
+    /* ---------- Settings ---------- */
+    function fillSettings() {
+      $('set-name').value = user.name;
+      $('set-country').value = user.country;
+      $('set-platform').value = user.platform;
+      $('set-currency').value = user.currency;
+      $$('input[name="visibility"]').forEach(r => r.checked = r.value === user.visibility);
+    }
+
+    $('settings-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('set-name').value.trim();
+      if (!name) return;
+      user.name = name;
+      user.country = $('set-country').value;
+      user.platform = $('set-platform').value;
+      user.currency = $('set-currency').value;
+      user.visibility = document.querySelector('input[name="visibility"]:checked').value;
+      saveUser();
+      renderAll();
+      showToast('Settings saved');
+    });
+
+    $('settings-reset').addEventListener('click', () => { fillSettings(); showToast('Changes discarded'); });
+
+    /* ---------- Security ---------- */
+    function renderSecurity() {
+      $('sec-2fa').checked = user.twoFA;
+      $('sec-alerts').checked = user.alerts;
+      const sessions = [{ device: '💻 This browser', place: 'Astana, Kazakhstan · now', current: true }];
+      if (!user.sessionsCleared) {
+        sessions.push({ device: '📱 iPhone · NBN app', place: 'Astana, Kazakhstan · 2 days ago' });
+        sessions.push({ device: '🖥️ Windows · Chrome', place: 'Almaty, Kazakhstan · last week' });
+      }
+      $('session-list').innerHTML = sessions.map(s => `
+        <li class="list-group-item d-flex justify-content-between align-items-center gap-2 px-0">
+          <span class="d-flex flex-column">${s.device}<small class="text-body-tertiary">${s.place}</small></span>${s.current ? '<span class="badge rounded-pill border border-success text-success">Current</span>' : ''}</li>`).join('');
+      $('sessions-out').disabled = !!user.sessionsCleared;
+    }
+
+    $('password-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const msg = $('pw-msg');
+      const current = $('pw-current').value, next = $('pw-new').value, again = $('pw-confirm').value;
+      let error = '';
+      if (current !== user.password) error = 'Current password is incorrect.';
+      else if (next.length < 6) error = 'New password must be at least 6 characters.';
+      else if (next !== again) error = 'The new passwords do not match.';
+      else if (next === current) error = 'The new password must be different.';
+      if (error) { msg.textContent = error; msg.className = 'form-msg error small mb-3'; return; }
+      user.password = next;
+      saveUser();
+      $('password-form').reset();
+      msg.textContent = 'Password updated. Use it the next time you log in.';
+      msg.className = 'form-msg success small mb-3';
+      showToast('Password changed');
+    });
+
+    $('sec-2fa').addEventListener('change', e => {
+      user.twoFA = e.target.checked; saveUser();
+      showToast(user.twoFA ? 'Two-factor authentication on' : 'Two-factor authentication off');
+    });
+    $('sec-alerts').addEventListener('change', e => {
+      user.alerts = e.target.checked; saveUser();
+      showToast(user.alerts ? 'Login alerts on' : 'Login alerts off');
+    });
+    $('sessions-out').addEventListener('click', () => {
+      user.sessionsCleared = true; saveUser(); renderSecurity();
+      showToast('Other devices logged out');
+    });
+
+    /* ---------- Notifications ---------- */
+    function renderNotifications() {
+      const unread = NOTIFICATIONS.filter(n => !user.read.includes(n.id)).length;
+      const badge = $('notif-badge');
+      badge.textContent = unread;
+      badge.hidden = unread === 0;
+      $('notif-read-all').disabled = unread === 0;
+      $('notif-list').innerHTML = NOTIFICATIONS.map(n => `
+        <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'unread'}" data-id="${n.id}">
+          <span class="fs-5" aria-hidden="true">${n.icon}</span>
+          <span class="d-flex flex-column flex-grow-1 gap-1"><strong>${n.title}</strong><span class="small text-body-secondary">${n.text}</span><small class="text-body-tertiary">${n.time}</small></span>
+          ${user.read.includes(n.id) ? '' : '<button type="button" class="btn btn-link btn-sm text-nowrap p-0">Mark read</button>'}
+        </li>`).join('');
+      $$('[data-pref]').forEach(input => input.checked = !!user.prefs[input.dataset.pref]);
+    }
+
+    $('notif-list').addEventListener('click', e => {
+      const li = e.target.closest('li[data-id]');
+      if (!li || user.read.includes(li.dataset.id)) return;
+      user.read.push(li.dataset.id);
+      saveUser();
+      renderNotifications();
+    });
+
+    $('notif-read-all').addEventListener('click', () => {
+      user.read = NOTIFICATIONS.map(n => n.id);
+      saveUser();
+      renderNotifications();
+      showToast('All notifications marked as read');
+    });
+
+    $$('[data-pref]').forEach(input => input.addEventListener('change', () => {
+      user.prefs[input.dataset.pref] = input.checked;
+      saveUser();
+      showToast('Email preferences saved');
+    }));
+
+    /* ---------- Start ---------- */
+    const savedEmail = session('get');
+    if (savedEmail && ACCOUNTS[savedEmail]) showProfile(savedEmail);
+  </script>
+</body>
+</html>
