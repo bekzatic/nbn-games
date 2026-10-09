@@ -1,0 +1,247 @@
+/* components.css — our own named classes.
+   Layout, spacing and the components themselves come from Bootstrap
+   (row/col, m-*/p-*, card, carousel, navbar...). These classes only
+   add the NBN look: colours, borders, shadows and small hover effects. */
+
+
+/* ---------- Header & footer ---------- */
+
+.site-nav {
+  background-color: rgba(11, 13, 16, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--nbn-border);
+}
+
+.site-footer {
+  background-color: #111419;
+  border-top: 1px solid var(--nbn-border);
+}
+
+.footer-link {
+  color: var(--nbn-muted);
+  text-decoration: none;
+}
+
+.footer-link:hover { color: var(--nbn-accent); }
+
+.crumb-link {
+  color: var(--nbn-muted);
+  text-decoration: none;
+}
+
+.crumb-link:hover { color: var(--nbn-accent); }
+
+
+/* ---------- Hero & small text pieces ---------- */
+
+.hero {
+  background:
+    radial-gradient(circle at 85% 30%, rgba(255, 90, 31, 0.18), transparent 45%),
+    linear-gradient(135deg, var(--nbn-surface-2) 0%, var(--nbn-bg) 60%);
+  border-bottom: 1px solid var(--nbn-border);
+}
+
+.eyebrow {
+  color: var(--nbn-accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.price-old {
+  color: var(--nbn-dim);
+  text-decoration: line-through;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.price-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.price-dot--low  { background-color: var(--nbn-green); }
+.price-dot--mid  { background-color: var(--nbn-yellow); }
+.price-dot--high { background-color: var(--nbn-accent); }
+
+
+/* ---------- Panels & tiles ---------- */
+
+.surface,
+.fact-tile {
+  background-color: var(--nbn-surface);
+  border: 1px solid var(--nbn-border);
+  border-radius: 12px;
+}
+
+.fact-tile { border-radius: 8px; }
+
+.value-card {
+  background-color: var(--nbn-surface);
+  border: 1px solid var(--nbn-border);
+  border-radius: 12px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.value-card:hover {
+  border-color: var(--nbn-accent);
+  transform: translateY(-4px);
+}
+
+.value-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: rgba(255, 90, 31, 0.12);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.empty-state {
+  border: 1px dashed var(--nbn-border-strong);
+  border-radius: 12px;
+}
+
+.newsletter {
+  background: linear-gradient(135deg, rgba(255, 90, 31, 0.16), var(--nbn-surface) 60%);
+  border: 1px solid var(--nbn-border);
+  border-radius: 16px;
+}
+
+
+/* ---------- Cards ---------- */
+
+.game-card {
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--nbn-accent);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+}
+
+.game-card .card-img-top { transition: transform 0.4s; }
+.game-card:hover .card-img-top { transform: scale(1.05); }
+
+.sale-badge { z-index: 2; }
+
+.avatar {
+  border-radius: 50%;
+  border: 3px solid var(--nbn-accent);
+  object-fit: cover;
+}
+
+.wallet-card {
+  background: linear-gradient(135deg, #ff5a1f 0%, #b8360a 100%);
+  color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(255, 90, 31, 0.2);
+}
+
+
+/* ---------- Carousel ---------- */
+
+.featured-carousel {
+  background-color: var(--nbn-surface);
+  border: 1px solid var(--nbn-border);
+  border-radius: 12px;
+}
+
+/* Bootstrap's dark mode paints the arrows black — keep them white
+   in a round button, and make the indicators orange */
+[data-bs-theme="dark"] .featured-carousel .carousel-control-prev-icon,
+[data-bs-theme="dark"] .featured-carousel .carousel-control-next-icon { filter: none; }
+
+[data-bs-theme="dark"] .featured-carousel .carousel-indicators [data-bs-target] {
+  background-color: var(--nbn-accent);
+}
+
+.featured-carousel .carousel-control-prev,
+.featured-carousel .carousel-control-next { opacity: 1; }
+
+.carousel-btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  background-size: 45%;
+  background-color: rgba(11, 13, 16, 0.85);
+  border: 2px solid var(--nbn-accent);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.carousel-control-prev:hover .carousel-btn,
+.carousel-control-next:hover .carousel-btn { background-color: var(--nbn-accent); }
+
+
+/* every slide has the same height, whatever the text length */
+.slide-cover { height: 220px; }
+.slide-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (min-width: 576px) {
+  .slide-desc { display: -webkit-box !important; }   /* beats d-sm-block so the 3-line clamp works */
+}
+
+/* on phones the cover is on top — keep the arrows over the picture */
+@media (max-width: 767.98px) {
+  .featured-carousel .carousel-control-prev,
+  .featured-carousel .carousel-control-next { bottom: auto; height: 220px; }
+}
+
+@media (min-width: 768px) {
+  .slide-cover { height: 420px; }
+  .slide-text { min-height: 420px; }
+}
+
+
+/* ---------- Game page ---------- */
+
+.spec-table thead th {
+  color: var(--nbn-accent);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+
+/* ---------- Back-to-top button (created in js/main.js) ---------- */
+
+.back-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1030;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* People who turned off animations in their OS get none here either */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

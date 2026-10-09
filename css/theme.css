@@ -1,0 +1,172 @@
+/* theme.css — NBN Games colours and fonts for Bootstrap 5.3 (dark mode).
+   Only Bootstrap variables are changed here, so every Bootstrap
+   component (buttons, cards, forms, tables...) picks up our colours. */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* NBN colours, plugged into Bootstrap's own variables */
+:root,
+[data-bs-theme="dark"] {
+  --nbn-bg: #0b0d10;
+  --nbn-surface: #14171c;
+  --nbn-surface-2: #1c2026;
+  --nbn-border: #23272e;
+  --nbn-border-strong: #3a4048;
+  --nbn-text: #f2f0ea;
+  --nbn-muted: #b7bcc4;
+  --nbn-dim: #8a919c;
+  --nbn-accent: #ff5a1f;
+  --nbn-accent-hover: #ff7a45;
+  --nbn-green: #3ecf6e;
+  --nbn-yellow: #f2c94c;
+
+  --bs-body-bg: var(--nbn-bg);
+  --bs-body-bg-rgb: 11, 13, 16;
+  --bs-body-color: var(--nbn-text);
+  --bs-body-font-family: 'Inter', system-ui, sans-serif;
+  --bs-secondary-color: var(--nbn-muted);
+  --bs-tertiary-color: var(--nbn-dim);
+  --bs-secondary-bg: var(--nbn-surface);
+  --bs-secondary-bg-rgb: 20, 23, 28;
+  --bs-body-color-rgb: 242, 240, 234;
+  --bs-secondary-color-rgb: 183, 188, 196;
+  --bs-tertiary-color-rgb: 138, 145, 156;
+  --bs-tertiary-bg: var(--nbn-surface-2);
+  --bs-tertiary-bg-rgb: 28, 32, 38;
+  --bs-border-color: var(--nbn-border);
+  --bs-emphasis-color: #ffffff;
+  --bs-heading-color: #ffffff;
+  --bs-primary: var(--nbn-accent);
+  --bs-primary-rgb: 255, 90, 31;
+  --bs-primary-text-emphasis: var(--nbn-accent-hover);
+  --bs-primary-bg-subtle: rgba(255, 90, 31, 0.12);
+  --bs-primary-border-subtle: rgba(255, 90, 31, 0.45);
+  --bs-link-color: var(--nbn-accent);
+  --bs-link-color-rgb: 255, 90, 31;
+  --bs-link-hover-color: var(--nbn-accent-hover);
+  --bs-link-hover-color-rgb: 255, 122, 69;
+  --bs-success: var(--nbn-green);
+  --bs-success-rgb: 62, 207, 110;
+  --bs-danger: #ff6b4a;
+  --bs-danger-rgb: 255, 107, 74;
+  --bs-focus-ring-color: rgba(255, 90, 31, 0.35);
+  --bs-border-radius: 10px;
+  --bs-border-radius-lg: 12px;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.navbar-brand, .display-6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+
+/* Bootstrap buttons re-coloured with the NBN accent (Task 6) */
+.btn-primary {
+  --bs-btn-color: var(--nbn-bg);
+  --bs-btn-bg: var(--nbn-accent);
+  --bs-btn-border-color: var(--nbn-accent);
+  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-bg: var(--nbn-accent-hover);
+  --bs-btn-hover-border-color: var(--nbn-accent-hover);
+  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-bg: #e84d15;
+  --bs-btn-active-border-color: #e84d15;
+  --bs-btn-disabled-color: var(--nbn-bg);
+  --bs-btn-disabled-bg: var(--nbn-accent);
+  --bs-btn-disabled-border-color: var(--nbn-accent);
+  --bs-btn-focus-shadow-rgb: 255, 90, 31;
+  font-weight: 600;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--nbn-accent);
+  --bs-btn-border-color: var(--nbn-accent);
+  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-bg: var(--nbn-accent);
+  --bs-btn-hover-border-color: var(--nbn-accent);
+  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-bg: var(--nbn-accent);
+  --bs-btn-active-border-color: var(--nbn-accent);
+  --bs-btn-focus-shadow-rgb: 255, 90, 31;
+  font-weight: 600;
+}
+
+.btn-outline-light {
+  --bs-btn-color: var(--nbn-text);
+  --bs-btn-border-color: var(--nbn-border-strong);
+  --bs-btn-hover-color: var(--nbn-accent);
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-border-color: var(--nbn-accent);
+  --bs-btn-active-color: var(--nbn-accent);
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: var(--nbn-accent);
+  font-weight: 600;
+}
+
+/* Forms (Task 9) */
+.form-control,
+.form-select {
+  background-color: var(--nbn-bg);
+  border-color: var(--nbn-border-strong);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--nbn-bg);
+  border-color: var(--nbn-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255, 90, 31, 0.25);
+}
+
+.form-control::placeholder { color: var(--nbn-dim); }
+
+.form-check-input { border-color: #7a828e; }
+
+.form-check-input:checked {
+  background-color: var(--nbn-accent);
+  border-color: var(--nbn-accent);
+}
+
+.form-check-input:focus { box-shadow: 0 0 0 0.2rem rgba(255, 90, 31, 0.25); border-color: var(--nbn-accent); }
+
+.input-group-text {
+  background-color: var(--nbn-surface-2);
+  border-color: var(--nbn-border-strong);
+}
+
+/* Nav pills (catalog filters, profile menu) */
+.nav-pills {
+  --bs-nav-pills-link-active-bg: rgba(255, 90, 31, 0.14);
+  --bs-nav-pills-link-active-color: var(--nbn-accent);
+  --bs-nav-link-color: var(--nbn-muted);
+  --bs-nav-link-hover-color: var(--nbn-accent);
+}
+
+/* Cards (Task 8) */
+.card {
+  --bs-card-bg: var(--nbn-surface);
+  --bs-card-border-color: var(--nbn-border);
+  --bs-card-cap-bg: transparent;
+}
+
+.list-group {
+  --bs-list-group-bg: var(--nbn-surface);
+  --bs-list-group-border-color: var(--nbn-border);
+  --bs-list-group-action-hover-bg: var(--nbn-surface-2);
+}
+
+.table {
+  --bs-table-bg: var(--nbn-surface);
+  --bs-table-striped-bg: var(--nbn-surface-2);
+  --bs-table-hover-bg: #232830;
+  --bs-table-border-color: var(--nbn-border);
+}
+
+.breadcrumb {
+  --bs-breadcrumb-divider-color: var(--nbn-dim);
+  --bs-breadcrumb-item-active-color: var(--nbn-text);
+}
+
+:focus-visible { outline: 2px solid var(--nbn-accent); outline-offset: 3px; }
+
+[hidden] { display: none !important; }

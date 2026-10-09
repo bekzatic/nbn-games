@@ -1,0 +1,20 @@
+/* typography.css — Task 1: responsive font sizes with media queries.
+   Mobile first: small by default, medium from 768px, large from 1200px. */
+body { font-size: 0.95rem; line-height: 1.6; }
+h1, .h1 { font-size: 1.9rem; }
+h2, .h2 { font-size: 1.45rem; }
+.lead { font-size: 1.02rem; }
+
+@media (min-width: 768px) {               /* tablet */
+  body { font-size: 1rem; }
+  h1, .h1 { font-size: 2.4rem; }
+  h2, .h2 { font-size: 1.7rem; }
+  .lead { font-size: 1.1rem; }
+}
+
+@media (min-width: 1200px) {              /* desktop */
+  body { font-size: 1.02rem; }
+  h1, .h1 { font-size: 2.9rem; }
+  h2, .h2 { font-size: 1.9rem; }
+  .lead { font-size: 1.15rem; }
+}
