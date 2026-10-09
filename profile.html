@@ -7,18 +7,20 @@
   <title>NBN Games — Profile</title>
   <link rel="icon" type="image/png" href="images/logo-mark.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
-    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+    <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
-        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="nav-icon-link position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="nav-icon-link active d-inline-flex align-items-center gap-1 px-2 py-1" aria-current="page">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-secondary d-inline-flex align-items-center gap-1" aria-current="page">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,7 +43,7 @@
   <div class="container flex-grow-1 pt-4 pt-lg-5">
     <div class="row g-4 justify-content-center">
       <aside class="col-12 col-lg-3 d-none" id="profile-aside" aria-label="Profile menu">
-        <div class="bg-body-secondary border rounded-3 p-2 p-lg-3 sticky-lg-top sticky-below-nav">
+        <div class="surface p-2 p-lg-3">
           <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="profile-sidebar">
             <li class="nav-item"><a href="#profile" class="nav-link active" data-section="profile">👤 Profile</a></li>
             <li class="nav-item"><a href="#games" class="nav-link" data-section="games">🎮 My games</a></li>
@@ -58,7 +60,7 @@
         <div id="login-gate" class="row justify-content-center">
           <div class="col-12 col-sm-10 col-md-8 col-xl-6">
             <div class="card p-4 p-md-5 my-lg-4">
-              <span class="eyebrow-tag mb-2">Welcome back</span>
+              <span class="eyebrow mb-2">Welcome back</span>
               <h1 class="h3 mb-2">Log in to NBN Games</h1>
               <p class="text-body-secondary mb-4">Sign in to see your profile, library and wallet.</p>
 
@@ -95,7 +97,7 @@
 
             <div class="card mb-4">
               <div class="card-body d-flex flex-wrap align-items-center gap-3 gap-md-4 p-4">
-                <img class="profile-img profile-img-sm rounded-circle" src="images/user-avatar.jpg" alt="User avatar">
+                <img class="avatar" width="76" height="76" src="images/user-avatar.jpg" alt="User avatar">
                 <div class="flex-grow-1">
                   <h2 class="h5 mb-1 js-name">—</h2>
                   <p class="text-body-secondary mb-0 js-email">—</p>
@@ -105,9 +107,9 @@
             </div>
 
             <div class="row row-cols-1 row-cols-sm-3 g-3 mb-4">
-              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="stat-number js-balance">—</div><small class="text-body-tertiary">Wallet balance</small></div></div>
-              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="stat-number js-library-count">0</div><small class="text-body-tertiary">Games owned</small></div></div>
-              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="stat-number" id="profile-joined-short">—</div><small class="text-body-tertiary">Member since</small></div></div>
+              <div class="col"><div class="surface px-3 py-3 h-100"><div class="stat-number js-balance">—</div><small class="text-body-tertiary">Wallet balance</small></div></div>
+              <div class="col"><div class="surface px-3 py-3 h-100"><div class="stat-number js-library-count">0</div><small class="text-body-tertiary">Games owned</small></div></div>
+              <div class="col"><div class="surface px-3 py-3 h-100"><div class="stat-number" id="profile-joined-short">—</div><small class="text-body-tertiary">Member since</small></div></div>
             </div>
 
             <h2 class="h5 mb-3">Account information</h2>
@@ -130,7 +132,7 @@
               </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4" id="library-grid"></div>
-            <div class="empty-box rounded-3 text-center p-5" id="library-empty" hidden>
+            <div class="empty-state text-center p-5" id="library-empty" hidden>
               <h2 class="h5">No games found</h2>
               <p class="text-body-secondary">Try another search or buy something new in the catalog.</p>
               <a href="catalog.html" class="btn btn-primary btn-sm">Open catalog</a>
@@ -143,7 +145,7 @@
 
             <div class="row g-4 align-items-start">
               <div class="col-12 col-md-5">
-                <div class="wallet-card rounded-4 p-4 d-flex flex-column justify-content-between gap-2">
+                <div class="wallet-card p-4 d-flex flex-column justify-content-between gap-2">
                   <span>Current balance</span>
                   <strong class="js-balance">—</strong>
                   <small>NBN Games wallet · KZT</small>
@@ -175,7 +177,7 @@
                       <option>Gift card code (demo)</option>
                     </select>
                   </div>
-                  <p class="form-msg small mb-3" id="topup-msg" role="status"></p>
+                  <p class="small mb-3" id="topup-msg" role="status"></p>
                   <button type="submit" class="btn btn-primary w-100">Top up</button>
                 </form>
               </div>
@@ -241,7 +243,7 @@
                     <label for="pw-confirm" class="form-label fw-semibold">Repeat new password</label>
                     <input type="password" class="form-control" id="pw-confirm" required minlength="6" autocomplete="new-password">
                   </div>
-                  <p class="form-msg small mb-3" id="pw-msg" role="status"></p>
+                  <p class="small mb-3" id="pw-msg" role="status"></p>
                   <button type="submit" class="btn btn-primary w-100">Update password</button>
                 </form>
               </div>
@@ -304,36 +306,36 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-12 col-lg-5">
-          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
-          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
+          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalog.html">Catalog</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="media-queries.html">Media queries demo</a></li>
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
           <h2 class="h6 text-white mb-3">Company</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="about.html">About us</a></li>
-            <li><a href="about.html#contact">Contact</a></li>
-            <li><a href="profile.html">My account</a></li>
+            <li><a class="footer-link" href="about.html">About us</a></li>
+            <li><a class="footer-link" href="about.html#contact">Contact</a></li>
+            <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
         <div class="col-12 col-md-4 col-lg-3">
           <h2 class="h6 text-white mb-3">Team Next Step</h2>
-          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+          <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
             <li>Bekzat Amanbek</li>
             <li>Nurkhan Nurzhau</li>
             <li>Nursultan Rassulov</li>
           </ul>
         </div>
       </div>
-      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
         <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Bekzat Amanbek</strong></p>
       </div>
@@ -510,7 +512,7 @@
         <div class="col">
           <article class="card game-card h-100">
             <a href="game.html?id=${slugify(title)}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-              <img class="card-img-top" src="images/${COVERS[title] || ''}" alt="${title} cover">
+              <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/${COVERS[title] || ''}" alt="${title} cover"></div>
               <div class="card-body p-3">
                 <h3 class="card-title h6 fw-bold mb-1">${title}</h3>
                 <p class="card-text small text-body-secondary mb-0">In your library</p>
@@ -558,7 +560,7 @@
       const msg = $('topup-msg');
       if (!amount || amount < 100 || amount > 500000) {
         msg.textContent = 'Enter an amount between 100 and 500 000 ₸.';
-        msg.className = 'form-msg error small mb-3';
+        msg.className = 'small mb-3 text-danger';
         return;
       }
       user.balance += amount;
@@ -568,7 +570,7 @@
       $('topup-form').reset();
       $$('#amount-chips .chip').forEach(c => c.classList.remove('active'));
       msg.textContent = `Done! ${tenge(amount)} added to your wallet.`;
-      msg.className = 'form-msg success small mb-3';
+      msg.className = 'small mb-3 text-success';
       showToast('Balance topped up');
     });
 
@@ -621,12 +623,12 @@
       else if (next.length < 6) error = 'New password must be at least 6 characters.';
       else if (next !== again) error = 'The new passwords do not match.';
       else if (next === current) error = 'The new password must be different.';
-      if (error) { msg.textContent = error; msg.className = 'form-msg error small mb-3'; return; }
+      if (error) { msg.textContent = error; msg.className = 'small mb-3 text-danger'; return; }
       user.password = next;
       saveUser();
       $('password-form').reset();
       msg.textContent = 'Password updated. Use it the next time you log in.';
-      msg.className = 'form-msg success small mb-3';
+      msg.className = 'small mb-3 text-success';
       showToast('Password changed');
     });
 
@@ -651,7 +653,7 @@
       badge.hidden = unread === 0;
       $('notif-read-all').disabled = unread === 0;
       $('notif-list').innerHTML = NOTIFICATIONS.map(n => `
-        <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'unread'}" data-id="${n.id}">
+        <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'border-start border-3 border-primary'}" role="button" data-id="${n.id}">
           <span class="fs-5" aria-hidden="true">${n.icon}</span>
           <span class="d-flex flex-column flex-grow-1 gap-1"><strong>${n.title}</strong><span class="small text-body-secondary">${n.text}</span><small class="text-body-tertiary">${n.time}</small></span>
           ${user.read.includes(n.id) ? '' : '<button type="button" class="btn btn-link btn-sm text-nowrap p-0">Mark read</button>'}

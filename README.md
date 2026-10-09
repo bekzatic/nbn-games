@@ -6,14 +6,21 @@ Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nurs
 
 ## Assignment #3 — Media Queries + Bootstrap Grid
 
-Bootstrap 5.3.3 is included locally (`vendor/bootstrap/`), the NBN dark theme is applied on top of it in `css/style.css`
-by overriding Bootstrap CSS variables. `css/style.css` sets no margins or paddings — all spacing uses Bootstrap utilities.
+Bootstrap 5.3.3 is included locally (`vendor/bootstrap/`). Layout, spacing and all components
+(navbar, grid, cards, carousel, forms, accordion, toast) are Bootstrap. Our own styles are split
+into three small files:
+
+| File | What's inside |
+|---|---|
+| `css/theme.css` | NBN colours and fonts, set through Bootstrap's CSS variables |
+| `css/typography.css` | Task 1 — responsive font sizes with media queries |
+| `css/components.css` | named classes for the NBN look: `.hero`, `.game-card`, `.value-card`, `.wallet-card`, `.site-footer`, `.featured-carousel`... (no margins/paddings — spacing is Bootstrap `m-*`/`p-*`) |
 
 ### Part 1 — Media Queries (no Bootstrap)
 
 | Task | Where |
 |---|---|
-| 1. Responsive typography (mobile / tablet / desktop) | `media-queries.html` + `css/media-queries.css`; also site-wide in `css/style.css` (section 2) |
+| 1. Responsive typography (mobile / tablet / desktop) | `media-queries.html` + `css/media-queries.css`; also site-wide in `css/typography.css` |
 | 2. Card group: 3 in a row → 2 → stacked | `media-queries.html` → "Deals of the week", `css/media-queries.css` |
 
 ### Part 2 — Bootstrap
@@ -34,6 +41,13 @@ by overriding Bootstrap CSS variables. `css/style.css` sets no margins or paddin
 - **Bekzat Amanbek** — `catalog.html`, `profile.html`, `media-queries.html`: grid with sidebar, nav-pills filters, cards grid, profile forms, switches, list groups.
 - **Nurkhan Nurzhau** — `index.html`, `about.html`: navbar, carousel, card-group, contact form with validation.
 - **Nursultan Rassulov** — `game.html`, `cart.html`: breadcrumb, buttons and button groups, table, input-group promo form.
+
+## Extras
+
+- FAQ accordion on the About page
+- Newsletter block on the home page (input-group + toast)
+- "Sale" badge on discounted games, hover effects on cards
+- Back-to-top button
 
 ## Pages
 

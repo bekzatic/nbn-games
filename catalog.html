@@ -7,18 +7,20 @@
   <title>NBN Games — Catalog</title>
   <link rel="icon" type="image/png" href="images/logo-mark.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
-    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+    <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
-        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="nav-icon-link position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="nav-icon-link d-inline-flex align-items-center gap-1 px-2 py-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -40,37 +42,37 @@
   <div class="container flex-grow-1 pt-4 pt-lg-5">
     <div class="row g-4">
       <aside class="col-12 col-lg-3" aria-label="Filters">
-        <div class="bg-body-secondary border rounded-3 p-3 p-lg-4 sticky-lg-top sticky-below-nav">
+        <div class="surface p-3 p-lg-4">
           <div class="mb-3 mb-lg-4">
             <h2 class="h6 mb-2">Genres</h2>
             <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="genre-filter">
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3 active" data-genre="all" aria-pressed="true">All games</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="action" aria-pressed="false">Action</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="adventure" aria-pressed="false">Adventure</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="rpg" aria-pressed="false">RPG</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="strategy" aria-pressed="false">Strategy</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="simulation" aria-pressed="false">Simulation</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="sport" aria-pressed="false">Sport</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-genre="racing" aria-pressed="false">Racing</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3 active" data-genre="all" aria-pressed="true">All games</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="action" aria-pressed="false">Action</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="adventure" aria-pressed="false">Adventure</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="rpg" aria-pressed="false">RPG</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="strategy" aria-pressed="false">Strategy</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="simulation" aria-pressed="false">Simulation</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="sport" aria-pressed="false">Sport</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-genre="racing" aria-pressed="false">Racing</button></li>
             </ul>
           </div>
           <div class="mb-3 mb-lg-4">
             <h2 class="h6 mb-2">Platform</h2>
             <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="platform-filter">
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3 active" data-platform="all" aria-pressed="true">All platforms</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-platform="windows" aria-pressed="false">Windows</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-platform="macos" aria-pressed="false">macOS</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-platform="playstation" aria-pressed="false">PlayStation</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-platform="xbox" aria-pressed="false">Xbox</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3 active" data-platform="all" aria-pressed="true">All platforms</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-platform="windows" aria-pressed="false">Windows</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-platform="macos" aria-pressed="false">macOS</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-platform="playstation" aria-pressed="false">PlayStation</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-platform="xbox" aria-pressed="false">Xbox</button></li>
             </ul>
           </div>
           <div class="mb-3 mb-lg-4">
             <h2 class="h6 mb-2">Price</h2>
             <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="price-filter">
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3 active" data-price="all" aria-pressed="true">All prices</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-price="low" aria-pressed="false">Under ₸5,000</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-price="mid" aria-pressed="false">₸5,000 – ₸10,000</button></li>
-              <li class="nav-item"><button type="button" class="nav-link py-1 px-3" data-price="high" aria-pressed="false">₸10,000+</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3 active" data-price="all" aria-pressed="true">All prices</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-price="low" aria-pressed="false">Under ₸5,000</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-price="mid" aria-pressed="false">₸5,000 – ₸10,000</button></li>
+              <li class="nav-item"><button type="button" class="nav-link text-start py-1 px-3" data-price="high" aria-pressed="false">₸10,000+</button></li>
             </ul>
           </div>
         </div>
@@ -88,13 +90,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="action" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=grand-theft-auto-v" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Grand Theft Auto V</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -106,13 +108,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="action" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=call-of-duty-modern-warfare-iii" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Call_of_duty.jpg" alt="Call of Duty: Modern Warfare III cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Call_of_duty.jpg" alt="Call of Duty: Modern Warfare III cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Call of Duty: Modern Warfare III</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>34 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>34 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -124,13 +126,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="action" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=doom-eternal" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Doom_Eternal.png" alt="DOOM Eternal cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Doom_Eternal.png" alt="DOOM Eternal cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">DOOM Eternal</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 000 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 000 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -142,13 +144,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="action" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=devil-may-cry-5" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Devil_May_Cry_5.jpg" alt="Devil May Cry 5 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Devil_May_Cry_5.jpg" alt="Devil May Cry 5 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Devil May Cry 5</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>11 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>11 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -160,13 +162,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="action" data-platform="windows playstation" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=god-of-war" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/God_of_War_Ragnarok_cover.jpg" alt="God of War cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/God_of_War_Ragnarok_cover.jpg" alt="God of War cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">God of War</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>19 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>19 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -178,13 +180,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="action" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=elden-ring" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Elden_Ring.jpg" alt="Elden Ring cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Elden Ring</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>17 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>17 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -202,13 +204,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="adventure" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=red-dead-redemption-2" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Red_Dead_Redemption_2.jpg" alt="Red Dead Redemption 2 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Red_Dead_Redemption_2.jpg" alt="Red Dead Redemption 2 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Red Dead Redemption 2</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -220,13 +222,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="adventure" data-platform="playstation" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=uncharted-4" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Uncharted4.jpg" alt="Uncharted 4 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Uncharted4.jpg" alt="Uncharted 4 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Uncharted 4</h3>
             <p class="card-text small text-body-secondary mb-0">PlayStation</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>18 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>18 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -238,13 +240,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="adventure" data-platform="windows playstation xbox macos" data-price="mid">
-      <article class="card game-card h-100 price-mid">
+      <article class="card game-card h-100">
         <a href="game.html?id=tomb-raider" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Tomb_raider.jpg" alt="Tomb Raider cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Tomb_raider.jpg" alt="Tomb Raider cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Tomb Raider</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>7 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--mid" aria-hidden="true"></span>7 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -256,13 +258,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="adventure" data-platform="windows playstation" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=the-last-of-us-part-i" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/The_Last_of_Us_Part_I_cover.jpg" alt="The Last of Us Part I cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/The_Last_of_Us_Part_I_cover.jpg" alt="The Last of Us Part I cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">The Last of Us Part I</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>23 499 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>23 499 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -274,13 +276,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="adventure" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=assassins-creed-valhalla" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Assassins_Creed.jpg" alt="Assassin&#x27;s Creed Valhalla cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Assassins_Creed.jpg" alt="Assassin&#x27;s Creed Valhalla cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Assassin&#x27;s Creed Valhalla</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -292,13 +294,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="adventure" data-platform="windows playstation xbox macos" data-price="mid">
-      <article class="card game-card h-100 price-mid">
+      <article class="card game-card h-100">
         <a href="game.html?id=life-is-strange" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Life_is_Strange_cover.jpg" alt="Life is Strange cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Life_is_Strange_cover.jpg" alt="Life is Strange cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Life is Strange</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>7 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--mid" aria-hidden="true"></span>7 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -316,13 +318,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=the-witcher-3" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Witcher_3_cover_art.jpg" alt="The Witcher 3 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">The Witcher 3</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>11 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>11 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -334,13 +336,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="rpg" data-platform="windows playstation macos" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=baldurs-gate-3" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Baldurs_Gate_3.jpg" alt="Baldur&#x27;s Gate 3 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Baldurs_Gate_3.jpg" alt="Baldur&#x27;s Gate 3 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Baldur&#x27;s Gate 3</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 000 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 000 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -352,13 +354,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=cyberpunk-2077" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Cyberpunk 2077</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -370,13 +372,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="rpg" data-platform="windows playstation xbox" data-price="mid">
-      <article class="card game-card h-100 price-mid">
+      <article class="card game-card h-100">
         <a href="game.html?id=skyrim" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Skyrim.png" alt="Skyrim cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Skyrim.png" alt="Skyrim cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Skyrim</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>8 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--mid" aria-hidden="true"></span>8 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -388,13 +390,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="rpg" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=diablo-iv" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Diablo_IV_cover_art.png" alt="Diablo IV cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Diablo_IV_cover_art.png" alt="Diablo IV cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Diablo IV</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>22 614 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>22 614 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -406,13 +408,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="rpg" data-platform="windows playstation xbox" data-price="mid">
-      <article class="card game-card h-100 price-mid">
+      <article class="card game-card h-100">
         <a href="game.html?id=dragon-age-inquisition" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Dragon_Age.jpg" alt="Dragon Age: Inquisition cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Dragon_Age.jpg" alt="Dragon Age: Inquisition cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Dragon Age: Inquisition</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>9 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--mid" aria-hidden="true"></span>9 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -430,13 +432,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="strategy" data-platform="windows macos" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=civilization-vi" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Civilization_VI_cover_art.jpg" alt="Civilization VI cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Civilization_VI_cover_art.jpg" alt="Civilization VI cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Civilization VI</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -448,13 +450,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="strategy" data-platform="windows" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=age-of-empires-iv" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Ageof_Empires_IV.png" alt="Age of Empires IV cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Ageof_Empires_IV.png" alt="Age of Empires IV cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Age of Empires IV</h3>
             <p class="card-text small text-body-secondary mb-0">Windows</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -466,13 +468,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="strategy" data-platform="windows" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=total-war-warhammer-iii" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Total_War_Warhammer_3_cover_art.jpg" alt="Total War: Warhammer III cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Total_War_Warhammer_3_cover_art.jpg" alt="Total War: Warhammer III cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Total War: Warhammer III</h3>
             <p class="card-text small text-body-secondary mb-0">Windows</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>19 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>19 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -484,13 +486,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="strategy" data-platform="windows macos" data-price="low">
-      <article class="card game-card h-100 price-low">
+      <article class="card game-card h-100">
         <a href="game.html?id=starcraft-ii" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/StarCraft_II_-_Box_Art.jpg" alt="StarCraft II cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/StarCraft_II_-_Box_Art.jpg" alt="StarCraft II cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">StarCraft II</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>Free</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--low" aria-hidden="true"></span>Free</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -502,13 +504,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="strategy" data-platform="windows playstation xbox macos" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=xcom-2" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/XCOM_2.jpg" alt="XCOM 2 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/XCOM_2.jpg" alt="XCOM 2 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">XCOM 2</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -520,13 +522,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="strategy" data-platform="windows macos" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=crusader-kings-iii" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Crusader_Kings_III.jpg" alt="Crusader Kings III cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Crusader_Kings_III.jpg" alt="Crusader Kings III cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Crusader Kings III</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -544,13 +546,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="simulation" data-platform="windows macos" data-price="low">
-      <article class="card game-card h-100 price-low">
+      <article class="card game-card h-100">
         <a href="game.html?id=the-sims-4" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Sims4_Rebrand.png" alt="The Sims 4 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Sims4_Rebrand.png" alt="The Sims 4 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">The Sims 4</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>Free</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--low" aria-hidden="true"></span>Free</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -562,13 +564,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="simulation" data-platform="windows macos" data-price="mid">
-      <article class="card game-card h-100 price-mid">
+      <article class="card game-card h-100">
         <a href="game.html?id=euro-truck-simulator-2" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Euro_Truck_Simulator_2.jpg" alt="Euro Truck Simulator 2 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Euro_Truck_Simulator_2.jpg" alt="Euro Truck Simulator 2 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Euro Truck Simulator 2</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>8 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--mid" aria-hidden="true"></span>8 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -580,13 +582,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="simulation" data-platform="windows xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=microsoft-flight-simulator" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Microsoft_Flight_Simulator.jpg" alt="Microsoft Flight Simulator cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Microsoft_Flight_Simulator.jpg" alt="Microsoft Flight Simulator cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Microsoft Flight Simulator</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -598,13 +600,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="simulation" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=farming-simulator-25" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Farming_Simulator_25.jpg" alt="Farming Simulator 25 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Farming_Simulator_25.jpg" alt="Farming Simulator 25 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Farming Simulator 25</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -616,13 +618,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="simulation" data-platform="windows playstation xbox macos" data-price="mid">
-      <article class="card game-card h-100 price-mid">
+      <article class="card game-card h-100">
         <a href="game.html?id=cities-skylines" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Cities_Skylines.jpg" alt="Cities: Skylines cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Cities_Skylines.jpg" alt="Cities: Skylines cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Cities: Skylines</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox · macOS</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>8 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--mid" aria-hidden="true"></span>8 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -634,13 +636,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="simulation" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=powerwash-simulator" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/PowerWash_Simulator.jpg" alt="PowerWash Simulator cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/PowerWash_Simulator.jpg" alt="PowerWash Simulator cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">PowerWash Simulator</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>11 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>11 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -658,13 +660,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=ea-sports-fc-25" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/EA_Sports_FC_25.jpg" alt="EA Sports FC 25 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/EA_Sports_FC_25.jpg" alt="EA Sports FC 25 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">EA Sports FC 25</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -676,13 +678,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=nba-2k25" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/NBA_2K25.jpg" alt="NBA 2K25 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/NBA_2K25.jpg" alt="NBA 2K25 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">NBA 2K25</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -694,13 +696,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=f1-25" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/F1_25.jpg" alt="F1 25 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/F1_25.jpg" alt="F1 25 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">F1 25</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -712,13 +714,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=wwe-2k25" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/WWE_2K25.jpg" alt="WWE 2K25 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/WWE_2K25.jpg" alt="WWE 2K25 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">WWE 2K25</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -730,13 +732,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=tony-hawks-pro-skater-1-2" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Tony_Hawks_Pro_Skater.jpg" alt="Tony Hawk&#x27;s Pro Skater 1 + 2 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Tony_Hawks_Pro_Skater.jpg" alt="Tony Hawk&#x27;s Pro Skater 1 + 2 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Tony Hawk&#x27;s Pro Skater 1 + 2</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>19 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>19 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -748,13 +750,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="sport" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=riders-republic" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Riders_Republic.jpg" alt="Riders Republic cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Riders_Republic.jpg" alt="Riders Republic cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Riders Republic</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>14 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>14 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -772,13 +774,13 @@
           <!-- Bootstrap grid: 1 card on phones, 2 on small tablets, 3 on large screens -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           <div class="col game-col" data-genre="racing" data-platform="windows xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=forza-horizon-5" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Forza Horizon 5</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -790,13 +792,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="racing" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=need-for-speed-unbound" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Need_for_Speed_Unbound.png" alt="Need for Speed Unbound cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Need_for_Speed_Unbound.png" alt="Need for Speed Unbound cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Need for Speed Unbound</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -808,13 +810,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="racing" data-platform="playstation" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=gran-turismo-7" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Gran_Turismo_7_cover_art.jpg" alt="Gran Turismo 7 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Gran_Turismo_7_cover_art.jpg" alt="Gran Turismo 7 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Gran Turismo 7</h3>
             <p class="card-text small text-body-secondary mb-0">PlayStation</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>19 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>19 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -826,13 +828,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="racing" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=the-crew-motorfest" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/The_Crew_Motorfest.jpg" alt="The Crew Motorfest cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/The_Crew_Motorfest.jpg" alt="The Crew Motorfest cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">The Crew Motorfest</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>29 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>29 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -844,13 +846,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="racing" data-platform="windows playstation xbox" data-price="high">
-      <article class="card game-card h-100 price-high">
+      <article class="card game-card h-100">
         <a href="game.html?id=assetto-corsa-competizione" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Assetto_Corsa_Competizione.jpg" alt="Assetto Corsa Competizione cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Assetto_Corsa_Competizione.jpg" alt="Assetto Corsa Competizione cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Assetto Corsa Competizione</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>19 999 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--high" aria-hidden="true"></span>19 999 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -862,13 +864,13 @@
       </article>
           </div>
           <div class="col game-col" data-genre="racing" data-platform="windows playstation xbox" data-price="low">
-      <article class="card game-card h-100 price-low">
+      <article class="card game-card h-100">
         <a href="game.html?id=dirt-5" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <img class="card-img-top" src="images/Dirt_5.jpg" alt="Dirt 5 cover" loading="lazy">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Dirt_5.jpg" alt="Dirt 5 cover" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">Dirt 5</h3>
             <p class="card-text small text-body-secondary mb-0">Windows · PlayStation · Xbox</p>
-            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot" aria-hidden="true"></span>3 990 ₸</div>
+            <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--low" aria-hidden="true"></span>3 990 ₸</div>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -883,7 +885,7 @@
         </section>
         </div>
 
-        <div class="empty-box rounded-3 text-center p-5" id="empty-state" hidden>
+        <div class="empty-state text-center p-5" id="empty-state" hidden>
           <h2 class="h5">No games match these filters</h2>
           <p class="text-body-secondary">Try another genre, platform or price range.</p>
           <button class="btn btn-outline-primary btn-sm" id="reset-filters" type="button">Reset filters</button>
@@ -896,36 +898,36 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-12 col-lg-5">
-          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
-          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
+          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalog.html">Catalog</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="media-queries.html">Media queries demo</a></li>
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
           <h2 class="h6 text-white mb-3">Company</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="about.html">About us</a></li>
-            <li><a href="about.html#contact">Contact</a></li>
-            <li><a href="profile.html">My account</a></li>
+            <li><a class="footer-link" href="about.html">About us</a></li>
+            <li><a class="footer-link" href="about.html#contact">Contact</a></li>
+            <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
         <div class="col-12 col-md-4 col-lg-3">
           <h2 class="h6 text-white mb-3">Team Next Step</h2>
-          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+          <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
             <li>Bekzat Amanbek</li>
             <li>Nurkhan Nurzhau</li>
             <li>Nursultan Rassulov</li>
           </ul>
         </div>
       </div>
-      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
         <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Bekzat Amanbek</strong></p>
       </div>

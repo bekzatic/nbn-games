@@ -7,18 +7,20 @@
   <title>NBN Games — Game</title>
   <link rel="icon" type="image/png" href="images/logo-mark.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
-    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+    <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
-        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="nav-icon-link position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="nav-icon-link d-inline-flex align-items-center gap-1 px-2 py-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,8 +46,8 @@
         <!-- Bootstrap breadcrumb -->
         <nav aria-label="Breadcrumb">
           <ol class="breadcrumb small mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="catalog.html">Catalog</a></li>
+            <li class="breadcrumb-item"><a class="crumb-link" href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a class="crumb-link" href="catalog.html">Catalog</a></li>
             <li class="breadcrumb-item" id="crumb-genre">—</li>
             <li class="breadcrumb-item active" aria-current="page" id="crumb-title">—</li>
           </ol>
@@ -54,14 +56,14 @@
         <!-- Task 3: cover (col-md-5 / col-lg-4) | information (col-md-7 / col-lg-8) -->
         <div class="row g-4 g-lg-5 align-items-start">
           <div class="col-12 col-md-5 col-lg-4">
-            <img class="game-cover-lg rounded-3 border" id="game-cover" src="images/logo-full.jpg" alt="">
+            <img class="img-fluid w-100 rounded-3 border" id="game-cover" src="images/logo-full.jpg" alt="">
           </div>
 
           <div class="col-12 col-md-7 col-lg-8 d-flex flex-column gap-3">
-            <span class="eyebrow-tag" id="game-genre">—</span>
+            <span class="eyebrow" id="game-genre">—</span>
             <h1 id="game-title" class="mb-0">Loading…</h1>
             <div class="d-flex align-items-center flex-wrap gap-2 small text-body-secondary">
-              <span class="stars" id="game-stars" aria-hidden="true"></span>
+              <span class="text-warning" id="game-stars" aria-hidden="true"></span>
               <span id="game-rating">—</span>
             </div>
 
@@ -81,10 +83,10 @@
 
             <!-- Key facts: 2 × 2 Bootstrap grid -->
             <dl class="row row-cols-2 g-2 mb-0">
-              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Developer</dt><dd class="fw-semibold mb-0" id="fact-dev">—</dd></div></div>
-              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Release</dt><dd class="fw-semibold mb-0" id="fact-year">—</dd></div></div>
-              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Genre</dt><dd class="fw-semibold mb-0" id="fact-genre">—</dd></div></div>
-              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Delivery</dt><dd class="fw-semibold mb-0">Instant key</dd></div></div>
+              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Developer</dt><dd class="fw-semibold mb-0" id="fact-dev">—</dd></div></div>
+              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Release</dt><dd class="fw-semibold mb-0" id="fact-year">—</dd></div></div>
+              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Genre</dt><dd class="fw-semibold mb-0" id="fact-genre">—</dd></div></div>
+              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Delivery</dt><dd class="fw-semibold mb-0">Instant key</dd></div></div>
             </dl>
 
             <h2 class="h5 mt-2 mb-0">About the game</h2>
@@ -117,8 +119,8 @@
   <main id="not-found" class="flex-grow-1" hidden>
     <section class="py-5">
       <div class="container">
-        <div class="empty-box rounded-3 text-center p-5">
-          <span class="emoji-lg d-block mb-2" aria-hidden="true">🕹️</span>
+        <div class="empty-state text-center p-5">
+          <span class="fs-1 d-block mb-2" aria-hidden="true">🕹️</span>
           <h1 class="h2">Game not found</h1>
           <p class="text-body-secondary">We couldn't find this game. It may have been removed from the catalog.</p>
           <a href="catalog.html" class="btn btn-primary">Open catalog</a>
@@ -131,36 +133,36 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-12 col-lg-5">
-          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
-          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
+          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalog.html">Catalog</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="media-queries.html">Media queries demo</a></li>
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
           <h2 class="h6 text-white mb-3">Company</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="about.html">About us</a></li>
-            <li><a href="about.html#contact">Contact</a></li>
-            <li><a href="profile.html">My account</a></li>
+            <li><a class="footer-link" href="about.html">About us</a></li>
+            <li><a class="footer-link" href="about.html#contact">Contact</a></li>
+            <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
         <div class="col-12 col-md-4 col-lg-3">
           <h2 class="h6 text-white mb-3">Team Next Step</h2>
-          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+          <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
             <li>Bekzat Amanbek</li>
             <li>Nurkhan Nurzhau</li>
             <li>Nursultan Rassulov</li>
           </ul>
         </div>
       </div>
-      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
         <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
       </div>
@@ -229,7 +231,7 @@
     } else {
       document.title = 'NBN Games — ' + game.title;
 
-      $('crumb-genre').innerHTML = `<a href="catalog.html">${game.genreLabel}</a>`;
+      $('crumb-genre').innerHTML = `<a class="crumb-link" href="catalog.html">${game.genreLabel}</a>`;
       $('crumb-title').textContent = game.title;
       $('game-cover').src = game.img;
       $('game-cover').alt = game.title + ' cover';
@@ -267,7 +269,7 @@
         const rows = [['Operating system', 'os'], ['Processor', 'cpu'], ['Memory', 'ram'], ['Graphics', 'gpu'], ['Storage', 'storage']];
         $('req-box').innerHTML = `
           <div class="table-responsive rounded-3 border">
-            <table class="table table-striped table-hover align-middle mb-0">
+            <table class="table table-striped table-hover align-middle mb-0 spec-table">
               <thead><tr><th scope="col" class="px-3 py-3">Parameter</th><th scope="col" class="px-3 py-3">Minimum</th><th scope="col" class="px-3 py-3">Recommended</th></tr></thead>
               <tbody>${rows.map(([label, key]) => `
                 <tr><th scope="row" class="fw-normal text-body-secondary px-3">${label}</th><td class="px-3">${game.req.min[key]}</td><td class="px-3">${game.req.rec[key]}</td></tr>`).join('')}
@@ -285,7 +287,7 @@
         <div class="col">
           <article class="card game-card h-100">
             <a href="game.html?id=${g.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-              <img class="card-img-top" src="${g.img}" alt="${escapeHtml(g.title)} cover">
+              <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${escapeHtml(g.title)} cover"></div>
               <div class="card-body d-flex flex-column gap-1 p-3">
                 <h3 class="card-title h6 fw-bold mb-0">${g.title}</h3>
                 <p class="card-text small text-body-secondary mb-0">${g.developer} · ${g.year}</p>
@@ -314,5 +316,8 @@
       });
     }
   </script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

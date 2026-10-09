@@ -7,18 +7,20 @@
   <title>NBN Games — About</title>
   <link rel="icon" type="image/png" href="images/logo-mark.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
-    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+    <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
-        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="nav-icon-link position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="nav-icon-link d-inline-flex align-items-center gap-1 px-2 py-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,7 +43,7 @@
       <div class="container py-lg-4">
         <div class="row">
           <div class="col-12 col-lg-8">
-            <span class="eyebrow-tag d-inline-block mb-3">About us</span>
+            <span class="eyebrow d-inline-block mb-3">About us</span>
             <h1 class="mb-3">We're building NBN Games for players, not for a grade</h1>
             <p class="lead text-body-secondary mb-0">NBN Games is a small team that grew out of a shared passion for games. We're building the store we'd actually want to use: fast, honest about pricing, and free of noise.</p>
           </div>
@@ -55,22 +57,22 @@
         <h2 id="principles-title" class="mb-4">Our principles</h2>
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="value-card h-100 bg-body-secondary border rounded-3 p-4 d-flex flex-column gap-2">
-              <span class="value-icon d-flex align-items-center justify-content-center" aria-hidden="true">🎯</span>
+            <div class="value-card h-100 p-4 d-flex flex-column gap-2">
+              <span class="value-icon align-self-start p-2" aria-hidden="true">🎯</span>
               <h3 class="h5 text-primary mb-0 mt-2">Players first</h3>
               <p class="text-body-secondary mb-0">Every product decision is checked against one question: does this make things easier for a real player.</p>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="value-card h-100 bg-body-secondary border rounded-3 p-4 d-flex flex-column gap-2">
-              <span class="value-icon d-flex align-items-center justify-content-center" aria-hidden="true">🔍</span>
+            <div class="value-card h-100 p-4 d-flex flex-column gap-2">
+              <span class="value-icon align-self-start p-2" aria-hidden="true">🔍</span>
               <h3 class="h5 text-primary mb-0 mt-2">Price transparency</h3>
               <p class="text-body-secondary mb-0">No hidden markups — the price on the shelf always matches the price at checkout.</p>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="value-card h-100 bg-body-secondary border rounded-3 p-4 d-flex flex-column gap-2">
-              <span class="value-icon d-flex align-items-center justify-content-center" aria-hidden="true">🚀</span>
+            <div class="value-card h-100 p-4 d-flex flex-column gap-2">
+              <span class="value-icon align-self-start p-2" aria-hidden="true">🚀</span>
               <h3 class="h5 text-primary mb-0 mt-2">Always improving</h3>
               <p class="text-body-secondary mb-0">NBN Games is a student project we keep refining with every iteration.</p>
             </div>
@@ -82,13 +84,13 @@
     <!-- Task 8: team members as Bootstrap cards -->
     <section class="py-5" aria-labelledby="team-title">
       <div class="container">
-        <span class="eyebrow-tag d-inline-block mb-1">Team name</span>
+        <span class="eyebrow d-inline-block mb-1">Team name</span>
         <h2 id="team-title" class="mb-4">Project team — Next Step</h2>
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4">
-            <article class="card team-card h-100 text-center">
+            <article class="card h-100 text-center">
               <div class="card-body d-flex flex-column align-items-center gap-1 p-4">
-                <img class="profile-img rounded-circle mb-3" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
+                <img class="avatar mb-3" width="96" height="96" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
                 <h3 class="card-title h5 mb-0">Bekzat Amanbek</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Catalog &amp; Profile</p>
                 <p class="card-text small text-body-secondary mb-0">Built the catalog and Profile pages. Assignment 3: catalog grid, filter pills, profile forms.</p>
@@ -96,9 +98,9 @@
             </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
-            <article class="card team-card h-100 text-center">
+            <article class="card h-100 text-center">
               <div class="card-body d-flex flex-column align-items-center gap-1 p-4">
-                <img class="profile-img rounded-circle mb-3" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
+                <img class="avatar mb-3" width="96" height="96" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
                 <h3 class="card-title h5 mb-0">Nurkhan Nurzhau</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Home &amp; About</p>
                 <p class="card-text small text-body-secondary mb-0">Built the homepage and About page. Assignment 3: navbar, carousel, cards and the contact form.</p>
@@ -106,9 +108,9 @@
             </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
-            <article class="card team-card h-100 text-center">
+            <article class="card h-100 text-center">
               <div class="card-body d-flex flex-column align-items-center gap-1 p-4">
-                <img class="profile-img rounded-circle mb-3" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
+                <img class="avatar mb-3" width="96" height="96" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
                 <h3 class="card-title h5 mb-0">Nursultan Rassulov</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Game &amp; Cart</p>
                 <p class="card-text small text-body-secondary mb-0">Built the cart and the game page. Assignment 3: buttons, button groups, breadcrumb and tables.</p>
@@ -120,6 +122,45 @@
     </section>
 
     <!-- Task 3 + Task 9: two columns (col-lg-6) — contact info | Bootstrap form -->
+    <!-- FAQ: Bootstrap accordion -->
+    <section class="py-5" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 id="faq-title" class="mb-4">Questions people ask us</h2>
+        <div class="accordion" id="faq">
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-1" aria-expanded="true" aria-controls="faq-1">
+                How fast do I get my game?
+              </button>
+            </h3>
+            <div id="faq-1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+              <div class="accordion-body">Right after payment. The key shows up in your library and in your inbox.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-2" aria-expanded="false" aria-controls="faq-2">
+                Can I get a refund?
+              </button>
+            </h3>
+            <div id="faq-2" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body">Yes — within 14 days, as long as the key hasn't been activated yet.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-3" aria-expanded="false" aria-controls="faq-3">
+                Which platforms do you support?
+              </button>
+            </h3>
+            <div id="faq-3" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body">PC (Windows and macOS), PlayStation and Xbox. Every game page lists its platforms.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="contact" class="py-5" aria-labelledby="contact-title">
       <div class="container">
         <h2 id="contact-title" class="mb-4">Get in touch</h2>
@@ -133,9 +174,9 @@
             </ul>
             <p class="small text-body-secondary mb-2">Find us on</p>
             <div class="btn-group" role="group" aria-label="Social networks">
-              <a href="#" class="btn btn-outline-light btn-sm">Telegram</a>
-              <a href="#" class="btn btn-outline-light btn-sm">Instagram</a>
-              <a href="#" class="btn btn-outline-light btn-sm">Discord</a>
+              <a href="https://telegram.org" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener">Telegram</a>
+              <a href="https://www.instagram.com" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://discord.com" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener">Discord</a>
             </div>
           </div>
 
@@ -209,36 +250,36 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-12 col-lg-5">
-          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
-          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
+          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalog.html">Catalog</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="media-queries.html">Media queries demo</a></li>
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
           <h2 class="h6 text-white mb-3">Company</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="about.html">About us</a></li>
-            <li><a href="about.html#contact">Contact</a></li>
-            <li><a href="profile.html">My account</a></li>
+            <li><a class="footer-link" href="about.html">About us</a></li>
+            <li><a class="footer-link" href="about.html#contact">Contact</a></li>
+            <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
         <div class="col-12 col-md-4 col-lg-3">
           <h2 class="h6 text-white mb-3">Team Next Step</h2>
-          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+          <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
             <li>Bekzat Amanbek</li>
             <li>Nurkhan Nurzhau</li>
             <li>Nursultan Rassulov</li>
           </ul>
         </div>
       </div>
-      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
         <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>

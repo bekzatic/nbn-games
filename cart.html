@@ -7,18 +7,20 @@
   <title>NBN Games — Cart</title>
   <link rel="icon" type="image/png" href="images/logo-mark.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
-    <nav class="navbar navbar-expand-lg sticky-top nbn-navbar py-2" aria-label="Main navigation">
+    <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
-        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home"></a>
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="nav-icon-link active position-relative d-inline-flex align-items-center justify-content-center px-2 py-1 fs-5" aria-label="Cart" aria-current="page">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="nav-icon-link d-inline-flex align-items-center gap-1 px-2 py-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <a href="cart.html" class="btn btn-secondary position-relative" aria-label="Cart" aria-current="page">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -48,7 +50,7 @@
           </div>
 
           <aside class="col-12 col-lg-4" aria-label="Order summary">
-            <div class="card p-4 sticky-lg-top sticky-below-nav">
+            <div class="card p-4">
               <h2 class="h5 mb-3">Promo code</h2>
               <!-- Task 9: Bootstrap input-group -->
               <form id="promo-form" class="mb-4">
@@ -78,36 +80,36 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-12 col-lg-5">
-          <img src="images/logo-mark.png" alt="NBN Games logo" class="mb-3">
-          <p class="footer-text small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
+          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalog.html">Catalog</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="media-queries.html">Media queries demo</a></li>
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
           <h2 class="h6 text-white mb-3">Company</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
-            <li><a href="about.html">About us</a></li>
-            <li><a href="about.html#contact">Contact</a></li>
-            <li><a href="profile.html">My account</a></li>
+            <li><a class="footer-link" href="about.html">About us</a></li>
+            <li><a class="footer-link" href="about.html#contact">Contact</a></li>
+            <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
         <div class="col-12 col-md-4 col-lg-3">
           <h2 class="h6 text-white mb-3">Team Next Step</h2>
-          <ul class="list-unstyled small d-grid gap-2 mb-0 footer-text">
+          <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
             <li>Bekzat Amanbek</li>
             <li>Nurkhan Nurzhau</li>
             <li>Nursultan Rassulov</li>
           </ul>
         </div>
       </div>
-      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small footer-text">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
         <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
       </div>
@@ -136,8 +138,8 @@
 
       if (cart.length === 0) {
         cartItemsEl.innerHTML = `
-          <li class="empty-box rounded-3 text-center p-5">
-            <span class="emoji-lg d-block mb-2" aria-hidden="true">🛒</span>
+          <li class="empty-state text-center p-5">
+            <span class="fs-1 d-block mb-2" aria-hidden="true">🛒</span>
             <h2 class="h5">Your cart is empty</h2>
             <p class="text-body-secondary">Head to the catalog to find your next game.</p>
             <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
@@ -146,7 +148,7 @@
         cartItemsEl.innerHTML = cart.map(item => `
           <li class="card cart-item" data-name="${item.name.replace(/"/g, '&quot;')}">
             <div class="card-body d-flex flex-wrap flex-sm-nowrap align-items-center gap-3 p-3">
-              <img src="${item.img}" alt="${item.name} cover" class="cart-thumb rounded-2 flex-shrink-0">
+              <img src="${item.img}" alt="${item.name} cover" class="rounded-2 flex-shrink-0 object-fit-cover" width="84" height="56">
               <div class="flex-grow-1">
                 <h3 class="h6 fw-bold mb-1">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</h3>
                 <p class="small text-body-secondary mb-0">Digital key · Windows</p>
