@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
+  <!-- Assignment #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — About</title>
@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/assignment4.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -122,39 +123,60 @@
     </section>
 
     <!-- Task 3 + Task 9: two columns (col-lg-6) — contact info | Bootstrap form -->
-    <!-- FAQ: Bootstrap accordion -->
+    <!-- FAQ: JavaScript accordion (Assignment #4, Task 2) -->
     <section class="py-5" aria-labelledby="faq-title">
       <div class="container">
         <h2 id="faq-title" class="mb-4">Questions people ask us</h2>
-        <div class="accordion" id="faq">
-          <div class="accordion-item">
-            <h3 class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-1" aria-expanded="true" aria-controls="faq-1">
-                How fast do I get my game?
+        <!-- Assignment #4 — Task 2: accordion written in plain JavaScript (js/accordion.js) — Nurkhan Nurzhau -->
+        <div class="js-accordion" id="faq">
+          <div class="acc-item">
+            <h3 class="m-0">
+              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-1" id="faq-q1">
+                <span>How fast do I get my game?</span><span class="acc-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faq-1" class="accordion-collapse collapse show" data-bs-parent="#faq">
-              <div class="accordion-body">Right after payment. The key shows up in your library and in your inbox.</div>
+            <div id="faq-1" class="acc-panel" role="region" aria-labelledby="faq-q1">
+              <div class="acc-panel-inner">Right after payment. The key shows up in your library and in your inbox.</div>
             </div>
           </div>
-          <div class="accordion-item">
-            <h3 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-2" aria-expanded="false" aria-controls="faq-2">
-                Can I get a refund?
+          <div class="acc-item">
+            <h3 class="m-0">
+              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-2" id="faq-q2">
+                <span>Can I get a refund?</span><span class="acc-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faq-2" class="accordion-collapse collapse" data-bs-parent="#faq">
-              <div class="accordion-body">Yes — within 14 days, as long as the key hasn't been activated yet.</div>
+            <div id="faq-2" class="acc-panel" role="region" aria-labelledby="faq-q2">
+              <div class="acc-panel-inner">Yes — within 14 days, as long as the key hasn't been activated yet.</div>
             </div>
           </div>
-          <div class="accordion-item">
-            <h3 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-3" aria-expanded="false" aria-controls="faq-3">
-                Which platforms do you support?
+          <div class="acc-item">
+            <h3 class="m-0">
+              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-3" id="faq-q3">
+                <span>Which platforms do you support?</span><span class="acc-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div id="faq-3" class="accordion-collapse collapse" data-bs-parent="#faq">
-              <div class="accordion-body">PC (Windows and macOS), PlayStation and Xbox. Every game page lists its platforms.</div>
+            <div id="faq-3" class="acc-panel" role="region" aria-labelledby="faq-q3">
+              <div class="acc-panel-inner">PC (Windows and macOS), PlayStation and Xbox. Every game page lists its platforms.</div>
+            </div>
+          </div>
+          <div class="acc-item">
+            <h3 class="m-0">
+              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-4" id="faq-q4">
+                <span>How do I pay?</span><span class="acc-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div id="faq-4" class="acc-panel" role="region" aria-labelledby="faq-q4">
+              <div class="acc-panel-inner">With a bank card or your NBN wallet balance. You can top up the wallet in your profile.</div>
+            </div>
+          </div>
+          <div class="acc-item">
+            <h3 class="m-0">
+              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-5" id="faq-q5">
+                <span>Do you have a promo code?</span><span class="acc-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div id="faq-5" class="acc-panel" role="region" aria-labelledby="faq-q5">
+              <div class="acc-panel-inner">Yes! Enter NEXTSTEP in the cart to get a discount on your order.</div>
             </div>
           </div>
         </div>
@@ -279,16 +301,47 @@
           </ul>
         </div>
       </div>
+      <!-- Assignment #4: JS components in the footer
+           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <div class="js-tools">
+        <div class="clock"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime">Loading…</time></span></div>
+        <div class="tools-actions">
+          <button type="button" class="tool-btn" data-change-bg>🎨 Change background<span class="bg-color-swatch" aria-hidden="true"></span></button>
+          <button type="button" class="tool-btn tool-btn--primary" data-open-popup>✉️ Subscribe</button>
+        </div>
+      </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #4.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>
     </div>
   </footer>
 
+  <!-- Assignment #4 — Task 3: popup subscription form (hidden by default, opened by js/popup.js) -->
+  <div id="subscribe-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
+    <div class="popup-box">
+      <button type="button" class="popup-close" aria-label="Close">&times;</button>
+      <h2 id="popup-title">Get the best deals 🎮</h2>
+      <p class="small mb-0">One short email a week with sales and new releases.</p>
+      <form novalidate>
+        <label for="popup-name">Name</label>
+        <input type="text" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
+        <label for="popup-email">Email</label>
+        <input type="email" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+        <button type="submit" class="tool-btn tool-btn--primary">Subscribe</button>
+        <p class="popup-msg small mb-0" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
   <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
+  <!-- Assignment #4 JavaScript -->
+  <script src="js/popup.js"></script>
+  <script src="js/bg-color.js"></script>
+  <script src="js/datetime.js"></script>
+  <script src="js/accordion.js"></script>
   <script>
     // Demo only: no backend. Bootstrap validation styles + confirmation message.
     const form = document.getElementById('contact-form');

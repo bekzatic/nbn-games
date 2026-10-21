@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
+  <!-- Assignment #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Cart</title>
@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/assignment4.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -109,16 +110,46 @@
           </ul>
         </div>
       </div>
+      <!-- Assignment #4: JS components in the footer
+           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <div class="js-tools">
+        <div class="clock"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime">Loading…</time></span></div>
+        <div class="tools-actions">
+          <button type="button" class="tool-btn" data-change-bg>🎨 Change background<span class="bg-color-swatch" aria-hidden="true"></span></button>
+          <button type="button" class="tool-btn tool-btn--primary" data-open-popup>✉️ Subscribe</button>
+        </div>
+      </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #3.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #4.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
       </div>
     </div>
   </footer>
 
+  <!-- Assignment #4 — Task 3: popup subscription form (hidden by default, opened by js/popup.js) -->
+  <div id="subscribe-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
+    <div class="popup-box">
+      <button type="button" class="popup-close" aria-label="Close">&times;</button>
+      <h2 id="popup-title">Get the best deals 🎮</h2>
+      <p class="small mb-0">One short email a week with sales and new releases.</p>
+      <form novalidate>
+        <label for="popup-name">Name</label>
+        <input type="text" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
+        <label for="popup-email">Email</label>
+        <input type="email" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+        <button type="submit" class="tool-btn tool-btn--primary">Subscribe</button>
+        <p class="popup-msg small mb-0" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
   <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
+  <!-- Assignment #4 JavaScript -->
+  <script src="js/popup.js"></script>
+  <script src="js/bg-color.js"></script>
+  <script src="js/datetime.js"></script>
   <script>
     const cartItemsEl = document.getElementById('cart-items');
     const headingEl = document.getElementById('cart-heading');

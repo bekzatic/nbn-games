@@ -4,6 +4,21 @@ Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nurs
 
 **Live site:** https://nbngames-store.vercel.app
 
+## Assignment #4 — Introduction to JavaScript
+
+All JS is plain JavaScript (no libraries), one file per component, linked at the bottom of every page.
+Styles for the components are in `css/assignment4.css`.
+
+| Task | File | Where on the site | Author |
+|---|---|---|---|
+| 1. Form validation — required fields, email format, password ≥ 8 chars (letter + number), password confirmation, error message under every field | `js/form-validation.js` | `profile.html` → "Create one" → **Create your account** | Bekzat Amanbek |
+| 2. Accordion (FAQ) — answers hidden by default, click toggles, smooth height transition, one open at a time | `js/accordion.js` | `about.html` → **Questions people ask us** | Nurkhan Nurzhau |
+| 3. Popup subscription form — hidden by default, opens on "Subscribe", closes with ×, click outside or Esc, validates name/email | `js/popup.js` | **✉️ Subscribe** button in the footer of every page | Nurkhan Nurzhau |
+| 4. Change background colour — cycles through 6 predefined colours with a smooth transition, remembered between pages | `js/bg-color.js` | **🎨 Change background** button in the footer of every page | Nursultan Rassulov |
+| 5. Current date and time — `Date` object, updated every second, format "October 9, 2026, 10:45:07 AM" | `js/datetime.js` | clock in the footer of every page | Bekzat Amanbek |
+
+Team names are in the `<footer>` of every HTML file.
+
 ## Assignment #3 — Media Queries + Bootstrap Grid
 
 Bootstrap 5.3.3 is included locally (`vendor/bootstrap/`). Layout, spacing and all components
