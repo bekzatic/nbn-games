@@ -1,0 +1,96 @@
+/* assignment4.css — styles for the Assignment #4 JavaScript components.
+   Plain CSS (no Bootstrap needed), so it also works on media-queries.html. */
+
+/* ---------- Task 4: smooth background change ---------- */
+body { transition: background-color 0.6s ease; }
+
+/* ---------- Footer tools row (date/time, bg button, subscribe) ---------- */
+.js-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding: 14px 16px;
+  margin-top: 24px;
+  border: 1px solid #23272e;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.875rem;
+  color: #b7bcc4;
+}
+.js-tools .tools-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.js-tools .clock { display: flex; align-items: center; gap: 8px; }
+.js-tools .clock time { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bg-color-swatch {
+  display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+  border: 1px solid #8a919c; vertical-align: -1px; margin-left: 4px;
+}
+.tool-btn {
+  font: inherit; font-weight: 600; cursor: pointer;
+  padding: 7px 14px; border-radius: 8px;
+  border: 1px solid #3a4048; background: transparent; color: #f2f0ea;
+  transition: border-color .2s, color .2s, background-color .2s;
+}
+.tool-btn:hover, .tool-btn:focus-visible { border-color: #ff5a1f; color: #ff7a45; outline: none; }
+.tool-btn--primary { background: #ff5a1f; border-color: #ff5a1f; color: #fff; }
+.tool-btn--primary:hover, .tool-btn--primary:focus-visible { background: #ff7a45; color: #fff; }
+
+/* ---------- Task 3: popup ---------- */
+.popup-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 0; transition: opacity .2s ease;
+}
+.popup-overlay[hidden] { display: none; }
+.popup-overlay.is-visible { opacity: 1; }
+.popup-box {
+  position: relative; width: 100%; max-width: 420px;
+  padding: 28px 24px 24px;
+  background: #14171c; color: #f2f0ea;
+  border: 1px solid #3a4048; border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+  transform: scale(.94); transition: transform .2s ease;
+}
+.popup-overlay.is-visible .popup-box { transform: scale(1); }
+.popup-box h2 { font-size: 1.35rem; margin: 0 0 6px; color: #fff; }
+.popup-box p { color: #b7bcc4; }
+.popup-close {
+  position: absolute; top: 10px; right: 12px;
+  width: 34px; height: 34px; border: 0; border-radius: 50%;
+  background: transparent; color: #b7bcc4; font-size: 1.5rem; line-height: 1; cursor: pointer;
+}
+.popup-close:hover, .popup-close:focus-visible { background: #23272e; color: #fff; outline: none; }
+.popup-box label { display: block; font-weight: 600; font-size: .875rem; margin: 12px 0 4px; }
+.popup-box input {
+  width: 100%; padding: 10px 12px; font: inherit;
+  background: #0b0d10; color: #f2f0ea; border: 1px solid #3a4048; border-radius: 8px;
+}
+.popup-box input:focus { outline: none; border-color: #ff5a1f; box-shadow: 0 0 0 3px rgba(255, 90, 31, .3); }
+.popup-box .tool-btn { width: 100%; margin-top: 16px; padding: 11px; }
+.popup-msg { min-height: 1.2em; margin-top: 10px; }
+.popup-msg.text-danger { color: #ff6b4a; }
+.popup-msg.text-success { color: #3ecf6e; }
+
+/* ---------- Task 2: custom JS accordion ---------- */
+.acc-item { border: 1px solid #23272e; border-radius: 12px; background: #14171c; overflow: hidden; }
+.acc-item + .acc-item { margin-top: 10px; }
+.acc-trigger {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 18px 20px; border: 0; background: transparent; color: #fff;
+  font: inherit; font-weight: 600; font-size: 1.05rem; text-align: left; cursor: pointer;
+}
+.acc-trigger:hover, .acc-trigger:focus-visible { color: #ff7a45; outline: none; }
+.acc-icon { flex-shrink: 0; width: 22px; height: 22px; position: relative; }
+.acc-icon::before, .acc-icon::after {
+  content: ''; position: absolute; left: 50%; top: 50%;
+  width: 14px; height: 2px; background: currentColor; border-radius: 2px;
+  transform: translate(-50%, -50%); transition: transform .3s ease;
+}
+.acc-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.acc-item.is-open .acc-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+.acc-item.is-open { border-color: rgba(255, 90, 31, .45); }
+.acc-panel { overflow: hidden; transition: height .35s ease; }
+.acc-panel-inner { padding: 0 20px 18px; color: #b7bcc4; }
