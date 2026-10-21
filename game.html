@@ -84,10 +84,10 @@
 
             <!-- Key facts: 2 × 2 Bootstrap grid -->
             <dl class="row row-cols-2 g-2 mb-0">
-              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Developer</dt><dd class="fw-semibold mb-0" id="fact-dev">—</dd></div></div>
-              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Release</dt><dd class="fw-semibold mb-0" id="fact-year">—</dd></div></div>
-              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Genre</dt><dd class="fw-semibold mb-0" id="fact-genre">—</dd></div></div>
-              <div class="col"><div class="fact-tile px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Delivery</dt><dd class="fw-semibold mb-0">Instant key</dd></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Developer</dt><dd class="fw-semibold mb-0" id="fact-dev">—</dd></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Release</dt><dd class="fw-semibold mb-0" id="fact-year">—</dd></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Genre</dt><dd class="fw-semibold mb-0" id="fact-genre">—</dd></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-2 px-3 py-2 h-100"><dt class="small text-body-tertiary fw-normal">Delivery</dt><dd class="fw-semibold mb-0">Instant key</dd></div></div>
             </dl>
 
             <h2 class="h5 mt-2 mb-0">About the game</h2>
@@ -120,7 +120,7 @@
   <main id="not-found" class="flex-grow-1" hidden>
     <section class="py-5">
       <div class="container">
-        <div class="empty-state text-center p-5">
+        <div class="empty-state rounded-3 text-center p-5">
           <span class="fs-1 d-block mb-2" aria-hidden="true">🕹️</span>
           <h1 class="h2">Game not found</h1>
           <p class="text-body-secondary">We couldn't find this game. It may have been removed from the catalog.</p>
@@ -288,7 +288,7 @@
       if (game.oldPrice) {
         const pct = Math.round((1 - game.price / game.oldPrice) * 100);
         priceHtml = `<span class="badge text-bg-primary fs-6">-${pct}%</span>` + priceHtml +
-                    `<span class="price-old">${formatPrice(game.oldPrice)}</span>`;
+                    `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${formatPrice(game.oldPrice)}</span>`;
       }
       $('game-price').innerHTML = priceHtml;
 
