@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/assignment4.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
@@ -39,7 +40,7 @@
     </nav>
   </header>
 
-  <main class="flex-grow-1">
+  <main id="main-content" class="flex-grow-1">
     <section class="hero py-5">
       <div class="container py-lg-4">
         <div class="row">
@@ -344,17 +345,6 @@
   <script src="js/bg-color.js"></script>
   <script src="js/datetime.js"></script>
   <script src="js/accordion.js"></script>
-  <script>
-    // Demo only: no backend. Bootstrap validation styles + confirmation message.
-    const form = document.getElementById('contact-form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      form.classList.add('was-validated');
-      if (!form.checkValidity()) return;
-      form.reset();
-      form.classList.remove('was-validated');
-      document.getElementById('form-success').hidden = false;
-    });
-  </script>
+  <script src="js/contact-form.js"></script>
 </body>
 </html>
