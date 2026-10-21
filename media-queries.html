@@ -96,36 +96,18 @@
       <p>Team Next Step: Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov</p>
       <p>Page created by: <strong>Bekzat Amanbek</strong></p>
       <!-- Assignment #4: JS components in the footer
-           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov (popup is on the Bootstrap pages) -->
       <div class="js-tools">
         <div class="clock"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime">Loading…</time></span></div>
         <div class="tools-actions">
           <button type="button" class="tool-btn" data-change-bg>🎨 Change background<span class="bg-color-swatch" aria-hidden="true"></span></button>
-          <button type="button" class="tool-btn tool-btn--primary" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form (hidden by default, opened by js/popup.js) -->
-  <div id="subscribe-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
-    <div class="popup-box">
-      <button type="button" class="popup-close" aria-label="Close">&times;</button>
-      <h2 id="popup-title">Get the best deals 🎮</h2>
-      <p class="small mb-0">One short email a week with sales and new releases.</p>
-      <form novalidate>
-        <label for="popup-name">Name</label>
-        <input type="text" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
-        <label for="popup-email">Email</label>
-        <input type="email" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
-        <button type="submit" class="tool-btn tool-btn--primary">Subscribe</button>
-        <p class="popup-msg small mb-0" role="status" aria-live="polite"></p>
-      </form>
-    </div>
-  </div>
 
   <!-- Assignment #4 JavaScript -->
-  <script src="js/popup.js"></script>
   <script src="js/bg-color.js"></script>
   <script src="js/datetime.js"></script>
 

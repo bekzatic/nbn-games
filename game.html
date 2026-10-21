@@ -165,11 +165,11 @@
       </div>
       <!-- Assignment #4: JS components in the footer
            Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
-      <div class="js-tools">
-        <div class="clock"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime">Loading…</time></span></div>
-        <div class="tools-actions">
-          <button type="button" class="tool-btn" data-change-bg>🎨 Change background<span class="bg-color-swatch" aria-hidden="true"></span></button>
-          <button type="button" class="tool-btn tool-btn--primary" data-open-popup>✉️ Subscribe</button>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
@@ -179,20 +179,32 @@
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form (hidden by default, opened by js/popup.js) -->
-  <div id="subscribe-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
-    <div class="popup-box">
-      <button type="button" class="popup-close" aria-label="Close">&times;</button>
-      <h2 id="popup-title">Get the best deals 🎮</h2>
-      <p class="small mb-0">One short email a week with sales and new releases.</p>
-      <form novalidate>
-        <label for="popup-name">Name</label>
-        <input type="text" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
-        <label for="popup-email">Email</label>
-        <input type="email" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
-        <button type="submit" class="tool-btn tool-btn--primary">Subscribe</button>
-        <p class="popup-msg small mb-0" role="status" aria-live="polite"></p>
-      </form>
+  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-secondary-subtle">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h4" id="popup-title">Get the best deals 🎮</h2>
+          <button type="button" class="btn-close popup-close" aria-label="Close"></button>
+        </div>
+        <form novalidate>
+          <div class="modal-body">
+            <p class="small text-body-secondary">One short email a week with sales and new releases.</p>
+            <div class="mb-3">
+              <label for="popup-name" class="form-label fw-semibold">Name</label>
+              <input type="text" class="form-control" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div>
+              <label for="popup-email" class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <p class="popup-msg small mt-3 mb-0" role="status" aria-live="polite"></p>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
