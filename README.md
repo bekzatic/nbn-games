@@ -2,7 +2,7 @@
 
 Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov.
 
-**Live site:** https://nbngames-store.vercel.app
+**Live site:** https://nbn-games-store.vercel.app
 
 ## Assignment #4 — Introduction to JavaScript
 
