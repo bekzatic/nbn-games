@@ -3,57 +3,66 @@
    Author: Nurkhan Nurzhau
    Page: about.html → "Questions people ask us" (.js-accordion)
 
+   The markup uses Bootstrap's accordion classes (accordion-item,
+   accordion-button, accordion-collapse, collapse, collapsing), but there
+   is NO data-bs-toggle: the opening/closing is written by us here.
+
    How it works:
-   1. Every answer (.acc-panel) is hidden by default: height 0.
-   2. Clicking a question (.acc-trigger) toggles its panel.
-      - open:  height goes from 0 to the real content height (scrollHeight)
-      - close: height goes back to 0
-      The CSS `transition: height` makes it slide smoothly.
-   3. Only one answer is open at a time — opening one closes the others.
-   4. aria-expanded is updated for screen readers.
+   1. Every answer starts with the class `collapse` → Bootstrap hides it
+      (display: none). That is the default hidden state.
+   2. Click on a question:
+      - open:  remove `collapse`, add `collapsing` (Bootstrap gives it
+               `transition: height .35s`), animate height 0 → scrollHeight,
+               then finish with `collapse show`.
+      - close: the same in reverse: height scrollHeight → 0.
+   3. Only one answer is open at a time.
+   4. The button gets/loses the `collapsed` class (Bootstrap turns the
+      arrow) and aria-expanded is updated for screen readers.
    ========================================================== */
 
 (function () {
   document.querySelectorAll('.js-accordion').forEach(acc => {
-    const triggers = acc.querySelectorAll('.acc-trigger');
+    const buttons = acc.querySelectorAll('.accordion-button');
+    const panelOf = btn => document.getElementById(btn.getAttribute('aria-controls'));
 
-    function setOpen(trigger, open) {
-      const panel = document.getElementById(trigger.getAttribute('aria-controls'));
-      trigger.setAttribute('aria-expanded', String(open));
-      trigger.closest('.acc-item').classList.toggle('is-open', open);
-
-      if (open) {
-        panel.hidden = false;
-        void panel.offsetHeight; // force reflow so the transition starts from 0
-        panel.style.height = panel.scrollHeight + 'px';
-        // after the animation let the panel grow if the window is resized
-        panel.addEventListener('transitionend', function done() {
-          if (trigger.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
-          panel.removeEventListener('transitionend', done);
-        });
-      } else {
-        // from "auto" we first need a real number, then animate to 0
-        panel.style.height = panel.scrollHeight + 'px';
-        void panel.offsetHeight; // force reflow, then animate to 0
-        panel.style.height = '0px';
-        panel.addEventListener('transitionend', function done() {
-          if (trigger.getAttribute('aria-expanded') === 'false') panel.hidden = true;
-          panel.removeEventListener('transitionend', done);
-        });
-      }
+    function animate(panel, from, to, done) {
+      panel.classList.remove('collapse', 'show');
+      panel.classList.add('collapsing');
+      panel.style.height = from + 'px';
+      void panel.offsetHeight;          // force reflow so the transition starts
+      panel.style.height = to + 'px';
+      panel.addEventListener('transitionend', function end() {
+        panel.removeEventListener('transitionend', end);
+        panel.classList.remove('collapsing');
+        panel.style.height = '';
+        done();
+      });
     }
 
-    triggers.forEach(trigger => {
-      // default state: hidden
-      const panel = document.getElementById(trigger.getAttribute('aria-controls'));
-      panel.style.height = '0px';
-      panel.hidden = true;
-      trigger.setAttribute('aria-expanded', 'false');
+    function open(btn) {
+      const panel = panelOf(btn);
+      btn.classList.remove('collapsed');
+      btn.setAttribute('aria-expanded', 'true');
+      panel.classList.remove('collapse');
+      const h = panel.scrollHeight;     // real height of the answer
+      animate(panel, 0, h, () => panel.classList.add('collapse', 'show'));
+    }
 
-      trigger.addEventListener('click', () => {
-        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
-        triggers.forEach(t => { if (t !== trigger && t.getAttribute('aria-expanded') === 'true') setOpen(t, false); });
-        setOpen(trigger, !isOpen);
+    function close(btn) {
+      const panel = panelOf(btn);
+      btn.classList.add('collapsed');
+      btn.setAttribute('aria-expanded', 'false');
+      animate(panel, panel.scrollHeight, 0, () => panel.classList.add('collapse'));
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (panelOf(btn).classList.contains('collapsing')) return; // wait for the animation
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        buttons.forEach(other => {
+          if (other !== btn && other.getAttribute('aria-expanded') === 'true') close(other);
+        });
+        isOpen ? close(btn) : open(btn);
       });
     });
   });

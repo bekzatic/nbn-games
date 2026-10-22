@@ -19,6 +19,15 @@ Styles for the components are in `css/assignment4.css`.
 
 Team names are in the `<footer>` of every HTML file.
 
+
+### Bootstrap-first update
+
+- The Assignment #4 components use Bootstrap markup: the FAQ is a Bootstrap `.accordion`, the popup is a Bootstrap `.modal`, the footer tools row is built from utilities. The open/close logic is still our own JavaScript (no `data-bs-toggle`), as Assignment #4 requires.
+- Most custom classes were replaced with Bootstrap utilities (`bg-body-secondary border rounded-3`, `bg-primary-subtle`, `rounded-circle border-primary`, `text-decoration-line-through`…). Only the NBN theme variables, hover effects and the carousel tweaks are left in our CSS.
+- About → contact form now uses the same JS validation as the sign-up form (`js/contact-form.js`).
+- "Skip to main content" link (`visually-hidden-focusable`) on every Bootstrap page; profile avatar shows the user's initials.
+- `media-queries.html` stays pure CSS on purpose — Assignment #3 Part 1 asks for media queries **without** Bootstrap.
+
 ## Assignment #3 — Media Queries + Bootstrap Grid
 
 Bootstrap 5.3.3 is included locally (`vendor/bootstrap/`). Layout, spacing and all components

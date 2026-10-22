@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/assignment4.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
@@ -39,7 +40,7 @@
     </nav>
   </header>
 
-  <main class="flex-grow-1">
+  <main id="main-content" class="flex-grow-1">
     <section class="hero py-5">
       <div class="container py-lg-4">
         <div class="row">
@@ -58,22 +59,22 @@
         <h2 id="principles-title" class="mb-4">Our principles</h2>
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="value-card h-100 p-4 d-flex flex-column gap-2">
-              <span class="value-icon align-self-start p-2" aria-hidden="true">🎯</span>
+            <div class="value-card bg-body-secondary border rounded-3 h-100 p-4 d-flex flex-column gap-2">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true">🎯</span>
               <h3 class="h5 text-primary mb-0 mt-2">Players first</h3>
               <p class="text-body-secondary mb-0">Every product decision is checked against one question: does this make things easier for a real player.</p>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="value-card h-100 p-4 d-flex flex-column gap-2">
-              <span class="value-icon align-self-start p-2" aria-hidden="true">🔍</span>
+            <div class="value-card bg-body-secondary border rounded-3 h-100 p-4 d-flex flex-column gap-2">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true">🔍</span>
               <h3 class="h5 text-primary mb-0 mt-2">Price transparency</h3>
               <p class="text-body-secondary mb-0">No hidden markups — the price on the shelf always matches the price at checkout.</p>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="value-card h-100 p-4 d-flex flex-column gap-2">
-              <span class="value-icon align-self-start p-2" aria-hidden="true">🚀</span>
+            <div class="value-card bg-body-secondary border rounded-3 h-100 p-4 d-flex flex-column gap-2">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true">🚀</span>
               <h3 class="h5 text-primary mb-0 mt-2">Always improving</h3>
               <p class="text-body-secondary mb-0">NBN Games is a student project we keep refining with every iteration.</p>
             </div>
@@ -91,7 +92,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <article class="card h-100 text-center">
               <div class="card-body d-flex flex-column align-items-center gap-1 p-4">
-                <img class="avatar mb-3" width="96" height="96" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
+                <img class="rounded-circle border border-3 border-primary object-fit-cover mb-3" width="96" height="96" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
                 <h3 class="card-title h5 mb-0">Bekzat Amanbek</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Catalog &amp; Profile</p>
                 <p class="card-text small text-body-secondary mb-0">Built the catalog and Profile pages. Assignment 3: catalog grid, filter pills, profile forms.</p>
@@ -101,7 +102,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <article class="card h-100 text-center">
               <div class="card-body d-flex flex-column align-items-center gap-1 p-4">
-                <img class="avatar mb-3" width="96" height="96" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
+                <img class="rounded-circle border border-3 border-primary object-fit-cover mb-3" width="96" height="96" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
                 <h3 class="card-title h5 mb-0">Nurkhan Nurzhau</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Home &amp; About</p>
                 <p class="card-text small text-body-secondary mb-0">Built the homepage and About page. Assignment 3: navbar, carousel, cards and the contact form.</p>
@@ -111,7 +112,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <article class="card h-100 text-center">
               <div class="card-body d-flex flex-column align-items-center gap-1 p-4">
-                <img class="avatar mb-3" width="96" height="96" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
+                <img class="rounded-circle border border-3 border-primary object-fit-cover mb-3" width="96" height="96" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
                 <h3 class="card-title h5 mb-0">Nursultan Rassulov</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Game &amp; Cart</p>
                 <p class="card-text small text-body-secondary mb-0">Built the cart and the game page. Assignment 3: buttons, button groups, breadcrumb and tables.</p>
@@ -127,56 +128,46 @@
     <section class="py-5" aria-labelledby="faq-title">
       <div class="container">
         <h2 id="faq-title" class="mb-4">Questions people ask us</h2>
-        <!-- Assignment #4 — Task 2: accordion written in plain JavaScript (js/accordion.js) — Nurkhan Nurzhau -->
-        <div class="js-accordion" id="faq">
-          <div class="acc-item">
-            <h3 class="m-0">
-              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-1" id="faq-q1">
-                <span>How fast do I get my game?</span><span class="acc-icon" aria-hidden="true"></span>
-              </button>
+        <!-- Assignment #4 — Task 2: Bootstrap accordion markup, toggled by our own JavaScript (js/accordion.js, no data-bs-toggle) — Nurkhan Nurzhau -->
+        <div class="accordion js-accordion" id="faq">
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-q1">
+              <button class="accordion-button collapsed" type="button" aria-expanded="false" aria-controls="faq-1">How fast do I get my game?</button>
             </h3>
-            <div id="faq-1" class="acc-panel" role="region" aria-labelledby="faq-q1">
-              <div class="acc-panel-inner">Right after payment. The key shows up in your library and in your inbox.</div>
+            <div id="faq-1" class="accordion-collapse collapse" role="region" aria-labelledby="faq-q1">
+              <div class="accordion-body text-body-secondary">Right after payment. The key shows up in your library and in your inbox.</div>
             </div>
           </div>
-          <div class="acc-item">
-            <h3 class="m-0">
-              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-2" id="faq-q2">
-                <span>Can I get a refund?</span><span class="acc-icon" aria-hidden="true"></span>
-              </button>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-q2">
+              <button class="accordion-button collapsed" type="button" aria-expanded="false" aria-controls="faq-2">Can I get a refund?</button>
             </h3>
-            <div id="faq-2" class="acc-panel" role="region" aria-labelledby="faq-q2">
-              <div class="acc-panel-inner">Yes — within 14 days, as long as the key hasn't been activated yet.</div>
+            <div id="faq-2" class="accordion-collapse collapse" role="region" aria-labelledby="faq-q2">
+              <div class="accordion-body text-body-secondary">Yes — within 14 days, as long as the key hasn't been activated yet.</div>
             </div>
           </div>
-          <div class="acc-item">
-            <h3 class="m-0">
-              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-3" id="faq-q3">
-                <span>Which platforms do you support?</span><span class="acc-icon" aria-hidden="true"></span>
-              </button>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-q3">
+              <button class="accordion-button collapsed" type="button" aria-expanded="false" aria-controls="faq-3">Which platforms do you support?</button>
             </h3>
-            <div id="faq-3" class="acc-panel" role="region" aria-labelledby="faq-q3">
-              <div class="acc-panel-inner">PC (Windows and macOS), PlayStation and Xbox. Every game page lists its platforms.</div>
+            <div id="faq-3" class="accordion-collapse collapse" role="region" aria-labelledby="faq-q3">
+              <div class="accordion-body text-body-secondary">PC (Windows and macOS), PlayStation and Xbox. Every game page lists its platforms.</div>
             </div>
           </div>
-          <div class="acc-item">
-            <h3 class="m-0">
-              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-4" id="faq-q4">
-                <span>How do I pay?</span><span class="acc-icon" aria-hidden="true"></span>
-              </button>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-q4">
+              <button class="accordion-button collapsed" type="button" aria-expanded="false" aria-controls="faq-4">How do I pay?</button>
             </h3>
-            <div id="faq-4" class="acc-panel" role="region" aria-labelledby="faq-q4">
-              <div class="acc-panel-inner">With a bank card or your NBN wallet balance. You can top up the wallet in your profile.</div>
+            <div id="faq-4" class="accordion-collapse collapse" role="region" aria-labelledby="faq-q4">
+              <div class="accordion-body text-body-secondary">With a bank card or your NBN wallet balance. You can top up the wallet in your profile.</div>
             </div>
           </div>
-          <div class="acc-item">
-            <h3 class="m-0">
-              <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="faq-5" id="faq-q5">
-                <span>Do you have a promo code?</span><span class="acc-icon" aria-hidden="true"></span>
-              </button>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="faq-q5">
+              <button class="accordion-button collapsed" type="button" aria-expanded="false" aria-controls="faq-5">Do you have a promo code?</button>
             </h3>
-            <div id="faq-5" class="acc-panel" role="region" aria-labelledby="faq-q5">
-              <div class="acc-panel-inner">Yes! Enter NEXTSTEP in the cart to get a discount on your order.</div>
+            <div id="faq-5" class="accordion-collapse collapse" role="region" aria-labelledby="faq-q5">
+              <div class="accordion-body text-body-secondary">Yes! Enter NEXTSTEP in the cart to get a discount on your order.</div>
             </div>
           </div>
         </div>
@@ -303,11 +294,11 @@
       </div>
       <!-- Assignment #4: JS components in the footer
            Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
-      <div class="js-tools">
-        <div class="clock"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime">Loading…</time></span></div>
-        <div class="tools-actions">
-          <button type="button" class="tool-btn" data-change-bg>🎨 Change background<span class="bg-color-swatch" aria-hidden="true"></span></button>
-          <button type="button" class="tool-btn tool-btn--primary" data-open-popup>✉️ Subscribe</button>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
@@ -317,20 +308,32 @@
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form (hidden by default, opened by js/popup.js) -->
-  <div id="subscribe-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
-    <div class="popup-box">
-      <button type="button" class="popup-close" aria-label="Close">&times;</button>
-      <h2 id="popup-title">Get the best deals 🎮</h2>
-      <p class="small mb-0">One short email a week with sales and new releases.</p>
-      <form novalidate>
-        <label for="popup-name">Name</label>
-        <input type="text" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
-        <label for="popup-email">Email</label>
-        <input type="email" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
-        <button type="submit" class="tool-btn tool-btn--primary">Subscribe</button>
-        <p class="popup-msg small mb-0" role="status" aria-live="polite"></p>
-      </form>
+  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-secondary-subtle">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h4" id="popup-title">Get the best deals 🎮</h2>
+          <button type="button" class="btn-close popup-close" aria-label="Close"></button>
+        </div>
+        <form novalidate>
+          <div class="modal-body">
+            <p class="small text-body-secondary">One short email a week with sales and new releases.</p>
+            <div class="mb-3">
+              <label for="popup-name" class="form-label fw-semibold">Name</label>
+              <input type="text" class="form-control" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div>
+              <label for="popup-email" class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <p class="popup-msg small mt-3 mb-0" role="status" aria-live="polite"></p>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -342,17 +345,6 @@
   <script src="js/bg-color.js"></script>
   <script src="js/datetime.js"></script>
   <script src="js/accordion.js"></script>
-  <script>
-    // Demo only: no backend. Bootstrap validation styles + confirmation message.
-    const form = document.getElementById('contact-form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      form.classList.add('was-validated');
-      if (!form.checkValidity()) return;
-      form.reset();
-      form.classList.remove('was-validated');
-      document.getElementById('form-success').hidden = false;
-    });
-  </script>
+  <script src="js/contact-form.js"></script>
 </body>
 </html>

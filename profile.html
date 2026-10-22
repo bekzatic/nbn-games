@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/assignment4.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
   <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
   <header>
@@ -44,7 +45,7 @@
   <div class="container flex-grow-1 pt-4 pt-lg-5">
     <div class="row g-4 justify-content-center">
       <aside class="col-12 col-lg-3 d-none" id="profile-aside" aria-label="Profile menu">
-        <div class="surface p-2 p-lg-3">
+        <div class="bg-body-secondary border rounded-3 p-2 p-lg-3">
           <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="profile-sidebar">
             <li class="nav-item"><a href="#profile" class="nav-link active" data-section="profile">👤 Profile</a></li>
             <li class="nav-item"><a href="#games" class="nav-link" data-section="games">🎮 My games</a></li>
@@ -57,7 +58,7 @@
         </div>
       </aside>
 
-      <main class="col-12 col-lg-9">
+      <main id="main-content" class="col-12 col-lg-9">
         <div id="login-gate" class="row justify-content-center">
           <div class="col-12 col-sm-10 col-md-8 col-xl-6">
             <div class="card p-4 p-md-5 my-lg-4" id="login-card">
@@ -137,7 +138,7 @@
 
             <div class="card mb-4">
               <div class="card-body d-flex flex-wrap align-items-center gap-3 gap-md-4 p-4">
-                <img class="avatar" width="76" height="76" src="images/user-avatar.jpg" alt="User avatar">
+                <div class="js-initials rounded-circle bg-primary-subtle border border-3 border-primary d-flex align-items-center justify-content-center flex-shrink-0 fw-bold fs-4 text-primary" style="width:76px;height:76px" aria-hidden="true">—</div>
                 <div class="flex-grow-1">
                   <h2 class="h5 mb-1 js-name">—</h2>
                   <p class="text-body-secondary mb-0 js-email">—</p>
@@ -147,9 +148,9 @@
             </div>
 
             <div class="row row-cols-1 row-cols-sm-3 g-3 mb-4">
-              <div class="col"><div class="surface px-3 py-3 h-100"><div class="stat-number js-balance">—</div><small class="text-body-tertiary">Wallet balance</small></div></div>
-              <div class="col"><div class="surface px-3 py-3 h-100"><div class="stat-number js-library-count">0</div><small class="text-body-tertiary">Games owned</small></div></div>
-              <div class="col"><div class="surface px-3 py-3 h-100"><div class="stat-number" id="profile-joined-short">—</div><small class="text-body-tertiary">Member since</small></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="h3 fw-bold text-white mb-0 js-balance">—</div><small class="text-body-tertiary">Wallet balance</small></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="h3 fw-bold text-white mb-0 js-library-count">0</div><small class="text-body-tertiary">Games owned</small></div></div>
+              <div class="col"><div class="bg-body-secondary border rounded-3 px-3 py-3 h-100"><div class="h3 fw-bold text-white mb-0" id="profile-joined-short">—</div><small class="text-body-tertiary">Member since</small></div></div>
             </div>
 
             <h2 class="h5 mb-3">Account information</h2>
@@ -172,7 +173,7 @@
               </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4" id="library-grid"></div>
-            <div class="empty-state text-center p-5" id="library-empty" hidden>
+            <div class="empty-state rounded-3 text-center p-5" id="library-empty" hidden>
               <h2 class="h5">No games found</h2>
               <p class="text-body-secondary">Try another search or buy something new in the catalog.</p>
               <a href="catalog.html" class="btn btn-primary btn-sm">Open catalog</a>
@@ -377,11 +378,11 @@
       </div>
       <!-- Assignment #4: JS components in the footer
            Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
-      <div class="js-tools">
-        <div class="clock"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime">Loading…</time></span></div>
-        <div class="tools-actions">
-          <button type="button" class="tool-btn" data-change-bg>🎨 Change background<span class="bg-color-swatch" aria-hidden="true"></span></button>
-          <button type="button" class="tool-btn tool-btn--primary" data-open-popup>✉️ Subscribe</button>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
@@ -391,20 +392,32 @@
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form (hidden by default, opened by js/popup.js) -->
-  <div id="subscribe-popup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
-    <div class="popup-box">
-      <button type="button" class="popup-close" aria-label="Close">&times;</button>
-      <h2 id="popup-title">Get the best deals 🎮</h2>
-      <p class="small mb-0">One short email a week with sales and new releases.</p>
-      <form novalidate>
-        <label for="popup-name">Name</label>
-        <input type="text" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
-        <label for="popup-email">Email</label>
-        <input type="email" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
-        <button type="submit" class="tool-btn tool-btn--primary">Subscribe</button>
-        <p class="popup-msg small mb-0" role="status" aria-live="polite"></p>
-      </form>
+  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-secondary-subtle">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h4" id="popup-title">Get the best deals 🎮</h2>
+          <button type="button" class="btn-close popup-close" aria-label="Close"></button>
+        </div>
+        <form novalidate>
+          <div class="modal-body">
+            <p class="small text-body-secondary">One short email a week with sales and new releases.</p>
+            <div class="mb-3">
+              <label for="popup-name" class="form-label fw-semibold">Name</label>
+              <input type="text" class="form-control" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div>
+              <label for="popup-email" class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <p class="popup-msg small mt-3 mb-0" role="status" aria-live="polite"></p>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -561,6 +574,7 @@
     function renderAll() {
       const acc = ACCOUNTS[email];
       $$('.js-name').forEach(el => el.textContent = user.name);
+      $$('.js-initials').forEach(el => el.textContent = user.name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase());
       $$('.js-email').forEach(el => el.textContent = email);
       $$('.js-balance').forEach(el => el.textContent = tenge(user.balance));
       $$('.js-library-count').forEach(el => el.textContent = acc.library.length);
