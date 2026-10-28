@@ -17,8 +17,8 @@
 .avatar-76 { width: 76px; height: 76px; }
 
 /* ---------- Cart badge: CSS hides it, JS shows it when count > 0 ---------- */
-.cart-badge { display: none; }
-.cart-badge.bump { animation: bump .45s ease; }
+.cart-badge, .wish-badge { display: none; }
+.cart-badge.bump, .wish-badge.bump { animation: bump .45s ease; }
 @keyframes bump {
   0%   { transform: translate(-50%, -50%) scale(1); }
   40%  { transform: translate(-50%, -50%) scale(1.6); }
