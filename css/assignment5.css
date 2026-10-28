@@ -150,7 +150,29 @@
   40%, 80% { transform: translateX(6px); }
 }
 
+/* ---------- Easter egg: Retro mode (Konami code, js/keyboard-nav.js) ---------- */
+.retro body,
+.retro h1, .retro h2, .retro h3, .retro h4, .retro h5, .retro h6,
+.retro .h1, .retro .h2, .retro .h3, .retro .h4, .retro .h5, .retro .h6,
+.retro .btn {
+  font-family: 'Courier New', ui-monospace, monospace !important;
+  letter-spacing: .02em;
+}
+.retro .card, .retro .btn, .retro .form-control, .retro .form-select { border-radius: 0 !important; }
+.retro .game-card img, .retro #game-cover { image-rendering: pixelated; }
+.retro body::after {                     /* old CRT screen lines */
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .12) 0 1px, transparent 1px 3px);
+  animation: crtFlicker 3s steps(2) infinite;
+}
+@keyframes crtFlicker { 50% { opacity: .85; } }
+
 @media (prefers-reduced-motion: reduce) {
+  .retro body::after { animation: none; }
   .fade-in-up, .checkout-step, .read-more-box, .star-btn.pop, .cart-badge.bump, .shake { animation: none; }
   .confetti { display: none; }
 }
