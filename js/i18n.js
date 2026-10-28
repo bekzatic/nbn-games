@@ -59,8 +59,50 @@
     'About the game':     { ru: 'Об игре',            kz: 'Ойын туралы' },
     'Rate this game':     { ru: 'Оцените игру',       kz: 'Ойынды бағалаңыз' },
     'Get in touch':       { ru: 'Связаться с нами',   kz: 'Бізбен байланысу' },
-    'Our principles':     { ru: 'Наши принципы',      kz: 'Біздің қағидаларымыз' }
+    'Our principles':     { ru: 'Наши принципы',      kz: 'Біздің қағидаларымыз' },
+    // catalog: genres, price filter, sort options
+    'Action':             { ru: 'Экшен',              kz: 'Экшн' },
+    'Adventure':          { ru: 'Приключения',        kz: 'Шытырман оқиға' },
+    'Strategy':           { ru: 'Стратегии',          kz: 'Стратегия' },
+    'Simulation':         { ru: 'Симуляторы',         kz: 'Симулятор' },
+    'Sport':              { ru: 'Спорт',              kz: 'Спорт' },
+    'Racing':             { ru: 'Гонки',              kz: 'Жарыс' },
+    'Under ₸5,000':       { ru: 'До ₸5 000',          kz: '₸5 000-ға дейін' },
+    'Sort: by genre (default)': { ru: 'Сортировка: по жанрам', kz: 'Сұрыптау: жанр бойынша' },
+    'Price: low → high':  { ru: 'Цена: по возрастанию', kz: 'Баға: арзаннан қымбатқа' },
+    'Price: high → low':  { ru: 'Цена: по убыванию',  kz: 'Баға: қымбаттан арзанға' },
+    'Name: A → Z':        { ru: 'Название: A → Z',    kz: 'Атауы: A → Z' },
+    'Reset filters':      { ru: 'Сбросить фильтры',   kz: 'Сүзгілерді тазалау' }
   };
+
+  /* Texts with a number inside, e.g. the catalog counter "12 games".
+     Each pattern: a regular expression + a function that builds the translation. */
+  const PATTERNS = [
+    {
+      re: /^(\d+) games?$/,
+      ru: n => `${n} ${ruPlural(n, 'игра', 'игры', 'игр')}`,
+      kz: n => `${n} ойын`
+    }
+  ];
+
+  // Russian plural: 1 игра, 2 игры, 5 игр, 21 игра, 11 игр
+  function ruPlural(n, one, few, many) {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return one;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
+    return many;
+  }
+
+  // English text → text in the current language (or null if we don't know it)
+  function lookup(en) {
+    if (DICTIONARY[en]) return current === 'en' ? en : DICTIONARY[en][current];
+    for (const p of PATTERNS) {
+      const m = en.match(p.re);
+      if (m) return current === 'en' ? en : p[current](Number(m[1]));
+    }
+    return null;
+  }
 
   const LANGS = ['en', 'ru', 'kz'];
   const original = new WeakMap();     // text node → its English text
@@ -74,11 +116,10 @@
   function translateNode(node) {
     if (!original.has(node)) {
       const text = node.nodeValue.trim();
-      if (!DICTIONARY[text]) return;          // we don't know this text — leave it
+      if (!text || lookup(text) === null) return;   // we don't know this text — leave it
       original.set(node, text);
     }
-    const en = original.get(node);
-    const value = current === 'en' ? en : DICTIONARY[en][current];
+    const value = lookup(original.get(node));
     // keep the spaces around the text (they matter between inline elements)
     node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), value);
   }
