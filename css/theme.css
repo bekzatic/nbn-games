@@ -259,3 +259,23 @@ h1, h2, h3, h4, h5, h6,
 .theme-anim, .theme-anim body, .theme-anim .card, .theme-anim .site-nav, .theme-anim .site-footer {
   transition: background-color .5s ease, color .5s ease, border-color .5s ease !important;
 }
+
+/* ==========================================================
+   Assignment #5 — UX: colour contrast fixes (checked with axe-core,
+   WCAG AA ≥ 4.5 : 1 for normal text, in BOTH Day and Night themes)
+   ========================================================== */
+/* navbar icon buttons: Bootstrap grey #6c757d was too dark on our background */
+.btn-outline-secondary {
+  --bs-btn-color: var(--nbn-muted);
+  --bs-btn-border-color: var(--nbn-border-strong);
+  --bs-btn-hover-color: var(--nbn-accent);
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-border-color: var(--nbn-accent);
+  --bs-btn-active-color: var(--nbn-accent);
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: var(--nbn-accent);
+}
+/* orange badges ("Sale", "−40%", counters): dark text at night, white text by day */
+.text-bg-primary { color: var(--nbn-on-accent) !important; }
+/* active filter pill in the Day theme: a little darker orange text */
+[data-bs-theme="light"] .nav-pills { --bs-nav-pills-link-active-color: var(--nbn-accent-hover); }

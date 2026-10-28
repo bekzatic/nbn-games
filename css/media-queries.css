@@ -169,8 +169,8 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
   --text: #1b1d21;
   --muted: #4a4f57;
   --dim: #6a707a;
-  --accent: #c2410c;
-  --accent-hover: #a3360a;
+  --accent: #a3360a;          /* darker than on Bootstrap pages: readable on the light tags/tables */
+  --accent-hover: #8a2d08;
   --heading: #111317;
   --header-bg: rgba(246, 244, 239, 0.95);
   --footer-bg: #ece9e2;
