@@ -16,6 +16,8 @@
         - clicks outside the white box (on the dark area),
         - presses Escape.
    4. The form inside checks the name and email before "subscribing".
+   5. Accessibility: while the popup is open, Tab / Shift+Tab stay inside it
+      (focus trap) and the rest of the page is marked `inert`.
    ========================================================== */
 
 (function () {
@@ -28,6 +30,9 @@
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   let backdrop = null;
   let lastFocused = null;
+
+  // everything on the page except the popup (made inert while it is open)
+  const pageParts = () => Array.from(document.body.children).filter(el => el !== popup && el.tagName !== 'SCRIPT' && !el.classList.contains('modal-backdrop'));
 
   function open() {
     lastFocused = document.activeElement;
@@ -56,8 +61,9 @@
       form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
       msg.textContent = '';
       msg.className = 'popup-msg small mt-3 mb-0';
+      pageParts().forEach(el => { el.inert = false; });   // page is usable again…
+      if (lastFocused) lastFocused.focus();                // …so focus can go back to the button
     }, 200);
-    if (lastFocused) lastFocused.focus();
   }
 
   document.querySelectorAll('[data-open-popup]').forEach(btn => btn.addEventListener('click', open));
@@ -67,8 +73,24 @@
   popup.addEventListener('click', e => { if (!box.contains(e.target)) close(); });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !popup.hidden) close();
+    if (popup.hidden) return;
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Tab') {                       // focus trap: cycle inside the popup
+      const items = Array.from(popup.querySelectorAll('button, input, [href], select, textarea'))
+        .filter(el => !el.disabled && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
+
+  // mark the page behind the popup as inert / give it back
+  new MutationObserver(() => {
+    const open = !popup.hidden;
+    pageParts().forEach(el => { el.inert = open; });
+  }).observe(popup, { attributes: true, attributeFilter: ['hidden'] });
 
   form.addEventListener('submit', e => {
     e.preventDefault();

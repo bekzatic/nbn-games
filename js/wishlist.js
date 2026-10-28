@@ -42,6 +42,8 @@ const Wishlist = {
     document.querySelectorAll('.wish-badge').forEach(badge => {
       badge.textContent = count;
       badge.style.display = count > 0 ? 'inline-block' : 'none';
+      badge.parentElement.setAttribute('aria-label', count ? `Wishlist, ${count} game${count === 1 ? '' : 's'}` : 'Wishlist, empty');
+      badge.setAttribute('aria-hidden', 'true');
       if (animate) {
         badge.classList.remove('bump');
         void badge.offsetWidth;

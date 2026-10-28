@@ -48,6 +48,9 @@ function updateCartBadge(animate = false) {
   document.querySelectorAll('.cart-badge').forEach(badge => {
     badge.textContent = count;
     badge.style.display = count > 0 ? 'inline-block' : 'none';   // dynamic style (Assignment #5)
+    // screen readers read the link label, so it says how many items are inside
+    badge.parentElement.setAttribute('aria-label', count ? `Cart, ${count} item${count === 1 ? '' : 's'}` : 'Cart, empty');
+    badge.setAttribute('aria-hidden', 'true');
     if (animate) {
       badge.classList.remove('bump');
       void badge.offsetWidth;            // restart the CSS animation
