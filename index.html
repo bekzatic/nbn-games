@@ -406,6 +406,17 @@
     </section>
 
     <!-- Task 3: three-column section (col-lg-4) -->
+    <!-- "Recently viewed" — filled by js/recently-viewed.js from localStorage; hidden until you open a game -->
+    <section class="py-4" id="recent-section" aria-labelledby="recent-title" hidden>
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-3">
+          <h2 id="recent-title" class="h4 mb-0">Recently viewed</h2>
+          <button type="button" class="btn btn-link btn-sm text-body-secondary text-decoration-none p-0" id="recent-clear">Clear history</button>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3" id="recent-row"></div>
+      </div>
+    </section>
+
     <section class="py-5" aria-labelledby="why-title">
       <div class="container">
         <h2 id="why-title" class="mb-4">Why NBN Games</h2>
@@ -546,6 +557,7 @@
 
   <script src="js/keyboard-nav.js"></script>
   <script src="js/games-data.js"></script>
+  <script src="js/recently-viewed.js"></script>
   <script src="js/home.js"></script>
 </body>
 </html>
