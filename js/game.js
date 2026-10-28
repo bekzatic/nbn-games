@@ -37,6 +37,7 @@ if (!game) {
   document.title = 'NBN Games — Game not found';
 } else {
   document.title = 'NBN Games — ' + game.title;
+  if (typeof RecentlyViewed !== 'undefined') RecentlyViewed.add(game);   // remember for the home page
 
   $('crumb-genre').innerHTML = `<a class="crumb-link" href="catalog.html">${game.genreLabel}</a>`;
   $('crumb-title').textContent = game.title;
