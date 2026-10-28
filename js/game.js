@@ -9,6 +9,8 @@
      textContent; the rating is saved per game in localStorage.
    - "Read more": extra content shown / hidden with style.display.
    - Sounds (SoundFX) and animations (star "pop", fade-in).
+   - Cover lightbox: click (or Enter) on the cover opens it big;
+     close with ×, a click outside or the Escape key.
    ========================================================== */
 
 const $ = id => document.getElementById(id);
@@ -128,6 +130,7 @@ if (!game) {
     showToast(on ? `${game.title} added to wishlist ♥` : 'Removed from wishlist');
   });
   initReadMore(game);
+  initLightbox(game);
   initRating(game);
 
   $('share-btn').addEventListener('click', () => {
@@ -217,4 +220,55 @@ function initRating(game) {
   });
 
   setRating(rating, false);
+}
+
+/* ---------- Cover lightbox ---------- */
+function initLightbox(game) {
+  const cover = $('game-cover');
+  cover.classList.add('zoomable');
+  cover.tabIndex = 0;
+  cover.setAttribute('role', 'button');
+  cover.setAttribute('aria-label', `Open ${game.title} cover in full size`);
+
+  // the overlay is created once by JavaScript (no extra HTML needed)
+  const box = document.createElement('div');
+  box.className = 'lightbox';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  box.setAttribute('aria-label', game.title + ' cover');
+  box.hidden = true;
+  box.innerHTML = `
+    <button type="button" class="btn-close btn-close-white lightbox-close" aria-label="Close"></button>
+    <img class="lightbox-img rounded-3 shadow-lg" src="${game.img}" alt="${escapeHtml(game.title)} cover">
+    <p class="lightbox-caption small mb-0">${escapeHtml(game.title)} · ${game.developer}, ${game.year} — press Esc to close</p>`;
+  document.body.appendChild(box);
+  const closeBtn = box.querySelector('.lightbox-close');
+
+  function open() {
+    box.hidden = false;
+    void box.offsetWidth;               // reflow → the CSS transition starts
+    box.classList.add('is-open');
+    document.body.classList.add('overflow-hidden');
+    closeBtn.focus();
+    if (window.SoundFX) SoundFX.play('whoosh');
+  }
+
+  function close() {
+    box.classList.remove('is-open');
+    document.body.classList.remove('overflow-hidden');
+    setTimeout(() => { box.hidden = true; }, 250);
+    cover.focus();
+  }
+
+  cover.addEventListener('click', open);
+  cover.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+  });
+  closeBtn.addEventListener('click', close);
+  box.addEventListener('click', e => { if (e.target === box) close(); });   // click outside the picture
+  document.addEventListener('keydown', e => {
+    if (box.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }          // keep focus inside
+  });
 }
