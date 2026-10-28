@@ -67,7 +67,8 @@ function loadUser(mail) {
     transactions: [{ label: 'Welcome bonus', amount: acc.balance, date: acc.joined }],
     twoFA: false, alerts: true,
     prefs: { deals: true, releases: true, receipts: true, newsletter: false },
-    read: [], sessionsCleared: false
+    read: [], sessionsCleared: false,
+    plays: {}                       // { 'Elden Ring': 3, ... } — how many times each game was launched
   };
   return Object.assign(defaults, load('nbn_user_' + mail, {}));
 }
@@ -169,11 +170,11 @@ function renderLibrary() {
           <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/${COVERS[title] || ''}" alt="${title} cover"></div>
           <div class="card-body p-3">
             <h3 class="card-title h6 fw-bold mb-1">${title}</h3>
-            <p class="card-text small text-body-secondary mb-0">In your library</p>
+            <p class="card-text small text-body-secondary mb-0 js-plays">${playsText(title)}</p>
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
-          <button type="button" class="btn btn-primary btn-sm w-100 play-btn" data-title="${title.replace(/"/g, '&quot;')}">▶ Play</button>
+          <button type="button" class="btn btn-primary btn-sm w-100 play-btn position-relative overflow-hidden" data-title="${title.replace(/"/g, '&quot;')}"><span class="play-progress" aria-hidden="true"></span><span class="play-label position-relative">▶ Play</span></button>
         </div>
       </article>
     </div>`).join('');
@@ -182,13 +183,49 @@ function renderLibrary() {
 
 $('library-search').addEventListener('input', renderLibrary);
 
+// "Played 3 times" / "Not played yet" — text from the user's plays object
+function playsText(title) {
+  const n = (user.plays || {})[title] || 0;
+  switch (n) {
+    case 0:  return 'In your library · not played yet';
+    case 1:  return 'Played once';
+    default: return `Played ${n} times`;
+  }
+}
+
+/* ▶ Play: a progress bar fills the button (animation), a sound plays,
+   then the launch counter for this game is saved for the user. */
 $('library-grid').addEventListener('click', e => {
   const btn = e.target.closest('.play-btn');
-  if (!btn) return;
-  btn.textContent = 'Launching…';
+  if (!btn || btn.disabled) return;
+  const title = btn.dataset.title;
+  const label = btn.querySelector('.play-label');
+  const bar = btn.querySelector('.play-progress');
   btn.disabled = true;
-  showToast(`Launching ${btn.dataset.title}…`);
-  setTimeout(() => { btn.textContent = '▶ Play'; btn.disabled = false; }, 1500);
+  label.textContent = 'Launching… 0%';
+  if (window.SoundFX) SoundFX.play('whoosh');
+
+  let percent = 0;
+  const timer = setInterval(() => {
+    percent = Math.min(100, percent + 10);
+    bar.style.width = percent + '%';                 // dynamic style
+    label.textContent = `Launching… ${percent}%`;
+    if (percent === 100) {
+      clearInterval(timer);
+      user.plays = user.plays || {};
+      user.plays[title] = (user.plays[title] || 0) + 1;
+      saveUser();
+      label.textContent = '🎮 Have fun!';
+      btn.closest('.card').querySelector('.js-plays').textContent = playsText(title);
+      if (window.SoundFX) SoundFX.play('success');
+      showToast(`${title} is running — have fun!`);
+      setTimeout(() => {
+        bar.style.width = '0';
+        label.textContent = '▶ Play';
+        btn.disabled = false;
+      }, 1500);
+    }
+  }, 120);
 });
 
 /* ---------- Wishlist (data from js/wishlist.js) ---------- */
