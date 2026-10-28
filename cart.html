@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
+  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Cart</title>
@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/assignment4.css">
+  <link rel="stylesheet" href="css/assignment5.css">
+  <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
+  <script src="js/theme-toggle.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
@@ -21,7 +24,9 @@
       <div class="container">
         <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="btn btn-secondary position-relative" aria-label="Cart" aria-current="page">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <button type="button" class="btn btn-outline-secondary icon-btn" data-theme-toggle aria-label="Switch theme">☀️</button>
+          <button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off">🔊</button>
+          <a href="cart.html" class="btn btn-secondary position-relative" aria-label="Cart" aria-current="page">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
           <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,16 +69,103 @@
               </form>
 
               <div class="d-flex justify-content-between small text-body-secondary py-2"><span>Items</span><span id="sum-items">0 ₸</span></div>
-              <div class="justify-content-between small text-success py-2" id="discount-row" style="display:none;"><span>Discount (NEXTSTEP)</span><span id="sum-discount">0 ₸</span></div>
+              <div class="d-flex justify-content-between small text-success py-2" id="discount-row" hidden><span>Discount (NEXTSTEP)</span><span id="sum-discount">0 ₸</span></div>
               <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-3 mt-2"><span>Total</span><span id="sum-total">0 ₸</span></div>
 
               <div class="d-grid gap-2 mt-4">
-                <a href="#" class="btn btn-primary btn-lg" id="checkout-btn">Proceed to checkout</a>
+                <button type="button" class="btn btn-primary btn-lg" id="checkout-btn">Proceed to checkout</button>
                 <a href="catalog.html" class="btn btn-outline-light">Continue shopping</a>
               </div>
             </div>
           </aside>
         </div>
+
+        <!-- Assignment #5: multi-step checkout. "Next" / "Back" buttons call showStep() (a callback),
+             the values typed in every step are kept in the `order` object (js/cart-page.js). -->
+        <section id="checkout" class="card p-3 p-sm-4 p-lg-5 mt-5" aria-labelledby="checkout-title" hidden>
+          <h2 id="checkout-title" class="h3 mb-4">Checkout</h2>
+
+          <ol class="list-unstyled d-flex flex-wrap gap-3 gap-md-5 mb-4" aria-label="Checkout progress">
+            <li class="step-item d-flex align-items-center gap-2" data-step-dot="1"><span class="step-dot">1</span><span class="step-label">Contacts</span></li>
+            <li class="step-item d-flex align-items-center gap-2" data-step-dot="2"><span class="step-dot">2</span><span class="step-label">Delivery &amp; payment</span></li>
+            <li class="step-item d-flex align-items-center gap-2" data-step-dot="3"><span class="step-dot">3</span><span class="step-label">Confirm</span></li>
+          </ol>
+          <div class="progress mb-4" role="progressbar" aria-label="Checkout progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33">
+            <div class="progress-bar bg-primary" id="checkout-progress"></div>
+          </div>
+
+          <form id="checkout-form" novalidate>
+            <!-- Step 1 -->
+            <div class="checkout-step" data-step="1">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="co-name" class="form-label fw-semibold">Full name</label>
+                  <input type="text" class="form-control" id="co-name" name="name" autocomplete="name" placeholder="Your name">
+                  <div class="invalid-feedback">Please enter your name (2+ characters).</div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="co-email" class="form-label fw-semibold">Email for the game keys</label>
+                  <input type="email" class="form-control" id="co-email" name="email" autocomplete="email" placeholder="you@example.com">
+                  <div class="invalid-feedback">Enter a valid email, e.g. name@example.com.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="checkout-step" data-step="2" hidden>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="co-platform" class="form-label fw-semibold">Activate keys on</label>
+                  <select id="co-platform" name="platform" class="form-select">
+                    <option>Steam (PC)</option>
+                    <option>PlayStation Store</option>
+                    <option>Xbox / Microsoft Store</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <span class="form-label fw-semibold d-block mb-2">Payment method</span>
+                  <div class="row g-2">
+                    <div class="col-12 col-md-4"><label class="method-option border rounded-3 p-3 d-flex gap-2 h-100"><input class="form-check-input mt-1" type="radio" name="method" value="NBN Wallet" checked> <span>👛 <strong>NBN Wallet</strong><br><small class="text-body-secondary">Pay from your profile balance</small></span></label></div>
+                    <div class="col-12 col-md-4"><label class="method-option border rounded-3 p-3 d-flex gap-2 h-100"><input class="form-check-input mt-1" type="radio" name="method" value="Kaspi QR"> <span>📱 <strong>Kaspi QR</strong><br><small class="text-body-secondary">Scan the code in the Kaspi app</small></span></label></div>
+                    <div class="col-12 col-md-4"><label class="method-option border rounded-3 p-3 d-flex gap-2 h-100"><input class="form-check-input mt-1" type="radio" name="method" value="Bank card"> <span>💳 <strong>Bank card</strong><br><small class="text-body-secondary">On the secure bank page</small></span></label></div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="co-gift" name="gift">
+                    <label class="form-check-label" for="co-gift">This is a gift 🎁 (we'll send the keys in a gift email)</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="checkout-step" data-step="3" hidden>
+              <p class="text-body-secondary">Please check your order:</p>
+              <dl class="row mb-0" id="checkout-review"></dl>
+              <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" id="co-agree">
+                <label class="form-check-label" for="co-agree">I understand this is a student demo — no real payment is made.</label>
+                <div class="invalid-feedback">Please tick this box to place the order.</div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-between gap-2 mt-4">
+              <button type="button" class="btn btn-outline-light" id="co-back">← Back</button>
+              <div class="btn-group" role="group" aria-label="Checkout actions">
+                <button type="button" class="btn btn-outline-secondary" id="co-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="co-next">Next →</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="text-center py-4" id="order-done" hidden>
+            <span class="fs-1 d-block mb-2" aria-hidden="true">🎉</span>
+            <h3 class="h3">Order placed!</h3>
+            <p class="text-body-secondary mb-4" id="order-done-text"></p>
+            <a href="catalog.html" class="btn btn-primary">Find more games</a>
+          </div>
+        </section>
       </div>
     </section>
   </main>
@@ -121,7 +213,7 @@
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #4.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
       </div>
     </div>
@@ -157,84 +249,14 @@
   </div>
 
   <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/sound.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <!-- Assignment #4 JavaScript -->
   <script src="js/popup.js"></script>
   <script src="js/bg-color.js"></script>
   <script src="js/datetime.js"></script>
-  <script>
-    const cartItemsEl = document.getElementById('cart-items');
-    const headingEl = document.getElementById('cart-heading');
-    const sumItemsEl = document.getElementById('sum-items');
-    const sumTotalEl = document.getElementById('sum-total');
-    const discountRow = document.getElementById('discount-row');
-    const sumDiscountEl = document.getElementById('sum-discount');
-    let promo = 0; // discount rate
-
-    function formatTenge(n) {
-      return n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
-    }
-
-    function renderCart() {
-      const cart = getCart();
-      headingEl.textContent = `Your cart (${cart.reduce((s, i) => s + i.qty, 0)})`;
-
-      if (cart.length === 0) {
-        cartItemsEl.innerHTML = `
-          <li class="empty-state rounded-3 text-center p-5">
-            <span class="fs-1 d-block mb-2" aria-hidden="true">🛒</span>
-            <h2 class="h5">Your cart is empty</h2>
-            <p class="text-body-secondary">Head to the catalog to find your next game.</p>
-            <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
-          </li>`;
-      } else {
-        cartItemsEl.innerHTML = cart.map(item => `
-          <li class="card cart-item" data-name="${item.name.replace(/"/g, '&quot;')}">
-            <div class="card-body d-flex flex-wrap flex-sm-nowrap align-items-center gap-3 p-3">
-              <img src="${item.img}" alt="${item.name} cover" class="rounded-2 flex-shrink-0 object-fit-cover" width="84" height="56">
-              <div class="flex-grow-1">
-                <h3 class="h6 fw-bold mb-1">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</h3>
-                <p class="small text-body-secondary mb-0">Digital key · Windows</p>
-              </div>
-              <div class="d-flex flex-sm-column align-items-center align-items-sm-end gap-2 ms-auto">
-                <span class="fw-semibold">${formatTenge(item.price * item.qty)}</span>
-                <button class="btn btn-outline-danger btn-sm remove" type="button">Remove</button>
-              </div>
-            </div>
-          </li>
-        `).join('');
-      }
-
-      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      const discount = Math.round(total * promo);
-      sumItemsEl.textContent = formatTenge(total);
-      discountRow.style.display = discount ? 'flex' : 'none';
-      sumDiscountEl.textContent = '−' + formatTenge(discount);
-      sumTotalEl.textContent = formatTenge(total - discount);
-    }
-
-    cartItemsEl.addEventListener('click', (e) => {
-      if (e.target.classList.contains('remove')) {
-        removeFromCart(e.target.closest('.cart-item').dataset.name);
-        renderCart();
-      }
-    });
-
-    document.getElementById('promo-form').addEventListener('submit', e => {
-      e.preventDefault();
-      const code = document.getElementById('promo-input').value.trim().toUpperCase();
-      if (code === 'NEXTSTEP') { promo = 0.1; showToast('Promo code applied: −10%'); }
-      else { promo = 0; showToast('Unknown promo code'); }
-      renderCart();
-    });
-
-    document.getElementById('checkout-btn').addEventListener('click', e => {
-      e.preventDefault();
-      showToast(getCart().length ? 'Checkout is coming soon' : 'Your cart is empty');
-    });
-
-    renderCart();
-  </script>
+  <script src="js/keyboard-nav.js"></script>
+  <script src="js/cart-page.js"></script>
 </body>
 </html>

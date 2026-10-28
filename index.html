@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
+  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Home</title>
@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/assignment4.css">
+  <link rel="stylesheet" href="css/assignment5.css">
+  <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
+  <script src="js/theme-toggle.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
@@ -21,7 +24,9 @@
       <div class="container">
         <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <button type="button" class="btn btn-outline-secondary icon-btn" data-theme-toggle aria-label="Switch theme">☀️</button>
+          <button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off">🔊</button>
+          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
           <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +51,7 @@
       <div class="container py-lg-5">
         <div class="row align-items-center g-4 g-lg-5">
           <div class="col-12 col-lg-6 order-2 order-lg-1">
-            <span class="eyebrow d-inline-block mb-3">Your next level</span>
+            <span class="eyebrow d-inline-block mb-3" id="greeting" aria-live="polite">Your next level</span>
             <h1 class="mb-3">Games bring us together</h1>
             <p class="lead text-body-secondary mb-4">Thousands of games for PC, PlayStation and Xbox — one click away. Deals, new releases and a community that lives games every day.</p>
             <!-- Task 6: Bootstrap buttons in different sizes / styles -->
@@ -370,6 +375,32 @@
             </div>
           </div>
         </div>
+
+        <!-- Assignment #5: "Load more" — fetch() reads data/games.json and new cards are added here without a page reload -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 mt-0" id="more-games" aria-live="polite"></div>
+        <div class="text-center mt-4">
+          <button type="button" class="btn btn-outline-primary btn-lg px-4" id="load-more-btn">Load more games</button>
+          <p class="small text-body-tertiary mt-2 mb-0" id="load-more-info"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Assignment #5: random gaming fact — fetch() + content changed with textContent -->
+    <section class="py-5" aria-labelledby="fact-title">
+      <div class="container">
+        <div class="card p-4 p-md-5">
+          <div class="row align-items-center g-4">
+            <div class="col-12 col-lg-8">
+              <span class="eyebrow d-inline-block mb-2">Did you know? <span id="fact-counter" class="text-body-tertiary fw-normal"></span></span>
+              <h2 id="fact-title" class="h4 mb-3">Gaming fact of the moment</h2>
+              <p class="fact-text lead mb-0" id="fact-text">Press the button to get a random fact from the world of games.</p>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-end">
+              <button type="button" class="btn btn-primary btn-lg px-4" id="fact-btn">🎲 New fact</button>
+              <p class="small text-body-tertiary mt-2 mb-0">or press <kbd>F</kbd> on the keyboard</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -467,7 +498,7 @@
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #4.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>
     </div>
@@ -503,6 +534,7 @@
   </div>
 
   <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/sound.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <!-- Assignment #4 JavaScript -->
@@ -510,13 +542,8 @@
   <script src="js/bg-color.js"></script>
   <script src="js/datetime.js"></script>
 
-  <script>
-    // newsletter: no backend, just say thanks
-    document.getElementById('news-form').addEventListener('submit', e => {
-      e.preventDefault();
-      e.target.reset();
-      showToast('Thanks! You are subscribed.');
-    });
-  </script>
+  <script src="js/keyboard-nav.js"></script>
+  <script src="js/games-data.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>

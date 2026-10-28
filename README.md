@@ -4,6 +4,29 @@ Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nurs
 
 **Live site:** https://nbn-games-store.vercel.app
 
+## Assignment #5 — Advanced JavaScript and DOM Manipulation
+
+All HTML, CSS and JS are separated: **no inline `<script>` and no `style=""` attributes** in any page.
+The old inline scripts were moved to `js/home.js`, `js/catalog.js`, `js/game.js`, `js/cart-page.js`, `js/profile.js`;
+the game data moved to `js/games-data.js` (+ `data/games.json` for `fetch`). New styles: `css/assignment5.css`.
+
+| Requirement | What we built | File | Where | Author |
+|---|---|---|---|---|
+| **1. DOM — select & change content** | Rating stars selected with `querySelectorAll`; click / hover / ← → change their colour; message updated with `textContent` | `js/game.js` | any game page → **Rate this game** | Nursultan Rassulov |
+| **1. Dynamic styles** | **Day / Night theme** switch (☀️/🌙) — changes `data-bs-theme`, saved in localStorage, smooth CSS transition; background-colour button works in both themes | `js/theme-toggle.js`, `js/bg-color.js`, `css/theme.css` | navbar on every page | Bekzat Amanbek |
+| **1. Attributes** | **Read more** — extra info toggled with `style.display`; also random-fact area changed by a button | `js/game.js`, `js/home.js` | game page; home → **Did you know?** | Nursultan / Nurkhan |
+| **2. Button event listener** | **Load more games** — `fetch('data/games.json')` appends new cards without reload | `js/home.js` | home → Popular games | Nurkhan Nurzhau |
+| **2. Keyboard events** | Arrow keys / Home / End move focus in the main menu (`keydown` + `switch`); `/` focuses catalog search, `Esc` clears it; `F` = new fact; ← → on stars | `js/keyboard-nav.js`, `js/catalog.js` | every page | Nurkhan Nurzhau |
+| **2. Callbacks** | (a) Contact form sent with `fetch` **POST** to our Vercel function `api/contact.js`, success/error shown by callbacks — no reload. (b) **Multi-step checkout** (Contacts → Delivery & payment → Confirm) with Next/Back; `showStep()` callback, inputs kept in the `order` object | `js/contact-form.js`, `api/contact.js`, `js/cart-page.js` | About → Get in touch; Cart → Proceed to checkout | Nurkhan / Nursultan |
+| **2. Switch statements** | Catalog price filter + sort order (price ↑↓, A→Z); greeting by time of day; keyboard keys; cart − / + / Remove actions | `js/catalog.js`, `js/home.js`, `js/cart-page.js` | catalog, home, cart | Bekzat / Nurkhan |
+| **3. Objects & methods** | `SoundFX` (play, toggle, isMuted), `Checkout` (open, next, back, showStep, placeOrder), catalog `state`, `GENRE_INFO`, game objects in `GAMES` | `js/sound.js`, `js/cart-page.js`, `js/catalog.js` | — | all |
+| **3. Arrays & loops** | `for` loop builds Load-more cards, `for...of` counts catalog results and builds the order review, `while` loop picks a fact different from the last | `js/home.js`, `js/catalog.js`, `js/cart-page.js` | — | all |
+| **3. Higher-order functions** | `map`, `filter`, `forEach`, `reduce`, `sort(compareBy(...))` | everywhere | — | all |
+| **3. Sounds** | Web Audio API effects (add to cart, star, success, error, toggle…); 🔊/🔇 mute button; the previous sound is stopped before a new one → no overlapping | `js/sound.js` | every page | Nursultan Rassulov |
+| **3. Animations** | "+1" flies to the cart, badge bump, star pop, cards fade in, fact fade, form shake on error, confetti after an order, theme button spin | `css/assignment5.css` + JS | everywhere | all |
+
+Sounds start after the first click (browsers block audio before any user action). Contact form POST works on the deployed site (Vercel function); when the page is opened from disk, the form shows an error message instead.
+
 ## Assignment #4 — Introduction to JavaScript
 
 All JS is plain JavaScript (no libraries), one file per component, linked at the bottom of every page.

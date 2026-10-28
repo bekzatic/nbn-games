@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
+  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — About</title>
@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/assignment4.css">
+  <link rel="stylesheet" href="css/assignment5.css">
+  <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
+  <script src="js/theme-toggle.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
@@ -21,7 +24,9 @@
       <div class="container">
         <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="30"></a>
         <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span style="display:none" class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <button type="button" class="btn btn-outline-secondary icon-btn" data-theme-toggle aria-label="Switch theme">☀️</button>
+          <button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off">🔊</button>
+          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
           <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -248,10 +253,11 @@
                   </div>
                 </div>
                 <div class="col-12">
-                  <button type="submit" class="btn btn-primary btn-lg w-100">Send message</button>
+                  <button type="submit" class="btn btn-primary btn-lg w-100" id="contact-submit">Send message</button>
                 </div>
               </div>
-              <div class="alert alert-success mt-3 mb-0" id="form-success" role="status" hidden>Thanks! Your message has been sent — we'll get back to you soon.</div>
+              <div class="alert alert-success mt-3 mb-0" id="form-success" role="status" hidden></div>
+              <div class="alert alert-danger mt-3 mb-0" id="form-error" role="alert" hidden></div>
             </form>
           </div>
         </div>
@@ -302,7 +308,7 @@
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #4.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>
     </div>
@@ -338,6 +344,7 @@
   </div>
 
   <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/sound.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <!-- Assignment #4 JavaScript -->
@@ -346,5 +353,6 @@
   <script src="js/datetime.js"></script>
   <script src="js/accordion.js"></script>
   <script src="js/contact-form.js"></script>
+  <script src="js/keyboard-nav.js"></script>
 </body>
 </html>
