@@ -1,0 +1,126 @@
+/* assignment5.css — styles for the Assignment #5 JavaScript features.
+   Only things Bootstrap does not have: animations, rating stars,
+   checkout steps. Everything else is Bootstrap classes. */
+
+/* ---------- Navbar icon buttons (theme + sound) ---------- */
+.icon-btn {
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .4s ease;
+}
+
+/* profile avatar with initials */
+.avatar-76 { width: 76px; height: 76px; }
+
+/* ---------- Cart badge: CSS hides it, JS shows it when count > 0 ---------- */
+.cart-badge { display: none; }
+.cart-badge.bump { animation: bump .45s ease; }
+@keyframes bump {
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  40%  { transform: translate(-50%, -50%) scale(1.6); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* flying "+1" when a game is added to the cart */
+.fly-plus {
+  position: fixed;
+  z-index: 2000;
+  pointer-events: none;
+  font-weight: 700;
+  color: var(--nbn-accent);
+  transition: transform .7s cubic-bezier(.2, .8, .2, 1), opacity .7s ease;
+}
+
+/* ---------- Cards that appear (Load more, catalog filters) ---------- */
+.fade-in-up { animation: fadeInUp .5s ease both; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Random gaming fact ---------- */
+.fact-text { transition: opacity .3s ease, transform .3s ease; }
+.fact-text.is-changing { opacity: 0; transform: translateY(8px); }
+
+/* ---------- Star rating (game page) ---------- */
+.star-rating { display: inline-flex; gap: .15rem; }
+.star-btn {
+  background: none;
+  border: 0;
+  padding: 0 .1rem;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--nbn-border-strong);
+  cursor: pointer;
+  transition: color .15s ease, transform .15s ease;
+}
+.star-btn:hover { transform: scale(1.15); }
+.star-btn.is-hover { color: var(--nbn-yellow); }
+.star-btn.is-on { color: var(--nbn-yellow); }
+.star-btn.pop { animation: starPop .4s ease; }
+@keyframes starPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5) rotate(-12deg); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- Read more (game page) ---------- */
+.read-more-box { animation: fadeInUp .35s ease both; }
+
+/* ---------- Checkout steps (cart page) ---------- */
+.step-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border: 2px solid var(--nbn-border-strong);
+  color: var(--nbn-muted);
+  transition: background-color .3s, color .3s, border-color .3s;
+}
+.step-item.is-active .step-dot,
+.step-item.is-done .step-dot {
+  background-color: var(--nbn-accent);
+  border-color: var(--nbn-accent);
+  color: var(--nbn-on-accent);
+}
+.step-item.is-active .step-label { color: var(--bs-emphasis-color); font-weight: 600; }
+.checkout-step { animation: fadeInUp .35s ease both; }
+.method-option { cursor: pointer; transition: border-color .2s, background-color .2s; }
+.method-option:has(input:checked) {
+  border-color: var(--nbn-accent) !important;
+  background-color: var(--bs-primary-bg-subtle);
+}
+
+/* ---------- Confetti (order placed) ---------- */
+.confetti {
+  position: fixed;
+  top: -12px;
+  width: 9px;
+  height: 14px;
+  z-index: 2000;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  to { transform: translateY(105vh) rotate(720deg); opacity: .6; }
+}
+
+/* shake for a wrong input */
+.shake { animation: shake .4s ease; }
+@keyframes shake {
+  0%, 100% { transform: none; }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up, .checkout-step, .read-more-box, .star-btn.pop, .cart-badge.bump, .shake { animation: none; }
+  .confetti { display: none; }
+}

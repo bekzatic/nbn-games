@@ -19,6 +19,10 @@
   --nbn-accent-hover: #ff7a45;
   --nbn-green: #3ecf6e;
   --nbn-yellow: #f2c94c;
+  --nbn-on-accent: #0b0d10;
+  --nbn-footer: #111419;
+  --nbn-nav-bg: rgba(11, 13, 16, 0.92);
+  --nbn-table-hover: #232830;
 
   --bs-body-bg: var(--nbn-bg);
   --bs-body-bg-rgb: 11, 13, 16;
@@ -63,16 +67,16 @@ h1, h2, h3, h4, h5, h6,
 
 /* Bootstrap buttons re-coloured with the NBN accent (Task 6) */
 .btn-primary {
-  --bs-btn-color: var(--nbn-bg);
+  --bs-btn-color: var(--nbn-on-accent);
   --bs-btn-bg: var(--nbn-accent);
   --bs-btn-border-color: var(--nbn-accent);
-  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-color: var(--nbn-on-accent);
   --bs-btn-hover-bg: var(--nbn-accent-hover);
   --bs-btn-hover-border-color: var(--nbn-accent-hover);
-  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-color: var(--nbn-on-accent);
   --bs-btn-active-bg: #e84d15;
   --bs-btn-active-border-color: #e84d15;
-  --bs-btn-disabled-color: var(--nbn-bg);
+  --bs-btn-disabled-color: var(--nbn-on-accent);
   --bs-btn-disabled-bg: var(--nbn-accent);
   --bs-btn-disabled-border-color: var(--nbn-accent);
   --bs-btn-focus-shadow-rgb: 255, 90, 31;
@@ -82,10 +86,10 @@ h1, h2, h3, h4, h5, h6,
 .btn-outline-primary {
   --bs-btn-color: var(--nbn-accent);
   --bs-btn-border-color: var(--nbn-accent);
-  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-color: var(--nbn-on-accent);
   --bs-btn-hover-bg: var(--nbn-accent);
   --bs-btn-hover-border-color: var(--nbn-accent);
-  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-color: var(--nbn-on-accent);
   --bs-btn-active-bg: var(--nbn-accent);
   --bs-btn-active-border-color: var(--nbn-accent);
   --bs-btn-focus-shadow-rgb: 255, 90, 31;
@@ -158,7 +162,7 @@ h1, h2, h3, h4, h5, h6,
 .table {
   --bs-table-bg: var(--nbn-surface);
   --bs-table-striped-bg: var(--nbn-surface-2);
-  --bs-table-hover-bg: #232830;
+  --bs-table-hover-bg: var(--nbn-table-hover);
   --bs-table-border-color: var(--nbn-border);
 }
 
@@ -175,7 +179,7 @@ h1, h2, h3, h4, h5, h6,
 .accordion {
   --bs-accordion-bg: var(--nbn-surface);
   --bs-accordion-border-color: var(--nbn-border);
-  --bs-accordion-btn-color: #ffffff;
+  --bs-accordion-btn-color: var(--bs-emphasis-color);
   --bs-accordion-active-color: var(--nbn-accent-hover);
   --bs-accordion-active-bg: var(--bs-primary-bg-subtle);
   --bs-accordion-btn-focus-box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color);
@@ -187,4 +191,71 @@ h1, h2, h3, h4, h5, h6,
 [data-bs-theme="dark"] .accordion-button::after {
   --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23b7bcc4' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
   --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ff7a45' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
+}
+
+/* ==========================================================
+   Assignment #5 — DAY theme (data-bs-theme="light").
+   The same NBN variables get light values; every component that
+   uses them (Bootstrap + our classes) changes colour automatically.
+   The orange is a bit darker here so white text on it stays readable.
+   ========================================================== */
+[data-bs-theme="light"] {
+  color-scheme: light;
+  --nbn-bg: #f6f4ef;
+  --nbn-surface: #ffffff;
+  --nbn-surface-2: #eeebe4;
+  --nbn-border: #dedad2;
+  --nbn-border-strong: #b9b4aa;
+  --nbn-text: #1b1d21;
+  --nbn-muted: #4a4f57;
+  --nbn-dim: #6a707a;
+  --nbn-accent: #c2410c;
+  --nbn-accent-hover: #a3360a;
+  --nbn-green: #15803d;
+  --nbn-yellow: #b7791f;
+  --nbn-on-accent: #ffffff;
+  --nbn-footer: #ece9e2;
+  --nbn-nav-bg: rgba(246, 244, 239, 0.92);
+  --nbn-table-hover: #e6e2da;
+
+  --bs-body-bg: var(--nbn-bg);
+  --bs-body-bg-rgb: 246, 244, 239;
+  --bs-body-color: var(--nbn-text);
+  --bs-body-color-rgb: 27, 29, 33;
+  --bs-secondary-color: var(--nbn-muted);
+  --bs-secondary-color-rgb: 74, 79, 87;
+  --bs-tertiary-color: var(--nbn-dim);
+  --bs-tertiary-color-rgb: 106, 112, 122;
+  --bs-secondary-bg: var(--nbn-surface);
+  --bs-secondary-bg-rgb: 255, 255, 255;
+  --bs-tertiary-bg: var(--nbn-surface-2);
+  --bs-tertiary-bg-rgb: 238, 235, 228;
+  --bs-border-color: var(--nbn-border);
+  --bs-emphasis-color: #000000;
+  --bs-heading-color: #111317;
+  --bs-primary: var(--nbn-accent);
+  --bs-primary-rgb: 194, 65, 12;
+  --bs-primary-text-emphasis: var(--nbn-accent-hover);
+  --bs-primary-bg-subtle: rgba(194, 65, 12, 0.1);
+  --bs-primary-border-subtle: rgba(194, 65, 12, 0.4);
+  --bs-link-color: var(--nbn-accent);
+  --bs-link-color-rgb: 194, 65, 12;
+  --bs-link-hover-color: var(--nbn-accent-hover);
+  --bs-link-hover-color-rgb: 163, 54, 10;
+  --bs-success: var(--nbn-green);
+  --bs-success-rgb: 21, 128, 61;
+  --bs-danger: #c0392b;
+  --bs-danger-rgb: 192, 57, 43;
+  --bs-focus-ring-color: rgba(194, 65, 12, 0.3);
+}
+/* .text-white is used for highlighted numbers/headings — on a light page it becomes dark */
+[data-bs-theme="light"] .text-white { color: var(--bs-emphasis-color) !important; }
+[data-bs-theme="light"] .wallet-card .text-white { color: #fff !important; }
+[data-bs-theme="light"] .btn-outline-light { --bs-btn-hover-bg: transparent; }
+[data-bs-theme="light"] .navbar-toggler-icon { filter: invert(1) brightness(.2); }
+[data-bs-theme="light"] .btn-close { filter: none; }
+
+/* smooth colour change while the theme switches (class added by js/theme-toggle.js) */
+.theme-anim, .theme-anim body, .theme-anim .card, .theme-anim .site-nav, .theme-anim .site-footer {
+  transition: background-color .5s ease, color .5s ease, border-color .5s ease !important;
 }

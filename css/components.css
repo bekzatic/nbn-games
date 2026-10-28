@@ -7,13 +7,13 @@
 /* ---------- Header & footer ---------- */
 
 .site-nav {
-  background-color: rgba(11, 13, 16, 0.92);
+  background-color: var(--nbn-nav-bg);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--nbn-border);
 }
 
 .site-footer {
-  background-color: #111419;
+  background-color: var(--nbn-footer);
   border-top: 1px solid var(--nbn-border);
 }
 
