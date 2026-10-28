@@ -121,7 +121,7 @@ loginForm.addEventListener('submit', e => {
 $('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
 
 /* ---------- Sidebar: switch between panels ---------- */
-const SECTIONS = ['profile', 'games', 'wallet', 'settings', 'security', 'notifications'];
+const SECTIONS = ['profile', 'games', 'wishlist', 'wallet', 'settings', 'security', 'notifications'];
 
 function openSection(name) {
   if (!SECTIONS.includes(name)) name = 'profile';
@@ -151,6 +151,7 @@ function renderAll() {
   $('info-country').textContent = user.country;
   $('info-platform').textContent = user.platform;
   renderLibrary();
+  renderWishlist();
   renderTransactions();
   fillSettings();
   renderSecurity();
@@ -188,6 +189,39 @@ $('library-grid').addEventListener('click', e => {
   btn.disabled = true;
   showToast(`Launching ${btn.dataset.title}…`);
   setTimeout(() => { btn.textContent = '▶ Play'; btn.disabled = false; }, 1500);
+});
+
+/* ---------- Wishlist (data from js/wishlist.js) ---------- */
+function renderWishlist() {
+  const list = Wishlist.all();
+  $$('.js-wish-count').forEach(el => el.textContent = list.length);
+  $('wish-grid').innerHTML = list.map(g => `
+    <div class="col">
+      <article class="card game-card h-100" data-id="${g.id}">
+        <a href="game.html?id=${g.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${g.title.replace(/"/g, '&quot;')} cover"></div>
+          <div class="card-body p-3">
+            <h3 class="card-title h6 fw-bold mb-1">${g.title}</h3>
+            <p class="card-text small fw-semibold mb-0">${g.price === 0 ? 'Free' : tenge(g.price)}</p>
+          </div>
+        </a>
+        <div class="card-footer border-0 px-3 pb-3 pt-0">
+          <div class="btn-group btn-group-sm w-100" role="group" aria-label="${g.title.replace(/"/g, '&quot;')} actions">
+            <button type="button" class="btn btn-primary add-to-cart-btn" data-name="${g.title.replace(/"/g, '&quot;')}" data-price="${g.price}" data-img="${g.img}">Add to cart</button>
+            <button type="button" class="btn btn-outline-light wish-remove">Remove ♥</button>
+          </div>
+        </div>
+      </article>
+    </div>`).join('');
+  $('wish-empty').hidden = list.length !== 0;
+}
+
+$('wish-grid').addEventListener('click', e => {
+  const btn = e.target.closest('.wish-remove');
+  if (!btn) return;
+  Wishlist.remove(btn.closest('[data-id]').dataset.id);
+  if (window.SoundFX) SoundFX.play('click');
+  renderWishlist();
 });
 
 /* ---------- Wallet ---------- */

@@ -111,11 +111,19 @@ if (!game) {
     </div>`).join('');
 
   // Wishlist toggle + share (button states)
-  $('wish-btn').addEventListener('click', e => {
-    const on = e.currentTarget.classList.toggle('active');
-    e.currentTarget.setAttribute('aria-pressed', on);
-    e.currentTarget.textContent = on ? '♥ In wishlist' : '♡ Wishlist';
-    showToast(on ? 'Added to wishlist' : 'Removed from wishlist');
+  // Wishlist button — saved in localStorage through the Wishlist object (js/wishlist.js)
+  const wishBtn = $('wish-btn');
+  const paintWish = on => {
+    wishBtn.classList.toggle('active', on);
+    wishBtn.setAttribute('aria-pressed', on);
+    wishBtn.textContent = on ? '♥ In wishlist' : '♡ Wishlist';
+  };
+  paintWish(Wishlist.has(game.id));
+  wishBtn.addEventListener('click', () => {
+    const on = Wishlist.toggle(game);
+    paintWish(on);
+    if (window.SoundFX) SoundFX.play(on ? 'star' : 'click');
+    showToast(on ? `${game.title} added to wishlist ♥` : 'Removed from wishlist');
   });
   initReadMore(game);
   initRating(game);
