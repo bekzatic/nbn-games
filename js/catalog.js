@@ -10,6 +10,8 @@
      that we filter / sort / forEach; a for...of loop counts results.
    - Keyboard: "/" focuses the search box, Escape clears it.
    - Animation: cards that appear again fade in (CSS class).
+   - The filters are kept in the address (?genre=rpg&price=low&q=witcher),
+     so a filtered catalog can be shared as a link and survives reload.
    ========================================================== */
 
 const genreList = document.getElementById('genre-filter');
@@ -87,6 +89,40 @@ function refresh() {
   }
   countEl.textContent = visible + (visible === 1 ? ' game' : ' games');
   emptyEl.hidden = visible !== 0;
+  saveToUrl();
+}
+
+/* ---------- filters <-> address bar ---------- */
+const URL_KEYS = { genre: 'genre', price: 'price', platform: 'platform', search: 'q', sort: 'sort' };
+const DEFAULTS = { genre: 'all', price: 'all', platform: 'all', search: '', sort: 'default' };
+
+function saveToUrl() {
+  const params = new URLSearchParams();
+  Object.keys(URL_KEYS).forEach(key => {
+    if (state[key] !== DEFAULTS[key]) params.set(URL_KEYS[key], state[key]);
+  });
+  const query = params.toString();
+  history.replaceState(null, '', location.pathname + (query ? '?' + query : ''));
+}
+
+// read the filters from the address; only values that exist on the page are accepted
+function loadFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const pick = (list, attr, value) => value && list.querySelector(`button[data-${attr}="${CSS.escape(value)}"]`);
+  [[genreList, 'genre'], [priceList, 'price'], [platformList, 'platform']].forEach(([list, key]) => {
+    const btn = pick(list, key, params.get(key));
+    if (btn) {
+      state[key] = btn.dataset[key];
+      list.querySelectorAll('button').forEach(el => {
+        el.classList.toggle('active', el === btn);
+        el.setAttribute('aria-pressed', el === btn);
+      });
+    }
+  });
+  const q = (params.get('q') || '').trim();
+  if (q) { searchEl.value = q; state.search = q.toLowerCase(); }
+  const sort = params.get('sort');
+  if (sort && sortEl.querySelector(`option[value="${CSS.escape(sort)}"]`)) { sortEl.value = sort; state.sort = sort; }
 }
 
 function bind(list, key) {
@@ -142,3 +178,7 @@ document.getElementById('reset-filters').addEventListener('click', () => {
   state.search = '';
   [genreList, priceList, platformList].forEach(list => list.querySelector('button').click());
 });
+
+// start: apply filters from the link (if any)
+loadFromUrl();
+refresh();

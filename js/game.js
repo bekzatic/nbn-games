@@ -39,7 +39,8 @@ if (!game) {
   document.title = 'NBN Games — ' + game.title;
   if (typeof RecentlyViewed !== 'undefined') RecentlyViewed.add(game);   // remember for the home page
 
-  $('crumb-genre').innerHTML = `<a class="crumb-link" href="catalog.html">${game.genreLabel}</a>`;
+  $('crumb-genre').innerHTML = `<a class="crumb-link" href="catalog.html?genre=${game.genre}">${game.genreLabel}</a>`;
+  $('similar-link').href = 'catalog.html?genre=' + game.genre;   // "See all" opens the catalog already filtered
   $('crumb-title').textContent = game.title;
   $('game-cover').src = game.img;
   $('game-cover').alt = game.title + ' cover';
