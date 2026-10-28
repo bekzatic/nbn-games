@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Assignment #4 (JavaScript) + Assignment #3 Part 1 (Media Queries, no Bootstrap) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
+  <!-- Assignment #5 (Day/Night) + #4 (JavaScript) + Assignment #3 Part 1 (Media Queries, no Bootstrap) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Media Queries</title>
@@ -9,6 +9,8 @@
   <!-- This page uses ONLY custom CSS media queries — Bootstrap is not loaded here -->
   <link rel="stylesheet" href="css/media-queries.css">
   <link rel="stylesheet" href="css/assignment4.css">
+  <!-- Assignment #5: saved Day/Night theme is applied before the page is drawn -->
+  <script src="js/theme-toggle.js"></script>
 </head>
 <body>
 
@@ -20,6 +22,7 @@
         <a href="catalog.html">Catalog</a>
         <a href="about.html">About us</a>
         <a href="media-queries.html" aria-current="page">Media queries</a>
+        <button type="button" class="tool-btn theme-btn" data-theme-toggle aria-label="Switch theme">☀️</button>
       </nav>
     </div>
   </header>
@@ -108,6 +111,7 @@
 
 
   <!-- Assignment #4 JavaScript -->
+  <script src="js/sound.js"></script>
   <script src="js/bg-color.js"></script>
   <script src="js/datetime.js"></script>
 
