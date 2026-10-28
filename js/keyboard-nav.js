@@ -46,3 +46,38 @@
     if (window.SoundFX) SoundFX.play('click');
   });
 })();
+
+/* ==========================================================
+   Easter egg — the Konami code:  ↑ ↑ ↓ ↓ ← → ← → B A
+   Author: Nurkhan Nurzhau
+   An ARRAY holds the secret sequence; every keydown is compared
+   with the next expected key. When the whole code is typed, the
+   site switches to "Retro mode" (8-bit look + sound). Typing the
+   code again switches it off.
+   ========================================================== */
+(function () {
+  const CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+                'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  let position = 0;                     // how many keys of CODE are already correct
+
+  document.addEventListener('keydown', e => {
+    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (key === CODE[position]) {
+      position++;
+      if (position === CODE.length) {
+        position = 0;
+        toggleRetro();
+      }
+    } else {
+      // a wrong key starts the check again — but an extra ↑ may still be the start of the code
+      if (key === 'ArrowUp') position = position === 2 ? 2 : 1;
+      else position = 0;
+    }
+  });
+
+  function toggleRetro() {
+    const on = document.documentElement.classList.toggle('retro');
+    if (window.SoundFX) SoundFX.play(on ? 'success' : 'toggle');
+    if (window.showToast) showToast(on ? '👾 Retro mode ON — type the code again to turn it off' : 'Retro mode OFF');
+  }
+})();
