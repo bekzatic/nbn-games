@@ -71,6 +71,36 @@
 /* ---------- Read more (game page) ---------- */
 .read-more-box { animation: fadeInUp .35s ease both; }
 
+/* ---------- Cover lightbox (game page) ---------- */
+.zoomable { cursor: zoom-in; transition: transform .25s ease, box-shadow .25s ease; }
+.zoomable:hover, .zoomable:focus-visible { transform: scale(1.02); box-shadow: 0 16px 40px rgba(0, 0, 0, .45); }
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2050;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, .85);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.lightbox.is-open { opacity: 1; }
+.lightbox-img {
+  width: min(92vw, 520px);
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  transform: scale(.9);
+  transition: transform .25s ease;
+}
+.lightbox.is-open .lightbox-img { transform: scale(1); }
+.lightbox-caption { color: #e6e6e6; text-align: center; }
+.lightbox-close { position: absolute; top: 1rem; right: 1rem; filter: invert(1) grayscale(100%) brightness(200%) !important; opacity: .9; }
+
 /* ---------- Checkout steps (cart page) ---------- */
 .step-dot {
   width: 2rem;
