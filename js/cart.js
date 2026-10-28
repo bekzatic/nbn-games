@@ -1,5 +1,9 @@
 /* ==========================================================
    NBN GAMES — shared cart logic (localStorage)
+   Author: Nursultan Rassulov
+   Assignment #5: functions with clear names (getCart, addToCart…),
+   array methods find / filter / reduce, event delegation for every
+   "Add to cart" button, flying "+1" + badge bump animation, sound.
    Used by: index, catalog, game, cart, about, profile
    Cart item shape: { name, price (number, no spaces), img, qty }
    ========================================================== */

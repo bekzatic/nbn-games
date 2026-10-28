@@ -1,5 +1,9 @@
 /* =========================================================
    Profile page — demo accounts + per-user data.
+   Author: Bekzat Amanbek
+   Assignment #5: ACCOUNTS / NOTIFICATIONS objects and arrays, render
+   functions with map(), switch for the play counter text, Play
+   button progress animation + sound, Wishlist panel.
    Changes (balance, settings, password…) are kept in this
    browser's localStorage, so they survive a page reload.
    NOTE: a real site would do all of this on a server.

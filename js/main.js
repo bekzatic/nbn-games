@@ -1,5 +1,6 @@
 /* ==========================================================
    NBN GAMES — shared UI behaviour (all pages)
+   Author: Nurkhan Nurzhau
    - The navbar hamburger menu is Bootstrap's collapse plugin.
    - showToast() uses the Bootstrap Toast component.
    - a small "back to top" button shows up after you scroll down.

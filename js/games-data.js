@@ -1,5 +1,7 @@
 /* ==========================================================
    NBN GAMES — the game catalogue as a JavaScript array of objects.
+   Author: Nursultan Rassulov
+   Assignment #5 — "Objects" and "Arrays": 42 game objects in one array.
    Used by game.html (one page for every game) and as an offline
    fallback for the "Load more" button on the home page.
    The same data is also stored in data/games.json for fetch().
