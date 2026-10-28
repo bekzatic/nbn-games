@@ -11,18 +11,18 @@ body { transition: background-color 0.6s ease; }
 .js-tools {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 12px 20px; padding: 14px 16px; margin-top: 24px;
-  border: 1px solid #23272e; border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03); font-size: 0.875rem; color: #b7bcc4;
+  border: 1px solid var(--border, #23272e); border-radius: 12px;
+  background: rgba(127, 127, 127, 0.06); font-size: 0.875rem; color: var(--muted, #b7bcc4);
 }
 .js-tools .tools-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .js-tools .clock { display: flex; align-items: center; gap: 8px; }
-.js-tools .clock time { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+.js-tools .clock time { color: var(--heading, #fff); font-weight: 600; font-variant-numeric: tabular-nums; }
 .js-tools .bg-color-swatch {
   display: inline-block; border-radius: 50%; border: 1px solid #8a919c;
   vertical-align: -1px; margin-left: 4px;
 }
 .tool-btn {
   font: inherit; font-weight: 600; cursor: pointer; padding: 7px 14px; border-radius: 8px;
-  border: 1px solid #3a4048; background: transparent; color: #f2f0ea;
+  border: 1px solid var(--border-strong, #3a4048); background: transparent; color: var(--text, #f2f0ea);
 }
-.tool-btn:hover, .tool-btn:focus-visible { border-color: #ff5a1f; color: #ff7a45; outline: none; }
+.tool-btn:hover, .tool-btn:focus-visible { border-color: var(--accent, #ff5a1f); color: var(--accent-hover, #ff7a45); outline: none; }

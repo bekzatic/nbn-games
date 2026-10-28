@@ -21,6 +21,10 @@
   --accent: #ff5a1f;
   --accent-hover: #ff7a45;
   --radius: 10px;
+  --heading: #ffffff;
+  --header-bg: rgba(11, 13, 16, 0.95);
+  --footer-bg: #111419;
+  --footer-text: #c9ced6;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -33,7 +37,7 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; color: #fff; line-height: 1.2; margin: 0 0 12px; }
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; color: var(--heading); line-height: 1.2; margin: 0 0 12px; }
 p { color: var(--muted); margin: 0 0 14px; }
 a { color: var(--accent); }
 img { max-width: 100%; display: block; }
@@ -42,12 +46,12 @@ img { max-width: 100%; display: block; }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
 
 /* ---------- header (simple flexbox, no Bootstrap) ---------- */
-.site-header { background: rgba(11, 13, 16, 0.95); border-bottom: 1px solid var(--border); }
+.site-header { background: var(--header-bg); border-bottom: 1px solid var(--border); }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
 .site-header img { height: 28px; width: auto; }
 .site-header nav { display: flex; gap: 18px; flex-wrap: wrap; }
 .site-header nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
-.site-header nav a:hover, .site-header nav a[aria-current="page"] { color: #fff; }
+.site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--heading); }
 
 section { padding: 40px 0; border-bottom: 1px solid var(--border); }
 
@@ -129,7 +133,7 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
 .card-body { display: flex; flex-direction: column; flex: 1; padding: 16px; }
 .card-body h3 { font-size: 1.15rem; margin-bottom: 4px; }
 .card-meta { font-size: 0.85rem; color: var(--dim); margin-bottom: 8px; }
-.card-price { font-weight: 700; color: #fff; margin: auto 0 12px; }
+.card-price { font-weight: 700; color: var(--heading); margin: auto 0 12px; }
 
 .button {
   display: inline-block;
@@ -144,9 +148,32 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
 .button:hover { background: var(--accent-hover); }
 
 /* ---------- footer ---------- */
-.site-footer { background: #111419; padding: 28px 0; font-size: 0.9rem; }
-.site-footer p { margin: 0 0 6px; color: #c9ced6; }
+.site-footer { background: var(--footer-bg); padding: 28px 0; font-size: 0.9rem; }
+.site-footer p { margin: 0 0 6px; color: var(--footer-text); }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ==========================================================================
+   Assignment #5 — Day theme for this page too (still NO Bootstrap).
+   js/theme-toggle.js sets data-bs-theme="light" on <html>; here we only
+   give the same CSS variables light values.
+   ========================================================================== */
+[data-bs-theme="light"] {
+  --bg: #f6f4ef;
+  --surface: #ffffff;
+  --surface-2: #eeebe4;
+  --border: #dedad2;
+  --border-strong: #b9b4aa;
+  --text: #1b1d21;
+  --muted: #4a4f57;
+  --dim: #6a707a;
+  --accent: #c2410c;
+  --accent-hover: #a3360a;
+  --heading: #111317;
+  --header-bg: rgba(246, 244, 239, 0.95);
+  --footer-bg: #ece9e2;
+  --footer-text: #3d4249;
+}
+.theme-btn { font-size: 1rem; line-height: 1; padding: 6px 10px; }
