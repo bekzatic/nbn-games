@@ -27,6 +27,25 @@ the game data moved to `js/games-data.js` (+ `data/games.json` for `fetch`). New
 
 Sounds start after the first click (browsers block audio before any user action). Contact form POST works on the deployed site (Vercel function); when the page is opened from disk, the form shows an error message instead.
 
+### More Assignment #5 features (added after the first version)
+
+| Grading criterion | Feature | File | Where on the site | Author |
+|---|---|---|---|---|
+| DOM manipulation & styling | **Language selector EN / RU / KZ** — walks all text nodes and replaces them (`TreeWalker`, `nodeValue`), `<html lang>` changes | `js/i18n.js` | navbar on every page | Bekzat Amanbek |
+| DOM manipulation & styling | **Cover lightbox** — overlay created with `createElement`, opens on click / Enter, closes with ×, click outside or `Esc` | `js/game.js` | game page → click the cover | Nursultan Rassulov |
+| Event handling (switch) | Language chosen with a `switch`; Russian plural rule for "1 игра / 2 игры / 5 игр" | `js/i18n.js` | catalog counter | Bekzat Amanbek |
+| Event handling (keyboard) | **Konami code** ↑ ↑ ↓ ↓ ← → ← → B A turns on Retro mode (array of keys compared on every `keydown`) | `js/keyboard-nav.js` | any page | Nurkhan Nurzhau |
+| Event handling (URL) | Catalog filters, search and sort are saved in the address (`URLSearchParams`, `history.replaceState`) → shareable links | `js/catalog.js` | catalog | Bekzat Amanbek |
+| Data structures & functions | **Wishlist** object (`all`, `has`, `toggle`, `remove`) + array of game objects in localStorage, ♥ counter in the navbar, Wishlist panel in the profile | `js/wishlist.js`, `js/profile.js` | game page ♡, profile → Wishlist | Nursultan Rassulov |
+| Data structures & functions | **Recently viewed** — array of ids, newest first, no duplicates, max 4 (`filter`, `slice`, `map`) | `js/recently-viewed.js` | home page | Nurkhan Nurzhau |
+| Data structures & functions | **Play counter** — `user.plays` object, text chosen with a `switch` ("not played yet / once / N times") | `js/profile.js` | profile → My games | Bekzat Amanbek |
+| Sound effects | Sounds on wishlist, lightbox, language change, Play button, Retro mode — always through `SoundFX`, so they never overlap | `js/sound.js` | everywhere | Nursultan Rassulov |
+| Animations | Play button progress bar (0 → 100 %), lightbox zoom, Retro-mode CRT lines, recently-viewed cards fade in | `css/assignment5.css` | profile, game page, home | all |
+| UX & accessibility | Cart / wishlist counts read by screen readers (`aria-label`), focus trap + `inert` page behind the subscribe popup, Day/Night also on `media-queries.html` (plain CSS) | `js/cart.js`, `js/popup.js`, `css/media-queries.css` | everywhere | Nurkhan Nurzhau |
+| Clean code / performance | Images compressed 4.4 MB → 2.7 MB (same names), no inline `<script>` or `style=""` anywhere | `images/` | — | all |
+
+**How to show it at the defense (1 minute):** open the catalog → switch to RU → filter "Гонки" → copy the link → open a game → rate it ★ → ♡ Wishlist → click the cover → add to cart → checkout in 3 steps → confetti 🎉. Then type the Konami code.
+
 ## Assignment #4 — Introduction to JavaScript
 
 All JS is plain JavaScript (no libraries), one file per component, linked at the bottom of every page.
