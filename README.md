@@ -6,6 +6,8 @@ Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nurs
 
 ## Assignment #5 — Advanced JavaScript and DOM Manipulation
 
+New logo: `images/logo-full.png` (home page), `images/logo-mark.png` (navbar / footer), `images/favicon.png` (browser tab) — transparent PNGs, work in Day and Night themes.
+
 All HTML, CSS and JS are separated: **no inline `<script>` and no `style=""` attributes** in any page.
 The old inline scripts were moved to `js/home.js`, `js/catalog.js`, `js/game.js`, `js/cart-page.js`, `js/profile.js`;
 the game data moved to `js/games-data.js` (+ `data/games.json` for `fetch`). New styles: `css/assignment5.css`.
@@ -44,7 +46,7 @@ Sounds start after the first click (browsers block audio before any user action)
 | UX & accessibility | Cart / wishlist counts read by screen readers (`aria-label`), focus trap + `inert` page behind the subscribe popup, Day/Night also on `media-queries.html` (plain CSS) | `js/cart.js`, `js/popup.js`, `css/media-queries.css` | everywhere | Nurkhan Nurzhau |
 | Event handling (button) | **Show current time** — `addEventListener` + `new Date().toLocaleTimeString()`, a `switch` on the weekday says if the office is open | `js/about.js` | About → Get in touch | Nurkhan Nurzhau |
 | Sound effects | **M key** mutes / unmutes the whole site (not while typing); no sound before the first click; at most one effect plays at a time (tested with 20 fast clicks) | `js/sound.js` | every page | Nursultan Rassulov |
-| Sound effects | **🎵 Relaxing background music** — generated live with the Web Audio API (no audio files): soft Cmaj7 → Am7 → Fmaj7 → G6 pad chords + quiet pentatonic notes, low-pass filter + echo. Off by default, remembered between pages, follows the 🔊 / M mute, pauses in a hidden tab | `js/music.js` | 🎵 button in the navbar | Nursultan Rassulov |
+| Sound effects | **🎵 Calm 8-bit (chiptune) background music** — our own tune written as arrays of notes and played with the Web Audio API (no audio files): A minor, 96 BPM, Am → F → C → G, square-wave melody (2 phrases), arpeggio, triangle bass, noise hi-hat. Off by default, remembered between pages, follows the 🔊 / M mute, pauses in a hidden tab | `js/music.js` | 🎵 button in the navbar | Nursultan Rassulov |
 | Animations | **Scroll reveal** — sections slide in when they appear on screen (`IntersectionObserver`), off for "reduce motion" users | `js/main.js`, `css/assignment5.css` | every page | Nurkhan Nurzhau |
 | Clean code / performance | Images compressed 4.4 MB → 2.7 MB (same names), no inline `<script>` or `style=""` anywhere, every page passes `html-validate`, colour contrast WCAG AA in both themes (axe-core: 0 issues) | `images/` | — | all |
 
