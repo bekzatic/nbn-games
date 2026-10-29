@@ -2,7 +2,8 @@
    NBN GAMES — shared UI behaviour (all pages)
    Author: Nurkhan Nurzhau
    - The navbar hamburger menu is Bootstrap's collapse plugin.
-   - showToast() uses the Bootstrap Toast component.
+   - showToast() uses the Bootstrap Toast component (with a small
+     fallback, so it still works if Bootstrap's JS fails to load).
    - a small "back to top" button shows up after you scroll down.
    - Assignment #5 animation: page sections slide in when they are
      scrolled into view (IntersectionObserver). Turned off for people
@@ -23,7 +24,13 @@
       document.body.appendChild(wrap);
       const el = wrap.querySelector('.toast');
       toastBody = el.querySelector('.toast-body');
-      toast = bootstrap.Toast.getOrCreateInstance(el, { delay: 1800 });
+      if (window.bootstrap) {
+        toast = bootstrap.Toast.getOrCreateInstance(el, { delay: 1800 });
+      } else {
+        // Bootstrap JS did not load → our own tiny show / hide, so messages still appear
+        let timer;
+        toast = { show() { el.classList.add('show'); clearTimeout(timer); timer = setTimeout(() => el.classList.remove('show'), 1800); } };
+      }
     }
     toastBody.textContent = text;
     toast.show();

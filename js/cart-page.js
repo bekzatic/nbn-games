@@ -11,6 +11,17 @@
    - Sounds and animations: confetti when the order is placed.
    ========================================================== */
 
+// messages go through main.js; if that file did not load, the page keeps working without them
+const toast = text => { if (window.showToast) window.showToast(text); };
+
+// if js/cart.js did not load, use an empty read-only cart so the page still opens
+const CART_MISSING = typeof getCart !== 'function';
+if (CART_MISSING) {
+  window.getCart = () => [];
+  window.saveCart = () => {};
+  window.removeFromCart = () => [];
+}
+
 const cartItemsEl = document.getElementById('cart-items');
 const headingEl = document.getElementById('cart-heading');
 const sumItemsEl = document.getElementById('sum-items');
@@ -97,10 +108,14 @@ cartItemsEl.addEventListener('click', (e) => {
     case 'remove':
       removeFromCart(name);
       if (window.SoundFX) SoundFX.play('error');
-      showToast(`${name} removed`);
+      toast(`${name} removed`);
       break;
   }
   renderCart();
+if (CART_MISSING) {
+  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
+  document.getElementById('checkout-btn').disabled = true;
+}
 });
 
 document.getElementById('promo-form').addEventListener('submit', e => {
@@ -109,17 +124,21 @@ document.getElementById('promo-form').addEventListener('submit', e => {
   const code = input.value.trim().toUpperCase();
   if (code === 'NEXTSTEP') {
     promo = 0.1;
-    showToast('Promo code applied: −10%');
+    toast('Promo code applied: −10%');
     if (window.SoundFX) SoundFX.play('success');
   } else {
     promo = 0;
-    showToast('Unknown promo code');
+    toast('Unknown promo code');
     if (window.SoundFX) SoundFX.play('error');
     input.classList.remove('shake');
     void input.offsetWidth;
     input.classList.add('shake');
   }
   renderCart();
+if (CART_MISSING) {
+  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
+  document.getElementById('checkout-btn').disabled = true;
+}
 });
 
 /* ==========================================================
@@ -216,7 +235,7 @@ const Checkout = {
 
   open() {
     if (!getCart().length) {
-      showToast('Your cart is empty');
+      toast('Your cart is empty');
       if (window.SoundFX) SoundFX.play('error');
       return;
     }
@@ -260,6 +279,10 @@ const Checkout = {
     saveCart([]);
     promo = 0;
     renderCart();
+if (CART_MISSING) {
+  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
+  document.getElementById('checkout-btn').disabled = true;
+}
     if (window.SoundFX) SoundFX.play('success');
     launchConfetti();
   }
@@ -295,3 +318,7 @@ function launchConfetti() {
 }
 
 renderCart();
+if (CART_MISSING) {
+  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
+  document.getElementById('checkout-btn').disabled = true;
+}

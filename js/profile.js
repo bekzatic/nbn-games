@@ -8,6 +8,13 @@
    browser's localStorage, so they survive a page reload.
    NOTE: a real site would do all of this on a server.
    ========================================================= */
+// messages go through main.js; if that file did not load, the page keeps working without them
+const toast = text => { if (window.showToast) window.showToast(text); };
+// if js/wishlist.js did not load, the Wishlist panel is simply empty
+if (typeof Wishlist === 'undefined') {
+  window.Wishlist = { all: () => [], has: () => false, toggle: () => false, remove: () => {} };
+}
+
 const ACCOUNTS = {
   'bekzat@nbngames.kz': {
     password: 'bekzat123', name: 'Bekzat Amanbek', balance: 18200, joined: 'September 2, 2025',
@@ -222,7 +229,7 @@ $('library-grid').addEventListener('click', e => {
       label.textContent = '🎮 Have fun!';
       btn.closest('.card').querySelector('.js-plays').textContent = playsText(title);
       if (window.SoundFX) SoundFX.play('success');
-      showToast(`${title} is running — have fun!`);
+      toast(`${title} is running — have fun!`);
       setTimeout(() => {
         bar.style.width = '0';
         label.textContent = '▶ Play';
@@ -299,7 +306,7 @@ $('topup-form').addEventListener('submit', e => {
   $$('#amount-chips .chip').forEach(c => c.classList.remove('active'));
   msg.textContent = `Done! ${tenge(amount)} added to your wallet.`;
   msg.className = 'small mb-3 text-success';
-  showToast('Balance topped up');
+  toast('Balance topped up');
 });
 
 /* ---------- Settings ---------- */
@@ -322,10 +329,10 @@ $('settings-form').addEventListener('submit', e => {
   user.visibility = document.querySelector('input[name="visibility"]:checked').value;
   saveUser();
   renderAll();
-  showToast('Settings saved');
+  toast('Settings saved');
 });
 
-$('settings-reset').addEventListener('click', () => { fillSettings(); showToast('Changes discarded'); });
+$('settings-reset').addEventListener('click', () => { fillSettings(); toast('Changes discarded'); });
 
 /* ---------- Security ---------- */
 function renderSecurity() {
@@ -357,20 +364,20 @@ $('password-form').addEventListener('submit', e => {
   $('password-form').reset();
   msg.textContent = 'Password updated. Use it the next time you log in.';
   msg.className = 'small mb-3 text-success';
-  showToast('Password changed');
+  toast('Password changed');
 });
 
 $('sec-2fa').addEventListener('change', e => {
   user.twoFA = e.target.checked; saveUser();
-  showToast(user.twoFA ? 'Two-factor authentication on' : 'Two-factor authentication off');
+  toast(user.twoFA ? 'Two-factor authentication on' : 'Two-factor authentication off');
 });
 $('sec-alerts').addEventListener('change', e => {
   user.alerts = e.target.checked; saveUser();
-  showToast(user.alerts ? 'Login alerts on' : 'Login alerts off');
+  toast(user.alerts ? 'Login alerts on' : 'Login alerts off');
 });
 $('sessions-out').addEventListener('click', () => {
   user.sessionsCleared = true; saveUser(); renderSecurity();
-  showToast('Other devices logged out');
+  toast('Other devices logged out');
 });
 
 /* ---------- Notifications ---------- */
@@ -401,13 +408,13 @@ $('notif-read-all').addEventListener('click', () => {
   user.read = NOTIFICATIONS.map(n => n.id);
   saveUser();
   renderNotifications();
-  showToast('All notifications marked as read');
+  toast('All notifications marked as read');
 });
 
 $$('[data-pref]').forEach(input => input.addEventListener('change', () => {
   user.prefs[input.dataset.pref] = input.checked;
   saveUser();
-  showToast('Email preferences saved');
+  toast('Email preferences saved');
 }));
 
 /* ---------- Start ---------- */

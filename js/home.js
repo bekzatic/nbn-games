@@ -15,6 +15,7 @@
    ========================================================== */
 
 (function () {
+  const toast = text => { if (window.showToast) window.showToast(text); };
   const formatPrice = n => n === 0 ? 'Free' : n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
   const escapeHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
@@ -170,7 +171,7 @@
       e.preventDefault();
       e.target.reset();
       if (window.SoundFX) SoundFX.play('success');
-      showToast('Thanks! You are subscribed.');
+      toast('Thanks! You are subscribed.');
     });
   }
 
