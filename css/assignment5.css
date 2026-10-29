@@ -159,6 +159,14 @@
   40%, 80% { transform: translateX(6px); }
 }
 
+/* ---------- Scroll reveal (js/main.js) ---------- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- "Show current time" (about page, js/about.js) ---------- */
+.time-output { font-variant-numeric: tabular-nums; }
+.time-output.tick { animation: starPop .4s ease; }
+
 /* ---------- Easter egg: Retro mode (Konami code, js/keyboard-nav.js) ---------- */
 .retro body,
 .retro h1, .retro h2, .retro h3, .retro h4, .retro h5, .retro h6,
@@ -182,6 +190,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .retro body::after { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .time-output.tick { animation: none; }
   .fade-in-up, .checkout-step, .read-more-box, .star-btn.pop, .cart-badge.bump, .shake { animation: none; }
   .confetti { display: none; }
 }
