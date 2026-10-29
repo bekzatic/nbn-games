@@ -191,6 +191,11 @@
               <li class="list-group-item d-flex align-items-center gap-3 py-3"><span aria-hidden="true">✉️</span><a href="mailto:hello@nbngames.kz" class="text-reset">hello@nbngames.kz</a></li>
               <li class="list-group-item d-flex align-items-center gap-3 py-3"><span aria-hidden="true">🕘</span><span>Mon–Fri, 9:00–18:00</span></li>
             </ul>
+            <!-- Assignment #5: button that shows the current time (new Date().toLocaleTimeString()) — js/about.js -->
+            <div class="d-flex flex-wrap align-items-center gap-3 border rounded-3 p-3 mb-4">
+              <button type="button" class="btn btn-outline-primary btn-sm" id="time-btn">🕒 Show current time</button>
+              <span class="small text-body-secondary">Our time now: <strong class="time-output" id="time-output" aria-live="polite">—</strong> <span id="time-status"></span></span>
+            </div>
             <p class="small text-body-secondary mb-2">Find us on</p>
             <div class="btn-group" role="group" aria-label="Social networks">
               <a href="https://telegram.org" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener">Telegram</a>
@@ -355,6 +360,7 @@
   <script src="js/datetime.js"></script>
   <script src="js/accordion.js"></script>
   <script src="js/contact-form.js"></script>
+  <script src="js/about.js"></script>
   <script src="js/keyboard-nav.js"></script>
   <script src="js/i18n.js"></script>
 </body>

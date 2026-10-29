@@ -42,7 +42,10 @@ Sounds start after the first click (browsers block audio before any user action)
 | Sound effects | Sounds on wishlist, lightbox, language change, Play button, Retro mode — always through `SoundFX`, so they never overlap | `js/sound.js` | everywhere | Nursultan Rassulov |
 | Animations | Play button progress bar (0 → 100 %), lightbox zoom, Retro-mode CRT lines, recently-viewed cards fade in | `css/assignment5.css` | profile, game page, home | all |
 | UX & accessibility | Cart / wishlist counts read by screen readers (`aria-label`), focus trap + `inert` page behind the subscribe popup, Day/Night also on `media-queries.html` (plain CSS) | `js/cart.js`, `js/popup.js`, `css/media-queries.css` | everywhere | Nurkhan Nurzhau |
-| Clean code / performance | Images compressed 4.4 MB → 2.7 MB (same names), no inline `<script>` or `style=""` anywhere | `images/` | — | all |
+| Event handling (button) | **Show current time** — `addEventListener` + `new Date().toLocaleTimeString()`, a `switch` on the weekday says if the office is open | `js/about.js` | About → Get in touch | Nurkhan Nurzhau |
+| Sound effects | **M key** mutes / unmutes the whole site (not while typing); no sound before the first click; at most one effect plays at a time (tested with 20 fast clicks) | `js/sound.js` | every page | Nursultan Rassulov |
+| Animations | **Scroll reveal** — sections slide in when they appear on screen (`IntersectionObserver`), off for "reduce motion" users | `js/main.js`, `css/assignment5.css` | every page | Nurkhan Nurzhau |
+| Clean code / performance | Images compressed 4.4 MB → 2.7 MB (same names), no inline `<script>` or `style=""` anywhere, every page passes `html-validate`, colour contrast WCAG AA in both themes (axe-core: 0 issues) | `images/` | — | all |
 
 **How to show it at the defense (1 minute):** open the catalog → switch to RU → filter "Гонки" → copy the link → open a game → rate it ★ → ♡ Wishlist → click the cover → add to cart → checkout in 3 steps → confetti 🎉. Then type the Konami code.
 
