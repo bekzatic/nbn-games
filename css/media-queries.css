@@ -48,7 +48,7 @@ img { max-width: 100%; display: block; }
 /* ---------- header (simple flexbox, no Bootstrap) ---------- */
 .site-header { background: var(--header-bg); border-bottom: 1px solid var(--border); }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
-.site-header img { height: 28px; width: auto; }
+.site-header img { height: 34px; width: auto; }
 .site-header nav { display: flex; gap: 18px; flex-wrap: wrap; }
 .site-header nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--heading); }
