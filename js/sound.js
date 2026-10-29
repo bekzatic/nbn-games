@@ -13,6 +13,9 @@
 
    No overlapping: before a new effect starts, the previous one is
    stopped, so fast clicking never piles sounds on top of each other.
+   No sound before the first click: the AudioContext is created only
+   inside play(), which is always called from a user action.
+   Keyboard: the M key mutes / unmutes the whole site.
    ========================================================== */
 
 const SoundFX = {
@@ -80,20 +83,35 @@ const SoundFX = {
 };
 
 SoundFX.init();
+// make it visible to the other scripts as window.SoundFX
+// (a top-level `const` is NOT a property of window, so `if (window.SoundFX)` needs this)
+window.SoundFX = SoundFX;
 
-/* The 🔊 / 🔇 button in the navbar */
+/* The 🔊 / 🔇 button in the navbar + the "M" key (mute / unmute) */
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-sound-toggle]').forEach(btn => {
-    const paint = () => {
+  const buttons = document.querySelectorAll('[data-sound-toggle]');
+
+  function paintButtons() {
+    buttons.forEach(btn => {
       btn.textContent = SoundFX.isMuted() ? '🔇' : '🔊';
       btn.setAttribute('aria-pressed', String(!SoundFX.isMuted()));
-      btn.setAttribute('aria-label', SoundFX.isMuted() ? 'Sound is off — turn on' : 'Sound is on — turn off');
-    };
-    paint();
-    btn.addEventListener('click', () => {
-      SoundFX.toggle();
-      paint();
-      if (window.showToast) showToast(SoundFX.isMuted() ? 'Sound off 🔇' : 'Sound on 🔊');
+      btn.setAttribute('aria-label', SoundFX.isMuted() ? 'Sound is off — turn on (M)' : 'Sound is on — turn off (M)');
+      btn.title = 'Sound on / off (key M)';
     });
+  }
+
+  function toggleSound() {
+    SoundFX.toggle();
+    paintButtons();
+    if (window.showToast) showToast(SoundFX.isMuted() ? 'Sound off 🔇 (press M to turn on)' : 'Sound on 🔊');
+  }
+
+  paintButtons();
+  buttons.forEach(btn => btn.addEventListener('click', toggleSound));
+
+  // keyboard: M = mute / unmute (but not while the user is typing in a field)
+  document.addEventListener('keydown', e => {
+    const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+    if (!typing && !e.ctrlKey && !e.metaKey && !e.altKey && (e.key === 'm' || e.key === 'M')) toggleSound();
   });
 });

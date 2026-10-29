@@ -4,6 +4,9 @@
    - The navbar hamburger menu is Bootstrap's collapse plugin.
    - showToast() uses the Bootstrap Toast component.
    - a small "back to top" button shows up after you scroll down.
+   - Assignment #5 animation: page sections slide in when they are
+     scrolled into view (IntersectionObserver). Turned off for people
+     who chose "reduce motion" in their system settings.
    ========================================================== */
 
 (function () {
@@ -40,4 +43,27 @@
   window.addEventListener('scroll', () => {
     btn.classList.toggle('show', window.scrollY > 400);
   }, { passive: true });
+})();
+
+/* Scroll reveal: sections fade + slide in the first time they appear on screen */
+(function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;   // content simply stays visible
+
+  const sections = document.querySelectorAll('main section:not(:first-child), footer.site-footer');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);          // animate only once
+      }
+    });
+  }, { threshold: 0.12 });
+
+  sections.forEach(section => {
+    // already on screen when the page opens → no animation needed
+    if (section.getBoundingClientRect().top < window.innerHeight) return;
+    section.classList.add('reveal');
+    observer.observe(section);
+  });
 })();

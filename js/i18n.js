@@ -72,7 +72,9 @@
     'Price: low → high':  { ru: 'Цена: по возрастанию', kz: 'Баға: арзаннан қымбатқа' },
     'Price: high → low':  { ru: 'Цена: по убыванию',  kz: 'Баға: қымбаттан арзанға' },
     'Name: A → Z':        { ru: 'Название: A → Z',    kz: 'Атауы: A → Z' },
-    'Reset filters':      { ru: 'Сбросить фильтры',   kz: 'Сүзгілерді тазалау' }
+    'Reset filters':      { ru: 'Сбросить фильтры',   kz: 'Сүзгілерді тазалау' },
+    '🕒 Show current time': { ru: '🕒 Показать время', kz: '🕒 Уақытты көрсету' },
+    'Our time now:':      { ru: 'Сейчас у нас:',      kz: 'Қазір бізде:' }
   };
 
   /* Texts with a number inside, e.g. the catalog counter "12 games".
