@@ -12,8 +12,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/assignment4.css">
   <link rel="stylesheet" href="css/assignment5.css">
+  <link rel="stylesheet" href="css/assignment6.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
+  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
+  <script src="js/jquery-fallback.js"></script>
+  <script src="js/script.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
@@ -135,6 +140,15 @@
       <div class="container">
         <h2 id="faq-title" class="mb-4">Questions people ask us</h2>
         <!-- Assignment #4 — Task 2: Bootstrap accordion markup, toggled by our own JavaScript (js/accordion.js, no data-bs-toggle) — Nurkhan Nurzhau -->
+        <!-- Assignment 6 — Task 3: search highlighting inside the FAQ (js/jq-search.js) -->
+        <div class="faq-search mb-3">
+          <label for="faq-search" class="visually-hidden">Search the FAQ</label>
+          <div class="input-group">
+            <span class="input-group-text" aria-hidden="true">🔍</span>
+            <input type="search" class="form-control" id="faq-search" placeholder="Search the FAQ — try “refund”, “promo” or “PlayStation”" autocomplete="off">
+          </div>
+          <p class="small text-body-tertiary mt-2 mb-0" id="faq-search-info" aria-live="polite">Type a word — every match on this page is highlighted.</p>
+        </div>
         <div class="accordion js-accordion" id="faq">
           <div class="accordion-item">
             <h3 class="accordion-header" id="faq-q1">
@@ -187,9 +201,10 @@
           <div class="col-12 col-lg-6">
             <p class="text-body-secondary">Got a question, a suggestion, or want to join the team? Fill out the form — we'll reply within a working day.</p>
             <ul class="list-group list-group-flush rounded-3 border mb-4">
-              <li class="list-group-item d-flex align-items-center gap-3 py-3"><span aria-hidden="true">📍</span><span>Astana, Kazakhstan</span></li>
-              <li class="list-group-item d-flex align-items-center gap-3 py-3"><span aria-hidden="true">✉️</span><a href="mailto:hello@nbngames.kz" class="text-reset">hello@nbngames.kz</a></li>
+              <li class="list-group-item d-flex align-items-center gap-3 py-3 copy-snippet"><span aria-hidden="true">📍</span><span class="flex-grow-1">Astana, Kazakhstan</span><button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-copy="Astana, Kazakhstan" aria-label="Copy address">📋</button></li>
+              <li class="list-group-item d-flex align-items-center gap-3 py-3 copy-snippet"><span aria-hidden="true">✉️</span><a href="mailto:hello@nbngames.kz" class="text-reset flex-grow-1">hello@nbngames.kz</a><button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-copy="hello@nbngames.kz" aria-label="Copy email">📋</button></li>
               <li class="list-group-item d-flex align-items-center gap-3 py-3"><span aria-hidden="true">🕘</span><span>Mon–Fri, 9:00–18:00</span></li>
+              <li class="list-group-item d-flex align-items-center gap-3 py-3 copy-snippet"><span aria-hidden="true">🎁</span><span class="flex-grow-1">Promo code: <code class="promo-code">NEXTSTEP</code></span><button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-copy="NEXTSTEP" aria-label="Copy promo code">📋</button></li>
             </ul>
             <!-- Assignment #5: button that shows the current time (new Date().toLocaleTimeString()) — js/about.js -->
             <div class="d-flex flex-wrap align-items-center gap-3 border rounded-3 p-3 mb-4">
@@ -361,6 +376,7 @@
   <script src="js/datetime.js"></script>
   <script src="js/accordion.js"></script>
   <script src="js/contact-form.js"></script>
+  <script src="js/jq-search.js"></script>
   <script src="js/about.js"></script>
   <script src="js/keyboard-nav.js"></script>
   <script src="js/i18n.js"></script>

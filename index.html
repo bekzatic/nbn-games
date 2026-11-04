@@ -12,8 +12,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/assignment4.css">
   <link rel="stylesheet" href="css/assignment5.css">
+  <link rel="stylesheet" href="css/assignment6.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
+  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
+  <script src="js/jquery-fallback.js"></script>
+  <script src="js/script.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
@@ -61,8 +66,8 @@
               <a href="about.html" class="btn btn-outline-light btn-lg px-4">About us</a>
             </div>
             <div class="row row-cols-3 g-3 mt-4 mt-lg-5">
-              <div class="col"><div class="h3 fw-bold text-white mb-0">40+</div><small class="text-body-tertiary">games in catalog</small></div>
-              <div class="col"><div class="h3 fw-bold text-white mb-0">4</div><small class="text-body-tertiary">platforms</small></div>
+              <div class="col"><div class="h3 fw-bold text-white mb-0"><span data-count-to="42" data-suffix="+" data-duration="1600">42+</span></div><small class="text-body-tertiary">games in catalog</small></div>
+              <div class="col"><div class="h3 fw-bold text-white mb-0"><span data-count-to="4" data-duration="1200">4</span></div><small class="text-body-tertiary">platforms</small></div>
               <div class="col"><div class="h3 fw-bold text-white mb-0">24/7</div><small class="text-body-tertiary">instant delivery</small></div>
             </div>
           </div>
@@ -414,6 +419,21 @@
           <button type="button" class="btn btn-link btn-sm text-body-secondary text-decoration-none p-0" id="recent-clear">Clear history</button>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3" id="recent-row"></div>
+      </div>
+    </section>
+
+    <!-- Assignment 6 — Task 5: animated number counter (data-count-to, js/script.js) -->
+    <section class="py-5" aria-labelledby="stats-title">
+      <div class="container">
+        <div class="stats-band p-4 p-md-5">
+          <h2 id="stats-title" class="h4 mb-4 text-center">NBN Games in numbers</h2>
+          <div class="row row-cols-2 row-cols-lg-4 g-4 text-center">
+            <div class="col"><div class="stat-num" data-count-to="12500" data-suffix="+">12,500+</div><p class="stat-label mb-0">happy players</p></div>
+            <div class="col"><div class="stat-num" data-count-to="38400" data-suffix="+">38,400+</div><p class="stat-label mb-0">keys delivered</p></div>
+            <div class="col"><div class="stat-num" data-count-to="4.8" data-decimals="1" data-suffix=" ★">4.8 ★</div><p class="stat-label mb-0">average rating</p></div>
+            <div class="col"><div class="stat-num" data-count-to="98" data-suffix="%">98%</div><p class="stat-label mb-0">keys delivered in 1 minute</p></div>
+          </div>
+        </div>
       </div>
     </section>
 

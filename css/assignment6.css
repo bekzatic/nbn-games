@@ -1,0 +1,242 @@
+/* ==========================================================
+   NBN GAMES — Assignment 6 (jQuery) styles
+   Colours come from the NBN theme variables, so everything works
+   in the Day and the Night theme.
+   ========================================================== */
+
+/* ---------- Task 3: highlighted search matches ---------- */
+mark.hl {
+  padding: 0 .12em;
+  border-radius: .25em;
+  background: var(--nbn-yellow, #f2c94c);
+  color: #111;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
+}
+.faq-dim { opacity: .45; transition: opacity .2s; }
+.faq-match { border-color: var(--bs-primary) !important; }
+
+/* ---------- Task 2: autocomplete dropdown ---------- */
+.ac-list {
+  position: absolute;
+  z-index: 1050;
+  top: calc(100% + 6px);
+  left: calc(var(--bs-gutter-x, 1.5rem) * .5);
+  right: calc(var(--bs-gutter-x, 1.5rem) * .5);
+  margin: 0;
+  padding: .35rem;
+  max-height: 22rem;
+  overflow-y: auto;
+  background: var(--bs-secondary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: .75rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .35);
+  animation: acIn .15s ease-out;
+}
+@keyframes acIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.ac-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .45rem .6rem;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+.ac-item.is-active { background: var(--bs-tertiary-bg); outline: 1px solid var(--bs-primary); }
+.ac-thumb { width: 56px; height: 32px; object-fit: cover; border-radius: .3rem; flex: none; background: var(--bs-tertiary-bg); }
+.ac-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ac-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ac-meta { font-size: .78rem; color: var(--bs-secondary-color); }
+.ac-open { flex: none; padding: .1rem .5rem; border-radius: .4rem; color: var(--bs-secondary-color); text-decoration: none; }
+.ac-open:hover, .ac-open:focus-visible { background: var(--bs-primary); color: var(--nbn-on-accent, #000); }
+.ac-empty { padding: .75rem; color: var(--bs-secondary-color); }
+.ac-hint { padding: .35rem .6rem .15rem; font-size: .72rem; color: var(--bs-tertiary-color); border-top: 1px solid var(--bs-border-color); margin-top: .25rem; }
+
+/* ---------- Task 4: scroll progress bar ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  z-index: 1090;
+  pointer-events: none;
+  background: rgba(127, 127, 127, .12);
+}
+.scroll-progress__bar {
+  position: relative;
+  width: 0;
+  height: 100%;
+  border-radius: 0 3px 3px 0;
+  /* the gradient is as wide as the screen → new colours appear while it grows */
+  background: linear-gradient(90deg, #7b2ff7, #f107a3 30%, #ff5a1f 60%, #ffd23f 85%, #3ecf6e);
+  background-size: 100vw 100%;
+  box-shadow: 0 0 10px rgba(255, 90, 31, .7), 0 0 2px rgba(255, 255, 255, .6);
+  transition: width .1s linear;
+}
+.scroll-progress__bar::after {               /* moving shine */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
+  background-size: 120px 100%;
+  background-repeat: no-repeat;
+  animation: progressShine 1.6s linear infinite;
+}
+@keyframes progressShine { from { background-position: -120px 0; } to { background-position: 100% 0; } }
+.scroll-progress__tip {
+  position: absolute;
+  right: 0;
+  top: 9px;
+  transform: translateX(50%) scale(.8);
+  padding: .1rem .45rem;
+  border-radius: 999px;
+  font: 700 .7rem/1.4 system-ui, sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #f107a3, #ff5a1f);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+  opacity: 0;
+  transition: opacity .25s, transform .25s;
+  white-space: nowrap;
+}
+.scroll-progress.is-scrolling .scroll-progress__tip { opacity: 1; transform: translateX(-4px) scale(1); }
+.scroll-progress.is-done .scroll-progress__bar { animation: progressGlow 1.2s ease-in-out infinite alternate; }
+@keyframes progressGlow { to { box-shadow: 0 0 18px rgba(62, 207, 110, .9), 0 0 4px #fff; } }
+
+/* ---------- Task 5: number counter band ---------- */
+.stats-band {
+  border-radius: 1.25rem;
+  border: 1px solid var(--bs-border-color);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 90, 31, .18), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(241, 7, 163, .14), transparent 45%),
+    var(--bs-secondary-bg);
+}
+.stat-num {
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;     /* digits don't jump while counting */
+  background: linear-gradient(90deg, var(--nbn-accent, #ff5a1f), #f107a3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stat-num.is-finished { animation: statPop .4s ease; }
+@keyframes statPop { 50% { transform: scale(1.08); } }
+.stat-label { color: var(--bs-secondary-color); font-size: .9rem; margin-top: .35rem; }
+
+/* ---------- Task 6: button while loading ---------- */
+.btn.is-loading { cursor: progress; opacity: .85; }
+
+/* ---------- Task 7: notifications ---------- */
+.nbn-toasts {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1095;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .5rem;
+  max-width: calc(100vw - 2rem);
+  pointer-events: none;
+}
+.nbn-toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-width: 15rem;
+  max-width: 22rem;
+  padding: .7rem .75rem .8rem;
+  overflow: hidden;
+  border-radius: .75rem;
+  border: 1px solid var(--bs-border-color);
+  border-left: 4px solid var(--toast-color, var(--bs-primary));
+  background: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+  pointer-events: auto;
+}
+.nbn-toast--success { --toast-color: #3ecf6e; }
+.nbn-toast--error   { --toast-color: #ef4444; }
+.nbn-toast--info    { --toast-color: #3b82f6; }
+.nbn-toast--cart    { --toast-color: var(--nbn-accent, #ff5a1f); }
+.nbn-toast--heart   { --toast-color: #f107a3; }
+.nbn-toast--copy    { --toast-color: #a855f7; }
+.nbn-toast__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.8rem; height: 1.8rem;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: .9rem;
+  color: #fff;
+  background: var(--toast-color, var(--bs-primary));
+}
+.nbn-toast__text { flex: 1; font-size: .9rem; line-height: 1.35; }
+.nbn-toast__close {
+  flex: none;
+  border: 0;
+  background: none;
+  color: var(--bs-secondary-color);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 .2rem;
+}
+.nbn-toast__close:hover { color: var(--bs-body-color); }
+.nbn-toast__timer { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--toast-color, var(--bs-primary)); opacity: .7; }
+/* old Bootstrap toast container from Assignment 5 is not used any more */
+.back-to-top { bottom: 5.5rem; }
+
+/* ---------- Task 8: copy buttons ---------- */
+.copy-btn { position: relative; min-width: 2.25rem; }
+.copy-btn.is-copied { color: #fff; background: #3ecf6e; border-color: #3ecf6e; }
+.copy-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: .25rem .55rem;
+  border-radius: .4rem;
+  font-size: .75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+  background: #111827;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
+  pointer-events: none;
+  z-index: 5;
+}
+.copy-tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: #111827;
+}
+.promo-code { font-weight: 700; letter-spacing: .06em; color: var(--bs-primary); }
+.copy-tmp { position: fixed; top: -1000px; opacity: 0; }
+
+/* ---------- Task 9: lazy images ---------- */
+img.lazy {
+  opacity: 0;
+  transition: opacity .5s ease;
+  background: linear-gradient(100deg, var(--bs-secondary-bg) 30%, var(--bs-tertiary-bg) 50%, var(--bs-secondary-bg) 70%);
+  background-size: 300% 100%;
+  animation: lazyShimmer 1.3s linear infinite;
+}
+img.lazy[data-src] { opacity: 1; }          /* placeholder: shimmer is visible */
+img.lazy.is-loaded { opacity: 1; animation: lazyFade .5s ease; background: none; }
+@keyframes lazyShimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@keyframes lazyFade { from { opacity: 0; } to { opacity: 1; } }
+.lazy-status { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress__bar::after, img.lazy, .stat-num.is-finished, .ac-list { animation: none; }
+}
+@media (max-width: 575.98px) {
+  .nbn-toasts { left: 1rem; right: 1rem; align-items: stretch; }
+  .nbn-toast { max-width: none; min-width: 0; }
+}

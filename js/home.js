@@ -167,11 +167,16 @@
   /* ---------- 4. Newsletter: no backend, just say thanks ---------- */
   const newsForm = document.getElementById('news-form');
   if (newsForm) {
+    // Assignment 6 — Task 6: the button shows a spinner + "Please wait…" first (NBN.withSpinner in js/script.js)
     newsForm.addEventListener('submit', e => {
       e.preventDefault();
-      e.target.reset();
-      if (window.SoundFX) SoundFX.play('success');
-      toast('Thanks! You are subscribed.');
+      const done = () => {
+        newsForm.reset();
+        if (window.SoundFX) SoundFX.play('success');
+        if (window.showToast) showToast('Form submitted successfully — you are subscribed!', 'success');
+      };
+      if (window.NBN && NBN.withSpinner) NBN.withSpinner(newsForm.querySelector('[type="submit"]'), 1800, done);
+      else done();
     });
   }
 

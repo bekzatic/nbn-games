@@ -9,7 +9,7 @@
    NOTE: a real site would do all of this on a server.
    ========================================================= */
 // messages go through main.js; if that file did not load, the page keeps working without them
-const toast = text => { if (window.showToast) window.showToast(text); };
+const toast = (text, type) => { if (window.showToast) window.showToast(text, type || 'success'); };
 // if js/wishlist.js did not load, the Wishlist panel is simply empty
 if (typeof Wishlist === 'undefined') {
   window.Wishlist = { all: () => [], has: () => false, toggle: () => false, remove: () => {} };
@@ -122,12 +122,21 @@ function showLogin() {
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   const mail = $('login-email').value.trim().toLowerCase();
-  if (ACCOUNTS[mail] && passwordFor(mail) === $('login-password').value) {
-    loginError.hidden = true;
-    showProfile(mail);
-  } else {
-    loginError.hidden = false;
-  }
+  const button = loginForm.querySelector('[type="submit"]');
+  const ok = ACCOUNTS[mail] && passwordFor(mail) === $('login-password').value;
+  // Assignment 6 — Task 6 + 7: spinner while "checking", then a toast
+  const finish = () => {
+    if (ok) {
+      loginError.hidden = true;
+      showProfile(mail);
+      if (window.showToast) showToast(`Successfully logged in — welcome, ${ACCOUNTS[mail].name.split(' ')[0]}!`, 'success');
+    } else {
+      loginError.hidden = false;
+      if (window.showToast) showToast('Wrong email or password', 'error');
+    }
+  };
+  if (window.NBN && NBN.withSpinner) NBN.withSpinner(button, 1200, finish);
+  else finish();
 });
 
 $('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });

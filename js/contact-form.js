@@ -55,7 +55,7 @@
   function setLoading(on) {
     submitBtn.disabled = on;
     submitBtn.innerHTML = on
-      ? '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Sending…'
+      ? '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Please wait…'   // Assignment 6 — Task 6
       : 'Send message';
   }
 
@@ -68,6 +68,7 @@
     success.textContent = `Thanks, ${answer.name}! Your message has been sent. Ticket number: ${answer.ticket} — we'll reply within a working day.`;
     success.hidden = false;
     if (window.SoundFX) SoundFX.play('success');
+    if (window.showToast) showToast('Form submitted successfully! Ticket ' + answer.ticket, 'success');   // Assignment 6 — Task 7
   }
 
   // callback #2 — something went wrong
@@ -76,6 +77,7 @@
     failure.textContent = '⚠️ ' + text;
     failure.hidden = false;
     if (window.SoundFX) SoundFX.play('error');
+    if (window.showToast) showToast('Message not sent — ' + text, 'error');   // Assignment 6 — Task 7
   }
 
   form.addEventListener('submit', e => {
@@ -98,7 +100,10 @@
     data.subscribe = form.elements.subscribe.checked;
 
     setLoading(true);
-    sendForm(data, handleSuccess, handleError);
+    // Assignment 6 — Task 6: keep the spinner for at least 1.2 s so the user sees the button is busy
+    const started = Date.now();
+    const later = fn => arg => setTimeout(() => fn(arg), Math.max(0, 1200 - (Date.now() - started)));
+    sendForm(data, later(handleSuccess), later(handleError));
   });
 
   form.addEventListener('input', e => {

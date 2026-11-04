@@ -4,6 +4,27 @@ Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nurs
 
 **Live site:** https://nbn-games-store.vercel.app
 
+## Assignment #6 — jQuery
+
+jQuery **4.0.0** is loaded from the CDN (`code.jquery.com`, with an SRI hash) in the `<head>` of every page.
+`js/jquery-fallback.js` loads the local copy `js/vendor/jquery-4.0.0.min.js` if the CDN is offline.
+Then `js/script.js` runs — everything inside `$(document).ready()`, which logs **"jQuery is ready!"**.
+New styles: `css/assignment6.css`. jQuery code is wrapped in `(function ($) { … })(jQuery)` because
+`profile.js` / `game.js` define their own `$` helper.
+
+| Task | What we built | File | Where on the site |
+|---|---|---|---|
+| **0. Setup** | CDN jQuery 4.0.0 + fallback, `$(document).ready()` + console message | `js/script.js`, `js/jquery-fallback.js` | `<head>` of every page |
+| **1. Real-time search / live filter** | `.on('keyup input')` on the search box, cards chosen with jQuery `.filter()`, others hidden with `.not()` | `js/catalog.js` | Catalog → search |
+| **2. Autocomplete** | Dropdown of up to 6 games (cover, highlighted title, genre · price, → link); ↑ ↓ Enter Esc, mouse; `combobox` ARIA | `js/jq-search.js` | Catalog → search |
+| **3. Search highlighting** | `NBN.highlight()` — RegExp split + `<mark>` + `.html()`, text escaped; FAQ search opens matching answers and counts matches; catalog cards highlighted too | `js/script.js`, `js/jq-search.js` | About → FAQ search; Catalog |
+| **4. Scroll progress bar** | Fixed gradient bar with glow + shine, width from `scrollTop`, % bubble while scrolling, green pulse at 100 % | `js/script.js` | every page |
+| **5. Animated counter** | `data-count-to` numbers counted with `.animate()` + `step` when they scroll into view | `js/script.js`, `index.html` | Home → hero + "NBN Games in numbers" |
+| **6. Spinner on submit** | `NBN.withSpinner()` — spinner + "Please wait…", disabled, double clicks ignored, back to normal after a delay | `js/script.js` | Home newsletter, About contact form, Subscribe popup, Profile login |
+| **7. Notifications** | `NBN.notify(text, type)` — stacked toasts, `.fadeIn()` / timer line / `.fadeOut()`, hover pauses; old `showToast()` forwards here | `js/script.js` | add to cart, wishlist, login, forms, promo code… |
+| **8. Copy to clipboard** | `.copy-btn[data-copy]` → icon ✓ + tooltip "Copied to clipboard!" + toast; Clipboard API with `execCommand` fallback; `.on('copy')` catches Ctrl+C | `js/script.js` | About (address, email, promo), Cart (promo), Game page (link) |
+| **9. Lazy loading** | 42 catalog covers use `data-src`; on `scroll` we compare `.offset().top` with the window and set `.attr('src')`; counter "🖼 6 / 42 covers loaded" | `js/script.js`, `catalog.html` | Catalog |
+
 ## Assignment #5 — Advanced JavaScript and DOM Manipulation
 
 New logo: `images/logo-full.png` (home page), `images/logo-mark.png` (navbar / footer), `images/favicon.png` (browser tab) — transparent PNGs, work in Day and Night themes.

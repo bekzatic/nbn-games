@@ -94,7 +94,7 @@ function handleAddToCart(btn) {
   const original = btn.textContent;
   btn.textContent = 'Added ✓';
   btn.disabled = true;
-  if (window.showToast) window.showToast(`${name} added to cart`);
+  if (window.showToast) window.showToast(`${name} added to cart`, 'cart');   // Assignment 6 — Task 7
   setTimeout(() => {
     btn.textContent = original;
     btn.disabled = false;

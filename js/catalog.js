@@ -12,6 +12,13 @@
    - Animation: cards that appear again fade in (CSS class).
    - The filters are kept in the address (?genre=rpg&price=low&q=witcher),
      so a filtered catalog can be shared as a link and survives reload.
+
+   Assignment 6 (jQuery) — Task 1, real-time search and live filter:
+   - the search box listens to .on('keyup input') — the list changes
+     with every key the user types, no button needed;
+   - refresh() picks the matching cards with jQuery .filter() and
+     hides the rest with .not(). Autocomplete (Task 2) and the
+     highlighting (Task 3) are in js/jq-search.js.
    ========================================================== */
 
 const genreList = document.getElementById('genre-filter');
@@ -63,16 +70,16 @@ function isVisible(col) {
 }
 
 function refresh() {
-  // 1) show / hide every card
-  cols.forEach(col => {
-    const show = isVisible(col);
-    if (show && col.hidden) {                 // card comes back → small animation
-      col.classList.remove('fade-in-up');
-      void col.offsetWidth;
-      col.classList.add('fade-in-up');
-    }
-    col.hidden = !show;
+  // 1) Assignment 6 — Task 1: jQuery .filter() keeps only the cards that match
+  const $all = jQuery(cols);
+  const $match = $all.filter(function () { return isVisible(this); });
+  $match.filter('[hidden]').each(function () {   // card comes back → small animation
+    this.classList.remove('fade-in-up');
+    void this.offsetWidth;
+    this.classList.add('fade-in-up');
   });
+  $match.prop('hidden', false);
+  $all.not($match).prop('hidden', true);
 
   // 2) sort the cards inside each genre row
   genreSections.forEach(sec => {
@@ -90,6 +97,8 @@ function refresh() {
   countEl.textContent = visible + (visible === 1 ? ' game' : ' games');
   emptyEl.hidden = visible !== 0;
   saveToUrl();
+  // tell the other jQuery features (highlighting, lazy images) that the list changed
+  jQuery(document).trigger('catalog:refresh', [visible, state.search]);
 }
 
 /* ---------- filters <-> address bar ---------- */
@@ -143,10 +152,22 @@ bind(genreList, 'genre');
 bind(priceList, 'price');
 bind(platformList, 'platform');
 
-searchEl.addEventListener('input', () => {
-  state.search = searchEl.value.trim().toLowerCase();
+// Assignment 6 — Task 1: real-time search — filter while the user types (.on('keyup'))
+jQuery(searchEl).on('keyup input search', function () {
+  const q = jQuery(this).val().trim().toLowerCase();
+  if (q === state.search) return;           // arrow keys etc. — nothing changed
+  state.search = q;
   refresh();
 });
+
+// used by the autocomplete (js/jq-search.js) when a suggestion is chosen
+window.Catalog = {
+  search(text) {
+    jQuery(searchEl).val(text);
+    state.search = text.trim().toLowerCase();
+    refresh();
+  }
+};
 
 sortEl.addEventListener('change', () => {
   state.sort = sortEl.value;

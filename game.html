@@ -12,8 +12,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/assignment4.css">
   <link rel="stylesheet" href="css/assignment5.css">
+  <link rel="stylesheet" href="css/assignment6.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
+  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
+  <script src="js/jquery-fallback.js"></script>
+  <script src="js/script.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#game-page">Skip to main content</a>
@@ -84,7 +89,7 @@
               <button class="btn btn-primary btn-lg px-4 add-to-cart-btn" id="game-buy" type="button">Add to cart</button>
               <div class="btn-group btn-group-lg" role="group" aria-label="More actions">
                 <button type="button" class="btn btn-outline-light" id="wish-btn" aria-pressed="false">♡ Wishlist</button>
-                <button type="button" class="btn btn-outline-light" id="share-btn">Share</button>
+                <button type="button" class="btn btn-outline-light copy-btn" id="share-btn" data-copy="url" aria-label="Copy link to this game">🔗 Copy link</button>
               </div>
               <a href="catalog.html" class="btn btn-link btn-lg text-body-secondary">← Back to catalog</a>
             </div>

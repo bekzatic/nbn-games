@@ -107,8 +107,15 @@
       msg.className = 'popup-msg small mt-3 mb-0 text-danger';
       return;
     }
-    msg.textContent = `Thanks, ${name}! Deals will be sent to ${email}.`;
-    msg.className = 'popup-msg small mt-3 mb-0 text-success';
-    setTimeout(close, 1800);
+    // Assignment 6 — Task 6: spinner + "Please wait…" on the button, then the success message + toast
+    const finish = () => {
+      msg.textContent = `Thanks, ${name}! Deals will be sent to ${email}.`;
+      msg.className = 'popup-msg small mt-3 mb-0 text-success';
+      if (window.showToast) showToast('Successfully subscribed! 🎮', 'success');
+      setTimeout(close, 1800);
+    };
+    msg.textContent = '';
+    if (window.NBN && NBN.withSpinner) NBN.withSpinner(form.querySelector('[type="submit"]'), 1500, finish);
+    else finish();
   });
 })();

@@ -13,7 +13,9 @@
 (function () {
   let toast, toastBody;
 
-  window.showToast = function (text) {
+  window.showToast = function (text, type) {
+    // Assignment 6 — Task 7: every old showToast() call now goes to the jQuery notification system
+    if (window.NBN && NBN.notify) { NBN.notify(text, type); return; }
     if (!toast) {
       const wrap = document.createElement('div');
       wrap.className = 'toast-container position-fixed bottom-0 start-50 translate-middle-x p-3';

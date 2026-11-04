@@ -12,7 +12,7 @@
    ========================================================== */
 
 // messages go through main.js; if that file did not load, the page keeps working without them
-const toast = text => { if (window.showToast) window.showToast(text); };
+const toast = (text, type) => { if (window.showToast) window.showToast(text, type); };
 
 // if js/cart.js did not load, use an empty read-only cart so the page still opens
 const CART_MISSING = typeof getCart !== 'function';
@@ -108,7 +108,7 @@ cartItemsEl.addEventListener('click', (e) => {
     case 'remove':
       removeFromCart(name);
       if (window.SoundFX) SoundFX.play('error');
-      toast(`${name} removed`);
+      toast(`${name} removed from cart`, 'info');
       break;
   }
   renderCart();
@@ -124,11 +124,11 @@ document.getElementById('promo-form').addEventListener('submit', e => {
   const code = input.value.trim().toUpperCase();
   if (code === 'NEXTSTEP') {
     promo = 0.1;
-    toast('Promo code applied: −10%');
+    toast('Promo code applied: −10%', 'success');
     if (window.SoundFX) SoundFX.play('success');
   } else {
     promo = 0;
-    toast('Unknown promo code');
+    toast('Unknown promo code', 'error');
     if (window.SoundFX) SoundFX.play('error');
     input.classList.remove('shake');
     void input.offsetWidth;

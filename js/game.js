@@ -29,7 +29,7 @@ const GENRE_INFO = {
 };
 
 // messages go through main.js; if that file did not load, the page keeps working without them
-const toast = text => { if (window.showToast) window.showToast(text); };
+const toast = (text, type) => { if (window.showToast) window.showToast(text, type); };
 
 /* Show the page for one game. The list comes from js/games-data.js (GAMES);
    if that file did not load, the same data is fetched from data/games.json. */
@@ -134,16 +134,13 @@ function showGame(GAMES) {
       const on = Wishlist.toggle(game);
       paintWish(on);
       if (window.SoundFX) SoundFX.play(on ? 'star' : 'click');
-      toast(on ? `${game.title} added to wishlist ♥` : 'Removed from wishlist');
+      toast(on ? `${game.title} added to wishlist` : 'Removed from wishlist', on ? 'heart' : 'info');
     });
     initReadMore(game);
     initLightbox(game);
     initRating(game);
 
-    $('share-btn').addEventListener('click', () => {
-      try { navigator.clipboard.writeText(location.href); } catch {}
-      toast('Link copied');
-    });
+    // "Copy link" button: handled by the jQuery copy feature (Assignment 6 — Task 8, js/script.js)
   }
 }
 
