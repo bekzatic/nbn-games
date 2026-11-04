@@ -6,7 +6,19 @@
    written to the Vercel function log.
    ========================================================== */
 
+// The GitHub Pages copy of the site (bekzatic.github.io) may call this function too
+const ALLOWED_ORIGINS = ['https://bekzatic.github.io'];
+
 module.exports = (req, res) => {
+  const origin = req.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Vary', 'Origin');
+  }
+  if (req.method === 'OPTIONS') return res.status(204).end();   // CORS preflight
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ ok: false, error: 'Use POST' });

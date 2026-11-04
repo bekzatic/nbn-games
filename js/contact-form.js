@@ -42,7 +42,9 @@
 
   /* Send the data with fetch and call back onSuccess / onError */
   function sendForm(data, onSuccess, onError) {
-    fetch('/api/contact', {
+    // GitHub Pages hosts only static files → there the form talks to our Vercel function
+    const API = /\.github\.io$/.test(location.hostname) ? 'https://nbngames-store.vercel.app/api/contact' : '/api/contact';
+    fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

@@ -31,8 +31,10 @@
   /* ==========================================================
      Task 3 helper — highlight every match of `query` inside elements.
      The original text is saved once with .data(), then the element
-     is rebuilt with .html(): the text is split by a RegExp and every
-     match is wrapped in <mark class="hl">. Returns the number of marks.
+     is reset with .html(), the text is split by a RegExp and every
+     match is .wrap()-ped in <mark class="hl">. Returns the number of marks.
+     (markText() builds the same marks as an HTML string — used by the
+     autocomplete list.)
      ========================================================== */
   NBN.markText = function (text, query) {
     if (!query) return escapeHtml(text);
@@ -43,15 +45,25 @@
 
   NBN.highlight = function ($elements, query) {
     let total = 0;
+    const re = query ? new RegExp('(' + escapeRegExp(query) + ')', 'gi') : null;
     $elements.each(function () {
       const $el = $(this);
       if ($el.data('hl-original') === undefined) $el.data('hl-original', $el.text());
       const original = $el.data('hl-original');
-      let html = NBN.markText(original, query);
+      $el.html(escapeHtml(original));                 // .html() — restore the clean text (removes old marks)
+      if (!re) return;
+
+      // split() by the RegExp (capture group) → odd pieces are the matches.
+      // Every piece becomes a text node; each match is .wrap()-ped in <mark class="hl">.
+      $el.empty();
+      original.split(re).forEach(function (part, i) {
+        if (!part) return;
+        const node = document.createTextNode(part);
+        $el.append(node);
+        if (i % 2) { $(node).wrap('<mark class="hl"></mark>'); total++; }
+      });
       // inside a flex box (e.g. the FAQ buttons) loose text + <mark> would lose their spaces → keep them in one span
-      if (query && /flex/.test($el.css('display'))) html = '<span class="hl-line">' + html + '</span>';
-      $el.html(html);
-      total += $el.find('mark.hl').length;
+      if (/flex/.test($el.css('display'))) $el.contents().wrapAll('<span class="hl-line"></span>');
     });
     return total;
   };
@@ -371,7 +383,8 @@
     }
     const schedule = () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } };
 
-    $win.on('scroll resize load', schedule);
+    $win.scroll(schedule);                                      // .scroll() — check on every scroll
+    $win.on('resize load', schedule);
     $(document).on('lazy:check catalog:refresh', schedule);   // catalog filters show new cards
     updateStatus();
     check();
