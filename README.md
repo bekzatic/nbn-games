@@ -2,7 +2,7 @@
 
 Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov.
 
-**Live site:** https://nbngames-store.vercel.app
+**Live site:** https://bekzatic.github.io/nbn-games/ (GitHub Pages) · https://nbngames-store.vercel.app (Vercel, with the contact-form API)
 
 ## Assignment #6 — jQuery
 
