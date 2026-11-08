@@ -35,4 +35,7 @@
 
   tick();
   setInterval(tick, 1000);
+
+  // the year in "© 2026 NBN Games" — taken from the same Date, so it never gets old
+  document.querySelectorAll('.js-year').forEach(el => { el.textContent = new Date().getFullYear(); });
 })();
