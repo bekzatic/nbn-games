@@ -41,6 +41,20 @@ Promo code in the cart: **NEXTSTEP** (−10 %).
 
 ---
 
+## Quick demo (about 2 minutes, e.g. for the defense)
+
+1. **Home:** scroll down — the progress bar fills and the numbers count up; press **Load more games** and **New fact** (or the **F** key).
+2. Switch **☀️ / 🌙** (Day / Night) and **EN → RU** in the navbar.
+3. **Catalog:** choose *Гонки / Racing*, then type `for` in the search: the cards filter while you type, the matches are highlighted, and the dropdown suggests games (↓ + Enter chooses one). Copy the address — it keeps the filters.
+4. Open a game → rate it ★, press **♡ Wishlist**, **🔗 Copy link** (✓ + "Copied to clipboard!"), click the cover (lightbox, **Esc** closes) and **Add to cart**.
+5. **Cart:** copy and apply the promo code `NEXTSTEP`, then **Proceed to checkout** → 3 steps → confetti 🎉.
+6. **About:** search the FAQ for `platform`; send the contact form (spinner, then a toast).
+7. **Profile:** log in as `bekzat@nbngames.kz / bekzat123` → My games → ▶ Play.
+8. Anywhere: type the **Konami code** ↑ ↑ ↓ ↓ ← → ← → B A for Retro mode; **M** mutes the sound.
+9. Offline trick: in DevTools → Network block `code.jquery.com` and reload — the local jQuery copy loads and everything still works.
+
+---
+
 ## Folder structure
 
 ```
