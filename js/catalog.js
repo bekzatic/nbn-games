@@ -51,6 +51,7 @@
     const band = priceBand(game.price);
     // a game with oldPrice is on sale: the same "Sale" badge as on the home page + the old price crossed out
     const sale = game.oldPrice ? '<span class="sale-badge badge text-bg-primary position-absolute top-0 start-0 m-2">Sale</span>' : '';
+    const buyLabel = game.price === 0 ? 'Get for free' : 'Add to cart';   // same words as on the game page
     const oldPrice = game.oldPrice ? `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${NBN.formatPrice(game.oldPrice)}</span>` : '';
     return `
       <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}">
@@ -65,7 +66,7 @@
           </a>
           <div class="card-footer border-0 px-3 pb-3 pt-0">
             <div class="btn-group btn-group-sm w-100" role="group" aria-label="${title} actions">
-              <button type="button" class="btn btn-primary add-to-cart-btn" data-name="${title}" data-price="${game.price}" data-img="${game.img}">Add to cart</button>
+              <button type="button" class="btn btn-primary add-to-cart-btn" data-name="${title}" data-price="${game.price}" data-img="${game.img}">${buyLabel}</button>
               <a href="game.html?id=${game.id}" class="btn btn-outline-light">Details</a>
             </div>
           </div>
