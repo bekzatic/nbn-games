@@ -54,7 +54,7 @@
     const buyLabel = game.price === 0 ? 'Get for free' : 'Add to cart';   // same words as on the game page
     const oldPrice = game.oldPrice ? `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${NBN.formatPrice(game.oldPrice)}</span>` : '';
     return `
-      <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}">
+      <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}" data-rating="${game.rating}">
         <article class="card game-card h-100">
           <a href="game.html?id=${game.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
             ${sale}<div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover lazy" src="${PLACEHOLDER}" data-src="${game.img}" alt="${title} cover"></div>
@@ -111,6 +111,7 @@
       case 'price-asc':  return (a, b) => priceOf(a) - priceOf(b);
       case 'price-desc': return (a, b) => priceOf(b) - priceOf(a);
       case 'name':       return (a, b) => titleOf(a).localeCompare(titleOf(b));
+      case 'rating':     return (a, b) => b.dataset.rating - a.dataset.rating;   // the best rated first (data-rating on the card)
       default:           return (a, b) => a.dataset.order - b.dataset.order;   // the order from the data
     }
   }
