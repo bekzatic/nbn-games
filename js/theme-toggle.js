@@ -26,6 +26,9 @@
 
   function applyTheme(theme) {
     root.setAttribute('data-bs-theme', theme);
+    // the browser bar on phones gets the same colour as the page background (--nbn-bg in css/theme.css)
+    const bar = document.querySelector('meta[name="theme-color"]');
+    if (bar) bar.setAttribute('content', theme === 'light' ? '#f6f4ef' : '#0b0d10');
     document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
       const isDay = theme === 'light';
       btn.textContent = isDay ? '🌙' : '☀️';
