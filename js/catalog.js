@@ -126,6 +126,9 @@
   // shows / hides / sorts the cards for the current `state` and updates the counter
   function refresh() {
     $clear.prop('hidden', !$search.val());         // × only when there is something to clear
+    // "Reset filters" next to the counter only while a filter or a search is on
+    const filtered = state.genre !== 'all' || state.platform !== 'all' || state.price !== 'all' || state.search !== '';
+    $('#clear-filters').prop('hidden', !filtered);
     if (!$cols.length) return;                     // the data is not loaded yet
 
     // 1) jQuery .filter() keeps only the cards that match, .not() gives the rest
@@ -252,6 +255,9 @@
         break;
     }
   });
+
+  // the small button next to the counter does the same as the big one in the "nothing found" box
+  $('#clear-filters').on('click', function () { $('#reset-filters').trigger('click'); });
 
   $('#reset-filters').on('click', function () {
     $search.val('');
