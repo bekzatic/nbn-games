@@ -129,7 +129,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 
 | Feature | How it works | File |
 |---|---|---|
-| Cards built from data | `renderCard(game)` turns each object of `data/games.json` into a Bootstrap card; `renderCatalog()` groups them by genre; loading state + error message with "Try again" | `js/catalog.js` |
+| Cards built from data | `renderCard(game)` turns each object of `data/games.json` into a Bootstrap card (a game with `oldPrice` gets a "Sale" badge and the old price crossed out); `renderCatalog()` groups them by genre; loading state + error message with "Try again" | `js/catalog.js` |
 | Filters: genre, platform, price | one `state` object; jQuery `.filter()` keeps the matching cards, `.not()` hides the rest; `switch` for the price range | `js/catalog.js` |
 | Live search | filters on every key (`.on('keyup input')`); **/** focuses the box, **Esc** or the **×** button clears it | `js/catalog.js` |
 | Sort | price ↑ ↓, A → Z (a `switch` returns the compare function) | `js/catalog.js` |

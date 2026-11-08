@@ -49,15 +49,18 @@
   function renderCard(game) {
     const title = esc(game.title);
     const band = priceBand(game.price);
+    // a game with oldPrice is on sale: the same "Sale" badge as on the home page + the old price crossed out
+    const sale = game.oldPrice ? '<span class="sale-badge badge text-bg-primary position-absolute top-0 start-0 m-2">Sale</span>' : '';
+    const oldPrice = game.oldPrice ? `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${NBN.formatPrice(game.oldPrice)}</span>` : '';
     return `
       <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}">
         <article class="card game-card h-100">
           <a href="game.html?id=${game.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-            <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover lazy" src="${PLACEHOLDER}" data-src="${game.img}" alt="${title} cover"></div>
+            ${sale}<div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover lazy" src="${PLACEHOLDER}" data-src="${game.img}" alt="${title} cover"></div>
             <div class="card-body d-flex flex-column gap-1 p-3">
               <h3 class="card-title h6 fw-bold mb-0">${title}</h3>
               <p class="card-text small text-body-secondary mb-0">${game.platforms.join(' · ')}</p>
-              <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--${band}" aria-hidden="true"></span>${NBN.formatPrice(game.price)}</div>
+              <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--${band}" aria-hidden="true"></span>${NBN.formatPrice(game.price)}${oldPrice}</div>
             </div>
           </a>
           <div class="card-footer border-0 px-3 pb-3 pt-0">
