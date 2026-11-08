@@ -66,8 +66,8 @@ mark.hl {
   width: 0;
   height: 100%;
   border-radius: 0 3px 3px 0;
-  /* the gradient is as wide as the screen → new colours appear while it grows */
-  background: linear-gradient(90deg, #7b2ff7, #f107a3 30%, #ff5a1f 60%, #ffd23f 85%, #3ecf6e);
+  /* the gradient is as wide as the screen → it turns from deep orange to gold while it grows */
+  background: linear-gradient(90deg, var(--nbn-accent-deep), var(--nbn-accent) 50%, var(--nbn-yellow));
   background-size: 100vw 100%;
   box-shadow: 0 0 10px rgba(255, 90, 31, .7), 0 0 2px rgba(255, 255, 255, .6);
   transition: width .1s linear;
@@ -90,8 +90,8 @@ mark.hl {
   padding: .1rem .45rem;
   border-radius: 999px;
   font: 700 .7rem/1.4 system-ui, sans-serif;
-  color: #fff;
-  background: linear-gradient(135deg, #f107a3, #ff5a1f);
+  color: var(--nbn-on-accent);
+  background: var(--nbn-accent);
   box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
   opacity: 0;
   transition: opacity .25s, transform .25s;
@@ -99,7 +99,7 @@ mark.hl {
 }
 .scroll-progress.is-scrolling .scroll-progress__tip { opacity: 1; transform: translateX(-4px) scale(1); }
 .scroll-progress.is-done .scroll-progress__bar { animation: progressGlow 1.2s ease-in-out infinite alternate; }
-@keyframes progressGlow { to { box-shadow: 0 0 18px rgba(62, 207, 110, .9), 0 0 4px #fff; } }
+@keyframes progressGlow { to { box-shadow: 0 0 18px rgba(var(--nbn-yellow-rgb), .9), 0 0 4px #fff; } }
 
 /* ---------- "NBN Games in numbers" band with animated counters ---------- */
 .stats-band {
@@ -107,7 +107,7 @@ mark.hl {
   border: 1px solid var(--bs-border-color);
   background:
     radial-gradient(circle at 15% 20%, rgba(255, 90, 31, .18), transparent 45%),
-    radial-gradient(circle at 85% 80%, rgba(241, 7, 163, .14), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(var(--nbn-yellow-rgb), .12), transparent 45%),
     var(--bs-secondary-bg);
 }
 .stat-num {
@@ -115,7 +115,7 @@ mark.hl {
   font-weight: 800;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;     /* digits don't jump while counting */
-  background: linear-gradient(90deg, var(--nbn-accent, #ff5a1f), #f107a3);
+  background: linear-gradient(90deg, var(--nbn-accent), var(--nbn-yellow));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -157,12 +157,13 @@ mark.hl {
   box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
   pointer-events: auto;
 }
-.nbn-toast--success { --toast-color: #3ecf6e; }
-.nbn-toast--error   { --toast-color: #ef4444; }
-.nbn-toast--info    { --toast-color: #3b82f6; }
-.nbn-toast--cart    { --toast-color: var(--nbn-accent, #ff5a1f); }
-.nbn-toast--heart   { --toast-color: #f107a3; }
-.nbn-toast--copy    { --toast-color: #a855f7; }
+/* every type uses a colour of our palette (css/theme.css) */
+.nbn-toast--success { --toast-color: var(--nbn-green); }
+.nbn-toast--error   { --toast-color: var(--bs-danger); }
+.nbn-toast--info    { --toast-color: var(--nbn-dim); }
+.nbn-toast--cart    { --toast-color: var(--nbn-accent); }
+.nbn-toast--heart   { --toast-color: var(--nbn-accent-hover); }
+.nbn-toast--copy    { --toast-color: var(--nbn-yellow); }
 .nbn-toast__icon {
   flex: none;
   display: grid;
@@ -171,7 +172,7 @@ mark.hl {
   border-radius: 50%;
   font-weight: 800;
   font-size: .9rem;
-  color: #fff;
+  color: var(--nbn-on-accent);          /* dark icon at night, white by day */
   background: var(--toast-color, var(--bs-primary));
 }
 .nbn-toast__text { flex: 1; font-size: .9rem; line-height: 1.35; }
@@ -191,7 +192,7 @@ mark.hl {
 
 /* ---------- Copy-to-clipboard buttons + "Copied" tooltip ---------- */
 .copy-btn { position: relative; min-width: 2.25rem; }
-.copy-btn.is-copied { color: #fff; background: #3ecf6e; border-color: #3ecf6e; }
+.copy-btn.is-copied { color: var(--nbn-on-accent); background: var(--nbn-green); border-color: var(--nbn-green); }
 .copy-tip {
   position: absolute;
   bottom: calc(100% + 8px);
@@ -202,8 +203,8 @@ mark.hl {
   font-size: .75rem;
   font-weight: 600;
   white-space: nowrap;
-  color: #fff;
-  background: #111827;
+  color: var(--nbn-bg);                 /* inverted colours: light tip at night, dark by day */
+  background: var(--nbn-text);
   box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
   pointer-events: none;
   z-index: 5;
@@ -215,7 +216,7 @@ mark.hl {
   left: 50%;
   margin-left: -5px;
   border: 5px solid transparent;
-  border-top-color: #111827;
+  border-top-color: var(--nbn-text);
 }
 .promo-code { font-weight: 700; letter-spacing: .06em; color: var(--bs-primary); }
 .copy-tmp { position: fixed; top: -1000px; opacity: 0; }

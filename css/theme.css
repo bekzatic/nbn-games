@@ -17,8 +17,10 @@
   --nbn-dim: #8a919c;
   --nbn-accent: #ff5a1f;
   --nbn-accent-hover: #ff7a45;
+  --nbn-accent-deep: #c2410c;          /* darker orange: start of the warm gradients */
   --nbn-green: #3ecf6e;
   --nbn-yellow: #f2c94c;
+  --nbn-yellow-rgb: 242, 201, 76;
   --nbn-on-accent: #0b0d10;
   --nbn-footer: #111419;
   --nbn-nav-bg: rgba(11, 13, 16, 0.92);
@@ -211,8 +213,10 @@ h1, h2, h3, h4, h5, h6,
   --nbn-dim: #6a707a;
   --nbn-accent: #c2410c;
   --nbn-accent-hover: #a3360a;
+  --nbn-accent-deep: #9a3412;
   --nbn-green: #15803d;
   --nbn-yellow: #b7791f;
+  --nbn-yellow-rgb: 183, 121, 31;
   --nbn-on-accent: #ffffff;
   --nbn-footer: #ece9e2;
   --nbn-nav-bg: rgba(246, 244, 239, 0.92);

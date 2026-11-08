@@ -16,21 +16,23 @@
    ========================================================== */
 
 (function () {
+  // the same position in both lists = the same colour idea (Midnight blue ↔ Sky, Ember ↔ Peach…);
+  // all of them are calm shades that go with our orange accent
   const COLORS = {
     dark: [
       { name: 'Default', value: '#0b0d10' },
       { name: 'Midnight blue', value: '#0d1b2a' },
-      { name: 'Deep purple', value: '#1e1033' },
-      { name: 'Forest', value: '#0f2419' },
-      { name: 'Wine', value: '#2a0f16' },
+      { name: 'Espresso', value: '#1c140f' },
+      { name: 'Ember', value: '#26120b' },
+      { name: 'Slate', value: '#151a21' },
       { name: 'Graphite', value: '#24272e' }
     ],
     light: [
       { name: 'Default', value: '#f6f4ef' },
       { name: 'Sky', value: '#e6f0fb' },
-      { name: 'Lavender', value: '#efe9fb' },
-      { name: 'Mint', value: '#e5f5ea' },
+      { name: 'Sand', value: '#f2ebe1' },
       { name: 'Peach', value: '#fbebe4' },
+      { name: 'Mist', value: '#e8edf2' },
       { name: 'Cloud', value: '#eceef1' }
     ]
   };

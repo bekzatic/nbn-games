@@ -107,7 +107,7 @@
 .sale-badge { z-index: 2; }
 
 .wallet-card {
-  background: linear-gradient(135deg, #ff5a1f 0%, #b8360a 100%);
+  background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%);   /* deep orange: white text stays readable */
   color: #fff;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(255, 90, 31, 0.2);

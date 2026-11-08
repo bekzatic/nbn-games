@@ -303,7 +303,7 @@ Checkout.el.form.addEventListener('keydown', e => {
 
 /* ---------- Confetti animation ---------- */
 function launchConfetti() {
-  const colors = ['#ff5a1f', '#f2c94c', '#3ecf6e', '#4dabf7', '#e64980'];
+  const colors = ['#ff5a1f', '#ff7a45', '#f2c94c', '#3ecf6e', '#f2f0ea'];   // our palette: orange, light orange, gold, green, cream
   for (let i = 0; i < 80; i++) {
     const piece = document.createElement('span');
     piece.className = 'confetti';
