@@ -17,6 +17,8 @@ mark.hl {
 .faq-match { border-color: var(--bs-primary) !important; }
 
 /* ---------- Autocomplete dropdown under the catalog search ---------- */
+/* while the × button is hidden, the search field keeps its rounded right corners */
+.input-group:has(#search-clear[hidden]) #catalog-search { border-top-right-radius: var(--bs-border-radius); border-bottom-right-radius: var(--bs-border-radius); }
 .ac-list {
   position: absolute;
   z-index: 1050;

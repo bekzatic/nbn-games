@@ -25,6 +25,7 @@
   const $count = $('#results-count');
   const $empty = $('#empty-state');
   const $search = $('#catalog-search');
+  const $clear = $('#search-clear');        // the × button next to the search box
   const $sort = $('#catalog-sort');
   const $filterLists = $('#genre-filter, #platform-filter, #price-filter');
 
@@ -120,6 +121,7 @@
 
   // shows / hides / sorts the cards for the current `state` and updates the counter
   function refresh() {
+    $clear.prop('hidden', !$search.val());         // × only when there is something to clear
     if (!$cols.length) return;                     // the data is not loaded yet
 
     // 1) jQuery .filter() keeps only the cards that match, .not() gives the rest
@@ -207,6 +209,11 @@
     if (q === state.search) return;           // arrow keys etc. — nothing changed
     state.search = q;
     refresh();
+  });
+
+  // × button: empties the box; 'keyup' lets the filter and the autocomplete react as if the user typed
+  $clear.on('click', function () {
+    $search.val('').trigger('keyup').trigger('focus');
   });
 
   $sort.on('change', function () {
