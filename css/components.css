@@ -95,14 +95,17 @@
   transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
 }
 
-.game-card:hover {
+/* the same effect for the mouse (:hover) and for the keyboard (Tab onto a link or button in the card) */
+.game-card:hover,
+.game-card:has(:focus-visible) {
   transform: translateY(-6px);
   border-color: var(--nbn-accent);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
 }
 
 .game-card .card-img-top { transition: transform 0.4s; }
-.game-card:hover .card-img-top { transform: scale(1.05); }
+.game-card:hover .card-img-top,
+.game-card:has(:focus-visible) .card-img-top { transform: scale(1.05); }
 
 .sale-badge { z-index: 2; }
 
