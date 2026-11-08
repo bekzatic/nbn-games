@@ -283,8 +283,9 @@
                 </fieldset>
                 <div class="col-12">
                   <label for="message" class="form-label fw-semibold">Message</label>
-                  <textarea id="message" name="message" class="form-control" rows="4" placeholder="Tell us more..." required></textarea>
+                  <textarea id="message" name="message" class="form-control" rows="4" placeholder="Tell us more..." required aria-describedby="message-count"></textarea>
                   <div class="invalid-feedback">Please write a message.</div>
+                  <div class="form-text" id="message-count">0 / 10 characters minimum</div>
                 </div>
                 <div class="col-12">
                   <div class="form-check">

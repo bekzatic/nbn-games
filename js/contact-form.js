@@ -35,6 +35,13 @@
   const TIMEOUT_MS = 10000;          // no answer after 10 s → stop waiting and say so
   let tried = false;
 
+  // live counter under the message: "3 / 10 characters minimum" → "✓ 24 characters"
+  const counter = document.getElementById('message-count');
+  function updateCounter() {
+    const n = form.elements.message.value.trim().length;
+    counter.textContent = n < 10 ? `${n} / 10 characters minimum` : `✓ ${n} characters`;
+  }
+
   // checks one field, shows / hides its error text; returns true when the value is OK
   function check(el) {
     const msg = RULES[el.id](el.value);
@@ -85,6 +92,7 @@
   // callback #1 — the server accepted the message
   function handleSuccess(answer) {
     form.reset();
+    updateCounter();                       // the empty form starts from 0 again
     tried = false;
     form.querySelectorAll('.is-valid').forEach(el => el.classList.remove('is-valid'));
     success.textContent = `Thanks, ${answer.name}! Your message has been sent. Ticket number: ${answer.ticket} — we'll reply within a working day.`;
@@ -137,6 +145,7 @@
   });
 
   form.addEventListener('input', e => {
+    if (e.target.id === 'message') updateCounter();
     if (tried && RULES[e.target.id]) check(e.target);
   });
 })();

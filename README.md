@@ -188,7 +188,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 |---|---|---|
 | FAQ accordion | Bootstrap markup, our own jQuery: delegated click, `.slideDown()` / `.slideUp()`, one open at a time | `js/accordion.js` |
 | FAQ search | highlights matches in questions + answers, opens the matching answers, counts matches | `js/jq-search.js` |
-| Contact form | JS validation → `fetch` POST (async/await, try/catch, 10 s timeout) to `api/contact.js`; spinner; clear message for every error | `js/contact-form.js`, `api/contact.js` |
+| Contact form | JS validation (+ live "8 / 10 characters" counter) → `fetch` POST (async/await, try/catch, 10 s timeout) to `api/contact.js`; spinner; clear message for every error | `js/contact-form.js`, `api/contact.js` |
 | Show current time | `new Date().toLocaleTimeString()`; a `switch` tells whether the office is open | `js/about.js` |
 | Copy buttons | address, email, promo code → ✓ + tooltip + toast | `js/script.js` |
 
