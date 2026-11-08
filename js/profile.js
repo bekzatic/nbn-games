@@ -126,6 +126,7 @@ function showLogin() {
   byId('profile-aside').classList.add('d-none');     // main column is centred alone
   session('del');
   loginForm.reset();
+  setPasswordVisible(false);                      // after logout the password is hidden again
   loginError.hidden = true;
   history.replaceState(null, '', location.pathname);
 }
@@ -151,6 +152,19 @@ loginForm.addEventListener('submit', e => {
 });
 
 byId('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
+
+/* 👁 button: shows / hides the password by switching the input type
+   between "password" (dots) and "text" (readable) */
+function setPasswordVisible(show) {
+  const btn = byId('toggle-password');
+  byId('login-password').type = show ? 'text' : 'password';
+  btn.setAttribute('aria-pressed', String(show));
+  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  btn.title = show ? 'Hide password' : 'Show password';
+}
+byId('toggle-password').addEventListener('click', () => {
+  setPasswordVisible(byId('login-password').type === 'password');
+});
 
 /* ---------- Sidebar: switch between panels ---------- */
 const SECTIONS = ['profile', 'games', 'wishlist', 'wallet', 'settings', 'security', 'notifications'];

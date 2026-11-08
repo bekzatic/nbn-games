@@ -176,7 +176,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 
 | Feature | How it works | File |
 |---|---|---|
-| Demo login | ⚠️ client-side demo only (see the comment in the file); spinner while "checking", toast after | `js/profile.js` |
+| Demo login | ⚠️ client-side demo only (see the comment in the file); 👁 shows / hides the password; spinner while "checking", toast after | `js/profile.js` |
 | Sign-up form validation | every rule in JavaScript, error text under each field, re-checked while typing | `js/form-validation.js` |
 | My games + ▶ Play | progress bar 0 → 100 %, play counter text from a `switch` | `js/profile.js` |
 | Wishlist, wallet top-up, settings, password change, notifications | render functions with `map()`, data saved per user in localStorage | `js/profile.js` |
