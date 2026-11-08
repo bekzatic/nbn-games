@@ -100,13 +100,14 @@ function showGame(allGames) {
     }
 
     // Similar games: 3 other games from the same genre (Bootstrap cards)
+    // (loading="lazy": the browser downloads these covers only when they come near the screen)
     const similar = allGames.filter(g => g.genre === game.genre && g.id !== game.id).slice(0, 3);
     byId('similar-genre').textContent = game.genreLabel + ' games';
     byId('similar-row').innerHTML = similar.map(g => `
       <div class="col">
         <article class="card game-card h-100">
           <a href="game.html?id=${g.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-            <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${escapeHtml(g.title)} cover"></div>
+            <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${escapeHtml(g.title)} cover" loading="lazy"></div>
             <div class="card-body d-flex flex-column gap-1 p-3">
               <h3 class="card-title h6 fw-bold mb-0">${g.title}</h3>
               <p class="card-text small text-body-secondary mb-0">${g.developer} · ${g.year}</p>

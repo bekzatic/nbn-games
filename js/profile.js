@@ -199,7 +199,7 @@ function renderLibrary() {
     <div class="col">
       <article class="card game-card h-100">
         <a href="game.html?id=${slugify(title)}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/${COVERS[title] || ''}" alt="${title} cover"></div>
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/${COVERS[title] || ''}" alt="${title} cover" loading="lazy"></div>
           <div class="card-body p-3">
             <h3 class="card-title h6 fw-bold mb-1">${title}</h3>
             <p class="card-text small text-body-secondary mb-0 js-plays">${playsText(title)}</p>
@@ -268,7 +268,7 @@ function renderWishlist() {
     <div class="col">
       <article class="card game-card h-100" data-id="${g.id}">
         <a href="game.html?id=${g.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
-          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${g.title.replace(/"/g, '&quot;')} cover"></div>
+          <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${g.title.replace(/"/g, '&quot;')} cover" loading="lazy"></div>
           <div class="card-body p-3">
             <h3 class="card-title h6 fw-bold mb-1">${g.title}</h3>
             <p class="card-text small fw-semibold mb-0">${g.price === 0 ? 'Free' : tenge(g.price)}</p>
