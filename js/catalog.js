@@ -154,6 +154,11 @@
     // the "nothing found" title repeats the search text, so the user sees why the list is empty
     const typed = $search.val().trim();
     $('#empty-title').text(typed ? 'No games match “' + typed + '”' : 'No games match these filters');
+    // the tab title says what is shown, e.g. "NBN Games — Catalog: RPG" (clearer tabs and browser history)
+    const parts = [];
+    if (state.genre !== 'all') parts.push($('#genre-filter button').filter((i, b) => b.dataset.genre === state.genre).text());
+    if (typed) parts.push('“' + typed + '”');
+    document.title = 'NBN Games — Catalog' + (parts.length ? ': ' + parts.join(' · ') : '');
     saveToUrl();
     // tell the other jQuery features (highlighting, lazy images) that the list changed
     $(document).trigger('catalog:refresh', [visible, state.search]);
