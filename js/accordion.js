@@ -1,57 +1,52 @@
 /* ==========================================================
-   Assignment #5 — jQuery FAQ Accordion
-   Uses jQuery for DOM selection, delegated events, and slide
-   animations while keeping aria-expanded synchronized.
+   FAQ accordion (about.html → "Questions people ask us")
+   Author: Nurkhan Nurzhau
+
+   The markup uses Bootstrap's accordion classes, but there is NO
+   data-bs-toggle: opening and closing is our own jQuery code.
+   - One delegated click handler per accordion (works for every question).
+   - .slideDown() / .slideUp() animate the answer.
+   - aria-expanded is kept up to date for screen readers.
+   - Only one answer is open at a time.
    ========================================================== */
-(function ($) {
+(function () {
   'use strict';
 
-  $(function () {
-    const $accordions = $('.js-accordion');
+  // closes one answer: the arrow turns back and the panel slides up
+  function closePanel($button, $panel) {
+    $button.attr('aria-expanded', 'false').addClass('collapsed');
+    $panel.stop(true, true).slideUp(250, function () {
+      $panel.addClass('collapse').removeClass('show').css('display', '');
+    });
+  }
 
-    $accordions.each(function () {
+  // opens one answer: Bootstrap's .collapse would hide it, so we remove it first
+  function openPanel($button, $panel) {
+    $button.attr('aria-expanded', 'true').removeClass('collapsed');
+    $panel.stop(true, true).removeClass('collapse').addClass('show').hide().slideDown(250);
+  }
+
+  $(function () {
+    $('.js-accordion').each(function () {
       const $accordion = $(this);
 
-      // jQuery event delegation: works for all FAQ buttons in this accordion.
+      // event delegation: ONE handler on the accordion for all its question buttons
       $accordion.on('click', '.accordion-button', function () {
         const $button = $(this);
-        const panelId = $button.attr('aria-controls');
-        const $panel = $('#' + panelId);
-
-        if (!$panel.length || $panel.is(':animated')) return;
+        const $panel = $('#' + $button.attr('aria-controls'));
+        if (!$panel.length || $panel.is(':animated')) return;   // ignore clicks during the animation
 
         const willOpen = $button.attr('aria-expanded') !== 'true';
 
-        // Close other open answers first (single-open accordion behavior).
+        // close the other open answer first (only one is open at a time)
         $accordion.find('.accordion-button[aria-expanded="true"]').not($button).each(function () {
-          const $otherButton = $(this);
-          const otherPanelId = $otherButton.attr('aria-controls');
-          const $otherPanel = $('#' + otherPanelId);
-
-          $otherButton
-            .attr('aria-expanded', 'false')
-            .addClass('collapsed');
-
-          $otherPanel.stop(true, true).slideUp(250, function () {
-            $otherPanel.addClass('collapse').removeClass('show').css('display', '');
-          });
+          const $other = $(this);
+          closePanel($other, $('#' + $other.attr('aria-controls')));
         });
 
-        if (willOpen) {
-          $button.attr('aria-expanded', 'true').removeClass('collapsed');
-          $panel
-            .stop(true, true)
-            .removeClass('collapse')
-            .addClass('show')
-            .hide()
-            .slideDown(250);
-        } else {
-          $button.attr('aria-expanded', 'false').addClass('collapsed');
-          $panel.stop(true, true).slideUp(250, function () {
-            $panel.addClass('collapse').removeClass('show').css('display', '');
-          });
-        }
+        if (willOpen) openPanel($button, $panel);
+        else closePanel($button, $panel);
       });
     });
   });
-})(jQuery);
+})();

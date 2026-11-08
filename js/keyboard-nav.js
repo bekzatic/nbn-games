@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #5 — Keyboard Event Handling
+   Keyboard navigation in the main menu
    Author: Nurkhan Nurzhau
    Pages: every page — the main navigation menu.
 

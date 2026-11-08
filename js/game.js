@@ -1,9 +1,9 @@
 /* ==========================================================
    game.html — one template page for every game (?id=...)
    Author: Nursultan Rassulov
-   Data: js/games-data.js (array GAMES of game objects)
+   Data: data/games.json, loaded with NBN.loadGames() (js/games-api.js)
 
-   Assignment #5 features on this page:
+   Features on this page:
    - Rating stars: querySelectorAll selects the stars, click / hover /
      arrow keys change their colour; the message is updated with
      textContent; the rating is saved per game in localStorage.
@@ -13,8 +13,10 @@
      close with ×, a click outside or the Escape key.
    ========================================================== */
 
-const $ = id => document.getElementById(id);
-const formatPrice = n => n === 0 ? 'Free' : n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
+// byId('game-title') is short for document.getElementById('game-title').
+// (It is not called $ — on our pages $ always means jQuery.)
+const byId = id => document.getElementById(id);
+const formatPrice = NBN.formatPrice;   // 0 → "Free", 14999 → "14 999 ₸" (js/games-api.js)
 const escapeHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 // Short texts for every genre — an object used like a dictionary
@@ -31,35 +33,35 @@ const GENRE_INFO = {
 // messages go through main.js; if that file did not load, the page keeps working without them
 const toast = (text, type) => { if (window.showToast) window.showToast(text, type); };
 
-/* Show the page for one game. The list comes from js/games-data.js (GAMES);
-   if that file did not load, the same data is fetched from data/games.json. */
-function showGame(GAMES) {
+/* Fills the page with the game from the address (?id=elden-ring).
+   allGames is the array from data/games.json. */
+function showGame(allGames) {
   // Which game? ?id=elden-ring  (default — Cyberpunk 2077, as before)
   const params = new URLSearchParams(location.search);
   const id = params.get('id') || 'cyberpunk-2077';
-  const game = GAMES.find(g => g.id === id);
+  const game = allGames.find(g => g.id === id);
 
   if (!game) {
-    $('game-page').hidden = true;
-    $('not-found').hidden = false;
+    byId('game-page').hidden = true;
+    byId('not-found').hidden = false;
     document.title = 'NBN Games — Game not found';
   } else {
     document.title = 'NBN Games — ' + game.title;
     if (typeof RecentlyViewed !== 'undefined') RecentlyViewed.add(game);   // remember for the home page
 
-    $('crumb-genre').innerHTML = `<a class="crumb-link" href="catalog.html?genre=${game.genre}">${game.genreLabel}</a>`;
-    $('similar-link').href = 'catalog.html?genre=' + game.genre;   // "See all" opens the catalog already filtered
-    $('crumb-title').textContent = game.title;
-    $('game-cover').src = game.img;
-    $('game-cover').alt = game.title + ' cover';
-    $('game-genre').textContent = game.emoji + ' ' + game.genreLabel;
-    $('game-title').textContent = game.title;
+    byId('crumb-genre').innerHTML = `<a class="crumb-link" href="catalog.html?genre=${game.genre}">${game.genreLabel}</a>`;
+    byId('similar-link').href = 'catalog.html?genre=' + game.genre;   // "See all" opens the catalog already filtered
+    byId('crumb-title').textContent = game.title;
+    byId('game-cover').src = game.img;
+    byId('game-cover').alt = game.title + ' cover';
+    byId('game-genre').textContent = game.emoji + ' ' + game.genreLabel;
+    byId('game-title').textContent = game.title;
 
     const full = Math.round(game.rating);
-    $('game-stars').textContent = '★'.repeat(full) + '☆'.repeat(5 - full);
-    $('game-rating').textContent = `${game.rating.toFixed(1)} · ${game.reviews} reviews · ${game.developer}`;
+    byId('game-stars').textContent = '★'.repeat(full) + '☆'.repeat(5 - full);
+    byId('game-rating').textContent = `${game.rating.toFixed(1)} · ${game.reviews} reviews · ${game.developer}`;
 
-    $('game-platforms').innerHTML = game.platforms
+    byId('game-platforms').innerHTML = game.platforms
       .map(p => `<span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal px-3 py-2">${p}</span>`).join('');
 
     let priceHtml = `<span class="fs-2 fw-bold text-white">${formatPrice(game.price)}</span>`;
@@ -68,23 +70,23 @@ function showGame(GAMES) {
       priceHtml = `<span class="badge text-bg-primary fs-6">-${pct}%</span>` + priceHtml +
                   `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${formatPrice(game.oldPrice)}</span>`;
     }
-    $('game-price').innerHTML = priceHtml;
+    byId('game-price').innerHTML = priceHtml;
 
-    const buy = $('game-buy');
+    const buy = byId('game-buy');
     buy.dataset.name = game.title;
     buy.dataset.price = game.price;
     buy.dataset.img = game.img;
     if (game.price === 0) buy.textContent = 'Get for free';
 
-    $('fact-dev').textContent = game.developer;
-    $('fact-year').textContent = game.year;
-    $('fact-genre').textContent = game.genreLabel;
-    $('game-desc').textContent = game.description;
+    byId('fact-dev').textContent = game.developer;
+    byId('fact-year').textContent = game.year;
+    byId('fact-genre').textContent = game.genreLabel;
+    byId('game-desc').textContent = game.description;
 
     // System requirements — Bootstrap table (console-only games get an alert instead)
     if (game.req) {
       const rows = [['Operating system', 'os'], ['Processor', 'cpu'], ['Memory', 'ram'], ['Graphics', 'gpu'], ['Storage', 'storage']];
-      $('req-box').innerHTML = `
+      byId('req-box').innerHTML = `
         <div class="table-responsive rounded-3 border">
           <table class="table table-striped table-hover align-middle mb-0 spec-table">
             <thead><tr><th scope="col" class="px-3 py-3">Parameter</th><th scope="col" class="px-3 py-3">Minimum</th><th scope="col" class="px-3 py-3">Recommended</th></tr></thead>
@@ -94,13 +96,13 @@ function showGame(GAMES) {
           </table>
         </div>`;
     } else {
-      $('req-box').innerHTML = `<div class="alert alert-secondary d-flex align-items-center gap-2 mb-0" role="note">🎮 <span>${escapeHtml(game.title)} is a console game (${game.platforms.join(', ')}) — no PC requirements.</span></div>`;
+      byId('req-box').innerHTML = `<div class="alert alert-secondary d-flex align-items-center gap-2 mb-0" role="note">🎮 <span>${escapeHtml(game.title)} is a console game (${game.platforms.join(', ')}) — no PC requirements.</span></div>`;
     }
 
     // Similar games: 3 other games from the same genre (Bootstrap cards)
-    const similar = GAMES.filter(g => g.genre === game.genre && g.id !== game.id).slice(0, 3);
-    $('similar-genre').textContent = game.genreLabel + ' games';
-    $('similar-row').innerHTML = similar.map(g => `
+    const similar = allGames.filter(g => g.genre === game.genre && g.id !== game.id).slice(0, 3);
+    byId('similar-genre').textContent = game.genreLabel + ' games';
+    byId('similar-row').innerHTML = similar.map(g => `
       <div class="col">
         <article class="card game-card h-100">
           <a href="game.html?id=${g.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
@@ -120,16 +122,15 @@ function showGame(GAMES) {
         </article>
       </div>`).join('');
 
-    // Wishlist toggle + share (button states)
     // Wishlist button — saved in localStorage through the Wishlist object (js/wishlist.js)
-    const wishBtn = $('wish-btn');
-    const paintWish = on => {
+    const wishBtn = byId('wish-btn');
+    const paintWish = on => {          // ♥ / ♡ + aria-pressed show the current state
       wishBtn.classList.toggle('active', on);
       wishBtn.setAttribute('aria-pressed', on);
       wishBtn.textContent = on ? '♥ In wishlist' : '♡ Wishlist';
     };
     if (typeof Wishlist === 'undefined') wishBtn.hidden = true;   // wishlist.js did not load
-  else paintWish(Wishlist.has(game.id));
+    else paintWish(Wishlist.has(game.id));
     wishBtn.addEventListener('click', () => {
       const on = Wishlist.toggle(game);
       paintWish(on);
@@ -140,25 +141,33 @@ function showGame(GAMES) {
     initLightbox(game);
     initRating(game);
 
-    // "Copy link" button: handled by the jQuery copy feature (Assignment 6 — Task 8, js/script.js)
+    // the "Copy link" button is handled by the copy feature in js/script.js
   }
 }
 
-if (typeof GAMES !== 'undefined') {
-  showGame(GAMES);
-} else {
-  fetch('data/games.json')
-    .then(res => res.json())
-    .then(showGame)
-    .catch(() => showGame([]));          // nothing to show → "Game not found"
+/* Start: wait for the data (async/await), then build the page.
+   If the file can't be loaded we show a clear message instead of
+   "Loading…" forever. */
+async function start() {
+  try {
+    const games = await NBN.loadGames();
+    showGame(games);
+  } catch (err) {
+    byId('game-page').hidden = true;
+    byId('not-found').hidden = false;
+    byId('not-found-title').textContent = 'Could not load the game';
+    byId('not-found-text').textContent = 'Check your internet connection and reload the page.';
+    document.title = 'NBN Games — Loading error';
+  }
 }
+start();
 
 
 /* ---------- Read more ---------- */
 
 function initReadMore(game) {
-  const box = $('read-more-box');
-  const btn = $('read-more-btn');
+  const box = byId('read-more-box');
+  const btn = byId('read-more-btn');
   box.innerHTML = `
     <p class="mb-2">${GENRE_INFO[game.genre] || ''}</p>
     <ul class="small mb-0 ps-3">
@@ -181,7 +190,7 @@ function initReadMore(game) {
 /* ---------- Rating stars ---------- */
 function initRating(game) {
   const stars = document.querySelectorAll('.star-btn');   // NodeList of 5 buttons
-  const msg = $('rate-msg');
+  const msg = byId('rate-msg');
   const KEY = 'nbn-rating-' + game.id;
   const LABELS = ['', 'Not for me 😕', 'It\'s okay 🙂', 'Good game 👍', 'Great game 🔥', 'Masterpiece! 🏆'];
   let rating = 0;
@@ -238,7 +247,7 @@ function initRating(game) {
 
 /* ---------- Cover lightbox ---------- */
 function initLightbox(game) {
-  const cover = $('game-cover');
+  const cover = byId('game-cover');
   cover.classList.add('zoomable');
   cover.tabIndex = 0;
   cover.setAttribute('role', 'button');

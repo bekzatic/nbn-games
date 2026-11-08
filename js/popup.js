@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #4 — Task 3: Popup Subscription Form
+   "Subscribe" popup form
    Author: Nurkhan Nurzhau
    Pages: every page — "Subscribe" button in the footer opens #subscribe-popup.
 
@@ -107,7 +107,7 @@
       msg.className = 'popup-msg small mt-3 mb-0 text-danger';
       return;
     }
-    // Assignment 6 — Task 6: spinner + "Please wait…" on the button, then the success message + toast
+    // spinner + "Please wait…" on the button (NBN.withSpinner), then the success message + toast
     const finish = () => {
       msg.textContent = `Thanks, ${name}! Deals will be sent to ${email}.`;
       msg.className = 'popup-msg small mt-3 mb-0 text-success';

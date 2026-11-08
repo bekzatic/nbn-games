@@ -1,11 +1,11 @@
 /* ==========================================================
-   Assignment #4 — Task 4: Change Background Color
+   "Change background" button
    Author: Nursultan Rassulov
    Pages: every page — "🎨 Change background" button in the footer.
 
    How it works:
    1. COLORS has two lists of predefined colours: dark ones for the
-      Night theme and light ones for the Day theme (Assignment #5),
+      Night theme and light ones for the Day theme,
       so the text always stays readable.
    2. Every click moves to the next colour and changes the CSS property
       document.body.style.backgroundColor. CSS `transition` makes the

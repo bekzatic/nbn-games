@@ -1,4 +1,4 @@
-/* typography.css — Task 1: responsive font sizes with media queries.
+/* typography.css — responsive font sizes with media queries.
    Mobile first: small by default, medium from 768px, large from 1200px. */
 body { font-size: 0.95rem; line-height: 1.6; }
 h1, .h1 { font-size: 1.9rem; }

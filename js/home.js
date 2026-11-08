@@ -2,26 +2,26 @@
    index.html — home page behaviour
    Author: Nurkhan Nurzhau
 
-   Assignment #5 features:
    1. Greeting by time of day — a `switch` picks the text,
       textContent puts it on the page.
-   2. "Load more games" — fetch() loads data/games.json and appends
-      new Bootstrap cards to #more-games without a page reload.
-      Uses an array, a for loop and higher-order functions (filter, map).
+   2. "Load more games" — the games come from data/games.json
+      (NBN.loadGames, async/await) and new Bootstrap cards are added
+      to #more-games without a page reload. Uses an array, a for loop
+      and higher-order functions (filter).
    3. Random gaming fact — fetch() loads data/facts.json, a while loop
       makes sure the next fact is different, text fades in (animation).
       The F key also shows a new fact (keyboard event).
-   4. Newsletter form — no backend, shows a toast.
+   4. Newsletter form — no backend: a spinner, then a toast.
    ========================================================== */
 
 (function () {
-  const toast = text => { if (window.showToast) window.showToast(text); };
-  const formatPrice = n => n === 0 ? 'Free' : n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
-  const escapeHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const formatPrice = NBN.formatPrice;            // 0 → "Free", 14999 → "14 999 ₸"
+  const escapeHtml = NBN.escapeHtml;              // game titles go into HTML attributes
+  const SPINNER = '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>';
 
   /* ---------- 1. Greeting by time of day (switch) ---------- */
   function partOfDay(hour) {
-    switch (true) {
+    switch (true) {                       // the first `case` that is true wins
       case hour >= 5 && hour < 12:  return 'morning';
       case hour >= 12 && hour < 18: return 'afternoon';
       case hour >= 18 && hour < 23: return 'evening';
@@ -42,28 +42,17 @@
     el.textContent = text;
   }
 
-  /* ---------- 2. Load more games (fetch) ---------- */
+  /* ---------- 2. Load more games ---------- */
   const moreRow = document.getElementById('more-games');
   const moreBtn = document.getElementById('load-more-btn');
   const moreInfo = document.getElementById('load-more-info');
   const PAGE_SIZE = 4;
-  let allGames = null;   // filled after the first fetch
+  let allGames = null;   // filled after the first successful load
   let shown = 0;
 
-  // ids of games that are already on the page as cards
+  // ids of games that are already on the page as cards (they are not added again)
   const onPage = Array.from(document.querySelectorAll('main a[href^="game.html?id="]'))
     .map(a => new URL(a.href).searchParams.get('id'));
-
-  // fetch the JSON file; if fetch is not possible (page opened from disk) use the GAMES array
-  function loadGames(callback) {
-    fetch('data/games.json')
-      .then(res => {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      })
-      .then(data => callback(data))
-      .catch(() => callback(typeof GAMES !== 'undefined' ? GAMES : []));
-  }
 
   function cardHtml(g) {
     const sale = g.oldPrice ? '<span class="sale-badge badge text-bg-primary position-absolute top-0 start-0 m-2">Sale</span>' : '';
@@ -88,6 +77,7 @@
       </div>`;
   }
 
+  // adds the next 4 games that are not on the page yet
   function showNextPage() {
     const rest = allGames.filter(g => !onPage.includes(g.id));     // higher-order: filter
     const end = Math.min(shown + PAGE_SIZE, rest.length);
@@ -106,29 +96,41 @@
     }
   }
 
+  // first click: load the data (loading state → cards, or a clear error message)
+  async function loadMore() {
+    moreBtn.disabled = true;
+    moreBtn.innerHTML = SPINNER + 'Loading…';
+    moreInfo.textContent = '';
+    try {
+      allGames = await NBN.loadGames();
+      moreBtn.textContent = 'Load more games';
+      showNextPage();
+    } catch (err) {
+      moreBtn.textContent = 'Try again';
+      moreInfo.textContent = '⚠️ Could not load more games. Check your connection and try again.';
+      if (window.showToast) showToast('Could not load more games', 'error');
+    } finally {
+      moreBtn.disabled = false;          // `finally` runs after success AND after an error
+    }
+  }
+
   if (moreBtn) {
     moreBtn.addEventListener('click', () => {
       if (moreBtn.dataset.done) { location.href = 'catalog.html'; return; }
       if (window.SoundFX) SoundFX.play('whoosh');
-      if (allGames) { showNextPage(); return; }
-
-      moreBtn.disabled = true;
-      moreBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Loading…';
-      loadGames(data => {                                         // callback after fetch
-        allGames = data;
-        moreBtn.disabled = false;
-        moreBtn.textContent = 'Load more games';
-        showNextPage();
-      });
+      if (allGames) showNextPage();      // the data is already here → no new request
+      else loadMore();
     });
   }
 
-  /* ---------- 3. Random gaming fact (fetch) ---------- */
+  /* ---------- 3. Random gaming fact ---------- */
   const factText = document.getElementById('fact-text');
   const factBtn = document.getElementById('fact-btn');
   const factCounter = document.getElementById('fact-counter');
+  // used when data/facts.json can't be loaded, so the button still does something
   const FALLBACK_FACTS = ['Tetris was created in 1984 by Alexey Pajitnov.', 'Minecraft is the best-selling game of all time.'];
   let facts = null;
+  let offline = false;
   let lastIndex = -1;
   let seen = 0;
 
@@ -144,30 +146,43 @@
       factText.textContent = facts[i];                           // …change the text…
       factText.classList.remove('is-changing');                   // …fade in
     }, 250);
-    factCounter.textContent = `· fact #${i + 1} of ${facts.length} · you've read ${seen}`;
+    factCounter.textContent = offline
+      ? '· offline facts (data/facts.json could not be loaded)'
+      : `· fact #${i + 1} of ${facts.length} · you've read ${seen}`;
     if (window.SoundFX) SoundFX.play('star');
   }
 
-  function newFact() {
+  // loads data/facts.json once (async/await + try/catch), then shows a fact
+  async function newFact() {
     if (facts) { showFact(); return; }
-    fetch('data/facts.json')
-      .then(res => res.json())
-      .then(data => { facts = data; showFact(); })
-      .catch(() => { facts = FALLBACK_FACTS; showFact(); });
+    const label = factBtn.innerHTML;
+    factBtn.disabled = true;
+    factBtn.innerHTML = SPINNER + 'Loading…';
+    try {
+      const response = await fetch('data/facts.json');
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      facts = await response.json();
+    } catch (err) {
+      facts = FALLBACK_FACTS;
+      offline = true;
+    } finally {
+      factBtn.disabled = false;
+      factBtn.innerHTML = label;
+    }
+    showFact();
   }
 
   if (factBtn) {
     factBtn.addEventListener('click', newFact);
     document.addEventListener('keydown', e => {
       const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
-      if (!typing && (e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey) newFact();
+      if (!typing && (e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !factBtn.disabled) newFact();
     });
   }
 
   /* ---------- 4. Newsletter: no backend, just say thanks ---------- */
   const newsForm = document.getElementById('news-form');
   if (newsForm) {
-    // Assignment 6 — Task 6: the button shows a spinner + "Please wait…" first (NBN.withSpinner in js/script.js)
     newsForm.addEventListener('submit', e => {
       e.preventDefault();
       const done = () => {
@@ -175,6 +190,7 @@
         if (window.SoundFX) SoundFX.play('success');
         if (window.showToast) showToast('Form submitted successfully — you are subscribed!', 'success');
       };
+      // the button shows a spinner + "Please wait…" first (NBN.withSpinner in js/script.js)
       if (window.NBN && NBN.withSpinner) NBN.withSpinner(newsForm.querySelector('[type="submit"]'), 1800, done);
       else done();
     });

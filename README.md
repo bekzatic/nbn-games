@@ -1,155 +1,207 @@
 # NBN Games — online game store
 
-Student project by **Team Next Step**: Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov.
+A front-end student project for **Web Technologies 1 (Front End)** by **Team Next Step**
+(group SE-2503): Bekzat Amanbek · Nurkhan Nurzhau · Nursultan Rassulov.
 
-**Live site:** https://bekzatic.github.io/nbn-games/ (GitHub Pages) · https://nbngames-store.vercel.app (Vercel, with the contact-form API)
+NBN Games is a small digital game store: a catalog of 42 games with filters and search,
+a page for every game, a cart with a 3-step checkout, a profile with demo accounts, and
+an About page with an FAQ and a contact form. Everything is plain **HTML, CSS, Bootstrap 5,
+JavaScript and jQuery** — no frameworks, no build tools, no TypeScript.
 
-## Assignment #6 — jQuery
+**Live site**
 
-jQuery **4.0.0** is loaded from the CDN (`code.jquery.com`, with an SRI hash) in the `<head>` of every page.
-`js/jquery-fallback.js` loads the local copy `js/vendor/jquery-4.0.0.min.js` if the CDN is offline.
-Then `js/script.js` runs — everything inside `$(document).ready()`, which logs **"jQuery is ready!"**.
-New styles: `css/assignment6.css`. jQuery code is wrapped in `(function ($) { … })(jQuery)` because
-`profile.js` / `game.js` define their own `$` helper.
+| Where | URL | Notes |
+|---|---|---|
+| GitHub Pages | https://bekzatic.github.io/nbn-games/ | static hosting; the contact form talks to the Vercel function |
+| Vercel | https://nbngames-store.vercel.app | also runs the serverless function `api/contact.js` |
+| Source | https://github.com/bekzatic/nbn-games | every push to `main` re-deploys both sites |
 
-| Task | What we built | File | Where on the site |
+---
+
+## Run it locally
+
+The pages load their data with `fetch()` (`data/games.json`, `data/facts.json`), and
+browsers don't allow that for files opened straight from disk (`file://`). So start a
+small local web server in the project folder — any of these works:
+
+```bash
+python -m http.server 8000          # then open http://localhost:8000
+```
+```bash
+npx serve .                         # Node.js
+```
+or the **Live Server** extension in VS Code (right-click `index.html` → *Open with Live Server*).
+
+The contact form needs the serverless function, so locally it shows a clear error
+message ("Server error…") unless you run it with the Vercel CLI: `npx vercel dev`.
+
+Demo accounts for the profile page (they exist only in `js/profile.js` — see the warning there):
+`bekzat@nbngames.kz / bekzat123` · `nurkhan@nbngames.kz / nurkhan123` · `nursultan@nbngames.kz / nursultan123`.
+Promo code in the cart: **NEXTSTEP** (−10 %).
+
+---
+
+## Folder structure
+
+```
+nbn-games/
+├── index.html            home: hero, carousel, popular games, "Load more", facts, stats, newsletter
+├── catalog.html          42 games (cards built by JS) + filters, sort, search, autocomplete
+├── game.html             one template for every game: game.html?id=elden-ring
+├── cart.html             cart + 3-step checkout
+├── profile.html          demo login, my games, wishlist, wallet, settings, security, notifications
+├── about.html            team, FAQ with search, contact form
+├── media-queries.html    media-queries demo page in plain CSS (no Bootstrap)
+│
+├── css/
+│   ├── theme.css             NBN colours + fonts on Bootstrap's CSS variables; Day theme; contrast fixes
+│   ├── typography.css        responsive font sizes (media queries)
+│   ├── components.css        our named classes: header, footer, hero, cards, carousel…
+│   ├── features.css          UI of the JS features: toasts, stars, lightbox, checkout, confetti, retro mode
+│   ├── jquery-features.css   UI of the jQuery features: search marks, autocomplete, progress bar, counters, copy, lazy images
+│   └── media-queries.css     styles of media-queries.html only
+│
+├── js/
+│   ├── theme-toggle.js       Day / Night theme (loaded first, so the page never flashes)
+│   ├── jquery-fallback.js    loads js/vendor/jquery if the CDN is offline
+│   ├── script.js             site-wide jQuery features + helpers (NBN.notify, NBN.highlight, NBN.withSpinner…)
+│   ├── games-api.js          NBN.loadGames() — the one place that loads data/games.json
+│   ├── catalog.js            catalog cards (renderCard), filters, sort, live search, URL
+│   ├── jq-search.js          autocomplete, highlighting in the catalog, FAQ search
+│   ├── game.js · home.js · cart-page.js · profile.js · about.js     one file per page
+│   ├── cart.js · wishlist.js · recently-viewed.js                    shared data in localStorage
+│   ├── main.js · popup.js · bg-color.js · datetime.js · keyboard-nav.js · i18n.js · sound.js · music.js
+│   ├── accordion.js · contact-form.js · form-validation.js
+│   └── vendor/jquery-4.0.0.min.js   local copy of jQuery
+│
+├── data/
+│   ├── games.json            the ONLY list of games (42 objects) — used by every page
+│   └── facts.json            "Did you know?" facts for the home page
+├── api/contact.js            Vercel serverless function for the contact form (POST, JSON)
+├── images/                   covers, logo (logo-full.png, logo-mark.png), favicon, team photos
+├── vendor/bootstrap/         Bootstrap 5.3.3 (local)
+└── vercel.json               clean URLs on Vercel
+```
+
+**How the scripts are loaded.** In every `<head>`: `theme-toggle.js` (no `defer` — the theme must be
+set before the page is drawn), then jQuery 4.0.0 from the CDN with an SRI hash + `jquery-fallback.js`
+(no `defer` — jQuery must exist first), then all our scripts with `defer`: the browser downloads them
+right away and runs them **in the written order** after the HTML is parsed. Every page loads only the
+scripts it uses (for example `accordion.js` and `contact-form.js` only on `about.html`).
+
+---
+
+## Features
+
+### Site-wide (every page)
+
+| Feature | How it works | File | Author |
 |---|---|---|---|
-| **0. Setup** | CDN jQuery 4.0.0 + fallback, `$(document).ready()` + console message | `js/script.js`, `js/jquery-fallback.js` | `<head>` of every page |
-| **1. Real-time search / live filter** | `.on('keyup input')` on the search box, cards chosen with jQuery `.filter()`, others hidden with `.not()` | `js/catalog.js` | Catalog → search |
-| **2. Autocomplete** | Dropdown of up to 6 games (cover, highlighted title, genre · price, → link); ↑ ↓ Enter Esc, mouse; `combobox` ARIA | `js/jq-search.js` | Catalog → search |
-| **3. Search highlighting** | `NBN.highlight()` — RegExp split + `<mark>` + `.html()`, text escaped; FAQ search opens matching answers and counts matches; catalog cards highlighted too | `js/script.js`, `js/jq-search.js` | About → FAQ search; Catalog |
-| **4. Scroll progress bar** | Fixed gradient bar with glow + shine, width from `scrollTop`, % bubble while scrolling, green pulse at 100 % | `js/script.js` | every page |
-| **5. Animated counter** | `data-count-to` numbers counted with `.animate()` + `step` when they scroll into view | `js/script.js`, `index.html` | Home → hero + "NBN Games in numbers" |
-| **6. Spinner on submit** | `NBN.withSpinner()` — spinner + "Please wait…", disabled, double clicks ignored, back to normal after a delay | `js/script.js` | Home newsletter, About contact form, Subscribe popup, Profile login |
-| **7. Notifications** | `NBN.notify(text, type)` — stacked toasts, `.fadeIn()` / timer line / `.fadeOut()`, hover pauses; old `showToast()` forwards here | `js/script.js` | add to cart, wishlist, login, forms, promo code… |
-| **8. Copy to clipboard** | `.copy-btn[data-copy]` → icon ✓ + tooltip "Copied to clipboard!" + toast; Clipboard API with `execCommand` fallback; `.on('copy')` catches Ctrl+C | `js/script.js` | About (address, email, promo), Cart (promo), Game page (link) |
-| **9. Lazy loading** | 42 catalog covers use `data-src`; on `scroll` we compare `.offset().top` with the window and set `.attr('src')`; counter "🖼 6 / 42 covers loaded" | `js/script.js`, `catalog.html` | Catalog |
+| Day / Night theme ☀️ 🌙 | switches `data-bs-theme` on `<html>`, saved in localStorage, sends the `nbn:themechange` event | `js/theme-toggle.js`, `css/theme.css` | Bekzat Amanbek |
+| Language EN / RU / KZ | walks all text nodes (`TreeWalker`) and replaces known texts; a `MutationObserver` translates cards added later; Russian plurals (1 игра / 2 игры / 5 игр) | `js/i18n.js` | Bekzat Amanbek |
+| Sound effects 🔊 + **M** key | Web Audio API, no audio files; a new sound stops the previous one (no overlapping) | `js/sound.js` | Nursultan Rassulov |
+| 8-bit background music 🎵 | our own chiptune written as arrays of notes (A minor, 96 BPM), off by default, follows the mute | `js/music.js` | Nursultan Rassulov |
+| Toast notifications | `NBN.notify(text, type)` — `.fadeIn()`, timer line, `.fadeOut()`, hover pauses, max 4 | `js/script.js` | Team |
+| Scroll progress bar | width = `scrollTop / (page − window) × 100`, gradient + glow, % bubble | `js/script.js` | Team |
+| Cart badge + "+1" animation | cart array in localStorage; one delegated click handler for every "Add to cart" button | `js/cart.js` | Nursultan Rassulov |
+| Wishlist ♥ counter | `Wishlist` object (`all`, `has`, `toggle`, `remove`) in localStorage | `js/wishlist.js` | Nursultan Rassulov |
+| Keyboard menu | ← → ↑ ↓ Home End move focus in the main menu (`keydown` + `switch`) | `js/keyboard-nav.js` | Nurkhan Nurzhau |
+| Konami code ↑↑↓↓←→←→BA | turns Retro mode on / off | `js/keyboard-nav.js`, `css/features.css` | Nurkhan Nurzhau |
+| Subscribe popup | Bootstrap modal markup, our own open / close (×, outside click, Esc), focus trap, spinner on submit | `js/popup.js` | Nurkhan Nurzhau |
+| Change background 🎨 | cycles predefined colours (dark list at night, light list by day), smooth transition | `js/bg-color.js` | Nursultan Rassulov |
+| Live date & time | `Date` object, updated every second | `js/datetime.js` | Bekzat Amanbek |
+| Scroll reveal | sections slide in when they appear (`IntersectionObserver`), off for "reduce motion" | `js/main.js` | Nurkhan Nurzhau |
+| Back-to-top button | appears after 400 px of scrolling | `js/main.js` | Nurkhan Nurzhau |
 
-## Assignment #5 — Advanced JavaScript and DOM Manipulation
+### Home — `index.html` (page author: Nurkhan Nurzhau)
 
-New logo: `images/logo-full.png` (home page), `images/logo-mark.png` (navbar / footer), `images/favicon.png` (browser tab) — transparent PNGs, work in Day and Night themes.
+| Feature | How it works | File |
+|---|---|---|
+| Greeting by time of day | a `switch` picks the text | `js/home.js` |
+| Featured carousel, popular games | Bootstrap carousel and cards | `index.html` |
+| **Load more games** | `NBN.loadGames()` (async/await), loading spinner, 4 new cards per click, error message + "Try again" | `js/home.js`, `js/games-api.js` |
+| Random gaming fact (button or **F** key) | `fetch('data/facts.json')` with async/await + try/catch; a `while` loop never repeats the last fact; offline facts if the file can't be loaded | `js/home.js` |
+| Animated counters ("NBN Games in numbers") | jQuery `.animate()` on `{ value: 0 }` with a `step` callback, starts when the number scrolls into view | `js/script.js` |
+| Recently viewed | array of game ids in localStorage, newest first, max 4 | `js/recently-viewed.js` |
+| Newsletter | spinner + "Please wait…", then a toast | `js/home.js`, `js/script.js` |
 
-All HTML, CSS and JS are separated: **no inline `<script>` and no `style=""` attributes** in any page.
-The old inline scripts were moved to `js/home.js`, `js/catalog.js`, `js/game.js`, `js/cart-page.js`, `js/profile.js`;
-the game data moved to `js/games-data.js` (+ `data/games.json` for `fetch`). New styles: `css/assignment5.css`.
+### Catalog — `catalog.html` (page author: Bekzat Amanbek)
 
-| Requirement | What we built | File | Where | Author |
-|---|---|---|---|---|
-| **1. DOM — select & change content** | Rating stars selected with `querySelectorAll`; click / hover / ← → change their colour; message updated with `textContent` | `js/game.js` | any game page → **Rate this game** | Nursultan Rassulov |
-| **1. Dynamic styles** | **Day / Night theme** switch (☀️/🌙) — changes `data-bs-theme`, saved in localStorage, smooth CSS transition; background-colour button works in both themes | `js/theme-toggle.js`, `js/bg-color.js`, `css/theme.css` | navbar on every page | Bekzat Amanbek |
-| **1. Attributes** | **Read more** — extra info toggled with `style.display`; also random-fact area changed by a button | `js/game.js`, `js/home.js` | game page; home → **Did you know?** | Nursultan / Nurkhan |
-| **2. Button event listener** | **Load more games** — `fetch('data/games.json')` appends new cards without reload | `js/home.js` | home → Popular games | Nurkhan Nurzhau |
-| **2. Keyboard events** | Arrow keys / Home / End move focus in the main menu (`keydown` + `switch`); `/` focuses catalog search, `Esc` clears it; `F` = new fact; ← → on stars | `js/keyboard-nav.js`, `js/catalog.js` | every page | Nurkhan Nurzhau |
-| **2. Callbacks** | (a) Contact form sent with `fetch` **POST** to our Vercel function `api/contact.js`, success/error shown by callbacks — no reload. (b) **Multi-step checkout** (Contacts → Delivery & payment → Confirm) with Next/Back; `showStep()` callback, inputs kept in the `order` object | `js/contact-form.js`, `api/contact.js`, `js/cart-page.js` | About → Get in touch; Cart → Proceed to checkout | Nurkhan / Nursultan |
-| **2. Switch statements** | Catalog price filter + sort order (price ↑↓, A→Z); greeting by time of day; keyboard keys; cart − / + / Remove actions | `js/catalog.js`, `js/home.js`, `js/cart-page.js` | catalog, home, cart | Bekzat / Nurkhan |
-| **3. Objects & methods** | `SoundFX` (play, toggle, isMuted), `Checkout` (open, next, back, showStep, placeOrder), catalog `state`, `GENRE_INFO`, game objects in `GAMES` | `js/sound.js`, `js/cart-page.js`, `js/catalog.js` | — | all |
-| **3. Arrays & loops** | `for` loop builds Load-more cards, `for...of` counts catalog results and builds the order review, `while` loop picks a fact different from the last | `js/home.js`, `js/catalog.js`, `js/cart-page.js` | — | all |
-| **3. Higher-order functions** | `map`, `filter`, `forEach`, `reduce`, `sort(compareBy(...))` | everywhere | — | all |
-| **3. Sounds** | Web Audio API effects (add to cart, star, success, error, toggle…); 🔊/🔇 mute button; the previous sound is stopped before a new one → no overlapping | `js/sound.js` | every page | Nursultan Rassulov |
-| **3. Animations** | "+1" flies to the cart, badge bump, star pop, cards fade in, fact fade, form shake on error, confetti after an order, theme button spin | `css/assignment5.css` + JS | everywhere | all |
+| Feature | How it works | File |
+|---|---|---|
+| Cards built from data | `renderCard(game)` turns each object of `data/games.json` into a Bootstrap card; `renderCatalog()` groups them by genre; loading state + error message with "Try again" | `js/catalog.js` |
+| Filters: genre, platform, price | one `state` object; jQuery `.filter()` keeps the matching cards, `.not()` hides the rest; `switch` for the price range | `js/catalog.js` |
+| Live search | filters on every key (`.on('keyup input')`); **/** focuses the box, **Esc** clears it | `js/catalog.js` |
+| Sort | price ↑ ↓, A → Z (a `switch` returns the compare function) | `js/catalog.js` |
+| Shareable filters | filters are saved in the address (`?genre=rpg&q=witcher`) with `URLSearchParams` | `js/catalog.js` |
+| Autocomplete | up to 6 suggestions with cover, genre and price; ↑ ↓ Enter Esc or mouse; ARIA combobox | `js/jq-search.js` |
+| Search highlighting | `NBN.highlight()`: `.html()` resets the text, a RegExp splits it, every match is `.wrap()`-ped in `<mark>` | `js/script.js`, `js/jq-search.js` |
+| Lazy loading of covers | `data-src` → `.attr('src')` when `.offset().top` comes near the window (on `.scroll()`); "🖼 9 / 42 covers loaded" | `js/script.js` |
 
-Sounds start after the first click (browsers block audio before any user action). Contact form POST works on the deployed site (Vercel function); when the page is opened from disk, the form shows an error message instead.
+### Game page — `game.html?id=…` (page author: Nursultan Rassulov)
 
-### More Assignment #5 features (added after the first version)
+| Feature | How it works | File |
+|---|---|---|
+| One template for 42 games | reads `?id=` and fills the page from `data/games.json`; "Game not found" / "Could not load" messages | `js/game.js` |
+| Rating ★★★★★ | click / hover / arrow keys, saved per game in localStorage | `js/game.js` |
+| Read more | extra info shown / hidden with `style.display` | `js/game.js` |
+| Cover lightbox | overlay made with `createElement`; opens on click / Enter, closes with ×, outside click, Esc | `js/game.js` |
+| Wishlist ♡ and Copy link | `Wishlist.toggle()`; the copy button shows ✓ + "Copied to clipboard!" | `js/game.js`, `js/script.js` |
+| System requirements, similar games | Bootstrap table; 3 games of the same genre | `js/game.js` |
 
-| Grading criterion | Feature | File | Where on the site | Author |
-|---|---|---|---|---|
-| DOM manipulation & styling | **Language selector EN / RU / KZ** — walks all text nodes and replaces them (`TreeWalker`, `nodeValue`), `<html lang>` changes | `js/i18n.js` | navbar on every page | Bekzat Amanbek |
-| DOM manipulation & styling | **Cover lightbox** — overlay created with `createElement`, opens on click / Enter, closes with ×, click outside or `Esc` | `js/game.js` | game page → click the cover | Nursultan Rassulov |
-| Event handling (switch) | Language chosen with a `switch`; Russian plural rule for "1 игра / 2 игры / 5 игр" | `js/i18n.js` | catalog counter | Bekzat Amanbek |
-| Event handling (keyboard) | **Konami code** ↑ ↑ ↓ ↓ ← → ← → B A turns on Retro mode (array of keys compared on every `keydown`) | `js/keyboard-nav.js` | any page | Nurkhan Nurzhau |
-| Event handling (URL) | Catalog filters, search and sort are saved in the address (`URLSearchParams`, `history.replaceState`) → shareable links | `js/catalog.js` | catalog | Bekzat Amanbek |
-| Data structures & functions | **Wishlist** object (`all`, `has`, `toggle`, `remove`) + array of game objects in localStorage, ♥ counter in the navbar, Wishlist panel in the profile | `js/wishlist.js`, `js/profile.js` | game page ♡, profile → Wishlist | Nursultan Rassulov |
-| Data structures & functions | **Recently viewed** — array of ids, newest first, no duplicates, max 4 (`filter`, `slice`, `map`) | `js/recently-viewed.js` | home page | Nurkhan Nurzhau |
-| Data structures & functions | **Play counter** — `user.plays` object, text chosen with a `switch` ("not played yet / once / N times") | `js/profile.js` | profile → My games | Bekzat Amanbek |
-| Sound effects | Sounds on wishlist, lightbox, language change, Play button, Retro mode — always through `SoundFX`, so they never overlap | `js/sound.js` | everywhere | Nursultan Rassulov |
-| Animations | Play button progress bar (0 → 100 %), lightbox zoom, Retro-mode CRT lines, recently-viewed cards fade in | `css/assignment5.css` | profile, game page, home | all |
-| UX & accessibility | Cart / wishlist counts read by screen readers (`aria-label`), focus trap + `inert` page behind the subscribe popup, Day/Night also on `media-queries.html` (plain CSS) | `js/cart.js`, `js/popup.js`, `css/media-queries.css` | everywhere | Nurkhan Nurzhau |
-| Event handling (button) | **Show current time** — `addEventListener` + `new Date().toLocaleTimeString()`, a `switch` on the weekday says if the office is open | `js/about.js` | About → Get in touch | Nurkhan Nurzhau |
-| Sound effects | **M key** mutes / unmutes the whole site (not while typing); no sound before the first click; at most one effect plays at a time (tested with 20 fast clicks) | `js/sound.js` | every page | Nursultan Rassulov |
-| Sound effects | **🎵 Calm 8-bit (chiptune) background music** — our own tune written as arrays of notes and played with the Web Audio API (no audio files): A minor, 96 BPM, Am → F → C → G, square-wave melody (2 phrases), arpeggio, triangle bass, noise hi-hat. Off by default, remembered between pages, follows the 🔊 / M mute, pauses in a hidden tab | `js/music.js` | 🎵 button in the navbar | Nursultan Rassulov |
-| Animations | **Scroll reveal** — sections slide in when they appear on screen (`IntersectionObserver`), off for "reduce motion" users | `js/main.js`, `css/assignment5.css` | every page | Nurkhan Nurzhau |
-| Clean code / performance | Images compressed 4.4 MB → 2.7 MB (same names), no inline `<script>` or `style=""` anywhere, every page passes `html-validate`, colour contrast WCAG AA in both themes (axe-core: 0 issues) | `images/` | — | all |
+### Cart — `cart.html` (page author: Nursultan Rassulov)
 
-**How to show it at the defense (1 minute):** open the catalog → switch to RU → filter "Гонки" → copy the link → open a game → rate it ★ → ♡ Wishlist → click the cover → add to cart → checkout in 3 steps → confetti 🎉. Then type the Konami code.
+| Feature | How it works | File |
+|---|---|---|
+| Quantity − / +, Remove | event delegation + `switch` on the button's action | `js/cart-page.js` |
+| Promo code **NEXTSTEP** | −10 %, with a copy button and `.on('copy')` for Ctrl+C | `js/cart-page.js`, `js/script.js` |
+| 3-step checkout | Contacts → Delivery & payment → Confirm; `showStep()` callback; the `order` object keeps every value; confetti at the end (demo, no real payment) | `js/cart-page.js` |
 
-## Assignment #4 — Introduction to JavaScript
+### Profile — `profile.html` (page author: Bekzat Amanbek)
 
-All JS is plain JavaScript (no libraries), one file per component, linked at the bottom of every page.
-Styles for the components are in `css/assignment4.css`.
+| Feature | How it works | File |
+|---|---|---|
+| Demo login | ⚠️ client-side demo only (see the comment in the file); spinner while "checking", toast after | `js/profile.js` |
+| Sign-up form validation | every rule in JavaScript, error text under each field, re-checked while typing | `js/form-validation.js` |
+| My games + ▶ Play | progress bar 0 → 100 %, play counter text from a `switch` | `js/profile.js` |
+| Wishlist, wallet top-up, settings, password change, notifications | render functions with `map()`, data saved per user in localStorage | `js/profile.js` |
 
-| Task | File | Where on the site | Author |
-|---|---|---|---|
-| 1. Form validation — required fields, email format, password ≥ 8 chars (letter + number), password confirmation, error message under every field | `js/form-validation.js` | `profile.html` → "Create one" → **Create your account** | Bekzat Amanbek |
-| 2. Accordion (FAQ) — answers hidden by default, click toggles, smooth height transition, one open at a time | `js/accordion.js` | `about.html` → **Questions people ask us** | Nurkhan Nurzhau |
-| 3. Popup subscription form — hidden by default, opens on "Subscribe", closes with ×, click outside or Esc, validates name/email | `js/popup.js` | **✉️ Subscribe** button in the footer of every page | Nurkhan Nurzhau |
-| 4. Change background colour — cycles through 6 predefined colours with a smooth transition, remembered between pages | `js/bg-color.js` | **🎨 Change background** button in the footer of every page | Nursultan Rassulov |
-| 5. Current date and time — `Date` object, updated every second, format "October 9, 2026, 10:45:07 AM" | `js/datetime.js` | clock in the footer of every page | Bekzat Amanbek |
+### About — `about.html` (page author: Nurkhan Nurzhau)
 
-Team names are in the `<footer>` of every HTML file.
+| Feature | How it works | File |
+|---|---|---|
+| FAQ accordion | Bootstrap markup, our own jQuery: delegated click, `.slideDown()` / `.slideUp()`, one open at a time | `js/accordion.js` |
+| FAQ search | highlights matches in questions + answers, opens the matching answers, counts matches | `js/jq-search.js` |
+| Contact form | JS validation → `fetch` POST (async/await, try/catch, 10 s timeout) to `api/contact.js`; spinner; clear message for every error | `js/contact-form.js`, `api/contact.js` |
+| Show current time | `new Date().toLocaleTimeString()`; a `switch` tells whether the office is open | `js/about.js` |
+| Copy buttons | address, email, promo code → ✓ + tooltip + toast | `js/script.js` |
 
+### Media queries demo — `media-queries.html` (page author: Bekzat Amanbek)
 
-### Bootstrap-first update
+Plain CSS without Bootstrap: responsive typography and a 3 → 2 → 1 card group built only with `@media`
+rules (`css/media-queries.css`). Linked from the footer ("Media queries demo").
 
-- The Assignment #4 components use Bootstrap markup: the FAQ is a Bootstrap `.accordion`, the popup is a Bootstrap `.modal`, the footer tools row is built from utilities. The open/close logic is still our own JavaScript (no `data-bs-toggle`), as Assignment #4 requires.
-- Most custom classes were replaced with Bootstrap utilities (`bg-body-secondary border rounded-3`, `bg-primary-subtle`, `rounded-circle border-primary`, `text-decoration-line-through`…). Only the NBN theme variables, hover effects and the carousel tweaks are left in our CSS.
-- About → contact form now uses the same JS validation as the sign-up form (`js/contact-form.js`).
-- "Skip to main content" link (`visually-hidden-focusable`) on every Bootstrap page; profile avatar shows the user's initials.
-- `media-queries.html` stays pure CSS on purpose — Assignment #3 Part 1 asks for media queries **without** Bootstrap.
+---
 
-## Assignment #3 — Media Queries + Bootstrap Grid
+## Quality checks
 
-Bootstrap 5.3.3 is included locally (`vendor/bootstrap/`). Layout, spacing and all components
-(navbar, grid, cards, carousel, forms, accordion, toast) are Bootstrap. Our own styles are split
-into three small files:
+- **HTML:** W3C Nu validator — 0 errors, 0 warnings on all 7 pages and on the pages after JavaScript has built them.
+- **Accessibility:** axe-core (WCAG 2.1 AA) — 0 issues in both themes, including the logged-in profile, the checkout, the popup and the autocomplete. Every image has `alt`, every field a label, icon buttons have `aria-label`, current page = `aria-current`.
+- **Responsive:** no horizontal scrolling at 360 px, 768 px and 1280 px (all pages and states).
+- **Console:** only `jQuery is ready!`, no errors.
+- **Offline:** if the jQuery CDN is unreachable, the local copy loads and everything still works.
 
-| File | What's inside |
-|---|---|
-| `css/theme.css` | NBN colours and fonts, set through Bootstrap's CSS variables |
-| `css/typography.css` | Task 1 — responsive font sizes with media queries |
-| `css/components.css` | named classes for the NBN look: `.hero`, `.game-card`, `.value-card`, `.wallet-card`, `.site-footer`, `.featured-carousel`... (no margins/paddings — spacing is Bootstrap `m-*`/`p-*`) |
+---
 
-### Part 1 — Media Queries (no Bootstrap)
+## Team — who did what
 
-| Task | Where |
-|---|---|
-| 1. Responsive typography (mobile / tablet / desktop) | `media-queries.html` + `css/media-queries.css`; also site-wide in `css/typography.css` |
-| 2. Card group: 3 in a row → 2 → stacked | `media-queries.html` → "Deals of the week", `css/media-queries.css` |
+| Member | Pages | Main features |
+|---|---|---|
+| **Bekzat Amanbek** | `catalog.html`, `profile.html`, `media-queries.html` | catalog filters / search / sort / URL, Day–Night theme, language selector, sign-up validation, date & time, profile (login, play counter) |
+| **Nurkhan Nurzhau** | `index.html`, `about.html` | home page (greeting, Load more, facts, recently viewed), FAQ accordion, contact form, subscribe popup, keyboard menu + Konami code, scroll reveal, back to top |
+| **Nursultan Rassulov** | `game.html`, `cart.html` | game page (rating, read more, lightbox), cart + checkout, wishlist, sound effects, background music, change background, game data |
+| **Together** | — | jQuery features in `js/script.js` / `js/jq-search.js` (toasts, progress bar, counters, spinner, copy buttons, lazy loading, autocomplete, highlighting), design, testing |
 
-### Part 2 — Bootstrap
-
-| Task | Where |
-|---|---|
-| 3. Grid layout (`container`, `col-lg-6`, `col-lg-4`, `col-sm/md/lg`) | `index.html` hero (2 × `col-lg-6`), "Why NBN Games" (3 × `col-lg-4`); `about.html`; `catalog.html` / `profile.html` sidebar `col-lg-3` + `col-lg-9` |
-| 4. Spacing utilities (`m-*`, `p-*`, `mt-lg-4`, `px-sm-2`, `py-lg-5`…) | every page |
-| 5. Navbar with 4+ links and `navbar-toggler` | header on every Bootstrap page |
-| 6. Buttons (`btn-primary`, `btn-outline-*`, `btn-lg`, `btn-sm`) and `btn-group` | cards on every page, `game.html`, `profile.html` wallet, `about.html` |
-| 7. Carousel — 9 games, indicators + controls | `index.html` → Featured games |
-| 8. Cards with image, title, text in `.card-group` | `index.html` → Popular games; grid of cards in `catalog.html` |
-| 9. Forms (`form-control`, `form-select`, `input-group`, `form-check`) | `about.html` contact form, `profile.html`, `cart.html` promo code |
-| 10. Accessibility | semantic `<header> <nav> <main> <footer> <button>`, `aria-*` labels, alt texts, contrast-checked colours |
-
-### Who did what (Bootstrap components on two pages each)
-
-- **Bekzat Amanbek** — `catalog.html`, `profile.html`, `media-queries.html`: grid with sidebar, nav-pills filters, cards grid, profile forms, switches, list groups.
-- **Nurkhan Nurzhau** — `index.html`, `about.html`: navbar, carousel, card-group, contact form with validation.
-- **Nursultan Rassulov** — `game.html`, `cart.html`: breadcrumb, buttons and button groups, table, input-group promo form.
-
-## Extras
-
-- FAQ accordion on the About page
-- Newsletter block on the home page (input-group + toast)
-- "Sale" badge on discounted games, hover effects on cards
-- Back-to-top button
-
-## Pages
-
-- `index.html` — home: hero, featured carousel, popular games, why NBN
-- `catalog.html` — 42 games with genre / platform / price filters
-- `game.html?id=...` — one template page for every game
-- `cart.html` — cart (localStorage), promo code NEXTSTEP
-- `profile.html` — login, library, wallet, settings, security, notifications
-- `about.html` — team and contact form
-- `media-queries.html` — Part 1 of Assignment #3 (pure CSS)
-
-Demo accounts: bekzat@nbngames.kz / bekzat123 · nurkhan@nbngames.kz / nurkhan123 · nursultan@nbngames.kz / nursultan123
+Bootstrap components on the pages: Bekzat — grid with sidebar, nav-pills filters, cards grid, profile forms,
+switches, list groups; Nurkhan — navbar, carousel, card-group, contact form; Nursultan — breadcrumb, buttons
+and button groups, table, input-group promo form.

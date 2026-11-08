@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #4 — Task 5: Display Current Date and Time
+   Live date and time in the footer
    Author: Bekzat Amanbek
    Pages: every page — clock block in the footer (.js-datetime).
 
@@ -29,7 +29,6 @@
     const now = new Date();
     document.querySelectorAll('.js-datetime').forEach(el => {
       el.textContent = format(now);
-      el.setAttribute('datetime', now.toISOString());
     });
     document.querySelectorAll('.js-weekday').forEach(el => { el.textContent = DAYS[now.getDay()]; });
   }

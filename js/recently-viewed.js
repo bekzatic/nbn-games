@@ -25,14 +25,23 @@ const RecentlyViewed = {
     try { localStorage.removeItem(this.KEY); } catch (e) { /* ignore */ }
   },
 
-  // draws the cards on the home page (needs the GAMES array from js/games-data.js)
-  render() {
+  // draws the cards on the home page; the game details come from data/games.json
+  async render() {
     const section = document.getElementById('recent-section');
     const row = document.getElementById('recent-row');
-    if (!section || !row || typeof GAMES === 'undefined') return;
+    if (!section || !row || !window.NBN || !NBN.loadGames) return;
+    if (this.ids().length === 0) { section.hidden = true; return; }   // nothing viewed yet → no request needed
+
+    let all;
+    try {
+      all = await NBN.loadGames();
+    } catch (err) {
+      section.hidden = true;                     // data not available → simply don't show this block
+      return;
+    }
 
     const games = this.ids()
-      .map(id => GAMES.find(g => g.id === id))   // id → game object
+      .map(id => all.find(g => g.id === id))     // id → game object
       .filter(Boolean);                          // skip ids that no longer exist
 
     section.hidden = games.length === 0;
@@ -41,8 +50,8 @@ const RecentlyViewed = {
         <a href="game.html?id=${g.id}" class="card game-card h-100 flex-row align-items-center gap-3 p-2 text-reset text-decoration-none">
           <img src="${g.img}" alt="" class="rounded-2 object-fit-cover flex-shrink-0" width="72" height="72" loading="lazy">
           <span class="d-flex flex-column">
-            <strong class="small">${g.title}</strong>
-            <span class="small text-body-secondary">${g.genreLabel} · ${g.price === 0 ? 'Free' : g.price.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸'}</span>
+            <strong class="small">${NBN.escapeHtml(g.title)}</strong>
+            <span class="small text-body-secondary">${g.genreLabel} · ${NBN.formatPrice(g.price)}</span>
           </span>
         </a>
       </div>`).join('');

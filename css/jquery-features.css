@@ -1,10 +1,11 @@
 /* ==========================================================
-   NBN GAMES — Assignment 6 (jQuery) styles
+   jquery-features.css — styles for the jQuery features (js/script.js,
+   js/jq-search.js): search, progress bar, counters, toasts, copy, lazy images.
    Colours come from the NBN theme variables, so everything works
    in the Day and the Night theme.
    ========================================================== */
 
-/* ---------- Task 3: highlighted search matches ---------- */
+/* ---------- Search highlighting: <mark class="hl"> around matches ---------- */
 mark.hl {
   padding: 0 .12em;
   border-radius: .25em;
@@ -15,7 +16,7 @@ mark.hl {
 .faq-dim { opacity: .45; transition: opacity .2s; }
 .faq-match { border-color: var(--bs-primary) !important; }
 
-/* ---------- Task 2: autocomplete dropdown ---------- */
+/* ---------- Autocomplete dropdown under the catalog search ---------- */
 .ac-list {
   position: absolute;
   z-index: 1050;
@@ -46,12 +47,12 @@ mark.hl {
 .ac-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
 .ac-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ac-meta { font-size: .78rem; color: var(--bs-secondary-color); }
-.ac-open { flex: none; padding: .1rem .5rem; border-radius: .4rem; color: var(--bs-secondary-color); text-decoration: none; }
+.ac-open { flex: none; cursor: pointer; padding: .1rem .5rem; border-radius: .4rem; color: var(--bs-secondary-color); text-decoration: none; }
 .ac-open:hover, .ac-open:focus-visible { background: var(--bs-primary); color: var(--nbn-on-accent, #000); }
 .ac-empty { padding: .75rem; color: var(--bs-secondary-color); }
 .ac-hint { padding: .35rem .6rem .15rem; font-size: .72rem; color: var(--bs-tertiary-color); border-top: 1px solid var(--bs-border-color); margin-top: .25rem; }
 
-/* ---------- Task 4: scroll progress bar ---------- */
+/* ---------- Scroll progress bar at the top of every page ---------- */
 .scroll-progress {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -100,7 +101,7 @@ mark.hl {
 .scroll-progress.is-done .scroll-progress__bar { animation: progressGlow 1.2s ease-in-out infinite alternate; }
 @keyframes progressGlow { to { box-shadow: 0 0 18px rgba(62, 207, 110, .9), 0 0 4px #fff; } }
 
-/* ---------- Task 5: number counter band ---------- */
+/* ---------- "NBN Games in numbers" band with animated counters ---------- */
 .stats-band {
   border-radius: 1.25rem;
   border: 1px solid var(--bs-border-color);
@@ -123,10 +124,10 @@ mark.hl {
 @keyframes statPop { 50% { transform: scale(1.08); } }
 .stat-label { color: var(--bs-secondary-color); font-size: .9rem; margin-top: .35rem; }
 
-/* ---------- Task 6: button while loading ---------- */
+/* ---------- Submit button while it shows the spinner ---------- */
 .btn.is-loading { cursor: progress; opacity: .85; }
 
-/* ---------- Task 7: notifications ---------- */
+/* ---------- Toast notifications (NBN.notify) ---------- */
 .nbn-toasts {
   position: fixed;
   right: 1rem;
@@ -185,10 +186,10 @@ mark.hl {
 }
 .nbn-toast__close:hover { color: var(--bs-body-color); }
 .nbn-toast__timer { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--toast-color, var(--bs-primary)); opacity: .7; }
-/* old Bootstrap toast container from Assignment 5 is not used any more */
+/* lift the "back to top" button so it does not cover the toasts */
 .back-to-top { bottom: 5.5rem; }
 
-/* ---------- Task 8: copy buttons ---------- */
+/* ---------- Copy-to-clipboard buttons + "Copied" tooltip ---------- */
 .copy-btn { position: relative; min-width: 2.25rem; }
 .copy-btn.is-copied { color: #fff; background: #3ecf6e; border-color: #3ecf6e; }
 .copy-tip {
@@ -219,7 +220,7 @@ mark.hl {
 .promo-code { font-weight: 700; letter-spacing: .06em; color: var(--bs-primary); }
 .copy-tmp { position: fixed; top: -1000px; opacity: 0; }
 
-/* ---------- Task 9: lazy images ---------- */
+/* ---------- Lazy-loaded images: grey shimmer until the picture arrives ---------- */
 img.lazy {
   opacity: 0;
   transition: opacity .5s ease;

@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #5 — Language selector (EN / RU / KZ)
+   Language selector (EN / RU / KZ)
    Author: Bekzat Amanbek
    Pages: every Bootstrap page — "EN / RU / KZ" select in the navbar.
 

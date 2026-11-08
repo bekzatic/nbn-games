@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
+  <!-- NBN Games — cart and checkout | Team Next Step | page author: Nursultan Rassulov -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Cart</title>
@@ -10,20 +10,34 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/assignment4.css">
-  <link rel="stylesheet" href="css/assignment5.css">
-  <link rel="stylesheet" href="css/assignment6.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/jquery-features.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
-  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <!-- jQuery from the CDN; if the CDN is offline, js/jquery-fallback.js loads our local copy.
+       No `defer` here: jQuery must exist before our scripts run. -->
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
   <script src="js/jquery-fallback.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Our scripts. `defer` = the browser downloads them now and runs them
+       after the HTML is parsed, in exactly this order. -->
+  <script src="js/script.js" defer></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/wishlist.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/bg-color.js" defer></script>
+  <script src="js/datetime.js" defer></script>
+  <script src="js/keyboard-nav.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/cart-page.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
-  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <!-- Bootstrap navbar — collapses into a hamburger menu below 992px -->
   <header>
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
@@ -56,7 +70,7 @@
       <div class="container">
         <h1 class="h2 mb-4" id="cart-heading">Your cart (0)</h1>
 
-        <!-- Task 3: items (col-lg-8) | summary (col-lg-4) -->
+        <!-- items (col-lg-8) | summary (col-lg-4) -->
         <div class="row g-4 align-items-start">
           <div class="col-12 col-lg-8">
             <ul id="cart-items" class="list-unstyled d-grid gap-3 mb-0"></ul>
@@ -65,8 +79,8 @@
           <aside class="col-12 col-lg-4" aria-label="Order summary">
             <div class="card p-4">
               <h2 class="h5 mb-3">Promo code</h2>
-              <!-- Task 9: Bootstrap input-group -->
-              <!-- Assignment 6 — Task 8: copy button next to a text snippet -->
+              <!-- Bootstrap input-group -->
+              <!-- copy button next to a text snippet -->
               <div class="copy-snippet d-flex align-items-center justify-content-between gap-2 border rounded-3 px-3 py-2 mb-3">
                 <span class="small text-body-secondary">Team code: <code class="promo-code" id="promo-snippet">NEXTSTEP</code> = −10%</span>
                 <button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-copy="NEXTSTEP" aria-label="Copy promo code">📋</button>
@@ -91,7 +105,7 @@
           </aside>
         </div>
 
-        <!-- Assignment #5: multi-step checkout. "Next" / "Back" buttons call showStep() (a callback),
+        <!-- multi-step checkout. "Next" / "Back" buttons call showStep() (a callback),
              the values typed in every step are kept in the `order` object (js/cart-page.js). -->
         <section id="checkout" class="card p-3 p-sm-4 p-lg-5 mt-5" aria-labelledby="checkout-title" hidden>
           <h2 id="checkout-title" class="h3 mb-4">Checkout</h2>
@@ -214,23 +228,22 @@
           </ul>
         </div>
       </div>
-      <!-- Assignment #4: JS components in the footer
-           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
           <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
           <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project by Team Next Step.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
       </div>
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <!-- Subscribe popup: Bootstrap modal markup, opened and closed by our own js/popup.js -->
   <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-secondary-subtle">
@@ -258,19 +271,5 @@
       </div>
     </div>
   </div>
-
-  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/music.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/main.js"></script>
-  <!-- Assignment #4 JavaScript -->
-  <script src="js/popup.js"></script>
-  <script src="js/bg-color.js"></script>
-  <script src="js/datetime.js"></script>
-  <script src="js/keyboard-nav.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/cart-page.js"></script>
 </body>
 </html>

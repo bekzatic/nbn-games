@@ -204,6 +204,12 @@
 }
 
 
+/* ---------- "Change background" button (js/bg-color.js) ---------- */
+/* the page colour changes smoothly instead of jumping */
+body { transition: background-color 0.6s ease; }
+/* the small dot that shows the current background colour */
+.bg-color-swatch { width: 12px; height: 12px; }
+
 /* People who turned off animations in their OS get none here either */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }

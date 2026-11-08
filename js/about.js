@@ -1,8 +1,7 @@
 /* ==========================================================
    about.html — "Show current time" button
    Author: Nurkhan Nurzhau
-   Assignment #5 — Event Handling (example from the task):
-   a button with addEventListener shows the current time using
+   A button with addEventListener shows the current time using
    new Date().toLocaleTimeString(). A switch tells if our office
    (Mon–Fri, 9:00–18:00) is open right now. Sound + small animation.
    ========================================================== */

@@ -3,7 +3,7 @@
    Author: Nursultan Rassulov
    Cart data helpers (getCart, saveCart...) are in js/cart.js.
 
-   Assignment #5 features:
+   Features:
    - Quantity buttons − / + and Remove (event delegation, switch on the action).
    - Multi-step checkout: "Next" / "Back" call showStep() — a CALLBACK
      that shows the right step. The `order` object keeps every value
@@ -60,7 +60,7 @@ function renderCart() {
         <div class="card-body d-flex flex-wrap flex-sm-nowrap align-items-center gap-3 p-3">
           <img src="${item.img}" alt="${item.name} cover" class="rounded-2 flex-shrink-0 object-fit-cover" width="84" height="56">
           <div class="flex-grow-1">
-            <h3 class="h6 fw-bold mb-1">${item.name}</h3>
+            <h2 class="h6 fw-bold mb-1">${item.name}</h2>
             <p class="small text-body-secondary mb-0">Digital key · ${formatTenge(item.price)} each</p>
           </div>
           <div class="btn-group btn-group-sm" role="group" aria-label="Quantity of ${item.name.replace(/"/g, '&quot;')}">

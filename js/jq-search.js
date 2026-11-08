@@ -1,22 +1,18 @@
 /* ==========================================================
-   NBN GAMES — Assignment 6, Part 1: jQuery Search
-   Pages: catalog.html (Tasks 1–3) and about.html (Task 3, FAQ)
+   jQuery search features
+   Pages: catalog.html (autocomplete + highlighting) and about.html (FAQ search)
 
-   Task 1  Real-time search + live filter → js/catalog.js
-           (.on('keyup') + jQuery .filter() on the game cards)
-   Task 2  Autocomplete suggestions — a dropdown under the catalog
-           search box, built from the game cards on the page.
-           Mouse or ↑ ↓ + Enter to choose, Esc to close.
-   Task 3  Search highlighting — every match is wrapped in
-           <mark class="hl"> with .html() + RegExp:
-           • catalog: game titles and platforms of the cards
-           • about:   all FAQ questions and answers
+   - Live filter of the catalog cards → js/catalog.js
+   - Autocomplete: a dropdown with up to 6 games under the catalog
+     search box. Mouse or ↑ ↓ + Enter to choose, Esc to close.
+   - Highlighting: every match is wrapped in <mark class="hl">
+     (NBN.highlight in js/script.js: .html() + RegExp + .wrap()):
+       • catalog: game titles and platforms on the cards
+       • about:   all FAQ questions and answers
    ========================================================== */
 
-(function ($) {
+(function () {
   'use strict';
-
-  const NBN = window.NBN;
 
   $(document).ready(function () {
     initAutocomplete();
@@ -25,34 +21,21 @@
   });
 
   /* ==========================================================
-     Task 2 — Autocomplete
+     Autocomplete under the catalog search box
      ========================================================== */
   function initAutocomplete() {
     const $input = $('#catalog-search');
     const $list = $('#search-suggestions');
     if (!$input.length || !$list.length) return;
 
-    // 1. collect all games from the cards: title, cover, genre, price, link
-    const seen = {};
-    const games = $('#catalog-content .game-col').map(function () {
-      const $col = $(this);
-      const title = $col.find('.card-title').data('hl-original') || $col.find('.card-title').text().trim();
-      if (seen[title]) return null;                  // the same game can't be suggested twice
-      seen[title] = true;
-      const $img = $col.find('img');
-      return {
-        title: title,
-        img: $img.attr('data-src') || $img.attr('src'),
-        genre: $col.closest('[data-genre-section]').find('h2 span').last().text(),
-        price: $col.find('.add-to-cart-btn').data('price'),
-        href: $col.find('a[href^="game.html"]').first().attr('href')
-      };
-    }).get();
+    // the list of games comes from the same data as the cards (data/games.json)
+    let games = [];
+    NBN.loadGames().then(function (data) {
+      games = data.map(g => ({ title: g.title, img: g.img, genre: g.genreLabel, price: g.price, href: 'game.html?id=' + g.id }));
+    }).catch(function () { /* the catalog already shows the error message */ });
 
     let items = [];          // suggestions shown now
     let active = -1;         // index of the highlighted suggestion
-
-    const formatPrice = p => Number(p).toLocaleString('ru-RU') + ' ₸';
 
     function close() {
       $list.prop('hidden', true).empty();
@@ -61,16 +44,15 @@
       active = -1;
     }
 
+    // moves the highlight to suggestion number `index` (wraps around at the ends)
     function setActive(index) {
       const $options = $list.children('.ac-item');
       if (!$options.length) return;
-      active = (index + $options.length) % $options.length;      // wrap around
+      active = (index + $options.length) % $options.length;
       $options.removeClass('is-active').attr('aria-selected', 'false');
       const $current = $options.eq(active).addClass('is-active').attr('aria-selected', 'true');
       $input.attr('aria-activedescendant', $current.attr('id'));
-      // keep the active item visible inside the list
-      const el = $current[0];
-      if (el.scrollIntoView) el.scrollIntoView({ block: 'nearest' });
+      $current[0].scrollIntoView({ block: 'nearest' });       // keep it visible inside the list
     }
 
     function choose(index) {
@@ -82,11 +64,12 @@
       NBN.notify('Showing “' + game.title + '”', 'info');
     }
 
+    // builds the dropdown for the typed text
     function render(query) {
       const q = query.trim().toLowerCase();
       if (!q) { close(); return; }
 
-      // games whose title starts with the text come first, then "contains"
+      // games whose title STARTS with the text come first, then the ones that only contain it
       items = games
         .filter(g => g.title.toLowerCase().includes(q))
         .sort((a, b) => (b.title.toLowerCase().startsWith(q) - a.title.toLowerCase().startsWith(q)) || a.title.localeCompare(b.title))
@@ -100,15 +83,15 @@
       } else {
         $.each(items, function (i, g) {
           $('<li class="ac-item" role="option" aria-selected="false"></li>')
-            .attr('id', 'ac-option-' + i)
-            .attr('data-index', i)
+            .attr({ id: 'ac-option-' + i, 'data-index': i })
             .append($('<img alt="" class="ac-thumb">').attr('src', g.img))
             .append(
               $('<span class="ac-text"></span>')
                 .append($('<span class="ac-title"></span>').html(NBN.markText(g.title, query.trim())))
-                .append($('<span class="ac-meta"></span>').text(g.genre + ' · ' + formatPrice(g.price)))
+                .append($('<span class="ac-meta"></span>').text(g.genre + ' · ' + NBN.formatPrice(g.price)))
             )
-            .append($('<a class="ac-open" title="Open game page" aria-label="Open the game page">→</a>').attr('href', g.href))
+            // "→" opens the game page; a <span>, not a link: an option must not contain another control
+            .append($('<span class="ac-open" title="Open game page" aria-hidden="true">→</span>').attr('data-href', g.href))
             .appendTo($list);
         });
         $('<li class="ac-hint" aria-hidden="true">↑ ↓ to move · Enter to choose · Esc to close</li>').appendTo($list);
@@ -118,7 +101,7 @@
       $input.attr('aria-expanded', 'true');
     }
 
-    // typing → new suggestions (arrow / enter / escape keys are handled below)
+    // typing → new suggestions (arrow / enter / escape keys are handled in keydown)
     $input.on('keyup', function (e) {
       if (['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].indexOf(e.key) !== -1) return;
       render($input.val());
@@ -139,17 +122,19 @@
           break;
         case 'Escape':
           e.preventDefault();
-          e.stopPropagation();          // first Esc only closes the list
+          e.stopPropagation();          // the first Esc only closes the list (the second clears the search)
           close();
           break;
         case 'Tab': close(); break;
       }
     });
 
-    // click on a suggestion (mousedown, so the input does not lose focus first)
+    // delegated events: the <li> items are created again on every key
+    // (mousedown, so the input does not lose focus before we read the choice)
     $list.on('mousedown', '.ac-item', function (e) {
-      if ($(e.target).closest('.ac-open').length) return;   // the → link opens the game page
       e.preventDefault();
+      const $open = $(e.target).closest('.ac-open');
+      if ($open.length) { location.href = $open.attr('data-href'); return; }   // → opens the game page
       choose(Number($(this).attr('data-index')));
     });
     $list.on('mouseenter', '.ac-item', function () { setActive(Number($(this).attr('data-index'))); });
@@ -158,26 +143,23 @@
     $(document).on('mousedown', function (e) {
       if (!$(e.target).closest('#search-box').length) close();
     });
-    // the "search" event fires when the × inside the field clears it
-    $input.on('search', function () { if (!$input.val()) close(); });
   }
 
   /* ==========================================================
-     Task 3 — Highlighting in the catalog cards
+     Highlighting inside the catalog cards
+     catalog.js triggers "catalog:refresh" after every filter change
+     (and once after the cards are built), with the search text.
      ========================================================== */
   function initCatalogHighlight() {
     if (!$('#catalog-content').length) return;
-    const $targets = $('#catalog-content .game-col .card-title, #catalog-content .game-col .card-text');
-
     $(document).on('catalog:refresh', function (e, visible, query) {
-      NBN.highlight($targets, (query || '').trim());
+      // looked up every time: the cards are created by catalog.js after the data loads
+      NBN.highlight($('#catalog-content .card-title, #catalog-content .card-text'), (query || '').trim());
     });
-    // the page may open with ?q=... already in the address
-    NBN.highlight($targets, ($('#catalog-search').val() || '').trim());
   }
 
   /* ==========================================================
-     Task 3 — FAQ search with highlighting (about.html)
+     FAQ search with highlighting (about.html)
      ========================================================== */
   function initFaqSearch() {
     const $input = $('#faq-search');
@@ -186,7 +168,7 @@
 
     const $info = $('#faq-search-info');
     const defaultInfo = $info.text();
-    const $items = $faq.find('.accordion-item');
+    const $items = $faq.find('.accordion-item');     // cached once: the FAQ does not change
     let timer;
 
     function openPanel($item, open) {
@@ -197,6 +179,7 @@
       else $panel.stop(true, true).slideUp(200, function () { $panel.addClass('collapse').removeClass('show').css('display', ''); });
     }
 
+    // highlights the text in every question + answer and opens the answers that contain it
     function search() {
       const q = $input.val().trim();
       let total = 0;
@@ -212,7 +195,7 @@
 
         $item.toggleClass('faq-match', !!(q && found))
              .toggleClass('faq-dim', !!(q && !found));
-        if (q) openPanel($item, inAnswer > 0);          // show the answers that contain the word
+        if (q) openPanel($item, inAnswer > 0);
       });
 
       if (!q) {
@@ -234,4 +217,4 @@
       if (e.key === 'Escape' && $input.val()) { $input.val(''); search(); }
     });
   }
-})(jQuery);
+})();

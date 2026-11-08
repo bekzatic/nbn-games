@@ -5,7 +5,7 @@
    - showToast() uses the Bootstrap Toast component (with a small
      fallback, so it still works if Bootstrap's JS fails to load).
    - a small "back to top" button shows up after you scroll down.
-   - Assignment #5 animation: page sections slide in when they are
+   - Animation: page sections slide in when they are
      scrolled into view (IntersectionObserver). Turned off for people
      who chose "reduce motion" in their system settings.
    ========================================================== */
@@ -14,7 +14,8 @@
   let toast, toastBody;
 
   window.showToast = function (text, type) {
-    // Assignment 6 — Task 7: every old showToast() call now goes to the jQuery notification system
+    // all messages use the jQuery toasts (NBN.notify in js/script.js);
+    // the Bootstrap toast below is only a backup if jQuery did not load
     if (window.NBN && NBN.notify) { NBN.notify(text, type); return; }
     if (!toast) {
       const wrap = document.createElement('div');
@@ -54,12 +55,13 @@
   }, { passive: true });
 })();
 
-/* Scroll reveal: sections fade + slide in the first time they appear on screen */
+/* Scroll reveal: sections fade + slide in the first time they appear on screen.
+   window.revealOnScroll(list) can also be called later for sections that
+   JavaScript adds after the page has loaded (the catalog does that). */
 (function () {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;   // content simply stays visible
 
-  const sections = document.querySelectorAll('main section:not(:first-child), footer.site-footer');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -69,10 +71,14 @@
     });
   }, { threshold: 0.12 });
 
-  sections.forEach(section => {
-    // already on screen when the page opens → no animation needed
-    if (section.getBoundingClientRect().top < window.innerHeight) return;
-    section.classList.add('reveal');
-    observer.observe(section);
-  });
+  window.revealOnScroll = function (sections) {
+    sections.forEach(section => {
+      // already on screen → no animation needed
+      if (section.getBoundingClientRect().top < window.innerHeight) return;
+      section.classList.add('reveal');
+      observer.observe(section);
+    });
+  };
+
+  revealOnScroll(document.querySelectorAll('main section:not(:first-child), footer.site-footer'));
 })();

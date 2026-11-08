@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Bekzat Amanbek -->
+  <!-- NBN Games — profile with a demo login | Team Next Step | page author: Bekzat Amanbek -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Profile</title>
@@ -10,20 +10,35 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/assignment4.css">
-  <link rel="stylesheet" href="css/assignment5.css">
-  <link rel="stylesheet" href="css/assignment6.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/jquery-features.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
-  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <!-- jQuery from the CDN; if the CDN is offline, js/jquery-fallback.js loads our local copy.
+       No `defer` here: jQuery must exist before our scripts run. -->
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
   <script src="js/jquery-fallback.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Our scripts. `defer` = the browser downloads them now and runs them
+       after the HTML is parsed, in exactly this order. -->
+  <script src="js/script.js" defer></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/wishlist.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/bg-color.js" defer></script>
+  <script src="js/datetime.js" defer></script>
+  <script src="js/form-validation.js" defer></script>
+  <script src="js/keyboard-nav.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/profile.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
-  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <!-- Bootstrap navbar — collapses into a hamburger menu below 992px -->
   <header>
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
@@ -51,7 +66,7 @@
     </nav>
   </header>
 
-  <!-- Task 3: sidebar (col-lg-3) + content (col-lg-9). While logged out the sidebar is hidden
+  <!-- sidebar (col-lg-3) + content (col-lg-9). While logged out the sidebar is hidden
        and the login card is centred. -->
   <div class="container flex-grow-1 pt-4 pt-lg-5">
     <div class="row g-4 justify-content-center">
@@ -71,14 +86,15 @@
       </aside>
 
       <main id="main-content" class="col-12 col-lg-9">
+        <h1 class="visually-hidden">My account</h1>
         <div id="login-gate" class="row justify-content-center">
           <div class="col-12 col-sm-10 col-md-8 col-xl-6">
             <div class="card p-4 p-md-5 my-lg-4" id="login-card">
               <span class="eyebrow mb-2">Welcome back</span>
-              <h1 class="h3 mb-2">Log in to NBN Games</h1>
+              <h2 class="h3 mb-2">Log in to NBN Games</h2>
               <p class="text-body-secondary mb-4">Sign in to see your profile, library and wallet.</p>
 
-              <!-- Task 9: Bootstrap form with input groups -->
+              <!-- Bootstrap form with input groups -->
               <form id="login-form">
                 <div class="mb-3">
                   <label for="login-email" class="form-label fw-semibold">Email</label>
@@ -102,10 +118,10 @@
               <p class="mt-3 mb-0">No account yet? <button type="button" class="btn btn-link p-0 align-baseline fw-semibold" data-auth-switch="signup">Create one</button></p>
             </div>
 
-            <!-- Assignment #4 — Task 1: form validation in JavaScript (js/form-validation.js) — Bekzat Amanbek -->
+            <!-- Sign-up form, validated in JavaScript (js/form-validation.js) — Bekzat Amanbek -->
             <div class="card p-4 p-md-5 my-lg-4" id="signup-card" hidden>
               <span class="eyebrow mb-2">New here?</span>
-              <h1 class="h3 mb-2">Create your account</h1>
+              <h2 class="h3 mb-2">Create your account</h2>
               <p class="text-body-secondary mb-4">All fields are required. Password: at least 8 characters, with a letter and a number.</p>
 
               <form id="signup-form" novalidate>
@@ -146,7 +162,7 @@
 
           <!-- ===================== PROFILE ===================== -->
           <section class="panel" data-panel="profile">
-            <h1 class="h2 mb-4">My profile</h1>
+            <h2 class="h2 mb-4">My profile</h2>
 
             <div class="card mb-4">
               <div class="card-body d-flex flex-wrap align-items-center gap-3 gap-md-4 p-4">
@@ -178,7 +194,7 @@
           <!-- ===================== MY GAMES ===================== -->
           <section class="panel" data-panel="games" hidden>
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-              <h1 class="h2 mb-0">My games (<span class="js-library-count">0</span>)</h1>
+              <h2 class="h2 mb-0">My games (<span class="js-library-count">0</span>)</h2>
               <div class="col-12 col-sm-6 col-md-5">
                 <label for="library-search" class="visually-hidden">Search your library</label>
                 <input type="search" class="form-control" id="library-search" placeholder="Search your library…">
@@ -194,7 +210,7 @@
 
           <!-- ===================== WALLET ===================== -->
           <section class="panel" data-panel="wishlist" hidden>
-            <h1 class="h2 mb-4">Wishlist (<span class="js-wish-count">0</span>)</h1>
+            <h2 class="h2 mb-4">Wishlist (<span class="js-wish-count">0</span>)</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4" id="wish-grid"></div>
             <div class="empty-state rounded-3 text-center p-5" id="wish-empty" hidden>
               <span class="fs-1 d-block mb-2" aria-hidden="true">♡</span>
@@ -205,7 +221,7 @@
           </section>
 
           <section class="panel" data-panel="wallet" hidden>
-            <h1 class="h2 mb-4">Wallet</h1>
+            <h2 class="h2 mb-4">Wallet</h2>
 
             <div class="row g-4 align-items-start">
               <div class="col-12 col-md-5">
@@ -219,7 +235,7 @@
               <div class="col-12 col-md-7">
                 <form class="card p-4" id="topup-form">
                   <h2 class="h5 mb-3">Top up balance</h2>
-                  <!-- Task 6: button group for quick amounts -->
+                  <!-- button group for quick amounts -->
                   <div class="btn-group flex-wrap mb-3" role="group" aria-label="Quick amounts" id="amount-chips">
                     <button type="button" class="btn btn-outline-primary btn-sm chip" data-amount="1000">1 000 ₸</button>
                     <button type="button" class="btn btn-outline-primary btn-sm chip" data-amount="5000">5 000 ₸</button>
@@ -253,7 +269,7 @@
 
           <!-- ===================== SETTINGS ===================== -->
           <section class="panel" data-panel="settings" hidden>
-            <h1 class="h2 mb-4">Settings</h1>
+            <h2 class="h2 mb-4">Settings</h2>
             <form class="card p-4" id="settings-form">
               <div class="row g-3">
                 <div class="col-12 col-md-6">
@@ -288,12 +304,15 @@
 
           <!-- ===================== SECURITY ===================== -->
           <section class="panel" data-panel="security" hidden>
-            <h1 class="h2 mb-4">Security</h1>
+            <h2 class="h2 mb-4">Security</h2>
 
             <div class="row g-4 align-items-start">
               <div class="col-12 col-xl-6">
                 <form class="card p-4" id="password-form">
                   <h2 class="h5 mb-3">Change password</h2>
+                  <!-- hidden: tells the browser's password manager which account this password belongs to -->
+                  <input type="email" id="pw-username" name="username" autocomplete="username" aria-label="Account email" hidden>
+
                   <div class="mb-3">
                     <label for="pw-current" class="form-label fw-semibold">Current password</label>
                     <input type="password" class="form-control" id="pw-current" required autocomplete="current-password">
@@ -335,7 +354,7 @@
           <!-- ===================== NOTIFICATIONS ===================== -->
           <section class="panel" data-panel="notifications" hidden>
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-              <h1 class="h2 mb-0">Notifications</h1>
+              <h2 class="h2 mb-0">Notifications</h2>
               <button type="button" class="btn btn-outline-light btn-sm" id="notif-read-all">Mark all as read</button>
             </div>
 
@@ -399,23 +418,22 @@
           </ul>
         </div>
       </div>
-      <!-- Assignment #4: JS components in the footer
-           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
           <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
           <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project by Team Next Step.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Bekzat Amanbek</strong></p>
       </div>
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <!-- Subscribe popup: Bootstrap modal markup, opened and closed by our own js/popup.js -->
   <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-secondary-subtle">
@@ -443,20 +461,5 @@
       </div>
     </div>
   </div>
-
-  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/music.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/main.js"></script>
-  <!-- Assignment #4 JavaScript -->
-  <script src="js/popup.js"></script>
-  <script src="js/bg-color.js"></script>
-  <script src="js/datetime.js"></script>
-  <script src="js/form-validation.js"></script>
-  <script src="js/keyboard-nav.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/profile.js"></script>
 </body>
 </html>

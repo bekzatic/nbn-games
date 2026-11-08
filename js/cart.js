@@ -1,7 +1,7 @@
 /* ==========================================================
    NBN GAMES — shared cart logic (localStorage)
    Author: Nursultan Rassulov
-   Assignment #5: functions with clear names (getCart, addToCart…),
+   Functions with clear names (getCart, addToCart…),
    array methods find / filter / reduce, event delegation for every
    "Add to cart" button, flying "+1" + badge bump animation, sound.
    Used by: index, catalog, game, cart, about, profile
@@ -51,7 +51,7 @@ function updateCartBadge(animate = false) {
   const count = cartItemCount();
   document.querySelectorAll('.cart-badge').forEach(badge => {
     badge.textContent = count;
-    badge.style.display = count > 0 ? 'inline-block' : 'none';   // dynamic style (Assignment #5)
+    badge.style.display = count > 0 ? 'inline-block' : 'none';   // show the badge only when the cart is not empty
     // screen readers read the link label, so it says how many items are inside
     badge.parentElement.setAttribute('aria-label', count ? `Cart, ${count} item${count === 1 ? '' : 's'}` : 'Cart, empty');
     badge.setAttribute('aria-hidden', 'true');
@@ -63,7 +63,7 @@ function updateCartBadge(animate = false) {
   });
 }
 
-/* Assignment #5 — animation: a "+1" flies from the button to the cart icon */
+/* Animation: a "+1" flies from the button to the cart icon */
 function flyToCart(fromEl) {
   const cartIcon = document.querySelector('.cart-badge');
   if (!fromEl || !cartIcon) return;
@@ -94,7 +94,7 @@ function handleAddToCart(btn) {
   const original = btn.textContent;
   btn.textContent = 'Added ✓';
   btn.disabled = true;
-  if (window.showToast) window.showToast(`${name} added to cart`, 'cart');   // Assignment 6 — Task 7
+  if (window.showToast) window.showToast(`${name} added to cart`, 'cart');   // toast with the 🛒 icon
   setTimeout(() => {
     btn.textContent = original;
     btn.disabled = false;

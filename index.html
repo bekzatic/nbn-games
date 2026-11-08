@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
+  <!-- NBN Games — home page | Team Next Step | page author: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Home</title>
@@ -10,20 +10,36 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/assignment4.css">
-  <link rel="stylesheet" href="css/assignment5.css">
-  <link rel="stylesheet" href="css/assignment6.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/jquery-features.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
-  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <!-- jQuery from the CDN; if the CDN is offline, js/jquery-fallback.js loads our local copy.
+       No `defer` here: jQuery must exist before our scripts run. -->
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
   <script src="js/jquery-fallback.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Our scripts. `defer` = the browser downloads them now and runs them
+       after the HTML is parsed, in exactly this order. -->
+  <script src="js/script.js" defer></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/wishlist.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/bg-color.js" defer></script>
+  <script src="js/datetime.js" defer></script>
+  <script src="js/keyboard-nav.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/games-api.js" defer></script>
+  <script src="js/recently-viewed.js" defer></script>
+  <script src="js/home.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
-  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <!-- Bootstrap navbar — collapses into a hamburger menu below 992px -->
   <header>
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
@@ -52,7 +68,7 @@
   </header>
 
   <main id="main-content" class="flex-grow-1">
-    <!-- Task 3: two-column section (col-lg-6 + col-lg-6) inside a Bootstrap container -->
+    <!-- two-column section (col-lg-6 + col-lg-6) inside a Bootstrap container -->
     <section class="hero py-5 px-sm-2">
       <div class="container py-lg-5">
         <div class="row align-items-center g-4 g-lg-5">
@@ -60,7 +76,7 @@
             <span class="eyebrow d-inline-block mb-3" id="greeting" aria-live="polite">Your next level</span>
             <h1 class="mb-3">Games bring us together</h1>
             <p class="lead text-body-secondary mb-4">Thousands of games for PC, PlayStation and Xbox — one click away. Deals, new releases and a community that lives games every day.</p>
-            <!-- Task 6: Bootstrap buttons in different sizes / styles -->
+            <!-- Bootstrap buttons in different sizes / styles -->
             <div class="d-flex flex-wrap gap-3">
               <a href="catalog.html" class="btn btn-primary btn-lg px-4">Browse catalog</a>
               <a href="about.html" class="btn btn-outline-light btn-lg px-4">About us</a>
@@ -78,7 +94,7 @@
       </div>
     </section>
 
-    <!-- Task 7: Bootstrap carousel — 9 games, indicators + prev/next controls, placed in the grid -->
+    <!-- Bootstrap carousel — 9 games, indicators + prev/next controls, placed in the grid -->
     <section class="py-5" aria-labelledby="featured-title">
       <div class="container">
         <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-4">
@@ -295,14 +311,14 @@
       </div>
     </section>
 
-    <!-- Task 8: Bootstrap cards (image, title, text) placed with .card-group -->
+    <!-- Bootstrap cards (image, title, text) placed with .card-group -->
     <section class="py-5" aria-labelledby="popular-title">
       <div class="container">
         <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-4">
           <h2 id="popular-title" class="mb-0">Popular games</h2>
           <a href="catalog.html" class="fw-semibold small text-decoration-none">See all →</a>
         </div>
-        <!-- Task 8: Bootstrap cards in .card-group, two groups placed in the grid -->
+        <!-- Bootstrap cards in .card-group, two groups placed in the grid -->
         <div class="row g-4">
           <div class="col-12 col-lg-6">
             <div class="card-group h-100">
@@ -382,7 +398,7 @@
           </div>
         </div>
 
-        <!-- Assignment #5: "Load more" — fetch() reads data/games.json and new cards are added here without a page reload -->
+        <!-- "Load more" — fetch() reads data/games.json and new cards are added here without a page reload -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 mt-0" id="more-games" aria-live="polite"></div>
         <div class="text-center mt-4">
           <button type="button" class="btn btn-outline-primary btn-lg px-4" id="load-more-btn">Load more games</button>
@@ -391,7 +407,7 @@
       </div>
     </section>
 
-    <!-- Assignment #5: random gaming fact — fetch() + content changed with textContent -->
+    <!-- random gaming fact — fetch() + content changed with textContent -->
     <section class="py-5" aria-labelledby="fact-title">
       <div class="container">
         <div class="card p-4 p-md-5">
@@ -410,7 +426,7 @@
       </div>
     </section>
 
-    <!-- Task 3: three-column section (col-lg-4) -->
+    <!-- three-column section (col-lg-4) -->
     <!-- "Recently viewed" — filled by js/recently-viewed.js from localStorage; hidden until you open a game -->
     <section class="py-4" id="recent-section" aria-labelledby="recent-title" hidden>
       <div class="container">
@@ -422,7 +438,7 @@
       </div>
     </section>
 
-    <!-- Assignment 6 — Task 5: animated number counter (data-count-to, js/script.js) -->
+    <!-- animated number counter (data-count-to, js/script.js) -->
     <section class="py-5" aria-labelledby="stats-title">
       <div class="container">
         <div class="stats-band p-4 p-md-5">
@@ -520,23 +536,22 @@
           </ul>
         </div>
       </div>
-      <!-- Assignment #4: JS components in the footer
-           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
           <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
           <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project by Team Next Step.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <!-- Subscribe popup: Bootstrap modal markup, opened and closed by our own js/popup.js -->
   <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-secondary-subtle">
@@ -564,22 +579,5 @@
       </div>
     </div>
   </div>
-
-  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/music.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/main.js"></script>
-  <!-- Assignment #4 JavaScript -->
-  <script src="js/popup.js"></script>
-  <script src="js/bg-color.js"></script>
-  <script src="js/datetime.js"></script>
-
-  <script src="js/keyboard-nav.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/games-data.js"></script>
-  <script src="js/recently-viewed.js"></script>
-  <script src="js/home.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #4 — Task 1: Form Validation
+   "Create account" form validation
    Author: Bekzat Amanbek
    Page: profile.html → "Create account" form (#signup-form)
 

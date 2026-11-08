@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NBN Games — media-queries.html  (Assignment #3, Part 1)
+   media-queries.css — styles for media-queries.html (demo page)
    Pure CSS, NO Bootstrap. Mobile-first: base styles are for phones,
    @media (min-width: …) blocks add styles for tablets and desktops.
      Mobile  : < 768px
@@ -72,7 +72,7 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
 .screen-label::after { content: "Mobile (< 768px)"; }
 
 /* ==========================================================================
-   TASK 1 — Responsive typography
+   Responsive typography
    Mobile: small · Tablet: medium · Desktop: large
    ========================================================================== */
 .typo h1 { font-size: 1.75rem; }
@@ -99,7 +99,7 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
 .size-table th { background: var(--surface-2); color: var(--accent); }
 
 /* ==========================================================================
-   TASK 2 — Card group (3 cards) with media queries only
+   Card group (3 cards) built with media queries only
    Mobile: stacked · Tablet: 2 in a row · Desktop: 3 side by side
    ========================================================================== */
 .card-group {
@@ -156,7 +156,7 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
 }
 
 /* ==========================================================================
-   Assignment #5 — Day theme for this page too (still NO Bootstrap).
+   Day theme for this page too (still NO Bootstrap).
    js/theme-toggle.js sets data-bs-theme="light" on <html>; here we only
    give the same CSS variables light values.
    ========================================================================== */
@@ -177,3 +177,26 @@ section { padding: 40px 0; border-bottom: 1px solid var(--border); }
   --footer-text: #3d4249;
 }
 .theme-btn { font-size: 1rem; line-height: 1; padding: 6px 10px; }
+
+/* ---------- Footer tools row (clock, background, popup) ----------
+   The same tools as on the Bootstrap pages, written in plain CSS. */
+body { transition: background-color 0.6s ease; }
+.bg-color-swatch { width: 12px; height: 12px; }
+.js-tools {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px 20px; padding: 14px 16px; margin-top: 24px;
+  border: 1px solid var(--border, #23272e); border-radius: 12px;
+  background: rgba(127, 127, 127, 0.06); font-size: 0.875rem; color: var(--muted, #b7bcc4);
+}
+.js-tools .tools-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.js-tools .clock { display: flex; align-items: center; gap: 8px; }
+.js-tools .clock .js-datetime { color: var(--heading, #fff); font-weight: 600; font-variant-numeric: tabular-nums; }
+.js-tools .bg-color-swatch {
+  display: inline-block; border-radius: 50%; border: 1px solid #8a919c;
+  vertical-align: -1px; margin-left: 4px;
+}
+.tool-btn {
+  font: inherit; font-weight: 600; cursor: pointer; padding: 7px 14px; border-radius: 8px;
+  border: 1px solid var(--border-strong, #3a4048); background: transparent; color: var(--text, #f2f0ea);
+}
+.tool-btn:hover, .tool-btn:focus-visible { border-color: var(--accent, #ff5a1f); color: var(--accent-hover, #ff7a45); outline: none; }

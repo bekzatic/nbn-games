@@ -1,205 +1,283 @@
 /* ==========================================================
-   catalog.html — filters, search and sorting
+   catalog.html — game cards, filters, search and sorting
    Author: Bekzat Amanbek
 
-   Assignment #5:
-   - Switch statements: matchesPrice() checks the price range and
-     sortCards() picks the sort order — both with `switch`.
-   - Objects: `state` keeps the current filters.
-   - Arrays + loops + higher-order functions: the cards are an array
-     that we filter / sort / forEach; a for...of loop counts results.
-   - Keyboard: "/" focuses the search box, Escape clears it.
-   - Animation: cards that appear again fade in (CSS class).
-   - The filters are kept in the address (?genre=rpg&price=low&q=witcher),
-     so a filtered catalog can be shared as a link and survives reload.
-
-   Assignment 6 (jQuery) — Task 1, real-time search and live filter:
-   - the search box listens to .on('keyup input') — the list changes
-     with every key the user types, no button needed;
-   - refresh() picks the matching cards with jQuery .filter() and
-     hides the rest with .not(). Autocomplete (Task 2) and the
-     highlighting (Task 3) are in js/jq-search.js.
+   1. The cards are NOT written in the HTML: start() loads the games
+      from data/games.json (NBN.loadGames in js/games-api.js) and
+      renderCard(game) turns every game object into one Bootstrap card.
+   2. `state` (one object) keeps the current filters. refresh() shows
+      the matching cards with jQuery .filter() and hides the rest.
+   3. The search box filters on every key (.on('keyup input')).
+   4. A `switch` checks the price range and picks the sort order.
+   5. The filters are kept in the address (?genre=rpg&price=low&q=witcher),
+      so a filtered catalog can be shared as a link and survives a reload.
+   6. Keyboard: "/" focuses the search box, Escape clears it.
+   Autocomplete and highlighting are in js/jq-search.js.
    ========================================================== */
 
-const genreList = document.getElementById('genre-filter');
-const priceList = document.getElementById('price-filter');
-const platformList = document.getElementById('platform-filter');
-const genreSections = document.querySelectorAll('[data-genre-section]');
-const cols = Array.from(document.querySelectorAll('#catalog-content .game-col'));
-const countEl = document.getElementById('results-count');
-const emptyEl = document.getElementById('empty-state');
-const searchEl = document.getElementById('catalog-search');
-const sortEl = document.getElementById('catalog-sort');
+(function () {
+  'use strict';
 
-// remember the original order of every card (for "default" sorting)
-cols.forEach((col, i) => { col.dataset.order = i; });
+  const PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';   // 1×1 empty gif until lazy loading swaps it
+  const esc = NBN.escapeHtml;    // text from the data goes into HTML → escape <, >, ", &
 
-// the current filters — one object instead of many variables
-const state = { genre: 'all', price: 'all', platform: 'all', search: '', sort: 'default' };
+  const $content = $('#catalog-content');
+  const $count = $('#results-count');
+  const $empty = $('#empty-state');
+  const $search = $('#catalog-search');
+  const $sort = $('#catalog-sort');
+  const $filterLists = $('#genre-filter, #platform-filter, #price-filter');
 
-// numeric price of a card, read from its "Add to cart" button
-const priceOf = col => Number(col.querySelector('.add-to-cart-btn').dataset.price);
-const titleOf = col => col.querySelector('.card-title').textContent;
+  let $cols = $();               // all cards — filled after the data is loaded
+  let $sections = $();           // one <section> per genre
 
-/* price range filter with a switch */
-function matchesPrice(col) {
-  const price = priceOf(col);
-  switch (state.price) {
-    case 'low':  return price < 5000;
-    case 'mid':  return price >= 5000 && price <= 10000;
-    case 'high': return price > 10000;
-    default:     return true;               // 'all'
+  // the current filters — one object instead of many variables
+  const state = { genre: 'all', price: 'all', platform: 'all', search: '', sort: 'default' };
+  const DEFAULTS = Object.assign({}, state);
+
+  /* ---------- building the cards ---------- */
+
+  // the same three ranges as the "Price" filter buttons
+  function priceBand(price) {
+    if (price < 5000) return 'low';
+    if (price <= 10000) return 'mid';
+    return 'high';
   }
-}
 
-/* sort order with a switch — returns a compare function for Array.sort */
-function compareBy(sort) {
-  switch (sort) {
-    case 'price-asc':  return (a, b) => priceOf(a) - priceOf(b);
-    case 'price-desc': return (a, b) => priceOf(b) - priceOf(a);
-    case 'name':       return (a, b) => titleOf(a).localeCompare(titleOf(b));
-    default:           return (a, b) => a.dataset.order - b.dataset.order;
+  // one game object → the HTML of one catalog card
+  function renderCard(game) {
+    const title = esc(game.title);
+    const band = priceBand(game.price);
+    return `
+      <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}">
+        <article class="card game-card h-100">
+          <a href="game.html?id=${game.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
+            <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover lazy" src="${PLACEHOLDER}" data-src="${game.img}" alt="${title} cover"></div>
+            <div class="card-body d-flex flex-column gap-1 p-3">
+              <h3 class="card-title h6 fw-bold mb-0">${title}</h3>
+              <p class="card-text small text-body-secondary mb-0">${game.platforms.join(' · ')}</p>
+              <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--${band}" aria-hidden="true"></span>${NBN.formatPrice(game.price)}</div>
+            </div>
+          </a>
+          <div class="card-footer border-0 px-3 pb-3 pt-0">
+            <div class="btn-group btn-group-sm w-100" role="group" aria-label="${title} actions">
+              <button type="button" class="btn btn-primary add-to-cart-btn" data-name="${title}" data-price="${game.price}" data-img="${game.img}">Add to cart</button>
+              <a href="game.html?id=${game.id}" class="btn btn-outline-light">Details</a>
+            </div>
+          </div>
+        </article>
+      </div>`;
   }
-}
 
-function isVisible(col) {
-  const okGenre = state.genre === 'all' || col.dataset.genre === state.genre;
-  const okPlatform = state.platform === 'all' || col.dataset.platform.split(' ').includes(state.platform);
-  const okSearch = !state.search || col.textContent.toLowerCase().includes(state.search);
-  return okGenre && okPlatform && okSearch && matchesPrice(col);
-}
-
-function refresh() {
-  // 1) Assignment 6 — Task 1: jQuery .filter() keeps only the cards that match
-  const $all = jQuery(cols);
-  const $match = $all.filter(function () { return isVisible(this); });
-  $match.filter('[hidden]').each(function () {   // card comes back → small animation
-    this.classList.remove('fade-in-up');
-    void this.offsetWidth;
-    this.classList.add('fade-in-up');
-  });
-  $match.prop('hidden', false);
-  $all.not($match).prop('hidden', true);
-
-  // 2) sort the cards inside each genre row
-  genreSections.forEach(sec => {
-    const row = sec.querySelector('.row');
-    Array.from(row.children).sort(compareBy(state.sort)).forEach(col => row.appendChild(col));
-    // hide a genre section when none of its cards are visible
-    sec.hidden = !sec.querySelector('.game-col:not([hidden])');
-  });
-
-  // 3) count with a for...of loop
-  let visible = 0;
-  for (const col of cols) {
-    if (!col.hidden) visible++;
-  }
-  countEl.textContent = visible + (visible === 1 ? ' game' : ' games');
-  emptyEl.hidden = visible !== 0;
-  saveToUrl();
-  // tell the other jQuery features (highlighting, lazy images) that the list changed
-  jQuery(document).trigger('catalog:refresh', [visible, state.search]);
-}
-
-/* ---------- filters <-> address bar ---------- */
-const URL_KEYS = { genre: 'genre', price: 'price', platform: 'platform', search: 'q', sort: 'sort' };
-const DEFAULTS = { genre: 'all', price: 'all', platform: 'all', search: '', sort: 'default' };
-
-function saveToUrl() {
-  const params = new URLSearchParams();
-  Object.keys(URL_KEYS).forEach(key => {
-    if (state[key] !== DEFAULTS[key]) params.set(URL_KEYS[key], state[key]);
-  });
-  const query = params.toString();
-  history.replaceState(null, '', location.pathname + (query ? '?' + query : ''));
-}
-
-// read the filters from the address; only values that exist on the page are accepted
-function loadFromUrl() {
-  const params = new URLSearchParams(location.search);
-  const pick = (list, attr, value) => value && list.querySelector(`button[data-${attr}="${CSS.escape(value)}"]`);
-  [[genreList, 'genre'], [priceList, 'price'], [platformList, 'platform']].forEach(([list, key]) => {
-    const btn = pick(list, key, params.get(key));
-    if (btn) {
-      state[key] = btn.dataset[key];
-      list.querySelectorAll('button').forEach(el => {
-        el.classList.toggle('active', el === btn);
-        el.setAttribute('aria-pressed', el === btn);
-      });
-    }
-  });
-  const q = (params.get('q') || '').trim();
-  if (q) { searchEl.value = q; state.search = q.toLowerCase(); }
-  const sort = params.get('sort');
-  if (sort && sortEl.querySelector(`option[value="${CSS.escape(sort)}"]`)) { sortEl.value = sort; state.sort = sort; }
-}
-
-function bind(list, key) {
-  list.addEventListener('click', e => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    state[key] = btn.dataset[key];
-    list.querySelectorAll('button').forEach(el => {
-      el.classList.toggle('active', el === btn);
-      el.setAttribute('aria-pressed', el === btn);
+  // groups the games by genre (in the order they come in the data) → one <section> per genre
+  function renderCatalog(games) {
+    const genres = [];
+    games.forEach(game => {
+      if (!genres.some(g => g.genre === game.genre)) genres.push(game);
     });
+    return genres.map(first => `
+      <section class="mb-5" data-genre-section="${first.genre}" aria-label="${first.genreLabel} games">
+        <h2 class="h4 d-flex align-items-center gap-2 mb-3"><span aria-hidden="true">${first.emoji}</span><span>${first.genreLabel}</span></h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
+          ${games.filter(g => g.genre === first.genre).map(renderCard).join('')}
+        </div>
+      </section>`).join('');
+  }
+
+  /* ---------- filtering and sorting ---------- */
+
+  const priceOf = col => Number($(col).find('.add-to-cart-btn').attr('data-price'));
+  const titleOf = col => $(col).find('.card-title').text();
+
+  // price range filter with a switch
+  function matchesPrice(col) {
+    const price = priceOf(col);
+    switch (state.price) {
+      case 'low':  return price < 5000;
+      case 'mid':  return price >= 5000 && price <= 10000;
+      case 'high': return price > 10000;
+      default:     return true;               // 'all'
+    }
+  }
+
+  // sort order with a switch — returns a compare function for Array.sort
+  function compareBy(sort) {
+    switch (sort) {
+      case 'price-asc':  return (a, b) => priceOf(a) - priceOf(b);
+      case 'price-desc': return (a, b) => priceOf(b) - priceOf(a);
+      case 'name':       return (a, b) => titleOf(a).localeCompare(titleOf(b));
+      default:           return (a, b) => a.dataset.order - b.dataset.order;   // the order from the data
+    }
+  }
+
+  // does this card pass all four filters?
+  function isVisible(col) {
+    const okGenre = state.genre === 'all' || col.dataset.genre === state.genre;
+    const okPlatform = state.platform === 'all' || col.dataset.platform.split(' ').includes(state.platform);
+    const okSearch = !state.search || col.textContent.toLowerCase().includes(state.search);
+    return okGenre && okPlatform && okSearch && matchesPrice(col);
+  }
+
+  // shows / hides / sorts the cards for the current `state` and updates the counter
+  function refresh() {
+    if (!$cols.length) return;                     // the data is not loaded yet
+
+    // 1) jQuery .filter() keeps only the cards that match, .not() gives the rest
+    const $match = $cols.filter(function () { return isVisible(this); });
+    $match.filter('[hidden]').each(function () {   // a card comes back → small fade-in animation
+      this.classList.remove('fade-in-up');
+      void this.offsetWidth;                       // restart the CSS animation
+      this.classList.add('fade-in-up');
+    });
+    $match.prop('hidden', false);
+    $cols.not($match).prop('hidden', true);
+
+    // 2) sort the cards inside each genre row; hide a genre with no visible cards
+    $sections.each(function () {
+      const $row = $(this).find('.row');
+      $row.children().get().sort(compareBy(state.sort)).forEach(col => $row.append(col));
+      this.hidden = !$(this).find('.game-col:not([hidden])').length;
+    });
+
+    // 3) count the visible cards with a for...of loop
+    let visible = 0;
+    for (const col of $cols.get()) {
+      if (!col.hidden) visible++;
+    }
+    $count.text(visible + (visible === 1 ? ' game' : ' games'));
+    $empty.prop('hidden', visible !== 0);
+    saveToUrl();
+    // tell the other jQuery features (highlighting, lazy images) that the list changed
+    $(document).trigger('catalog:refresh', [visible, state.search]);
+  }
+
+  /* ---------- filters <-> address bar ---------- */
+  const URL_KEYS = { genre: 'genre', price: 'price', platform: 'platform', search: 'q', sort: 'sort' };
+
+  function saveToUrl() {
+    const params = new URLSearchParams();
+    Object.keys(URL_KEYS).forEach(key => {
+      if (state[key] !== DEFAULTS[key]) params.set(URL_KEYS[key], state[key]);
+    });
+    const query = params.toString();
+    history.replaceState(null, '', location.pathname + (query ? '?' + query : ''));
+  }
+
+  // marks one filter button as active (and the others in its list as not active)
+  function setActive($list, $btn) {
+    $list.find('button').each(function () {
+      $(this).toggleClass('active', this === $btn[0]).attr('aria-pressed', this === $btn[0]);
+    });
+  }
+
+  // read the filters from the address; only values that exist on the page are accepted
+  function loadFromUrl() {
+    const params = new URLSearchParams(location.search);
+    ['genre', 'price', 'platform'].forEach(key => {
+      const value = params.get(key);
+      const $list = $('#' + key + '-filter');
+      const $btn = value ? $list.find('button').filter((i, b) => b.dataset[key] === value) : $();
+      if ($btn.length) {
+        state[key] = value;
+        setActive($list, $btn);
+      }
+    });
+    const q = (params.get('q') || '').trim();
+    if (q) { $search.val(q); state.search = q.toLowerCase(); }
+    const sort = params.get('sort');
+    if (sort && $sort.find('option').filter((i, o) => o.value === sort).length) { $sort.val(sort); state.sort = sort; }
+  }
+
+  /* ---------- events ---------- */
+
+  // one delegated handler for the three filter lists (genre / platform / price)
+  $filterLists.on('click', 'button', function () {
+    const $btn = $(this);
+    const $list = $btn.closest('ul');
+    const key = $list.attr('id').replace('-filter', '');   // "genre-filter" → "genre"
+    state[key] = $btn.attr('data-' + key);
+    setActive($list, $btn);
     if (window.SoundFX) SoundFX.play('click');
     refresh();
   });
-}
 
-bind(genreList, 'genre');
-bind(priceList, 'price');
-bind(platformList, 'platform');
+  // real-time search: the list changes with every key the user types
+  $search.on('keyup input', function () {
+    const q = $(this).val().trim().toLowerCase();
+    if (q === state.search) return;           // arrow keys etc. — nothing changed
+    state.search = q;
+    refresh();
+  });
 
-// Assignment 6 — Task 1: real-time search — filter while the user types (.on('keyup'))
-jQuery(searchEl).on('keyup input search', function () {
-  const q = jQuery(this).val().trim().toLowerCase();
-  if (q === state.search) return;           // arrow keys etc. — nothing changed
-  state.search = q;
-  refresh();
-});
+  $sort.on('change', function () {
+    state.sort = $(this).val();
+    if (window.SoundFX) SoundFX.play('whoosh');
+    refresh();
+  });
 
-// used by the autocomplete (js/jq-search.js) when a suggestion is chosen
-window.Catalog = {
-  search(text) {
-    jQuery(searchEl).val(text);
-    state.search = text.trim().toLowerCase();
+  // keyboard: "/" jumps to search, Escape clears it
+  $(document).on('keydown', function (e) {
+    switch (e.key) {
+      case '/':
+        if (!$(document.activeElement).is('input, textarea, select')) {
+          e.preventDefault();
+          $search.trigger('focus');
+        }
+        break;
+      case 'Escape':
+        if (document.activeElement === $search[0] && $search.val()) {
+          $search.val('');
+          state.search = '';
+          refresh();
+        }
+        break;
+    }
+  });
+
+  $('#reset-filters').on('click', function () {
+    $search.val('');
+    state.search = '';
+    $filterLists.each(function () { $(this).find('button').first().trigger('click'); });
+  });
+
+  // used by the autocomplete (js/jq-search.js) when a suggestion is chosen
+  window.Catalog = {
+    search(text) {
+      $search.val(text);
+      state.search = text.trim().toLowerCase();
+      refresh();
+    }
+  };
+
+  /* ---------- start: load the data, build the cards, apply the filters ---------- */
+  async function start() {
+    $content.attr('aria-busy', 'true').html(
+      '<p class="text-body-secondary d-flex align-items-center gap-2"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span>Loading games…</p>');
+    $count.text('');
+
+    let games;
+    try {
+      games = await NBN.loadGames();
+    } catch (err) {
+      // no internet / file opened from disk / server error → a clear message + a way to try again
+      $content.attr('aria-busy', 'false').html(
+        '<div class="alert alert-warning d-flex flex-wrap align-items-center gap-3" role="alert">' +
+          '<span>⚠️ Could not load the games. Check your connection and try again.</span>' +
+          '<button type="button" class="btn btn-sm btn-outline-primary" id="catalog-retry">Try again</button>' +
+        '</div>');
+      return;
+    }
+
+    $content.html(renderCatalog(games)).attr('aria-busy', 'false');
+    $cols = $content.find('.game-col');
+    $sections = $content.find('[data-genre-section]');
+    $cols.each(function (i) { this.dataset.order = i; });     // remember the original order (for "default" sorting)
+    if (window.revealOnScroll) revealOnScroll($sections.get());   // sections slide in like on other pages (js/main.js)
+
+    loadFromUrl();
     refresh();
   }
-};
 
-sortEl.addEventListener('change', () => {
-  state.sort = sortEl.value;
-  if (window.SoundFX) SoundFX.play('whoosh');
-  refresh();
-});
-
-// keyboard: "/" jumps to search, Escape clears it
-document.addEventListener('keydown', e => {
-  switch (e.key) {
-    case '/':
-      if (document.activeElement !== searchEl && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) {
-        e.preventDefault();
-        searchEl.focus();
-      }
-      break;
-    case 'Escape':
-      if (document.activeElement === searchEl && searchEl.value) {
-        searchEl.value = '';
-        state.search = '';
-        refresh();
-      }
-      break;
-  }
-});
-
-document.getElementById('reset-filters').addEventListener('click', () => {
-  searchEl.value = '';
-  state.search = '';
-  [genreList, priceList, platformList].forEach(list => list.querySelector('button').click());
-});
-
-// start: apply filters from the link (if any)
-loadFromUrl();
-refresh();
+  $content.on('click', '#catalog-retry', start);
+  start();
+})();

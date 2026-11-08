@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #5 — Dynamic Style Changes: Day / Night theme switch
+   Day / Night theme switch
    Author: Bekzat Amanbek
    Pages: every page — ☀️ / 🌙 button in the navbar.
 

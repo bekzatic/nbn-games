@@ -1,4 +1,5 @@
-/* assignment5.css — styles for the Assignment #5 JavaScript features.
+/* features.css — styles for the interactive JavaScript features
+   (toasts, rating stars, lightbox, checkout steps, confetti, Konami code…).
    Only things Bootstrap does not have: animations, rating stars,
    checkout steps. Everything else is Bootstrap classes. */
 
@@ -214,3 +215,6 @@
   .fade-in-up, .checkout-step, .read-more-box, .star-btn.pop, .cart-badge.bump, .shake { animation: none; }
   .confetti { display: none; }
 }
+
+/* ---------- Profile → notifications: an unread one can be clicked ---------- */
+.is-unread { cursor: pointer; }

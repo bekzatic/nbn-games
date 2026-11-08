@@ -1,5 +1,5 @@
 /* ==========================================================
-   Assignment #5 — Play Sounds
+   Sound effects (SoundFX)
    Author: Nursultan Rassulov
    Pages: every page (loaded before the other scripts).
 

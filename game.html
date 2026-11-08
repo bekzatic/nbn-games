@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nursultan Rassulov -->
+  <!-- NBN Games — game page — one template for every game (?id=…) | Team Next Step | page author: Nursultan Rassulov -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — Game</title>
@@ -10,20 +10,36 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/assignment4.css">
-  <link rel="stylesheet" href="css/assignment5.css">
-  <link rel="stylesheet" href="css/assignment6.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/jquery-features.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
-  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <!-- jQuery from the CDN; if the CDN is offline, js/jquery-fallback.js loads our local copy.
+       No `defer` here: jQuery must exist before our scripts run. -->
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
   <script src="js/jquery-fallback.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Our scripts. `defer` = the browser downloads them now and runs them
+       after the HTML is parsed, in exactly this order. -->
+  <script src="js/script.js" defer></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/wishlist.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/bg-color.js" defer></script>
+  <script src="js/datetime.js" defer></script>
+  <script src="js/keyboard-nav.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/games-api.js" defer></script>
+  <script src="js/recently-viewed.js" defer></script>
+  <script src="js/game.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#game-page">Skip to main content</a>
 
-  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <!-- Bootstrap navbar — collapses into a hamburger menu below 992px -->
   <header>
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
@@ -66,7 +82,7 @@
           </ol>
         </nav>
 
-        <!-- Task 3: cover (col-md-5 / col-lg-4) | information (col-md-7 / col-lg-8) -->
+        <!-- cover (col-md-5 / col-lg-4) | information (col-md-7 / col-lg-8) -->
         <div class="row g-4 g-lg-5 align-items-start">
           <div class="col-12 col-md-5 col-lg-4">
             <img class="img-fluid w-100 rounded-3 border" id="game-cover" src="images/logo-full.png" alt="">
@@ -84,7 +100,7 @@
 
             <div class="d-flex align-items-center flex-wrap gap-3" id="game-price"></div>
 
-            <!-- Task 6: large buttons + a button group -->
+            <!-- large buttons + a button group -->
             <div class="d-flex flex-wrap gap-2">
               <button class="btn btn-primary btn-lg px-4 add-to-cart-btn" id="game-buy" type="button">Add to cart</button>
               <div class="btn-group btn-group-lg" role="group" aria-label="More actions">
@@ -104,11 +120,11 @@
 
             <h2 class="h5 mt-2 mb-0">About the game</h2>
             <p id="game-desc" class="text-body-secondary mb-0"></p>
-            <!-- Assignment #5: "Read more" — the extra text is hidden with style.display and shown by js/game.js -->
+            <!-- "Read more" — the extra text is hidden with style.display and shown by js/game.js -->
             <div id="read-more-box" class="read-more-box text-body-secondary"></div>
             <button type="button" class="btn btn-link p-0 align-self-start fw-semibold text-decoration-none" id="read-more-btn" aria-expanded="false" aria-controls="read-more-box">Read more ↓</button>
 
-            <!-- Assignment #5: rating stars — querySelectorAll + click changes their colour -->
+            <!-- rating stars — querySelectorAll + click changes their colour -->
             <div class="bg-body-secondary border rounded-3 p-3 mt-2" id="rate-box">
               <h2 class="h6 mb-2">Rate this game</h2>
               <div class="d-flex flex-wrap align-items-center gap-3">
@@ -152,8 +168,8 @@
       <div class="container">
         <div class="empty-state rounded-3 text-center p-5">
           <span class="fs-1 d-block mb-2" aria-hidden="true">🕹️</span>
-          <h1 class="h2">Game not found</h1>
-          <p class="text-body-secondary">We couldn't find this game. It may have been removed from the catalog.</p>
+          <h1 class="h2" id="not-found-title">Game not found</h1>
+          <p class="text-body-secondary" id="not-found-text">We couldn't find this game. It may have been removed from the catalog.</p>
           <a href="catalog.html" class="btn btn-primary">Open catalog</a>
         </div>
       </div>
@@ -193,23 +209,22 @@
           </ul>
         </div>
       </div>
-      <!-- Assignment #4: JS components in the footer
-           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
           <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
           <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project by Team Next Step.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nursultan Rassulov</strong></p>
       </div>
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <!-- Subscribe popup: Bootstrap modal markup, opened and closed by our own js/popup.js -->
   <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-secondary-subtle">
@@ -237,21 +252,5 @@
       </div>
     </div>
   </div>
-
-  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/music.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/main.js"></script>
-  <!-- Assignment #4 JavaScript -->
-  <script src="js/popup.js"></script>
-  <script src="js/bg-color.js"></script>
-  <script src="js/datetime.js"></script>
-  <script src="js/keyboard-nav.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/games-data.js"></script>
-  <script src="js/recently-viewed.js"></script>
-  <script src="js/game.js"></script>
 </body>
 </html>

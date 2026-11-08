@@ -60,12 +60,12 @@
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
-.navbar-brand, .display-6 {
+.navbar-brand {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
 }
 
-/* Bootstrap buttons re-coloured with the NBN accent (Task 6) */
+/* Bootstrap buttons re-coloured with the NBN accent */
 .btn-primary {
   --bs-btn-color: var(--nbn-on-accent);
   --bs-btn-bg: var(--nbn-accent);
@@ -108,7 +108,7 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 600;
 }
 
-/* Forms (Task 9) */
+/* Forms */
 .form-control,
 .form-select {
   background-color: var(--nbn-bg);
@@ -146,7 +146,7 @@ h1, h2, h3, h4, h5, h6,
   --bs-nav-link-hover-color: var(--nbn-accent);
 }
 
-/* Cards (Task 8) */
+/* Cards */
 .card {
   --bs-card-bg: var(--nbn-surface);
   --bs-card-border-color: var(--nbn-border);
@@ -194,7 +194,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ==========================================================
-   Assignment #5 — DAY theme (data-bs-theme="light").
+   DAY theme (data-bs-theme="light"), switched by js/theme-toggle.js.
    The same NBN variables get light values; every component that
    uses them (Bootstrap + our classes) changes colour automatically.
    The orange is a bit darker here so white text on it stays readable.
@@ -261,7 +261,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ==========================================================
-   Assignment #5 — UX: colour contrast fixes (checked with axe-core,
+   Colour contrast fixes (checked with axe-core,
    WCAG AA ≥ 4.5 : 1 for normal text, in BOTH Day and Night themes)
    ========================================================== */
 /* navbar icon buttons: Bootstrap grey #6c757d was too dark on our background */
@@ -279,3 +279,15 @@ h1, h2, h3, h4, h5, h6,
 .text-bg-primary { color: var(--nbn-on-accent) !important; }
 /* active filter pill in the Day theme: a little darker orange text */
 [data-bs-theme="light"] .nav-pills { --bs-nav-pills-link-active-color: var(--nbn-accent-hover); }
+/* "Remove" buttons in the cart: Bootstrap's red #dc3545 is only 3.96 : 1 on our dark
+   background → at night we use our own lighter red (--bs-danger, about 6.4 : 1) */
+[data-bs-theme="dark"] .btn-outline-danger {
+  --bs-btn-color: var(--bs-danger);
+  --bs-btn-border-color: var(--bs-danger);
+  --bs-btn-hover-color: var(--nbn-bg);
+  --bs-btn-hover-bg: var(--bs-danger);
+  --bs-btn-hover-border-color: var(--bs-danger);
+  --bs-btn-active-color: var(--nbn-bg);
+  --bs-btn-active-bg: var(--bs-danger);
+  --bs-btn-active-border-color: var(--bs-danger);
+}

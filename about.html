@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-  <!-- Assignment #5 (Advanced JS & DOM) + #4 (JavaScript) + #3 (Media Queries + Bootstrap Grid) — NBN Games | Team: Next Step | Page: Nurkhan Nurzhau -->
+  <!-- NBN Games — about us, FAQ and contact form | Team Next Step | page author: Nurkhan Nurzhau -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NBN Games — About</title>
@@ -10,20 +10,37 @@
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/assignment4.css">
-  <link rel="stylesheet" href="css/assignment5.css">
-  <link rel="stylesheet" href="css/assignment6.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/jquery-features.css">
   <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
   <script src="js/theme-toggle.js"></script>
-  <!-- Assignment 6 — Task 0: jQuery from the CDN (+ local copy if the CDN is offline), then our script.js -->
+  <!-- jQuery from the CDN; if the CDN is offline, js/jquery-fallback.js loads our local copy.
+       No `defer` here: jQuery must exist before our scripts run. -->
   <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
   <script src="js/jquery-fallback.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Our scripts. `defer` = the browser downloads them now and runs them
+       after the HTML is parsed, in exactly this order. -->
+  <script src="js/script.js" defer></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/wishlist.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/bg-color.js" defer></script>
+  <script src="js/datetime.js" defer></script>
+  <script src="js/accordion.js" defer></script>
+  <script src="js/contact-form.js" defer></script>
+  <script src="js/jq-search.js" defer></script>
+  <script src="js/about.js" defer></script>
+  <script src="js/keyboard-nav.js" defer></script>
+  <script src="js/i18n.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
 
-  <!-- Task 5: Bootstrap navbar — collapses into a hamburger (navbar-toggler) below 992px -->
+  <!-- Bootstrap navbar — collapses into a hamburger menu below 992px -->
   <header>
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
@@ -64,7 +81,7 @@
       </div>
     </section>
 
-    <!-- Task 3: three columns (col-lg-4) -->
+    <!-- three columns (col-lg-4) -->
     <section class="py-5" aria-labelledby="principles-title">
       <div class="container">
         <h2 id="principles-title" class="mb-4">Our principles</h2>
@@ -94,7 +111,7 @@
       </div>
     </section>
 
-    <!-- Task 8: team members as Bootstrap cards -->
+    <!-- team members as Bootstrap cards -->
     <section class="py-5" aria-labelledby="team-title">
       <div class="container">
         <span class="eyebrow d-inline-block mb-1">Team name</span>
@@ -106,7 +123,7 @@
                 <img class="rounded-circle border border-3 border-primary object-fit-cover mb-3" width="96" height="96" src="images/team-member-1.jpg" alt="Bekzat Amanbek photo">
                 <h3 class="card-title h5 mb-0">Bekzat Amanbek</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Catalog &amp; Profile</p>
-                <p class="card-text small text-body-secondary mb-0">Built the catalog and Profile pages. Assignment 3: catalog grid, filter pills, profile forms.</p>
+                <p class="card-text small text-body-secondary mb-0">Built the catalog and Profile pages: catalog grid, filter pills, profile forms.</p>
               </div>
             </article>
           </div>
@@ -116,7 +133,7 @@
                 <img class="rounded-circle border border-3 border-primary object-fit-cover mb-3" width="96" height="96" src="images/team-member-2.jpg" alt="Nurkhan Nurzhau photo">
                 <h3 class="card-title h5 mb-0">Nurkhan Nurzhau</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Home &amp; About</p>
-                <p class="card-text small text-body-secondary mb-0">Built the homepage and About page. Assignment 3: navbar, carousel, cards and the contact form.</p>
+                <p class="card-text small text-body-secondary mb-0">Built the homepage and About page: navbar, carousel, cards and the contact form.</p>
               </div>
             </article>
           </div>
@@ -126,7 +143,7 @@
                 <img class="rounded-circle border border-3 border-primary object-fit-cover mb-3" width="96" height="96" src="images/team-member-3.jpg" alt="Nursultan Rassulov photo">
                 <h3 class="card-title h5 mb-0">Nursultan Rassulov</h3>
                 <p class="text-primary small fw-semibold mb-2">Frontend · Game &amp; Cart</p>
-                <p class="card-text small text-body-secondary mb-0">Built the cart and the game page. Assignment 3: buttons, button groups, breadcrumb and tables.</p>
+                <p class="card-text small text-body-secondary mb-0">Built the cart and the game page: buttons, button groups, breadcrumb and tables.</p>
               </div>
             </article>
           </div>
@@ -134,13 +151,13 @@
       </div>
     </section>
 
-    <!-- Task 3 + Task 9: two columns (col-lg-6) — contact info | Bootstrap form -->
-    <!-- FAQ: JavaScript accordion (Assignment #4, Task 2) -->
+    <!-- two columns (col-lg-6) — contact info | Bootstrap form -->
+    <!-- FAQ: accordion opened and closed by js/accordion.js -->
     <section class="py-5" aria-labelledby="faq-title">
       <div class="container">
         <h2 id="faq-title" class="mb-4">Questions people ask us</h2>
-        <!-- Assignment #4 — Task 2: Bootstrap accordion markup, toggled by our own JavaScript (js/accordion.js, no data-bs-toggle) — Nurkhan Nurzhau -->
-        <!-- Assignment 6 — Task 3: search highlighting inside the FAQ (js/jq-search.js) -->
+        <!-- Bootstrap accordion markup, toggled by our own jQuery code (js/accordion.js, no data-bs-toggle) — Nurkhan Nurzhau -->
+        <!-- search highlighting inside the FAQ (js/jq-search.js) -->
         <div class="faq-search mb-3">
           <label for="faq-search" class="visually-hidden">Search the FAQ</label>
           <div class="input-group">
@@ -206,7 +223,7 @@
               <li class="list-group-item d-flex align-items-center gap-3 py-3"><span aria-hidden="true">🕘</span><span>Mon–Fri, 9:00–18:00</span></li>
               <li class="list-group-item d-flex align-items-center gap-3 py-3 copy-snippet"><span aria-hidden="true">🎁</span><span class="flex-grow-1">Promo code: <code class="promo-code">NEXTSTEP</code></span><button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-copy="NEXTSTEP" aria-label="Copy promo code">📋</button></li>
             </ul>
-            <!-- Assignment #5: button that shows the current time (new Date().toLocaleTimeString()) — js/about.js -->
+            <!-- button that shows the current time (new Date().toLocaleTimeString()) — js/about.js -->
             <div class="d-flex flex-wrap align-items-center gap-3 border rounded-3 p-3 mb-4">
               <button type="button" class="btn btn-outline-primary btn-sm" id="time-btn">🕒 Show current time</button>
               <span class="small text-body-secondary">Our time now: <strong class="time-output" id="time-output" aria-live="polite">—</strong> <span id="time-status"></span></span>
@@ -319,23 +336,22 @@
           </ul>
         </div>
       </div>
-      <!-- Assignment #4: JS components in the footer
-           Task 5 (date & time) — Bekzat Amanbek · Task 4 (background) — Nursultan Rassulov · Task 3 (popup) — Nurkhan Nurzhau -->
+      <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <time class="js-datetime fw-semibold text-white">Loading…</time></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
           <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
           <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© 2026 NBN Games. Student project — Assignment #5.</p>
+        <p class="mb-0">© 2026 NBN Games. Student project by Team Next Step.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>
     </div>
   </footer>
 
-  <!-- Assignment #4 — Task 3: popup subscription form. Bootstrap modal markup, opened/closed by our own js/popup.js -->
+  <!-- Subscribe popup: Bootstrap modal markup, opened and closed by our own js/popup.js -->
   <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-secondary-subtle">
@@ -363,22 +379,5 @@
       </div>
     </div>
   </div>
-
-  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/music.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/wishlist.js"></script>
-  <script src="js/main.js"></script>
-  <!-- Assignment #4 JavaScript -->
-  <script src="js/popup.js"></script>
-  <script src="js/bg-color.js"></script>
-  <script src="js/datetime.js"></script>
-  <script src="js/accordion.js"></script>
-  <script src="js/contact-form.js"></script>
-  <script src="js/jq-search.js"></script>
-  <script src="js/about.js"></script>
-  <script src="js/keyboard-nav.js"></script>
-  <script src="js/i18n.js"></script>
 </body>
 </html>

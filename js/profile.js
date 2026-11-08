@@ -1,12 +1,11 @@
 /* =========================================================
    Profile page — demo accounts + per-user data.
    Author: Bekzat Amanbek
-   Assignment #5: ACCOUNTS / NOTIFICATIONS objects and arrays, render
-   functions with map(), switch for the play counter text, Play
-   button progress animation + sound, Wishlist panel.
+   ACCOUNTS / NOTIFICATIONS objects and arrays, render functions
+   with map(), a switch for the play counter text, Play button
+   progress animation + sound, Wishlist panel.
    Changes (balance, settings, password…) are kept in this
    browser's localStorage, so they survive a page reload.
-   NOTE: a real site would do all of this on a server.
    ========================================================= */
 // messages go through main.js; if that file did not load, the page keeps working without them
 const toast = (text, type) => { if (window.showToast) window.showToast(text, type || 'success'); };
@@ -15,6 +14,16 @@ if (typeof Wishlist === 'undefined') {
   window.Wishlist = { all: () => [], has: () => false, toggle: () => false, remove: () => {} };
 }
 
+/* ⚠️⚠️⚠️  DEMO LOGIN ONLY — NEVER DO THIS ON A REAL SITE  ⚠️⚠️⚠️
+   This is a learning project with no back end, so the demo accounts
+   and their passwords are written right here, and the password check
+   (and every change) happens in the browser.
+   Anyone can open this file (F12 → Sources) and read the passwords,
+   or skip the check completely in the console.
+   A real site sends the login to a SERVER over HTTPS; the server keeps
+   only password HASHES (bcrypt / argon2) in a database, checks them
+   there and answers with a session cookie or token. The browser
+   never sees anybody's password. */
 const ACCOUNTS = {
   'bekzat@nbngames.kz': {
     password: 'bekzat123', name: 'Bekzat Amanbek', balance: 18200, joined: 'September 2, 2025',
@@ -45,8 +54,10 @@ const NOTIFICATIONS = [
   { id: 'n4', icon: '🔒', title: 'New login', text: 'Your account was accessed from Chrome on Windows.', time: 'Last week' }
 ];
 
-const $ = id => document.getElementById(id);
-const $$ = sel => document.querySelectorAll(sel);
+// byId('login-form') is short for document.getElementById('login-form').
+// (It is not called $ — on our pages $ always means jQuery.)
+const byId = id => document.getElementById(id);
+const qsAll = sel => document.querySelectorAll(sel);   // all elements that match a CSS selector
 const slugify = t => t.toLowerCase().replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const tenge = n => n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
 const today = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -87,10 +98,10 @@ function saveUser() { save('nbn_user_' + email, user); }
 
 /* ---------- Login / logout ---------- */
 const body = document.body;
-const loginGate = $('login-gate');
-const profileContent = $('profile-content');
-const loginForm = $('login-form');
-const loginError = $('login-error');
+const loginGate = byId('login-gate');
+const profileContent = byId('profile-content');
+const loginForm = byId('login-form');
+const loginError = byId('login-error');
 
 function passwordFor(mail) {
   const saved = load('nbn_user_' + mail, {});
@@ -102,7 +113,7 @@ function showProfile(mail) {
   user = loadUser(mail);
   loginGate.hidden = true;
   profileContent.hidden = false;
-  $('profile-aside').classList.remove('d-none');  // sidebar column appears (col-lg-3)
+  byId('profile-aside').classList.remove('d-none');  // sidebar column appears (col-lg-3)
   session('set', mail);
   renderAll();
   openSection((location.hash || '#profile').slice(1));
@@ -112,7 +123,7 @@ function showLogin() {
   email = null; user = null;
   loginGate.hidden = false;
   profileContent.hidden = true;
-  $('profile-aside').classList.add('d-none');     // main column is centred alone
+  byId('profile-aside').classList.add('d-none');     // main column is centred alone
   session('del');
   loginForm.reset();
   loginError.hidden = true;
@@ -121,10 +132,10 @@ function showLogin() {
 
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
-  const mail = $('login-email').value.trim().toLowerCase();
+  const mail = byId('login-email').value.trim().toLowerCase();
   const button = loginForm.querySelector('[type="submit"]');
-  const ok = ACCOUNTS[mail] && passwordFor(mail) === $('login-password').value;
-  // Assignment 6 — Task 6 + 7: spinner while "checking", then a toast
+  const ok = ACCOUNTS[mail] && passwordFor(mail) === byId('login-password').value;
+  // spinner + "Please wait…" while we "check" the password, then a toast (NBN.withSpinner in js/script.js)
   const finish = () => {
     if (ok) {
       loginError.hidden = true;
@@ -139,15 +150,15 @@ loginForm.addEventListener('submit', e => {
   else finish();
 });
 
-$('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
+byId('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
 
 /* ---------- Sidebar: switch between panels ---------- */
 const SECTIONS = ['profile', 'games', 'wishlist', 'wallet', 'settings', 'security', 'notifications'];
 
 function openSection(name) {
   if (!SECTIONS.includes(name)) name = 'profile';
-  $$('.panel').forEach(p => p.hidden = p.dataset.panel !== name);
-  $$('#profile-sidebar a[data-section]').forEach(a => a.classList.toggle('active', a.dataset.section === name));
+  qsAll('.panel').forEach(p => p.hidden = p.dataset.panel !== name);
+  qsAll('#profile-sidebar a[data-section]').forEach(a => a.classList.toggle('active', a.dataset.section === name));
   history.replaceState(null, '', '#' + name);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -162,15 +173,16 @@ document.addEventListener('click', e => {
 /* ---------- Render everything that depends on the user ---------- */
 function renderAll() {
   const acc = ACCOUNTS[email];
-  $$('.js-name').forEach(el => el.textContent = user.name);
-  $$('.js-initials').forEach(el => el.textContent = user.name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase());
-  $$('.js-email').forEach(el => el.textContent = email);
-  $$('.js-balance').forEach(el => el.textContent = tenge(user.balance));
-  $$('.js-library-count').forEach(el => el.textContent = acc.library.length);
-  $('profile-joined').textContent = acc.joined;
-  $('profile-joined-short').textContent = acc.joined.split(' ').slice(-1)[0];
-  $('info-country').textContent = user.country;
-  $('info-platform').textContent = user.platform;
+  qsAll('.js-name').forEach(el => el.textContent = user.name);
+  qsAll('.js-initials').forEach(el => el.textContent = user.name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase());
+  qsAll('.js-email').forEach(el => el.textContent = email);
+  byId('pw-username').value = email;            // hidden username field of the change-password form
+  qsAll('.js-balance').forEach(el => el.textContent = tenge(user.balance));
+  qsAll('.js-library-count').forEach(el => el.textContent = acc.library.length);
+  byId('profile-joined').textContent = acc.joined;
+  byId('profile-joined-short').textContent = acc.joined.split(' ').slice(-1)[0];
+  byId('info-country').textContent = user.country;
+  byId('info-platform').textContent = user.platform;
   renderLibrary();
   renderWishlist();
   renderTransactions();
@@ -181,9 +193,9 @@ function renderAll() {
 
 /* ---------- My games ---------- */
 function renderLibrary() {
-  const q = $('library-search').value.trim().toLowerCase();
+  const q = byId('library-search').value.trim().toLowerCase();
   const games = ACCOUNTS[email].library.filter(t => t.toLowerCase().includes(q));
-  $('library-grid').innerHTML = games.map(title => `
+  byId('library-grid').innerHTML = games.map(title => `
     <div class="col">
       <article class="card game-card h-100">
         <a href="game.html?id=${slugify(title)}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
@@ -198,10 +210,10 @@ function renderLibrary() {
         </div>
       </article>
     </div>`).join('');
-  $('library-empty').hidden = games.length !== 0;
+  byId('library-empty').hidden = games.length !== 0;
 }
 
-$('library-search').addEventListener('input', renderLibrary);
+byId('library-search').addEventListener('input', renderLibrary);
 
 // "Played 3 times" / "Not played yet" — text from the user's plays object
 function playsText(title) {
@@ -215,7 +227,7 @@ function playsText(title) {
 
 /* ▶ Play: a progress bar fills the button (animation), a sound plays,
    then the launch counter for this game is saved for the user. */
-$('library-grid').addEventListener('click', e => {
+byId('library-grid').addEventListener('click', e => {
   const btn = e.target.closest('.play-btn');
   if (!btn || btn.disabled) return;
   const title = btn.dataset.title;
@@ -251,8 +263,8 @@ $('library-grid').addEventListener('click', e => {
 /* ---------- Wishlist (data from js/wishlist.js) ---------- */
 function renderWishlist() {
   const list = Wishlist.all();
-  $$('.js-wish-count').forEach(el => el.textContent = list.length);
-  $('wish-grid').innerHTML = list.map(g => `
+  qsAll('.js-wish-count').forEach(el => el.textContent = list.length);
+  byId('wish-grid').innerHTML = list.map(g => `
     <div class="col">
       <article class="card game-card h-100" data-id="${g.id}">
         <a href="game.html?id=${g.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
@@ -270,10 +282,10 @@ function renderWishlist() {
         </div>
       </article>
     </div>`).join('');
-  $('wish-empty').hidden = list.length !== 0;
+  byId('wish-empty').hidden = list.length !== 0;
 }
 
-$('wish-grid').addEventListener('click', e => {
+byId('wish-grid').addEventListener('click', e => {
   const btn = e.target.closest('.wish-remove');
   if (!btn) return;
   Wishlist.remove(btn.closest('[data-id]').dataset.id);
@@ -283,7 +295,7 @@ $('wish-grid').addEventListener('click', e => {
 
 /* ---------- Wallet ---------- */
 function renderTransactions() {
-  $('tx-list').innerHTML = user.transactions.slice().reverse().map(t => `
+  byId('tx-list').innerHTML = user.transactions.slice().reverse().map(t => `
     <li class="list-group-item d-flex align-items-center gap-3 py-3">
       <span aria-hidden="true">${t.amount >= 0 ? '➕' : '➖'}</span>
       <span class="d-flex flex-column flex-grow-1"><strong>${t.label}</strong><small class="text-body-tertiary">${t.date}</small></span>
@@ -291,28 +303,28 @@ function renderTransactions() {
     </li>`).join('');
 }
 
-$('amount-chips').addEventListener('click', e => {
+byId('amount-chips').addEventListener('click', e => {
   const chip = e.target.closest('.chip');
   if (!chip) return;
-  $$('#amount-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
-  $('topup-amount').value = chip.dataset.amount;
+  qsAll('#amount-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
+  byId('topup-amount').value = chip.dataset.amount;
 });
 
-$('topup-form').addEventListener('submit', e => {
+byId('topup-form').addEventListener('submit', e => {
   e.preventDefault();
-  const amount = parseInt($('topup-amount').value.replace(/\s/g, ''), 10);
-  const msg = $('topup-msg');
+  const amount = parseInt(byId('topup-amount').value.replace(/\s/g, ''), 10);
+  const msg = byId('topup-msg');
   if (!amount || amount < 100 || amount > 500000) {
     msg.textContent = 'Enter an amount between 100 and 500 000 ₸.';
     msg.className = 'small mb-3 text-danger';
     return;
   }
   user.balance += amount;
-  user.transactions.push({ label: 'Top up · ' + $('topup-method').value, amount, date: today() });
+  user.transactions.push({ label: 'Top up · ' + byId('topup-method').value, amount, date: today() });
   saveUser();
   renderAll();
-  $('topup-form').reset();
-  $$('#amount-chips .chip').forEach(c => c.classList.remove('active'));
+  byId('topup-form').reset();
+  qsAll('#amount-chips .chip').forEach(c => c.classList.remove('active'));
   msg.textContent = `Done! ${tenge(amount)} added to your wallet.`;
   msg.className = 'small mb-3 text-success';
   toast('Balance topped up');
@@ -320,48 +332,48 @@ $('topup-form').addEventListener('submit', e => {
 
 /* ---------- Settings ---------- */
 function fillSettings() {
-  $('set-name').value = user.name;
-  $('set-country').value = user.country;
-  $('set-platform').value = user.platform;
-  $('set-currency').value = user.currency;
-  $$('input[name="visibility"]').forEach(r => r.checked = r.value === user.visibility);
+  byId('set-name').value = user.name;
+  byId('set-country').value = user.country;
+  byId('set-platform').value = user.platform;
+  byId('set-currency').value = user.currency;
+  qsAll('input[name="visibility"]').forEach(r => r.checked = r.value === user.visibility);
 }
 
-$('settings-form').addEventListener('submit', e => {
+byId('settings-form').addEventListener('submit', e => {
   e.preventDefault();
-  const name = $('set-name').value.trim();
+  const name = byId('set-name').value.trim();
   if (!name) return;
   user.name = name;
-  user.country = $('set-country').value;
-  user.platform = $('set-platform').value;
-  user.currency = $('set-currency').value;
+  user.country = byId('set-country').value;
+  user.platform = byId('set-platform').value;
+  user.currency = byId('set-currency').value;
   user.visibility = document.querySelector('input[name="visibility"]:checked').value;
   saveUser();
   renderAll();
   toast('Settings saved');
 });
 
-$('settings-reset').addEventListener('click', () => { fillSettings(); toast('Changes discarded'); });
+byId('settings-reset').addEventListener('click', () => { fillSettings(); toast('Changes discarded'); });
 
 /* ---------- Security ---------- */
 function renderSecurity() {
-  $('sec-2fa').checked = user.twoFA;
-  $('sec-alerts').checked = user.alerts;
+  byId('sec-2fa').checked = user.twoFA;
+  byId('sec-alerts').checked = user.alerts;
   const sessions = [{ device: '💻 This browser', place: 'Astana, Kazakhstan · now', current: true }];
   if (!user.sessionsCleared) {
     sessions.push({ device: '📱 iPhone · NBN app', place: 'Astana, Kazakhstan · 2 days ago' });
     sessions.push({ device: '🖥️ Windows · Chrome', place: 'Almaty, Kazakhstan · last week' });
   }
-  $('session-list').innerHTML = sessions.map(s => `
+  byId('session-list').innerHTML = sessions.map(s => `
     <li class="list-group-item d-flex justify-content-between align-items-center gap-2 px-0">
       <span class="d-flex flex-column">${s.device}<small class="text-body-tertiary">${s.place}</small></span>${s.current ? '<span class="badge rounded-pill border border-success text-success">Current</span>' : ''}</li>`).join('');
-  $('sessions-out').disabled = !!user.sessionsCleared;
+  byId('sessions-out').disabled = !!user.sessionsCleared;
 }
 
-$('password-form').addEventListener('submit', e => {
+byId('password-form').addEventListener('submit', e => {
   e.preventDefault();
-  const msg = $('pw-msg');
-  const current = $('pw-current').value, next = $('pw-new').value, again = $('pw-confirm').value;
+  const msg = byId('pw-msg');
+  const current = byId('pw-current').value, next = byId('pw-new').value, again = byId('pw-confirm').value;
   let error = '';
   if (current !== user.password) error = 'Current password is incorrect.';
   else if (next.length < 6) error = 'New password must be at least 6 characters.';
@@ -370,21 +382,21 @@ $('password-form').addEventListener('submit', e => {
   if (error) { msg.textContent = error; msg.className = 'small mb-3 text-danger'; return; }
   user.password = next;
   saveUser();
-  $('password-form').reset();
+  byId('password-form').reset();
   msg.textContent = 'Password updated. Use it the next time you log in.';
   msg.className = 'small mb-3 text-success';
   toast('Password changed');
 });
 
-$('sec-2fa').addEventListener('change', e => {
+byId('sec-2fa').addEventListener('change', e => {
   user.twoFA = e.target.checked; saveUser();
   toast(user.twoFA ? 'Two-factor authentication on' : 'Two-factor authentication off');
 });
-$('sec-alerts').addEventListener('change', e => {
+byId('sec-alerts').addEventListener('change', e => {
   user.alerts = e.target.checked; saveUser();
   toast(user.alerts ? 'Login alerts on' : 'Login alerts off');
 });
-$('sessions-out').addEventListener('click', () => {
+byId('sessions-out').addEventListener('click', () => {
   user.sessionsCleared = true; saveUser(); renderSecurity();
   toast('Other devices logged out');
 });
@@ -392,20 +404,22 @@ $('sessions-out').addEventListener('click', () => {
 /* ---------- Notifications ---------- */
 function renderNotifications() {
   const unread = NOTIFICATIONS.filter(n => !user.read.includes(n.id)).length;
-  const badge = $('notif-badge');
+  const badge = byId('notif-badge');
   badge.textContent = unread;
   badge.hidden = unread === 0;
-  $('notif-read-all').disabled = unread === 0;
-  $('notif-list').innerHTML = NOTIFICATIONS.map(n => `
-    <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'border-start border-3 border-primary'}" role="button" data-id="${n.id}">
+  byId('notif-read-all').disabled = unread === 0;
+  byId('notif-list').innerHTML = NOTIFICATIONS.map(n => `
+    <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'border-start border-3 border-primary is-unread'}" data-id="${n.id}">
       <span class="fs-5" aria-hidden="true">${n.icon}</span>
       <span class="d-flex flex-column flex-grow-1 gap-1"><strong>${n.title}</strong><span class="small text-body-secondary">${n.text}</span><small class="text-body-tertiary">${n.time}</small></span>
       ${user.read.includes(n.id) ? '' : '<button type="button" class="btn btn-link btn-sm text-nowrap p-0">Mark read</button>'}
     </li>`).join('');
-  $$('[data-pref]').forEach(input => input.checked = !!user.prefs[input.dataset.pref]);
+  qsAll('[data-pref]').forEach(input => input.checked = !!user.prefs[input.dataset.pref]);
 }
 
-$('notif-list').addEventListener('click', e => {
+// a click anywhere on an unread notification marks it as read
+// (keyboard users press its "Mark read" button — a real <button>)
+byId('notif-list').addEventListener('click', e => {
   const li = e.target.closest('li[data-id]');
   if (!li || user.read.includes(li.dataset.id)) return;
   user.read.push(li.dataset.id);
@@ -413,14 +427,14 @@ $('notif-list').addEventListener('click', e => {
   renderNotifications();
 });
 
-$('notif-read-all').addEventListener('click', () => {
+byId('notif-read-all').addEventListener('click', () => {
   user.read = NOTIFICATIONS.map(n => n.id);
   saveUser();
   renderNotifications();
   toast('All notifications marked as read');
 });
 
-$$('[data-pref]').forEach(input => input.addEventListener('change', () => {
+qsAll('[data-pref]').forEach(input => input.addEventListener('change', () => {
   user.prefs[input.dataset.pref] = input.checked;
   saveUser();
   toast('Email preferences saved');
