@@ -148,6 +148,9 @@
     }
     $count.text(visible + (visible === 1 ? ' game' : ' games'));
     $empty.prop('hidden', visible !== 0);
+    // the "nothing found" title repeats the search text, so the user sees why the list is empty
+    const typed = $search.val().trim();
+    $('#empty-title').text(typed ? 'No games match “' + typed + '”' : 'No games match these filters');
     saveToUrl();
     // tell the other jQuery features (highlighting, lazy images) that the list changed
     $(document).trigger('catalog:refresh', [visible, state.search]);
