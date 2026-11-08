@@ -291,7 +291,7 @@ function renderWishlist() {
         <div class="card-footer border-0 px-3 pb-3 pt-0">
           <div class="btn-group btn-group-sm w-100" role="group" aria-label="${g.title.replace(/"/g, '&quot;')} actions">
             <button type="button" class="btn btn-primary add-to-cart-btn" data-name="${g.title.replace(/"/g, '&quot;')}" data-price="${g.price}" data-img="${g.img}">Add to cart</button>
-            <button type="button" class="btn btn-outline-light wish-remove">Remove ♥</button>
+            <button type="button" class="btn btn-outline-light wish-remove" aria-label="Remove ${g.title.replace(/"/g, '&quot;')} from wishlist">Remove ♥</button>
           </div>
         </div>
       </article>
@@ -302,9 +302,12 @@ function renderWishlist() {
 byId('wish-grid').addEventListener('click', e => {
   const btn = e.target.closest('.wish-remove');
   if (!btn) return;
-  Wishlist.remove(btn.closest('[data-id]').dataset.id);
+  const card = btn.closest('[data-id]');
+  const title = card.querySelector('.card-title').textContent;   // read before the card is redrawn
+  Wishlist.remove(card.dataset.id);
   if (window.SoundFX) SoundFX.play('click');
   renderWishlist();
+  toast(`${title} removed from wishlist`, 'info');
 });
 
 /* ---------- Wallet ---------- */

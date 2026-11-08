@@ -136,7 +136,7 @@ function showGame(allGames) {
       const on = Wishlist.toggle(game);
       paintWish(on);
       if (window.SoundFX) SoundFX.play(on ? 'star' : 'click');
-      toast(on ? `${game.title} added to wishlist` : 'Removed from wishlist', on ? 'heart' : 'info');
+      toast(on ? `${game.title} added to wishlist` : `${game.title} removed from wishlist`, on ? 'heart' : 'info');
     });
     initReadMore(game);
     initLightbox(game);
