@@ -118,7 +118,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | 8-bit background music 🎵 | our own chiptune written as arrays of notes (A minor, 96 BPM), off by default, follows the mute | `js/music.js` | Nursultan Rassulov |
 | Toast notifications | `NBN.notify(text, type)` — `.fadeIn()`, timer line, `.fadeOut()`, hover pauses, max 4 | `js/script.js` | Team |
 | Scroll progress bar | width = `scrollTop / (page − window) × 100`, gradient + glow, % bubble | `js/script.js` | Team |
-| Cart badge + "+1" animation | cart array in localStorage; one delegated click handler for every "Add to cart" button | `js/cart.js` | Nursultan Rassulov |
+| Cart badge + "+1" animation | cart array in localStorage; one delegated click handler for every "Add to cart" button; max 10 keys per game (`MAX_QTY`) | `js/cart.js` | Nursultan Rassulov |
 | Wishlist ♥ counter | `Wishlist` object (`all`, `has`, `toggle`, `remove`) in localStorage | `js/wishlist.js` | Nursultan Rassulov |
 | Keyboard menu | ← → ↑ ↓ Home End move focus in the main menu (`keydown` + `switch`) | `js/keyboard-nav.js` | Nurkhan Nurzhau |
 | Konami code ↑↑↓↓←→←→BA | turns Retro mode on / off | `js/keyboard-nav.js`, `css/features.css` | Nurkhan Nurzhau |

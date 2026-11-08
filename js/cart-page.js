@@ -83,8 +83,7 @@ function renderCart() {
   sumTotalEl.textContent = formatTenge(totals.toPay);
 }
 
-/* change the quantity of one item (never more than MAX_QTY keys of one game) */
-const MAX_QTY = 10;
+/* change the quantity of one item (never more than MAX_QTY keys of one game — MAX_QTY is in js/cart.js) */
 function changeQty(name, delta) {
   const cart = getCart();
   const item = cart.find(i => i.name === name);

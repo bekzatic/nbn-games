@@ -9,6 +9,7 @@
    ========================================================== */
 
 const CART_KEY = 'nbn_cart';
+const MAX_QTY = 10;          // at most 10 keys of one game (also used by js/cart-page.js)
 
 function getCart() {
   try {
@@ -25,16 +26,18 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
+/* adds one key; returns false when the game already has MAX_QTY keys in the cart */
 function addToCart(name, price, img) {
   const cart = getCart();
   const existing = cart.find(item => item.name === name);
+  if (existing && existing.qty >= MAX_QTY) return false;
   if (existing) {
     existing.qty += 1;
   } else {
     cart.push({ name, price: Number(price), img, qty: 1 });
   }
   saveCart(cart);
-  return cart;
+  return true;
 }
 
 function removeFromCart(name) {
@@ -86,7 +89,10 @@ function flyToCart(fromEl) {
    added to the page later (event delegation on document). */
 function handleAddToCart(btn) {
   const name = btn.getAttribute('data-name');
-  addToCart(name, btn.getAttribute('data-price'), btn.getAttribute('data-img'));
+  if (!addToCart(name, btn.getAttribute('data-price'), btn.getAttribute('data-img'))) {
+    if (window.showToast) window.showToast(`You already have ${MAX_QTY} keys of ${name} — that's the maximum`, 'info');
+    return;
+  }
   updateCartBadge(true);
   flyToCart(btn);
   if (window.SoundFX) SoundFX.play('add');
