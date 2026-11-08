@@ -66,6 +66,7 @@ nbn-games/
 ├── profile.html          demo login, my games, wishlist, wallet, settings, security, notifications
 ├── about.html            team, FAQ with search, contact form
 ├── media-queries.html    media-queries demo page in plain CSS (no Bootstrap)
+├── 404.html              "page not found" — GitHub Pages and Vercel show it for unknown addresses
 │
 ├── css/
 │   ├── theme.css             NBN colours + fonts on Bootstrap's CSS variables; Day theme; contrast fixes
