@@ -81,3 +81,16 @@
     if (window.showToast) showToast(on ? '👾 Retro mode ON — type the code again to turn it off' : 'Retro mode OFF');
   }
 })();
+
+/* ==========================================================
+   "?" — shows the keyboard shortcuts of the site in a toast
+   ========================================================== */
+(function () {
+  document.addEventListener('keydown', e => {
+    const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+    if (e.key !== '?' || typing) return;      // "?" = Shift + / ; ignored while typing in a field
+    if (window.showToast) {
+      showToast('⌨️ Shortcuts: / search the catalog · Esc clear · F new fact · M mute · ← → menu · ↑↑↓↓←→←→ B A retro mode', 'info');
+    }
+  });
+})();

@@ -122,6 +122,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Wishlist ♥ counter | `Wishlist` object (`all`, `has`, `toggle`, `remove`) in localStorage | `js/wishlist.js` | Nursultan Rassulov |
 | Keyboard menu | ← → ↑ ↓ Home End move focus in the main menu (`keydown` + `switch`) | `js/keyboard-nav.js` | Nurkhan Nurzhau |
 | Konami code ↑↑↓↓←→←→BA | turns Retro mode on / off | `js/keyboard-nav.js`, `css/features.css` | Nurkhan Nurzhau |
+| **?** = shortcut list | a toast lists all keyboard shortcuts (not while typing in a field) | `js/keyboard-nav.js` | Team |
 | Subscribe popup | Bootstrap modal markup, our own open / close (×, outside click, Esc), focus trap, spinner on submit | `js/popup.js` | Nurkhan Nurzhau |
 | Change background 🎨 | cycles predefined colours (dark list at night, light list by day), smooth transition | `js/bg-color.js` | Nursultan Rassulov |
 | Live date & time | `Date` object, updated every second | `js/datetime.js` | Bekzat Amanbek |
