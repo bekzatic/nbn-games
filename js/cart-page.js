@@ -64,9 +64,9 @@ function renderCart() {
             <p class="small text-body-secondary mb-0">Digital key · ${formatTenge(item.price)} each</p>
           </div>
           <div class="btn-group btn-group-sm" role="group" aria-label="Quantity of ${item.name.replace(/"/g, '&quot;')}">
-            <button class="btn btn-outline-light" type="button" data-action="minus" aria-label="One less">−</button>
+            <button class="btn btn-outline-light" type="button" data-action="minus" aria-label="One less ${item.name.replace(/"/g, '&quot;')}">−</button>
             <span class="btn btn-outline-light disabled fw-semibold" aria-live="polite">${item.qty}</span>
-            <button class="btn btn-outline-light" type="button" data-action="plus" aria-label="One more">+</button>
+            <button class="btn btn-outline-light" type="button" data-action="plus" aria-label="One more ${item.name.replace(/"/g, '&quot;')}"${item.qty >= MAX_QTY ? ` disabled title="Max ${MAX_QTY} keys per game"` : ''}>+</button>
           </div>
           <div class="d-flex flex-sm-column align-items-center align-items-sm-end gap-2 ms-auto">
             <span class="fw-semibold">${formatTenge(item.price * item.qty)}</span>
@@ -83,12 +83,13 @@ function renderCart() {
   sumTotalEl.textContent = formatTenge(totals.toPay);
 }
 
-/* change the quantity of one item */
+/* change the quantity of one item (never more than MAX_QTY keys of one game) */
+const MAX_QTY = 10;
 function changeQty(name, delta) {
   const cart = getCart();
   const item = cart.find(i => i.name === name);
   if (!item) return;
-  item.qty += delta;
+  item.qty = Math.min(MAX_QTY, item.qty + delta);
   saveCart(item.qty > 0 ? cart : cart.filter(i => i.name !== name));
 }
 
