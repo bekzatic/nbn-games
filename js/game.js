@@ -61,8 +61,9 @@ function showGame(allGames) {
     byId('game-stars').textContent = '★'.repeat(full) + '☆'.repeat(5 - full);
     byId('game-rating').textContent = `${game.rating.toFixed(1)} · ${game.reviews} reviews · ${game.developer}`;
 
+    // every platform badge is a link: the catalog opens with that platform filter (?platform=xbox)
     byId('game-platforms').innerHTML = game.platforms
-      .map(p => `<span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal px-3 py-2">${p}</span>`).join('');
+      .map(p => `<a href="catalog.html?platform=${p.toLowerCase()}" class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal px-3 py-2 text-decoration-none" title="All ${p} games">${p}</a>`).join('');
 
     let priceHtml = `<span class="fs-2 fw-bold text-white">${formatPrice(game.price)}</span>`;
     if (game.oldPrice) {

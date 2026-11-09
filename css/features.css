@@ -218,3 +218,8 @@
 
 /* ---------- Profile → notifications: an unread one can be clicked ---------- */
 .is-unread { cursor: pointer; }
+
+/* ---------- Game page: platform badges are links to the catalog ---------- */
+/* !important because Bootstrap's border-* / text-* utility classes use it too */
+#game-platforms a:hover,
+#game-platforms a:focus-visible { border-color: var(--nbn-accent) !important; color: var(--nbn-accent) !important; }
