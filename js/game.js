@@ -3,14 +3,21 @@
    Author: Nursultan Rassulov
    Data: data/games.json, loaded with NBN.loadGames() (js/games-api.js)
 
-   Features on this page:
-   - Rating stars: querySelectorAll selects the stars, click / hover /
-     arrow keys change their colour; the message is updated with
-     textContent; the rating is saved per game in localStorage.
-   - "Read more": extra content shown / hidden with style.display.
-   - Sounds (SoundFX) and animations (star "pop", fade-in).
-   - Cover lightbox: click (or Enter) on the cover opens it big;
-     close with ×, a click outside or the Escape key.
+   How it works (the file goes in this order):
+   1. showGame(allGames) — finds the game from ?id= and fills the page:
+      title, cover, price (Sale % + old price), developer link
+      (catalog.html?q=…), platform badges (catalog.html?platform=…),
+      system requirements table, the 3 best-rated similar games
+      (filter → sort → slice), wishlist button ♡ / ♥ with a toast.
+   2. start() — async/await: waits for the data, then showGame();
+      on an error it shows "Could not load the game" instead of
+      "Loading…" forever. Unknown id → "Game not found".
+   3. initReadMore() — extra info shown / hidden with style.display.
+   4. initRating() — querySelectorAll selects the 5 stars; click,
+      hover and arrow keys paint them; saved per game in localStorage.
+   5. initLightbox() — click (or Enter) on the cover opens it big;
+      close with ×, a click outside or Escape; focus stays inside.
+   Sounds (SoundFX) and small animations (star "pop", fade-in) throughout.
    ========================================================== */
 
 // byId('game-title') is short for document.getElementById('game-title').
