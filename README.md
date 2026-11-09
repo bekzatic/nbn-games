@@ -150,7 +150,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Live search | searches titles, platforms and developers (`data-developer`); filters on every key (`.on('keyup input')`); **/** focuses the box, **Esc** or the **×** button clears it | `js/catalog.js` |
 | Sort | price ↑ ↓, A → Z, rating (a `switch` returns the compare function) | `js/catalog.js` |
 | Shareable filters | filters are saved in the address (`?genre=rpg&q=witcher`) with `URLSearchParams`; the tab title follows them ("NBN Games — Catalog: RPG") | `js/catalog.js` |
-| Autocomplete | up to 6 suggestions with cover, genre and price; ↑ ↓ Enter Esc or mouse; ARIA combobox | `js/jq-search.js` |
+| Autocomplete | up to 6 suggestions (by title or developer) with cover, genre and price; ↑ ↓ Enter Esc or mouse; ARIA combobox | `js/jq-search.js` |
 | Search highlighting | `NBN.highlight()`: `.html()` resets the text, a RegExp splits it, every match is `.wrap()`-ped in `<mark>` | `js/script.js`, `js/jq-search.js` |
 | Lazy loading of covers | `data-src` → `.attr('src')` when `.offset().top` comes near the window (on `.scroll()`); "🖼 9 / 42 covers loaded" | `js/script.js` |
 

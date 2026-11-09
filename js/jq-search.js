@@ -31,7 +31,7 @@
     // the list of games comes from the same data as the cards (data/games.json)
     let games = [];
     NBN.loadGames().then(function (data) {
-      games = data.map(g => ({ title: g.title, img: g.img, genre: g.genreLabel, price: g.price, href: 'game.html?id=' + g.id }));
+      games = data.map(g => ({ title: g.title, developer: g.developer, img: g.img, genre: g.genreLabel, price: g.price, href: 'game.html?id=' + g.id }));
     }).catch(function () { /* the catalog already shows the error message */ });
 
     let items = [];          // suggestions shown now
@@ -71,7 +71,7 @@
 
       // games whose title STARTS with the text come first, then the ones that only contain it
       items = games
-        .filter(g => g.title.toLowerCase().includes(q))
+        .filter(g => g.title.toLowerCase().includes(q) || g.developer.toLowerCase().includes(q))   // like the catalog search
         .sort((a, b) => (b.title.toLowerCase().startsWith(q) - a.title.toLowerCase().startsWith(q)) || a.title.localeCompare(b.title))
         .slice(0, 6);
 
@@ -88,7 +88,8 @@
             .append(
               $('<span class="ac-text"></span>')
                 .append($('<span class="ac-title"></span>').html(NBN.markText(g.title, query.trim())))
-                .append($('<span class="ac-meta"></span>').text(g.genre + ' · ' + NBN.formatPrice(g.price)))
+                // found by the developer (not the title)? → show the developer, so the user sees why
+                .append($('<span class="ac-meta"></span>').text(g.genre + (g.title.toLowerCase().includes(q) ? '' : ' · ' + g.developer) + ' · ' + NBN.formatPrice(g.price)))
             )
             // "→" opens the game page; a <span>, not a link: an option must not contain another control
             .append($('<span class="ac-open" title="Open game page" aria-hidden="true">→</span>').attr('data-href', g.href))
