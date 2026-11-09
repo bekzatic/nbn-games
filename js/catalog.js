@@ -2,16 +2,25 @@
    catalog.html — game cards, filters, search and sorting
    Author: Bekzat Amanbek
 
-   1. The cards are NOT written in the HTML: start() loads the games
-      from data/games.json (NBN.loadGames in js/games-api.js) and
-      renderCard(game) turns every game object into one Bootstrap card.
-   2. `state` (one object) keeps the current filters. refresh() shows
-      the matching cards with jQuery .filter() and hides the rest.
-   3. The search box filters on every key (.on('keyup input')).
-   4. A `switch` checks the price range and picks the sort order.
-   5. The filters are kept in the address (?genre=rpg&price=low&q=witcher),
-      so a filtered catalog can be shared as a link and survives a reload.
-   6. Keyboard: "/" focuses the search box, Escape clears it.
+   How it works (the file goes in this order):
+   1. Building the cards — the cards are NOT written in the HTML:
+      start() loads data/games.json (NBN.loadGames in js/games-api.js),
+      renderCard(game) turns one game object into one Bootstrap card
+      (Sale badge + old price, ★ rating, data-* attributes for the
+      filters), renderCatalog() groups the cards by genre.
+   2. Filtering and sorting — `state` (one object) keeps the filters.
+      refresh() shows the matching cards with jQuery .filter(), hides
+      the rest with .not(), sorts them (a `switch` picks the compare
+      function: price, name, rating) and updates the counter, the
+      "Reset filters" link, the × button and the tab title.
+      The search looks at the title, platforms and developer.
+   3. Filters <-> address bar — ?genre=rpg&price=low&q=witcher&sort=rating
+      is saved after every change and read on load, so a filtered
+      catalog can be shared as a link.
+   4. Events — filter buttons (one delegated handler), live search
+      (.on('keyup input')), sort, keyboard ("/" focuses the search,
+      Escape clears it), reset buttons.
+   5. Start — loading message → cards, or an error with "Try again".
    Autocomplete and highlighting are in js/jq-search.js.
    ========================================================== */
 
