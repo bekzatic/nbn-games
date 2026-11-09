@@ -325,6 +325,8 @@ function launchConfetti() {
 }
 
 renderCart();
+// a promo code applied before the reload: show it in the field too, so the discount is not a mystery
+if (promo > 0) document.getElementById('promo-input').value = 'NEXTSTEP';
 if (CART_MISSING) {
   cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
   document.getElementById('checkout-btn').disabled = true;
