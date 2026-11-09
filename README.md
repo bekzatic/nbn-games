@@ -164,6 +164,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Cover lightbox | overlay made with `createElement`; opens on click / Enter, closes with ×, outside click, Esc | `js/game.js` |
 | Wishlist ♡ and Copy link | `Wishlist.toggle()`; the copy button shows ✓ + "Copied to clipboard!" | `js/game.js`, `js/script.js` |
 | System requirements, similar games | Bootstrap table; 3 games of the same genre | `js/game.js` |
+| Developer link | the developer opens the catalog with all their games (`catalog.html?q=…`) | `js/game.js` |
 
 ### Cart — `cart.html` (page author: Nursultan Rassulov)
 

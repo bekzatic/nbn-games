@@ -78,7 +78,12 @@ function showGame(allGames) {
     buy.dataset.img = game.img;
     if (game.price === 0) buy.textContent = 'Get for free';
 
-    byId('fact-dev').textContent = game.developer;
+    // the developer is a link: the catalog opens with all games of this developer (?q= search in the address)
+    const devLink = document.createElement('a');
+    devLink.href = 'catalog.html?q=' + encodeURIComponent(game.developer.toLowerCase());
+    devLink.textContent = game.developer;
+    devLink.title = 'All games by ' + game.developer;
+    byId('fact-dev').replaceChildren(devLink);
     byId('fact-year').textContent = game.year;
     byId('fact-genre').textContent = game.genreLabel;
     byId('game-desc').textContent = game.description;
