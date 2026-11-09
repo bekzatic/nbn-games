@@ -103,6 +103,9 @@
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
 }
 
+/* "★ 4.9" on catalog cards: the star in our gold, the number in normal text colour */
+.card-rating-star { color: var(--nbn-yellow); }
+
 .game-card .card-img-top { transition: transform 0.4s; }
 .game-card:hover .card-img-top,
 .game-card:has(:focus-visible) .card-img-top { transform: scale(1.05); }
