@@ -56,7 +56,7 @@
     const buyLabel = game.price === 0 ? 'Get for free' : 'Add to cart';   // same words as on the game page
     const oldPrice = game.oldPrice ? `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${NBN.formatPrice(game.oldPrice)}</span>` : '';
     return `
-      <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}" data-rating="${game.rating}">
+      <div class="col game-col" data-genre="${game.genre}" data-platform="${game.platforms.join(' ').toLowerCase()}" data-price="${band}" data-rating="${game.rating}" data-developer="${esc(game.developer)}">
         <article class="card game-card h-100">
           <a href="game.html?id=${game.id}" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
             ${sale}<div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover lazy" src="${PLACEHOLDER}" data-src="${game.img}" alt="${title} cover"></div>
@@ -122,7 +122,9 @@
   function isVisible(col) {
     const okGenre = state.genre === 'all' || col.dataset.genre === state.genre;
     const okPlatform = state.platform === 'all' || col.dataset.platform.split(' ').includes(state.platform);
-    const okSearch = !state.search || col.textContent.toLowerCase().includes(state.search);
+    // the search looks at the card text (title, platforms) AND the developer, which is not shown on the card
+    const searchable = (col.textContent + ' ' + col.dataset.developer).toLowerCase();
+    const okSearch = !state.search || searchable.includes(state.search);
     return okGenre && okPlatform && okSearch && matchesPrice(col);
   }
 
