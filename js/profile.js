@@ -206,6 +206,7 @@ function renderAll() {
 }
 
 /* ---------- My games ---------- */
+// (the ▶ Play buttons also contain the game name for screen readers, hidden on screen: .visually-hidden)
 function renderLibrary() {
   const q = byId('library-search').value.trim().toLowerCase();
   const games = ACCOUNTS[email].library.filter(t => t.toLowerCase().includes(q));
@@ -220,7 +221,7 @@ function renderLibrary() {
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
-          <button type="button" class="btn btn-primary btn-sm w-100 play-btn position-relative overflow-hidden" data-title="${title.replace(/"/g, '&quot;')}"><span class="play-progress" aria-hidden="true"></span><span class="play-label position-relative">▶ Play</span></button>
+          <button type="button" class="btn btn-primary btn-sm w-100 play-btn position-relative overflow-hidden" data-title="${title.replace(/"/g, '&quot;')}"><span class="play-progress" aria-hidden="true"></span><span class="play-label position-relative">▶ Play</span><span class="visually-hidden"> ${title}</span></button>
         </div>
       </article>
     </div>`).join('');
@@ -429,7 +430,7 @@ function renderNotifications() {
     <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'border-start border-3 border-primary is-unread'}" data-id="${n.id}">
       <span class="fs-5" aria-hidden="true">${n.icon}</span>
       <span class="d-flex flex-column flex-grow-1 gap-1"><strong>${n.title}</strong><span class="small text-body-secondary">${n.text}</span><small class="text-body-tertiary">${n.time}</small></span>
-      ${user.read.includes(n.id) ? '' : '<button type="button" class="btn btn-link btn-sm text-nowrap p-0">Mark read</button>'}
+      ${user.read.includes(n.id) ? '' : `<button type="button" class="btn btn-link btn-sm text-nowrap p-0" aria-label="Mark “${n.title}” as read">Mark read</button>`}
     </li>`).join('');
   qsAll('[data-pref]').forEach(input => input.checked = !!user.prefs[input.dataset.pref]);
 }
