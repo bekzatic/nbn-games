@@ -105,9 +105,13 @@ function showGame(allGames) {
       byId('req-box').innerHTML = `<div class="alert alert-secondary d-flex align-items-center gap-2 mb-0" role="note">🎮 <span>${escapeHtml(game.title)} is a console game (${game.platforms.join(', ')}) — no PC requirements.</span></div>`;
     }
 
-    // Similar games: 3 other games from the same genre (Bootstrap cards)
+    // Similar games: the 3 best-rated other games of the same genre (Bootstrap cards)
+    // filter → same genre, sort → highest rating first, slice → keep 3
     // (loading="lazy": the browser downloads these covers only when they come near the screen)
-    const similar = allGames.filter(g => g.genre === game.genre && g.id !== game.id).slice(0, 3);
+    const similar = allGames
+      .filter(g => g.genre === game.genre && g.id !== game.id)
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 3);
     byId('similar-genre').textContent = game.genreLabel + ' games';
     byId('similar-row').innerHTML = similar.map(g => `
       <div class="col">

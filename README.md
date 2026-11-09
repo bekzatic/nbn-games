@@ -163,7 +163,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Read more | extra info shown / hidden with `style.display` | `js/game.js` |
 | Cover lightbox | overlay made with `createElement`; opens on click / Enter, closes with ×, outside click, Esc | `js/game.js` |
 | Wishlist ♡ and Copy link | `Wishlist.toggle()`; the copy button shows ✓ + "Copied to clipboard!" | `js/game.js`, `js/script.js` |
-| System requirements, similar games | Bootstrap table; 3 games of the same genre | `js/game.js` |
+| System requirements, similar games | Bootstrap table; the 3 best-rated games of the same genre (`filter` → `sort` → `slice`) | `js/game.js` |
 | Developer and platform links | the developer opens the catalog with all their games (`catalog.html?q=…`), a platform badge with that platform filter (`?platform=xbox`) | `js/game.js` |
 
 ### Cart — `cart.html` (page author: Nursultan Rassulov)
