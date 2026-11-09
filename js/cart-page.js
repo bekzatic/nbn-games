@@ -28,7 +28,14 @@ const sumItemsEl = document.getElementById('sum-items');
 const sumTotalEl = document.getElementById('sum-total');
 const discountRow = document.getElementById('discount-row');
 const sumDiscountEl = document.getElementById('sum-discount');
-let promo = 0; // discount rate
+// discount rate (0.1 = −10 %). Kept in sessionStorage, so an applied promo
+// code survives a page reload (but is forgotten when the tab is closed)
+let promo = 0;
+try { promo = Number(sessionStorage.getItem('nbn_promo')) || 0; } catch (e) { /* storage blocked */ }
+function setPromo(rate) {
+  promo = rate;
+  try { sessionStorage.setItem('nbn_promo', String(rate)); } catch (e) { /* ignore */ }
+}
 
 function formatTenge(n) {
   return n.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';
@@ -123,11 +130,11 @@ document.getElementById('promo-form').addEventListener('submit', e => {
   const input = document.getElementById('promo-input');
   const code = input.value.trim().toUpperCase();
   if (code === 'NEXTSTEP') {
-    promo = 0.1;
+    setPromo(0.1);
     toast('Promo code applied: −10%', 'success');
     if (window.SoundFX) SoundFX.play('success');
   } else {
-    promo = 0;
+    setPromo(0);
     toast('Unknown promo code', 'error');
     if (window.SoundFX) SoundFX.play('error');
     input.classList.remove('shake');
@@ -277,7 +284,7 @@ const Checkout = {
     this.el.done.hidden = false;
     this.el.dots.forEach(dot => dot.classList.add('is-done'));
     saveCart([]);
-    promo = 0;
+    setPromo(0);                              // the code was used for this order
     renderCart();
 if (CART_MISSING) {
   cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';

@@ -171,7 +171,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Feature | How it works | File |
 |---|---|---|
 | Quantity − / +, Remove | event delegation + `switch` on the button's action; max 10 keys per game | `js/cart-page.js` |
-| Promo code **NEXTSTEP** | −10 %, with a copy button and `.on('copy')` for Ctrl+C | `js/cart-page.js`, `js/script.js` |
+| Promo code **NEXTSTEP** | −10 %, kept in `sessionStorage` (survives a reload); copy button and `.on('copy')` for Ctrl+C | `js/cart-page.js`, `js/script.js` |
 | 3-step checkout | Contacts → Delivery & payment → Confirm; `showStep()` callback; the `order` object keeps every value; confetti at the end (demo, no real payment) | `js/cart-page.js` |
 
 ### Profile — `profile.html` (page author: Bekzat Amanbek)
