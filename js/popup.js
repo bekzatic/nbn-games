@@ -27,7 +27,12 @@
   const box = popup.querySelector('.modal-content');
   const form = popup.querySelector('form');
   const msg = popup.querySelector('.popup-msg');
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  // the fields are checked with js/validators.js — errors appear under each field
+  const RULES = {
+    'popup-name': v => !Validators.isRequired(v) ? 'Please enter your name.' : '',
+    'popup-email': v => !Validators.isRequired(v) ? 'Email is required.' : !Validators.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : ''
+  };
+  const live = Validators.liveCheck(form, RULES);
   let backdrop = null;
   let lastFocused = null;
 
@@ -58,7 +63,7 @@
       popup.hidden = true;
       if (backdrop) { backdrop.remove(); backdrop = null; }
       form.reset();
-      form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      live.reset();                                         // no red fields / error texts next time
       msg.textContent = '';
       msg.className = 'popup-msg small mt-3 mb-0';
       pageParts().forEach(el => { el.inert = false; });   // page is usable again…
@@ -94,24 +99,17 @@
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const nameEl = form.elements['popup-name'];
-    const emailEl = form.elements['popup-email'];
-    const name = nameEl.value.trim();
-    const email = emailEl.value.trim();
-
-    nameEl.classList.toggle('is-invalid', !name);
-    emailEl.classList.toggle('is-invalid', !EMAIL_RE.test(email));
-
-    if (!name || !EMAIL_RE.test(email)) {
-      msg.textContent = !name ? 'Please enter your name.' : 'Please enter a valid email.';
-      msg.className = 'popup-msg small mt-3 mb-0 text-danger';
-      return;
-    }
+    live.markSubmitted();
+    msg.textContent = '';
+    const firstBad = Validators.validateForm(RULES);
+    if (firstBad) { firstBad.focus(); return; }
+    const name = form.elements['popup-name'].value.trim();
+    const email = form.elements['popup-email'].value.trim();
     // spinner + "Please wait…" on the button (NBN.withSpinner), then the success message + toast
     const finish = () => {
       msg.textContent = `Thanks, ${name}! Deals will be sent to ${email}.`;
       msg.className = 'popup-msg small mt-3 mb-0 text-success';
-      if (window.showToast) showToast('Successfully subscribed! 🎮', 'success');
+      if (window.showToast) showToast('Successfully subscribed!', 'success');
       setTimeout(close, 1800);
     };
     msg.textContent = '';

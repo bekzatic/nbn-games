@@ -87,13 +87,13 @@ SoundFX.init();
 // (a top-level `const` is NOT a property of window, so `if (window.SoundFX)` needs this)
 window.SoundFX = SoundFX;
 
-/* The 🔊 / 🔇 button in the navbar + the "M" key (mute / unmute) */
+/* The sound button (navbar → ⚙ Settings) + the "M" key (mute / unmute) */
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('[data-sound-toggle]');
 
   function paintButtons() {
     buttons.forEach(btn => {
-      btn.textContent = SoundFX.isMuted() ? '🔇' : '🔊';
+      btn.innerHTML = `<i class="bi bi-${SoundFX.isMuted() ? 'volume-mute' : 'volume-up'}" aria-hidden="true"></i>`;
       btn.setAttribute('aria-pressed', String(!SoundFX.isMuted()));
       btn.setAttribute('aria-label', SoundFX.isMuted() ? 'Sound is off — turn on (M)' : 'Sound is on — turn off (M)');
       btn.title = 'Sound on / off (key M)';
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleSound() {
     SoundFX.toggle();
     paintButtons();
-    if (window.showToast) showToast(SoundFX.isMuted() ? 'Sound off 🔇 (press M to turn on)' : 'Sound on 🔊');
+    if (window.showToast) showToast(SoundFX.isMuted() ? 'Sound off (press M to turn on)' : 'Sound on', 'info');
   }
 
   paintButtons();

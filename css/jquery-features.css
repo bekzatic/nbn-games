@@ -71,19 +71,9 @@ mark.hl {
   /* the gradient is as wide as the screen → it turns from deep orange to gold while it grows */
   background: linear-gradient(90deg, var(--nbn-accent-deep), var(--nbn-accent) 50%, var(--nbn-yellow));
   background-size: 100vw 100%;
-  box-shadow: 0 0 10px rgba(255, 90, 31, .7), 0 0 2px rgba(255, 255, 255, .6);
+  box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), .7), 0 0 2px rgba(255, 255, 255, .6);
   transition: width .1s linear;
 }
-.scroll-progress__bar::after {               /* moving shine */
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
-  background-size: 120px 100%;
-  background-repeat: no-repeat;
-  animation: progressShine 1.6s linear infinite;
-}
-@keyframes progressShine { from { background-position: -120px 0; } to { background-position: 100% 0; } }
 .scroll-progress__tip {
   position: absolute;
   right: 0;
@@ -94,13 +84,14 @@ mark.hl {
   font: 700 .7rem/1.4 system-ui, sans-serif;
   color: var(--nbn-on-accent);
   background: var(--nbn-accent);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+  box-shadow: var(--nbn-shadow-sm);
   opacity: 0;
-  transition: opacity .25s, transform .25s;
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
   white-space: nowrap;
 }
 .scroll-progress.is-scrolling .scroll-progress__tip { opacity: 1; transform: translateX(-4px) scale(1); }
-.scroll-progress.is-done .scroll-progress__bar { animation: progressGlow 1.2s ease-in-out infinite alternate; }
+/* full bar → one short golden flash (there and back), not an endless pulse */
+.scroll-progress.is-done .scroll-progress__bar { animation: progressGlow var(--dur-slow) var(--ease-out) 2 alternate; }
 @keyframes progressGlow { to { box-shadow: 0 0 18px rgba(var(--nbn-yellow-rgb), .9), 0 0 4px #fff; } }
 
 /* ---------- "NBN Games in numbers" band with animated counters ---------- */
@@ -156,7 +147,7 @@ mark.hl {
   border-left: 4px solid var(--toast-color, var(--bs-primary));
   background: var(--bs-secondary-bg);
   color: var(--bs-body-color);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+  box-shadow: var(--nbn-shadow-md);
   pointer-events: auto;
 }
 /* every type uses a colour of our palette (css/theme.css) */
@@ -207,7 +198,7 @@ mark.hl {
   white-space: nowrap;
   color: var(--nbn-bg);                 /* inverted colours: light tip at night, dark by day */
   background: var(--nbn-text);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
+  box-shadow: var(--nbn-shadow-sm);
   pointer-events: none;
   z-index: 5;
 }
@@ -238,9 +229,15 @@ img.lazy.is-loaded { opacity: 1; animation: lazyFade .5s ease; background: none;
 .lazy-status { font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
-  .scroll-progress__bar::after, img.lazy, .stat-num.is-finished, .ac-list { animation: none; }
+  img.lazy, .stat-num.is-finished, .ac-list, .scroll-progress.is-done .scroll-progress__bar { animation: none; }
 }
 @media (max-width: 575.98px) {
   .nbn-toasts { left: 1rem; right: 1rem; align-items: stretch; }
   .nbn-toast { max-width: none; min-width: 0; }
 }
+
+/* ---------- CheapShark deals (js/deals-api.js) ---------- */
+/* the API pictures have different sizes → a fixed area, the picture fits inside it */
+.deal-thumb { height: 120px; display: flex; align-items: center; justify-content: center; background: var(--nbn-surface-2); overflow: hidden; }
+.deal-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.deal-skeleton-img { display: block; height: 96px; }

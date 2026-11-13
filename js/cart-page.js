@@ -56,7 +56,7 @@ function renderCart() {
   if (cart.length === 0) {
     cartItemsEl.innerHTML = `
       <li class="empty-state rounded-3 text-center p-5">
-        <span class="fs-1 d-block mb-2" aria-hidden="true">🛒</span>
+        <span class="empty-icon" aria-hidden="true"><i class="bi bi-cart-x"></i></span>
         <h2 class="h5">Your cart is empty</h2>
         <p class="text-body-secondary">Head to the catalog to find your next game.</p>
         <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
@@ -129,12 +129,20 @@ document.getElementById('promo-form').addEventListener('submit', e => {
   e.preventDefault();
   const input = document.getElementById('promo-input');
   const code = input.value.trim().toUpperCase();
+  // empty field → the error under the field (js/validators.js), nothing else happens
+  if (!Validators.isRequired(code)) {
+    Validators.setError(input, 'Enter a promo code.');
+    input.focus();
+    return;
+  }
   if (code === 'NEXTSTEP') {
+    Validators.setError(input, '');
     setPromo(0.1);
     toast('Promo code applied: −10%', 'success');
     if (window.SoundFX) SoundFX.play('success');
   } else {
     setPromo(0);
+    Validators.setError(input, 'Unknown promo code.');
     toast('Unknown promo code', 'error');
     if (window.SoundFX) SoundFX.play('error');
     input.classList.remove('shake');
@@ -155,7 +163,7 @@ const Checkout = {
   step: 1,
   LAST: 3,
   // the data typed by the user — kept between the steps
-  order: { name: '', email: '', platform: 'Steam (PC)', method: 'NBN Wallet', gift: false },
+  order: { name: '', email: '', phone: '', platform: 'Steam (PC)', method: 'NBN Wallet', gift: false },
 
   el: {
     section: document.getElementById('checkout'),
@@ -169,33 +177,35 @@ const Checkout = {
     done: document.getElementById('order-done')
   },
 
-  EMAIL_RE: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+  /* the rules of every step (js/validators.js); each returns an error text or '' */
+  RULES: {
+    1: {
+      'co-name': v => !Validators.isRequired(v) ? 'Please enter your name.' : v.trim().length < 2 ? 'Name must be at least 2 characters.' : '',
+      'co-email': v => !Validators.isRequired(v) ? 'Email is required.' : !Validators.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : '',
+      'co-phone': v => !Validators.isRequired(v) ? 'Phone number is required.' : !Validators.isPhone(v) ? 'Enter a Kazakhstan number: +7 7XX XXX XX XX.' : ''
+    },
+    2: {},                                     // step 2 has defaults for everything
+    3: { 'co-agree': checked => checked ? '' : 'Please tick this box to place the order.' }
+  },
 
   // read the inputs of the form into this.order
   saveInputs() {
     const f = this.el.form.elements;
     this.order.name = f.name.value.trim();
     this.order.email = f.email.value.trim();
+    this.order.phone = f.phone.value.trim();
     this.order.platform = f.platform.value;
     this.order.method = f.method.value;
     this.order.gift = f.gift.checked;
   },
 
   // check the current step; returns true when it is OK
+  // (the first wrong field gets the focus; after a failed "Next" the fields are re-checked while typing)
   validate(step) {
-    const f = this.el.form.elements;
-    const mark = (el, ok) => { el.classList.toggle('is-invalid', !ok); return ok; };
-    switch (step) {
-      case 1: {
-        const okName = mark(f.name, this.order.name.length >= 2);
-        const okEmail = mark(f.email, this.EMAIL_RE.test(this.order.email));
-        return okName && okEmail;
-      }
-      case 3:
-        return mark(document.getElementById('co-agree'), document.getElementById('co-agree').checked);
-      default:
-        return true;                         // step 2 has defaults for everything
-    }
+    this.live.markSubmitted();
+    const firstBad = Validators.validateForm(this.RULES[step]);
+    if (firstBad) firstBad.focus();
+    return !firstBad;
   },
 
   // the callback used by Next / Back: shows exactly one step
@@ -222,9 +232,10 @@ const Checkout = {
     const rows = [
       ['Name', this.order.name],
       ['Email', this.order.email],
+      ['Phone', this.order.phone],
       ['Keys for', this.order.platform],
       ['Payment', this.order.method],
-      ['Gift', this.order.gift ? 'Yes 🎁' : 'No'],
+      ['Gift', this.order.gift ? 'Yes' : 'No'],
       ['Games', getCart().map(i => `${i.name} × ${i.qty}`).join(', ')],
       ['To pay', formatTenge(t.toPay) + (t.discount ? ` (−${formatTenge(t.discount)} promo)` : '')]
     ];
@@ -296,6 +307,8 @@ if (CART_MISSING) {
 };
 
 /* the buttons pass Checkout methods as callbacks */
+// live re-check of the checkout fields after the first failed "Next" (js/validators.js)
+Checkout.live = Validators.liveCheck(Checkout.el.form, Object.assign({}, Checkout.RULES[1], Checkout.RULES[3]));
 document.getElementById('checkout-btn').addEventListener('click', () => Checkout.open());
 Checkout.el.next.addEventListener('click', () => Checkout.next());
 Checkout.el.back.addEventListener('click', () => Checkout.back());

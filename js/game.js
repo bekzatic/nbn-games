@@ -8,7 +8,7 @@
       title, cover, price (Sale % + old price), developer link
       (catalog.html?q=…), platform badges (catalog.html?platform=…),
       system requirements table, the 3 best-rated similar games
-      (filter → sort → slice), wishlist button ♡ / ♥ with a toast.
+      (filter → sort → slice), wishlist button (heart icon) with a toast.
    2. start() — async/await: waits for the data, then showGame();
       on an error it shows "Could not load the game" instead of
       "Loading…" forever. Unknown id → "Game not found".
@@ -61,7 +61,7 @@ function showGame(allGames) {
     byId('crumb-title').textContent = game.title;
     byId('game-cover').src = game.img;
     byId('game-cover').alt = game.title + ' cover';
-    byId('game-genre').textContent = game.emoji + ' ' + game.genreLabel;
+    byId('game-genre').innerHTML = NBN.genreIcon(game.genre) + ' ' + game.genreLabel;
     byId('game-title').textContent = game.title;
 
     const full = Math.round(game.rating);
@@ -109,7 +109,7 @@ function showGame(allGames) {
           </table>
         </div>`;
     } else {
-      byId('req-box').innerHTML = `<div class="alert alert-secondary d-flex align-items-center gap-2 mb-0" role="note">🎮 <span>${escapeHtml(game.title)} is a console game (${game.platforms.join(', ')}) — no PC requirements.</span></div>`;
+      byId('req-box').innerHTML = `<div class="alert alert-secondary d-flex align-items-center gap-2 mb-0" role="note"><i class="bi bi-controller" aria-hidden="true"></i> <span>${escapeHtml(game.title)} is a console game (${game.platforms.join(', ')}) — no PC requirements.</span></div>`;
     }
 
     // Similar games: the 3 best-rated other games of the same genre (Bootstrap cards)
@@ -145,18 +145,25 @@ function showGame(allGames) {
     const paintWish = on => {          // ♥ / ♡ + aria-pressed show the current state
       wishBtn.classList.toggle('active', on);
       wishBtn.setAttribute('aria-pressed', on);
-      wishBtn.textContent = on ? '♥ In wishlist' : '♡ Wishlist';
+      wishBtn.innerHTML = on ? '<i class="bi bi-heart-fill" aria-hidden="true"></i> In wishlist' : '<i class="bi bi-heart" aria-hidden="true"></i> Wishlist';
     };
     if (typeof Wishlist === 'undefined') wishBtn.hidden = true;   // wishlist.js did not load
     else paintWish(Wishlist.has(game.id));
     wishBtn.addEventListener('click', () => {
       const on = Wishlist.toggle(game);
       paintWish(on);
+      if (on) {                             // the heart "pops" once (css: .heart-pop)
+        wishBtn.classList.remove('heart-pop');
+        void wishBtn.offsetWidth;
+        wishBtn.classList.add('heart-pop');
+      }
       if (window.SoundFX) SoundFX.play(on ? 'star' : 'click');
       toast(on ? `${game.title} added to wishlist` : `${game.title} removed from wishlist`, on ? 'heart' : 'info');
     });
     initReadMore(game);
     initLightbox(game);
+    // prices of this game in other stores — public CheapShark API (js/deals-api.js)
+    if (window.DealsAPI) DealsAPI.renderStorePrices(byId('store-prices'), game.title);
     initRating(game);
 
     // the "Copy link" button is handled by the copy feature in js/script.js
@@ -210,7 +217,7 @@ function initRating(game) {
   const stars = document.querySelectorAll('.star-btn');   // NodeList of 5 buttons
   const msg = byId('rate-msg');
   const KEY = 'nbn-rating-' + game.id;
-  const LABELS = ['', 'Not for me 😕', 'It\'s okay 🙂', 'Good game 👍', 'Great game 🔥', 'Masterpiece! 🏆'];
+  const LABELS = ['', 'Not for me', 'It\'s okay', 'Good game', 'Great game', 'Masterpiece!'];
   let rating = 0;
   try { rating = Number(localStorage.getItem(KEY)) || 0; } catch (e) { /* ignore */ }
 

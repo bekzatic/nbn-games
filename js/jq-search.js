@@ -7,7 +7,7 @@
      search box. Mouse or ↑ ↓ + Enter to choose, Esc to close.
    - Highlighting: every match is wrapped in <mark class="hl">
      (NBN.highlight in js/script.js: .html() + RegExp + .wrap()):
-       • catalog: game titles and platforms on the cards
+       • catalog: game titles on the cards
        • about:   all FAQ questions and answers
    ========================================================== */
 
@@ -155,7 +155,7 @@
     if (!$('#catalog-content').length) return;
     $(document).on('catalog:refresh', function (e, visible, query) {
       // looked up every time: the cards are created by catalog.js after the data loads
-      NBN.highlight($('#catalog-content .card-title, #catalog-content .card-text'), (query || '').trim());
+      NBN.highlight($('#catalog-content .card-title'), (query || '').trim());   // the titles (the meta line has icons)
     });
   }
 

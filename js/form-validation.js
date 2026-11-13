@@ -1,103 +1,86 @@
 /* ==========================================================
-   "Create account" form validation
+   "Create account" form — validation + registration
    Author: Bekzat Amanbek
    Page: profile.html → "Create account" form (#signup-form)
 
    How it works:
-   1. The form has the `novalidate` attribute, so the browser does NOT
-      show its own bubbles — all checks are done here in JavaScript.
-   2. On submit we run every rule from RULES. If a field fails, we add
-      Bootstrap's `.is-invalid` class and write the error text into the
-      `.invalid-feedback` element under the field.
-   3. After the first submit, fields are re-checked while the user types,
-      so the error disappears as soon as the value becomes correct.
-   4. If every field is valid, we show a success message.
+   1. The form has `novalidate` and no HTML validation attributes —
+      every check is done here with the shared js/validators.js.
+   2. On submit every rule from RULES runs; a wrong field gets
+      .is-invalid and its error text under it; the first wrong field
+      gets the focus. After the first submit, fields are re-checked
+      while the user types (Validators.liveCheck).
+   3. The strength meter under the password fills 0–4 parts while typing.
+   4. If everything is valid, the user is saved in localStorage with
+      Auth.register (js/auth.js). The same email can't be used twice.
+   5. Then the "nbn:registered" event tells js/profile.js to log the
+      new user in and show the profile.
    ========================================================== */
 
 (function () {
+  'use strict';
+
   const form = document.getElementById('signup-form');
   if (!form) return;
-
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  const MIN_PASSWORD = 8;
+  const V = window.Validators;
+  const value = id => document.getElementById(id).value;
 
   // Each rule returns an error message, or '' when the value is fine.
   const RULES = {
-    'su-name': v => {
-      if (!v.trim()) return 'Please enter your name.';
-      if (v.trim().length < 2) return 'Name must be at least 2 characters.';
-      return '';
-    },
-    'su-email': v => {
-      if (!v.trim()) return 'Email is required.';
-      if (!EMAIL_RE.test(v.trim())) return 'Enter a valid email, e.g. name@example.com.';
-      return '';
-    },
-    'su-password': v => {
-      if (!v) return 'Password is required.';
-      if (v.length < MIN_PASSWORD) return `Password must be at least ${MIN_PASSWORD} characters (now ${v.length}).`;
-      if (!/[A-Za-z]/.test(v) || !/\d/.test(v)) return 'Password must contain at least one letter and one number.';
-      return '';
-    },
-    'su-confirm': v => {
-      if (!v) return 'Please repeat your password.';
-      if (v !== form.elements['su-password'].value) return 'Passwords do not match.';
-      return '';
-    },
-    'su-terms': (v, el) => (el.checked ? '' : 'You must accept the terms to continue.')
+    'su-name': v => !V.isRequired(v) ? 'Please enter your name.'
+                  : v.trim().length < 2 ? 'Name must be at least 2 characters.' : '',
+    'su-email': v => !V.isRequired(v) ? 'Email is required.'
+                   : !V.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.'
+                   : Auth.findUser(v) ? 'An account with this email already exists.' : '',
+    'su-phone': v => !V.isRequired(v) ? 'Phone number is required.'
+                   : !V.isPhone(v) ? 'Enter a Kazakhstan number: +7 7XX XXX XX XX.' : '',
+    'su-password': v => !V.isRequired(v) ? 'Password is required.'
+                      : !V.isStrongPassword(v) ? 'Use 8+ characters with a letter, a digit and a special character.' : '',
+    'su-confirm': v => !V.isRequired(v) ? 'Please repeat your password.'
+                     : v !== value('su-password') ? 'Passwords do not match.' : '',
+    'su-terms': checked => (checked ? '' : 'You must accept the terms to continue.')
   };
+  const live = V.liveCheck(form, RULES);
 
-  let submittedOnce = false;
+  /* ---------- password strength meter ---------- */
+  const LEVELS = ['Password strength: —', 'Password strength: weak', 'Password strength: weak', 'Password strength: medium', 'Password strength: strong'];
+  const bar = document.getElementById('pw-meter-bar');
+  const meterText = document.getElementById('pw-meter-text');
 
-  function checkField(el) {
-    const rule = RULES[el.id];
-    if (!rule) return true;
-    const message = rule(el.value, el);
-    const feedback = document.getElementById(el.id + '-error');
-    el.classList.toggle('is-invalid', !!message);
-    el.classList.toggle('is-valid', !message && el.type !== 'checkbox');
-    el.setAttribute('aria-invalid', message ? 'true' : 'false');
-    if (feedback) feedback.textContent = message;
-    return !message;
+  // 0–4 points → the bar is 0–100 % wide and changes colour (CSS classes is-1 … is-4)
+  function paintMeter() {
+    const score = V.passwordStrength(value('su-password'));
+    bar.style.width = (score * 25) + '%';
+    bar.className = 'pw-meter__bar is-' + score;
+    meterText.textContent = LEVELS[score];
   }
-
-  function checkAll() {
-    let firstBad = null;
-    Object.keys(RULES).forEach(id => {
-      const el = form.elements[id];
-      if (!checkField(el) && !firstBad) firstBad = el;
-    });
-    return firstBad;
-  }
+  document.getElementById('su-password').addEventListener('input', () => {
+    paintMeter();
+    // changing the password must also re-check the confirmation (after the first submit)
+    if (document.getElementById('su-confirm').getAttribute('aria-invalid') === 'true') {
+      V.setError(document.getElementById('su-confirm'), RULES['su-confirm'](value('su-confirm')));
+    }
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    submittedOnce = true;
-    const success = document.getElementById('signup-success');
-    const firstBad = checkAll();
+    live.markSubmitted();
+    const firstBad = V.validateForm(RULES);
+    if (firstBad) { firstBad.focus(); return; }
 
-    if (firstBad) {
-      success.hidden = true;
-      firstBad.focus();
+    const data = { name: value('su-name'), email: value('su-email'), phone: value('su-phone'), password: value('su-password') };
+    const result = Auth.register(data);
+    if (!result.ok) {                       // e.g. registered in another tab a moment ago
+      V.setError(document.getElementById('su-email'), 'An account with this email already exists.');
+      document.getElementById('su-email').focus();
       return;
     }
-
-    const name = form.elements['su-name'].value.trim();
-    success.textContent = `Welcome, ${name}! Your account has been created (demo — no data is sent anywhere).`;
-    success.hidden = false;
     form.reset();
-    submittedOnce = false;
-    form.querySelectorAll('.is-valid, .is-invalid').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
+    live.reset();
+    paintMeter();
+    // js/profile.js logs the new user in and shows the profile
+    document.dispatchEvent(new CustomEvent('nbn:registered', { detail: { email: data.email.trim().toLowerCase() } }));
   });
-
-  // live re-check after the first attempt
-  form.addEventListener('input', e => {
-    if (!submittedOnce) return;
-    checkField(e.target);
-    // changing the password must also re-check the confirmation field
-    if (e.target.id === 'su-password') checkField(form.elements['su-confirm']);
-  });
-  form.addEventListener('change', e => { if (submittedOnce) checkField(e.target); });
 
   // switch between "Log in" and "Create account"
   document.querySelectorAll('[data-auth-switch]').forEach(btn => {

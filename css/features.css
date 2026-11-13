@@ -11,33 +11,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform .4s ease;
+  transition: transform var(--dur-slow) var(--ease-out);
 }
 
-/* small phones: compact navbar buttons so everything fits on one screen width */
+/* small phones: compact navbar buttons so everything fits on one line */
 @media (max-width: 399.98px) {
-  .site-nav .icon-btn,
-  .site-nav .order-lg-last > .btn:not(.navbar-toggler) { width: 2.1rem; height: 2.1rem; padding: 0; font-size: .9rem; }
-  .site-nav .lang-select { padding-right: 1.6rem; padding-left: .5rem; background-position: right .35rem center; }
-  .site-nav .navbar-brand img { height: 24px; }
-  .site-nav .order-lg-last { gap: .3rem !important; }
+  .site-nav .nav-actions > .icon-btn,
+  .site-nav .nav-actions > .dropdown > .icon-btn,
+  .site-nav .nav-actions > .nav-profile { width: 2.1rem; height: 2.1rem; padding: 0; justify-content: center; }
+  .site-nav .navbar-brand img { height: 26px; }
+  .site-nav .nav-actions { gap: .35rem !important; }
   .site-nav .navbar-toggler { padding: .25rem .5rem; }
+  .theme-switch { width: 3.2rem; }
 }
 
-/* 🎵 music button (js/music.js): glows softly while the music plays */
+/* music button (js/music.js): an orange ring while the music plays (no endless pulsing) */
 .music-btn.active {
   border-color: var(--nbn-accent);
+  color: var(--nbn-accent);
   box-shadow: 0 0 0 .2rem var(--bs-primary-bg-subtle);
-  animation: musicPulse 2.4s ease-in-out infinite;
 }
-@keyframes musicPulse { 50% { box-shadow: 0 0 0 .35rem var(--bs-primary-bg-subtle); } }
 
 /* profile avatar with initials */
 .avatar-76 { width: 76px; height: 76px; }
 
 /* ---------- Cart badge: CSS hides it, JS shows it when count > 0 ---------- */
 .cart-badge, .wish-badge { display: none; }
-.cart-badge.bump, .wish-badge.bump { animation: bump .45s ease; }
+.cart-badge.bump, .wish-badge.bump { animation: bump var(--dur-slow) var(--ease-out); }
 @keyframes bump {
   0%   { transform: translate(-50%, -50%) scale(1); }
   40%  { transform: translate(-50%, -50%) scale(1.6); }
@@ -55,9 +55,9 @@
 }
 
 /* ---------- Cards that appear (Load more, catalog filters) ---------- */
-.fade-in-up { animation: fadeInUp .5s ease both; }
+.fade-in-up { animation: fadeInUp var(--dur-slow) var(--ease-out) both; }
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: none; }
 }
 
@@ -179,7 +179,7 @@
 }
 
 /* ---------- Scroll reveal (js/main.js) ---------- */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
 .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- "Show current time" (about page, js/about.js) ---------- */
@@ -203,15 +203,11 @@
   z-index: 3000;
   pointer-events: none;
   background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .12) 0 1px, transparent 1px 3px);
-  animation: crtFlicker 3s steps(2) infinite;
 }
-@keyframes crtFlicker { 50% { opacity: .85; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .retro body::after { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .time-output.tick { animation: none; }
-  .music-btn.active { animation: none; }
   .fade-in-up, .checkout-step, .read-more-box, .star-btn.pop, .cart-badge.bump, .shake { animation: none; }
   .confetti { display: none; }
 }
@@ -223,3 +219,10 @@
 /* !important because Bootstrap's border-* / text-* utility classes use it too */
 #game-platforms a:hover,
 #game-platforms a:focus-visible { border-color: var(--nbn-accent) !important; color: var(--nbn-accent) !important; }
+
+/* ---------- Sign up: password strength meter (js/form-validation.js) ---------- */
+.pw-meter { height: 6px; border-radius: 999px; background: var(--nbn-border); overflow: hidden; }
+.pw-meter__bar { display: block; height: 100%; width: 0; transition: width .25s ease, background-color .25s ease; }
+.pw-meter__bar.is-1, .pw-meter__bar.is-2 { background: var(--bs-danger); }   /* weak */
+.pw-meter__bar.is-3 { background: var(--nbn-yellow); }                       /* medium */
+.pw-meter__bar.is-4 { background: var(--nbn-green); }                        /* strong */

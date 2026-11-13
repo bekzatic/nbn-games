@@ -40,13 +40,22 @@
   };
 })();
 
+/* Sticky header: after a little scrolling it gets a stronger blur + shadow (.is-scrolled in components.css) */
+(function () {
+  const nav = document.querySelector('.site-nav');
+  if (!nav) return;
+  const paint = () => nav.classList.toggle('is-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', paint, { passive: true });
+  paint();
+})();
+
 /* Back to top: appears after 400px of scrolling */
 (function () {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'btn btn-primary back-to-top';
   btn.setAttribute('aria-label', 'Back to top');
-  btn.textContent = '↑';
+  btn.innerHTML = '<i class="bi bi-arrow-up" aria-hidden="true"></i>';
   document.body.appendChild(btn);
 
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));

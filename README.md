@@ -8,6 +8,17 @@ a page for every game, a cart with a 3-step checkout, a profile with demo accoun
 an About page with an FAQ and a contact form. Everything is plain **HTML, CSS, Bootstrap 5,
 JavaScript and jQuery** — no frameworks, no build tools, no TypeScript.
 
+**Target audience:** students and young gamers in Kazakhstan (prices in ₸, interface in
+English / Russian / Kazakh) who want a quick way to find a game, compare its price with other
+stores and buy a digital key.
+
+**External public API:** [CheapShark](https://www.cheapshark.com/api/1.0/) (free, no key) —
+"Live deals" on the home page and "Prices in other stores" on every game page (`js/deals-api.js`).
+
+**Accounts:** sign up and log in work in the browser only — users are saved in
+`localStorage` (`nbn-users`, `nbn-current-user`). ⚠️ Storing passwords like this is unsafe;
+it is done only to demonstrate the idea in a learning project (see the comment in `js/auth.js`).
+
 **Live site**
 
 | Where | URL | Notes |
@@ -65,7 +76,8 @@ nbn-games/
 ├── cart.html             cart + 3-step checkout
 ├── profile.html          demo login, my games, wishlist, wallet, settings, security, notifications
 ├── about.html            team, FAQ with search, contact form
-├── media-queries.html    media-queries demo page in plain CSS (no Bootstrap)
+├── deals.html            live deals from 30+ stores (CheapShark API): store / price / sort filters
+├── media-queries.html    old study page (plain CSS, no Bootstrap) — not in the navigation any more
 ├── 404.html              "page not found" — GitHub Pages and Vercel show it for unknown addresses
 │
 ├── css/
@@ -81,6 +93,10 @@ nbn-games/
 │   ├── jquery-fallback.js    loads js/vendor/jquery if the CDN is offline
 │   ├── script.js             site-wide jQuery features + helpers (NBN.notify, NBN.highlight, NBN.withSpinner…)
 │   ├── games-api.js          NBN.loadGames() — the one place that loads data/games.json
+│   ├── deals-api.js          CheapShark public API: live deals + prices in other stores (cache 10 min)
+│   ├── deals-page.js         deals.html: filters + "Show more deals"
+│   ├── validators.js         isEmail, isStrongPassword, isPhone, isRequired + errors under the fields
+│   ├── auth.js               sign up / log in / log out in localStorage, user name in the navbar
 │   ├── catalog.js            catalog cards (renderCard), filters, sort, live search, URL
 │   ├── jq-search.js          autocomplete, highlighting in the catalog, FAQ search
 │   ├── game.js · home.js · cart-page.js · profile.js · about.js     one file per page
@@ -95,6 +111,7 @@ nbn-games/
 ├── api/contact.js            Vercel serverless function for the contact form (POST, JSON)
 ├── images/                   covers, logo (logo-full.png, logo-mark.png), favicon, team photos
 ├── vendor/bootstrap/         Bootstrap 5.3.3 (local)
+├── vendor/bootstrap-icons/   Bootstrap Icons 1.11.3 (local) — the ONE icon set of the site
 └── vercel.json               clean URLs on Vercel
 ```
 
@@ -129,6 +146,15 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Scroll reveal | sections slide in when they appear (`IntersectionObserver`), off for "reduce motion" | `js/main.js` | Nurkhan Nurzhau |
 | Back-to-top button | appears after 400 px of scrolling | `js/main.js` | Nurkhan Nurzhau |
 
+### Forms — the same rules everywhere (`js/validators.js`)
+
+Every `<form>` has `novalidate` and **no** HTML validation attributes (`required`, `pattern`,
+`minlength`, `maxlength`, `min`, `max`, `type="email"` — emails are `type="text" inputmode="email"`).
+JavaScript checks the fields; the error text appears under the field (Bootstrap `.is-invalid` +
+`.invalid-feedback`, never `alert`), the first wrong field gets the focus, and after the first
+submit every field is re-checked while typing. Forms: newsletter, subscribe popup, sign up, log in,
+settings, change password, wallet top-up, contact, promo code, checkout (with phone).
+
 ### Home — `index.html` (page author: Nurkhan Nurzhau)
 
 | Feature | How it works | File |
@@ -139,6 +165,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Random gaming fact (button or **F** key) | `fetch('data/facts.json')` with async/await + try/catch; a `while` loop never repeats the last fact; offline facts if the file can't be loaded | `js/home.js` |
 | Animated counters ("NBN Games in numbers") | jQuery `.animate()` on `{ value: 0 }` with a `step` callback, starts when the number scrolls into view | `js/script.js` |
 | Recently viewed | array of game ids in localStorage, newest first, max 4 | `js/recently-viewed.js` |
+| **Live deals** (public API) | `GET /deals?pageSize=8&sortBy=Savings` from CheapShark with async/await; skeleton while loading, error + "Retry", "no deals" state; cached 10 min in localStorage | `js/deals-api.js` |
 | Newsletter | spinner + "Please wait…", then a toast | `js/home.js`, `js/script.js` |
 
 ### Catalog — `catalog.html` (page author: Bekzat Amanbek)
@@ -149,7 +176,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Filters: genre, platform, price | one `state` object; jQuery `.filter()` keeps the matching cards, `.not()` hides the rest; `switch` for the price range; a "Reset filters" link appears next to the counter while a filter is on | `js/catalog.js` |
 | Live search | searches titles, platforms and developers (`data-developer`); filters on every key (`.on('keyup input')`); **/** focuses the box, **Esc** or the **×** button clears it | `js/catalog.js` |
 | Sort | price ↑ ↓, A → Z, rating (a `switch` returns the compare function) | `js/catalog.js` |
-| Shareable filters | filters are saved in the address (`?genre=rpg&q=witcher`) with `URLSearchParams`; the tab title follows them ("NBN Games — Catalog: RPG") | `js/catalog.js` |
+| Shareable + remembered filters | filters are saved in the address (`?genre=rpg&q=witcher`) with `URLSearchParams` and in localStorage ("nbn-catalog-filters") — coming back to the catalog restores the last search and filters; the tab title follows them ("NBN Games — Catalog: RPG") | `js/catalog.js` |
 | Autocomplete | up to 6 suggestions (by title or developer) with cover, genre and price; ↑ ↓ Enter Esc or mouse; ARIA combobox | `js/jq-search.js` |
 | Search highlighting | `NBN.highlight()`: `.html()` resets the text, a RegExp splits it, every match is `.wrap()`-ped in `<mark>` | `js/script.js`, `js/jq-search.js` |
 | Lazy loading of covers | `data-src` → `.attr('src')` when `.offset().top` comes near the window (on `.scroll()`); "🖼 9 / 42 covers loaded" | `js/script.js` |
@@ -164,6 +191,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Cover lightbox | overlay made with `createElement`; opens on click / Enter, closes with ×, outside click, Esc | `js/game.js` |
 | Wishlist ♡ and Copy link | `Wishlist.toggle()`; the copy button shows ✓ + "Copied to clipboard!" | `js/game.js`, `js/script.js` |
 | System requirements, similar games | Bootstrap table; the 3 best-rated games of the same genre (`filter` → `sort` → `slice`) | `js/game.js` |
+| **Prices in other stores** (public API) | CheapShark `GET /games?title=…` → `GET /games?id=…` + `/stores`: price in every store, best price first; loading / error + "Retry" / "not found" states | `js/deals-api.js` |
 | Developer and platform links | the developer opens the catalog with all their games (`catalog.html?q=…`), a platform badge with that platform filter (`?platform=xbox`) | `js/game.js` |
 
 ### Cart — `cart.html` (page author: Nursultan Rassulov)
@@ -178,8 +206,9 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 
 | Feature | How it works | File |
 |---|---|---|
-| Demo login | ⚠️ client-side demo only (see the comment in the file); 👁 shows / hides the password; spinner while "checking", toast after | `js/profile.js` |
-| Sign-up form validation | every rule in JavaScript, error text under each field, re-checked while typing | `js/form-validation.js` |
+| Sign up | name, email, phone (+7 7XX XXX XX XX), password (8+ characters with a letter, a digit and a special character) + strength meter; the user is saved in `localStorage` "nbn-users"; an email can be used only once; logged in right away | `js/form-validation.js`, `js/auth.js` |
+| Log in / log out | checks "nbn-users" (the 3 demo accounts still work); the user is kept in "nbn-current-user" until "Log out"; the navbar shows the name on every page; 👁 shows / hides the password. ⚠️ client-side demo only | `js/profile.js`, `js/auth.js` |
+| Profile data | name, email, phone and registration date of the logged-in user | `js/profile.js` |
 | My games + ▶ Play | progress bar 0 → 100 %, play counter text from a `switch` | `js/profile.js` |
 | Wishlist, wallet top-up, settings, password change, notifications | render functions with `map()`, data saved per user in localStorage | `js/profile.js` |
 
@@ -193,12 +222,35 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Show current time | `new Date().toLocaleTimeString()`; a `switch` tells whether the office is open | `js/about.js` |
 | Copy buttons | address, email, promo code → ✓ + tooltip + toast | `js/script.js` |
 
+### Deals — `deals.html` (Team Next Step)
+
+| Feature | How it works | File |
+|---|---|---|
+| Live deals (public API) | CheapShark `GET /deals` with store (`/stores`), max price and sort filters; 12 per page + "Show more deals"; skeleton / error + "Retry" / "no deals" states | `js/deals-page.js`, `js/deals-api.js` |
+
 ### Media queries demo — `media-queries.html` (page author: Bekzat Amanbek)
 
 Plain CSS without Bootstrap: responsive typography and a 3 → 2 → 1 card group built only with `@media`
-rules (`css/media-queries.css`). Linked from the footer ("Media queries demo").
+rules (`css/media-queries.css`). An old study page: it is kept in the project, but it is no longer linked
+from the shop (the Deals page took its place in the navigation).
 
 ---
+
+## Design system
+
+- **Tokens** in `css/theme.css` for both themes: colours (bg, surface, text, muted, accent, accent-hover,
+  border, success, danger), shadows, radii, the spacing scale 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px,
+  section spacing (40 px on phones, 64 px from 768 px) and animation timings (150 / 200 / 300 ms, ease-out).
+  The other CSS files use only these variables.
+- **Fonts:** Space Grotesk (headings) + Inter (text); paragraphs are at most ~70 characters wide.
+- **Header:** sticky, with a blur that gets stronger after scrolling; Day / Night switch (sun / moon);
+  ⚙ Settings menu with language, sound and music; wishlist, cart and profile with counters; the current
+  page is highlighted.
+- **Icons:** Bootstrap Icons everywhere (genres, platforms, menus, empty states, toasts) — no emoji icons.
+- **Light theme:** its own warm grey page with white cards, soft shadows and a darker orange (WCAG AA).
+- **Micro-interactions:** buttons lift on hover and press in on click, cards lift and zoom the cover,
+  the gear turns, the cart badge and the wishlist heart pop, sections slide in (20 px) when they appear.
+  Nothing loops forever, and everything is off with "reduce motion".
 
 ## Quality checks
 

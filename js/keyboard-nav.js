@@ -78,7 +78,7 @@
   function toggleRetro() {
     const on = document.documentElement.classList.toggle('retro');
     if (window.SoundFX) SoundFX.play(on ? 'success' : 'toggle');
-    if (window.showToast) showToast(on ? '👾 Retro mode ON — type the code again to turn it off' : 'Retro mode OFF');
+    if (window.showToast) showToast(on ? 'Retro mode ON — type the code again to turn it off' : 'Retro mode OFF', 'info');
   }
 })();
 

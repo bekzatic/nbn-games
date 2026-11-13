@@ -10,6 +10,12 @@
   background-color: var(--nbn-nav-bg);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--nbn-border);
+  transition: box-shadow var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+}
+/* after scrolling down (class set in js/main.js): stronger blur + a soft shadow */
+.site-nav.is-scrolled {
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: var(--nbn-shadow-md);
 }
 
 .site-footer {
@@ -24,6 +30,18 @@
 
 .footer-link:hover { color: var(--nbn-accent); }
 
+/* round social / share icons in the footer */
+.social-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.25rem; height: 2.25rem;
+  border: 1px solid var(--nbn-border-strong);
+  border-radius: 50%;
+  color: var(--nbn-muted);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+.social-link:hover, .social-link:focus-visible { color: var(--nbn-accent); border-color: var(--nbn-accent); transform: translateY(-2px); }
+
 .crumb-link {
   color: var(--nbn-muted);
   text-decoration: none;
@@ -37,16 +55,18 @@
 .hero-logo {
   width: 100%;
   max-width: 520px;
+  margin-inline: auto;
   height: auto;
-  filter: drop-shadow(0 12px 30px rgba(255, 90, 31, 0.25));
-  animation: logoFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 30px rgba(var(--bs-primary-rgb), 0.25));
+  animation: heroIn var(--dur-slow) var(--ease-out) both;   /* appears once — no endless floating */
 }
-@keyframes logoFloat { 50% { transform: translateY(-8px); } }
-@media (prefers-reduced-motion: reduce) { .hero-logo { animation: none; } }
+@keyframes heroIn { from { opacity: 0; transform: translateY(16px); } }
+/* phones / tablets: the logo is smaller, so the text and the buttons fit on the first screen */
+@media (max-width: 991.98px) { .hero-logo { max-width: 260px; display: block; } }
 
 .hero {
   background:
-    radial-gradient(circle at 85% 30%, rgba(255, 90, 31, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(var(--bs-primary-rgb), 0.18), transparent 45%),
     linear-gradient(135deg, var(--nbn-surface-2) 0%, var(--nbn-bg) 60%);
   border-bottom: 1px solid var(--nbn-border);
 }
@@ -72,19 +92,22 @@
 
 /* ---------- Panels & tiles ---------- */
 
-.value-card { transition: border-color 0.2s, transform 0.2s; }
+.value-card { transition: border-color var(--dur) var(--ease-out), transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out); }
 
 .value-card:hover {
   border-color: var(--nbn-accent);
   transform: translateY(-4px);
+  box-shadow: var(--nbn-shadow-md);
 }
 
 .empty-state { border: 1px dashed var(--nbn-border-strong); }
+/* the big icon on top of every empty / "not found" / error box */
+.empty-icon { display: block; margin-bottom: var(--space-3); font-size: 2.5rem; line-height: 1; color: var(--nbn-accent); }
 
 .newsletter {
-  background: linear-gradient(135deg, rgba(255, 90, 31, 0.16), var(--nbn-surface) 60%);
+  background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.16), var(--nbn-surface) 60%);
   border: 1px solid var(--nbn-border);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
 }
 
 
@@ -92,31 +115,31 @@
 
 .game-card {
   overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
 }
 
 /* the same effect for the mouse (:hover) and for the keyboard (Tab onto a link or button in the card) */
 .game-card:hover,
 .game-card:has(:focus-visible) {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   border-color: var(--nbn-accent);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--nbn-shadow-lg);
 }
 
 /* "★ 4.9" on catalog cards: the star in our gold, the number in normal text colour */
 .card-rating-star { color: var(--nbn-yellow); }
 
-.game-card .card-img-top { transition: transform 0.4s; }
+.game-card .card-img-top { transition: transform var(--dur-slow) var(--ease-out); }
 .game-card:hover .card-img-top,
 .game-card:has(:focus-visible) .card-img-top { transform: scale(1.05); }
 
 .sale-badge { z-index: 2; }
 
 .wallet-card {
-  background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%);   /* deep orange: white text stays readable */
+  background: linear-gradient(135deg, var(--nbn-wallet-start) 0%, var(--nbn-wallet-end) 100%);
   color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(255, 90, 31, 0.2);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 40px rgba(var(--bs-primary-rgb), 0.2);
 }
 
 
@@ -125,7 +148,7 @@
 .featured-carousel {
   background-color: var(--nbn-surface);
   border: 1px solid var(--nbn-border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 
 /* Bootstrap's dark mode paints the arrows black — keep them white
@@ -144,10 +167,10 @@
   width: 2.75rem;
   height: 2.75rem;
   background-size: 45%;
-  background-color: rgba(11, 13, 16, 0.85);
+  background-color: var(--nbn-overlay);
   border: 2px solid var(--nbn-accent);
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: background-color var(--dur) var(--ease-out);
 }
 
 .carousel-control-prev:hover .carousel-btn,
@@ -201,7 +224,7 @@
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s;
+  transition: opacity var(--dur) var(--ease-out);
 }
 
 .back-to-top.show {
@@ -212,11 +235,93 @@
 
 /* ---------- "Change background" button (js/bg-color.js) ---------- */
 /* the page colour changes smoothly instead of jumping */
-body { transition: background-color 0.6s ease; }
+body { transition: background-color var(--dur-slow) var(--ease-out); }
 /* the small dot that shows the current background colour */
 .bg-color-swatch { width: 12px; height: 12px; }
 
-/* People who turned off animations in their OS get none here either */
+/* People who turned off animations in their OS get none at all: no transitions, no animations */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+
+/* ==========================================================
+   Design system additions
+   ========================================================== */
+
+/* ---------- the same space between page sections everywhere ---------- */
+.section-pad { padding-block: var(--space-section); }    /* 40 px on phones, 64 px from 768 px */
+
+/* ---------- readable text: a paragraph is never wider than ~70 characters ---------- */
+main p { max-width: 70ch; }
+main .text-center p, main p.text-center, main p.mx-auto { margin-inline: auto; }
+
+/* ---------- buttons: hover lifts, pressing pushes in, focus is always visible ---------- */
+.btn {
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur) var(--ease-out),
+              background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+.btn:not(:disabled):not(.disabled):not(.btn-link):hover { transform: translateY(-2px); box-shadow: var(--nbn-shadow-sm); }
+.btn:not(:disabled):not(.disabled):active { transform: scale(.97); box-shadow: none; }
+.btn-group > .btn:hover, .btn-group > .btn:active { transform: none; }   /* buttons glued together stay in line */
+.btn:focus-visible { outline: 2px solid var(--nbn-accent); outline-offset: 2px; box-shadow: 0 0 0 .2rem var(--bs-focus-ring-color); }
+
+/* ---------- game cards: the buttons come up a little when the card is hovered ---------- */
+@media (hover: hover) {
+  /* only movement — no transparency, so the button text keeps its full contrast */
+  .game-card .card-footer .btn-group { transition: transform var(--dur) var(--ease-out); transform: translateY(4px); }
+  .game-card:hover .card-footer .btn-group,
+  .game-card:has(:focus-visible) .card-footer .btn-group { transform: none; }
+}
+/* platform icons on the cards (Windows, macOS, PlayStation, Xbox) */
+.platform-icons { display: inline-flex; gap: var(--space-2); font-size: 1rem; color: var(--nbn-muted); }
+
+/* ---------- navbar: Day / Night switch ---------- */
+.theme-switch {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: space-between;
+  width: 3.6rem; height: 2rem;
+  padding: 0 .45rem;
+  border: 1px solid var(--nbn-border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--nbn-surface-2);
+  color: var(--nbn-muted);
+  font-size: .8rem;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease-out);
+}
+.theme-switch:hover { border-color: var(--nbn-accent); }
+.theme-switch:focus-visible { outline: 2px solid var(--nbn-accent); outline-offset: 2px; }
+.theme-switch__thumb {                       /* the round knob: right = night, left = day */
+  position: absolute; top: 3px; left: calc(100% - 1.6rem - 3px);
+  width: 1.6rem; height: calc(2rem - 8px);
+  border-radius: 50%;
+  background: var(--nbn-accent);
+  box-shadow: var(--nbn-shadow-sm);
+  transition: left var(--dur-slow) var(--ease-out);
+}
+[data-bs-theme="light"] .theme-switch__thumb { left: 3px; }
+.theme-switch .bi-moon-stars-fill { color: var(--nbn-yellow); }
+.theme-switch .bi-sun-fill { color: var(--nbn-accent); }
+
+/* ---------- navbar: settings menu (language, sound, music) ---------- */
+.settings-btn .bi { transition: transform var(--dur-slow) var(--ease-out); }
+.settings-btn:hover .bi, .settings-btn[aria-expanded="true"] .bi { transform: rotate(60deg); }   /* the gear turns */
+.settings-menu {
+  --bs-dropdown-bg: var(--nbn-surface);
+  --bs-dropdown-border-color: var(--nbn-border);
+  min-width: 15rem;
+  padding: var(--space-4);
+  box-shadow: var(--nbn-shadow-lg);
+}
+.settings-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-2); }
+.settings-row + .settings-row { border-top: 1px solid var(--nbn-border); }
+.settings-row > span:first-child { white-space: nowrap; }
+
+/* active page in the navbar icons (cart / profile) */
+/* text in the darker accent: orange on light orange would be only ~4 : 1 in the Day theme */
+.nav-actions .btn.active { color: var(--bs-primary-text-emphasis); border-color: var(--nbn-accent); background: var(--bs-primary-bg-subtle); }
+
+/* ---------- wishlist heart: a short "pop" when a game is added ---------- */
+.heart-pop .bi { display: inline-block; animation: heartPop var(--dur-slow) var(--ease-out); }
+@keyframes heartPop { 50% { transform: scale(1.35); } }

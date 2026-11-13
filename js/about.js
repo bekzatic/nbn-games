@@ -20,7 +20,7 @@
       case 6:            // Saturday
         return '· weekend, we reply on Monday';
       default:
-        return hour >= 9 && hour < 18 ? '· we are online ✅' : '· office closed, we reply tomorrow';
+        return hour >= 9 && hour < 18 ? '· we are online' : '· office closed, we reply tomorrow';
     }
   }
 

@@ -6,6 +6,12 @@
    progress animation + sound, Wishlist panel.
    Changes (balance, settings, password…) are kept in this
    browser's localStorage, so they survive a page reload.
+
+   Accounts: users who signed up (localStorage "nbn-users", js/auth.js)
+   + the three demo ACCOUNTS below. getAccount(email) looks in both.
+   The person who is logged in is kept in "nbn-current-user" (Auth),
+   so the login survives closing the browser until "Log out".
+   Every form here is checked with js/validators.js (no HTML validation).
    ========================================================= */
 // messages go through main.js; if that file did not load, the page keeps working without them
 const toast = (text, type) => { if (window.showToast) window.showToast(text, type || 'success'); };
@@ -48,10 +54,10 @@ const COVERS = {
 };
 
 const NOTIFICATIONS = [
-  { id: 'n1', icon: '🔥', title: 'Weekend sale: up to −40%', text: 'Cyberpunk 2077 and other RPGs are on sale until Sunday.', time: '2 hours ago' },
-  { id: 'n2', icon: '🎁', title: 'Promo code for you', text: 'Use NEXTSTEP in the cart to get −10% on your next order.', time: 'Yesterday' },
-  { id: 'n3', icon: '🎮', title: 'New in catalog', text: 'Farming Simulator 25 and F1 25 are now available.', time: '3 days ago' },
-  { id: 'n4', icon: '🔒', title: 'New login', text: 'Your account was accessed from Chrome on Windows.', time: 'Last week' }
+  { id: 'n1', icon: 'fire', title: 'Weekend sale: up to −40%', text: 'Cyberpunk 2077 and other RPGs are on sale until Sunday.', time: '2 hours ago' },
+  { id: 'n2', icon: 'gift', title: 'Promo code for you', text: 'Use NEXTSTEP in the cart to get −10% on your next order.', time: 'Yesterday' },
+  { id: 'n3', icon: 'controller', title: 'New in catalog', text: 'Farming Simulator 25 and F1 25 are now available.', time: '3 days ago' },
+  { id: 'n4', icon: 'shield-lock', title: 'New login', text: 'Your account was accessed from Chrome on Windows.', time: 'Last week' }
 ];
 
 // byId('login-form') is short for document.getElementById('login-form').
@@ -69,12 +75,16 @@ function load(key, fallback) {
 function save(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
 }
-function session(action, value) {
-  try {
-    if (action === 'get') return sessionStorage.getItem('nbn_logged_in');
-    if (action === 'set') sessionStorage.setItem('nbn_logged_in', value);
-    if (action === 'del') sessionStorage.removeItem('nbn_logged_in');
-  } catch { return null; }
+const V = window.Validators;
+
+/* One account by email: a demo account, or a user who signed up (js/auth.js).
+   A new user starts with an empty library and a 0 ₸ wallet. */
+function getAccount(mail) {
+  if (ACCOUNTS[mail]) return ACCOUNTS[mail];
+  const registered = window.Auth && Auth.findUser(mail);
+  if (!registered) return null;
+  const joined = new Date(registered.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  return { name: registered.name, password: registered.password, phone: registered.phone, balance: 0, joined, library: [] };
 }
 
 /* The user's saved data = defaults from ACCOUNTS + whatever they changed */
@@ -82,11 +92,12 @@ let email = null;
 let user = null;
 
 function loadUser(mail) {
-  const acc = ACCOUNTS[mail];
+  const acc = getAccount(mail);
   const defaults = {
     name: acc.name, country: 'Kazakhstan', platform: 'PC', currency: '₸ Tenge', visibility: 'public',
     balance: acc.balance, password: acc.password,
-    transactions: [{ label: 'Welcome bonus', amount: acc.balance, date: acc.joined }],
+    phone: acc.phone || '',
+    transactions: acc.balance ? [{ label: 'Welcome bonus', amount: acc.balance, date: acc.joined }] : [],
     twoFA: false, alerts: true,
     prefs: { deals: true, releases: true, receipts: true, newsletter: false },
     read: [], sessionsCleared: false,
@@ -103,9 +114,10 @@ const profileContent = byId('profile-content');
 const loginForm = byId('login-form');
 const loginError = byId('login-error');
 
+// a password changed in "Security" is saved with the user's data and wins over the original one
 function passwordFor(mail) {
   const saved = load('nbn_user_' + mail, {});
-  return saved.password || ACCOUNTS[mail].password;
+  return saved.password || getAccount(mail).password;
 }
 
 function showProfile(mail) {
@@ -114,7 +126,7 @@ function showProfile(mail) {
   loginGate.hidden = true;
   profileContent.hidden = false;
   byId('profile-aside').classList.remove('d-none');  // sidebar column appears (col-lg-3)
-  session('set', mail);
+  Auth.login(mail, user.name);                       // "nbn-current-user" + the name in the navbar
   renderAll();
   openSection((location.hash || '#profile').slice(1));
 }
@@ -124,24 +136,37 @@ function showLogin() {
   loginGate.hidden = false;
   profileContent.hidden = true;
   byId('profile-aside').classList.add('d-none');     // main column is centred alone
-  session('del');
+  Auth.logout();                                     // clears "nbn-current-user"
   loginForm.reset();
+  loginLive.reset();
   setPasswordVisible(false);                      // after logout the password is hidden again
   loginError.hidden = true;
   history.replaceState(null, '', location.pathname);
 }
 
+// the login form: first the fields themselves, then email + password against the saved accounts
+const LOGIN_RULES = {
+  'login-email': v => !V.isRequired(v) ? 'Email is required.' : !V.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : '',
+  'login-password': v => !V.isRequired(v) ? 'Password is required.' : ''
+};
+const loginLive = V.liveCheck(loginForm, LOGIN_RULES);
+
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
+  loginLive.markSubmitted();
+  loginError.hidden = true;
+  const firstBad = V.validateForm(LOGIN_RULES);
+  if (firstBad) { firstBad.focus(); return; }
+
   const mail = byId('login-email').value.trim().toLowerCase();
   const button = loginForm.querySelector('[type="submit"]');
-  const ok = ACCOUNTS[mail] && passwordFor(mail) === byId('login-password').value;
+  const ok = !!getAccount(mail) && passwordFor(mail) === byId('login-password').value;
   // spinner + "Please wait…" while we "check" the password, then a toast (NBN.withSpinner in js/script.js)
   const finish = () => {
     if (ok) {
       loginError.hidden = true;
       showProfile(mail);
-      if (window.showToast) showToast(`Successfully logged in — welcome, ${ACCOUNTS[mail].name.split(' ')[0]}!`, 'success');
+      if (window.showToast) showToast(`Successfully logged in — welcome, ${user.name.split(' ')[0]}!`, 'success');
     } else {
       loginError.hidden = false;
       if (window.showToast) showToast('Wrong email or password', 'error');
@@ -153,11 +178,18 @@ loginForm.addEventListener('submit', e => {
 
 byId('logout-link').addEventListener('click', e => { e.preventDefault(); showLogin(); });
 
+// a new account was created (js/form-validation.js) → log the new user in right away
+document.addEventListener('nbn:registered', e => {
+  showProfile(e.detail.email);
+  if (window.showToast) showToast(`Account created — welcome, ${user.name.split(' ')[0]}!`, 'success');
+});
+
 /* 👁 button: shows / hides the password by switching the input type
    between "password" (dots) and "text" (readable) */
 function setPasswordVisible(show) {
   const btn = byId('toggle-password');
   byId('login-password').type = show ? 'text' : 'password';
+  btn.innerHTML = `<i class="bi bi-${show ? 'eye-slash' : 'eye'}" aria-hidden="true"></i>`;
   btn.setAttribute('aria-pressed', String(show));
   btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
   btn.title = show ? 'Hide password' : 'Show password';
@@ -186,7 +218,7 @@ document.addEventListener('click', e => {
 
 /* ---------- Render everything that depends on the user ---------- */
 function renderAll() {
-  const acc = ACCOUNTS[email];
+  const acc = getAccount(email);
   qsAll('.js-name').forEach(el => el.textContent = user.name);
   qsAll('.js-initials').forEach(el => el.textContent = user.name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase());
   qsAll('.js-email').forEach(el => el.textContent = email);
@@ -197,6 +229,7 @@ function renderAll() {
   byId('profile-joined-short').textContent = acc.joined.split(' ').slice(-1)[0];
   byId('info-country').textContent = user.country;
   byId('info-platform').textContent = user.platform;
+  byId('info-phone').textContent = user.phone || '—';
   renderLibrary();
   renderWishlist();
   renderTransactions();
@@ -206,10 +239,10 @@ function renderAll() {
 }
 
 /* ---------- My games ---------- */
-// (the ▶ Play buttons also contain the game name for screen readers, hidden on screen: .visually-hidden)
+// (the Play buttons also contain the game name for screen readers, hidden on screen: .visually-hidden)
 function renderLibrary() {
   const q = byId('library-search').value.trim().toLowerCase();
-  const games = ACCOUNTS[email].library.filter(t => t.toLowerCase().includes(q));
+  const games = getAccount(email).library.filter(t => t.toLowerCase().includes(q));
   byId('library-grid').innerHTML = games.map(title => `
     <div class="col">
       <article class="card game-card h-100">
@@ -221,7 +254,7 @@ function renderLibrary() {
           </div>
         </a>
         <div class="card-footer border-0 px-3 pb-3 pt-0">
-          <button type="button" class="btn btn-primary btn-sm w-100 play-btn position-relative overflow-hidden" data-title="${title.replace(/"/g, '&quot;')}"><span class="play-progress" aria-hidden="true"></span><span class="play-label position-relative">▶ Play</span><span class="visually-hidden"> ${title}</span></button>
+          <button type="button" class="btn btn-primary btn-sm w-100 play-btn position-relative overflow-hidden" data-title="${title.replace(/"/g, '&quot;')}"><span class="play-progress" aria-hidden="true"></span><span class="play-label position-relative"><i class="bi bi-play-fill" aria-hidden="true"></i> Play</span><span class="visually-hidden"> ${title}</span></button>
         </div>
       </article>
     </div>`).join('');
@@ -240,7 +273,7 @@ function playsText(title) {
   }
 }
 
-/* ▶ Play: a progress bar fills the button (animation), a sound plays,
+/* Play: a progress bar fills the button (animation), a sound plays,
    then the launch counter for this game is saved for the user. */
 byId('library-grid').addEventListener('click', e => {
   const btn = e.target.closest('.play-btn');
@@ -262,13 +295,13 @@ byId('library-grid').addEventListener('click', e => {
       user.plays = user.plays || {};
       user.plays[title] = (user.plays[title] || 0) + 1;
       saveUser();
-      label.textContent = '🎮 Have fun!';
+      label.textContent = 'Have fun!';
       btn.closest('.card').querySelector('.js-plays').textContent = playsText(title);
       if (window.SoundFX) SoundFX.play('success');
       toast(`${title} is running — have fun!`);
       setTimeout(() => {
         bar.style.width = '0';
-        label.textContent = '▶ Play';
+        label.innerHTML = '<i class="bi bi-play-fill" aria-hidden="true"></i> Play';
         btn.disabled = false;
       }, 1500);
     }
@@ -292,7 +325,7 @@ function renderWishlist() {
         <div class="card-footer border-0 px-3 pb-3 pt-0">
           <div class="btn-group btn-group-sm w-100" role="group" aria-label="${g.title.replace(/"/g, '&quot;')} actions">
             <button type="button" class="btn btn-primary add-to-cart-btn" data-name="${g.title.replace(/"/g, '&quot;')}" data-price="${g.price}" data-img="${g.img}">Add to cart</button>
-            <button type="button" class="btn btn-outline-light wish-remove" aria-label="Remove ${g.title.replace(/"/g, '&quot;')} from wishlist">Remove ♥</button>
+            <button type="button" class="btn btn-outline-light wish-remove" aria-label="Remove ${g.title.replace(/"/g, '&quot;')} from wishlist"><i class="bi bi-heartbreak" aria-hidden="true"></i> Remove</button>
           </div>
         </div>
       </article>
@@ -315,7 +348,7 @@ byId('wish-grid').addEventListener('click', e => {
 function renderTransactions() {
   byId('tx-list').innerHTML = user.transactions.slice().reverse().map(t => `
     <li class="list-group-item d-flex align-items-center gap-3 py-3">
-      <span aria-hidden="true">${t.amount >= 0 ? '➕' : '➖'}</span>
+      <i class="bi bi-${t.amount >= 0 ? 'plus-circle text-success' : 'dash-circle text-primary'} fs-5" aria-hidden="true"></i>
       <span class="d-flex flex-column flex-grow-1"><strong>${t.label}</strong><small class="text-body-tertiary">${t.date}</small></span>
       <span class="fw-bold ${t.amount >= 0 ? 'text-success' : 'text-primary'}">${t.amount >= 0 ? '+' : '−'}${tenge(Math.abs(t.amount))}</span>
     </li>`).join('');
@@ -326,22 +359,34 @@ byId('amount-chips').addEventListener('click', e => {
   if (!chip) return;
   qsAll('#amount-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
   byId('topup-amount').value = chip.dataset.amount;
+  V.setError(byId('topup-amount'), '');                // a chip always gives a correct amount
 });
+
+// the amount: only digits (spaces allowed), from 100 to 500 000 ₸
+const TOPUP_RULES = {
+  'topup-amount': v => {
+    const amount = Number(v.replace(/\s/g, ''));
+    if (!V.isRequired(v)) return 'Enter an amount.';
+    if (!/^\d+$/.test(v.replace(/\s/g, '')) || amount < 100 || amount > 500000) return 'Enter an amount between 100 and 500 000 ₸.';
+    return '';
+  }
+};
+const topupLive = V.liveCheck(byId('topup-form'), TOPUP_RULES);
 
 byId('topup-form').addEventListener('submit', e => {
   e.preventDefault();
-  const amount = parseInt(byId('topup-amount').value.replace(/\s/g, ''), 10);
+  topupLive.markSubmitted();
   const msg = byId('topup-msg');
-  if (!amount || amount < 100 || amount > 500000) {
-    msg.textContent = 'Enter an amount between 100 and 500 000 ₸.';
-    msg.className = 'small mb-3 text-danger';
-    return;
-  }
+  msg.textContent = '';
+  const firstBad = V.validateForm(TOPUP_RULES);
+  if (firstBad) { firstBad.focus(); return; }
+  const amount = Number(byId('topup-amount').value.replace(/\s/g, ''));
   user.balance += amount;
   user.transactions.push({ label: 'Top up · ' + byId('topup-method').value, amount, date: today() });
   saveUser();
   renderAll();
   byId('topup-form').reset();
+  topupLive.reset();
   qsAll('#amount-chips .chip').forEach(c => c.classList.remove('active'));
   msg.textContent = `Done! ${tenge(amount)} added to your wallet.`;
   msg.className = 'small mb-3 text-success';
@@ -357,50 +402,66 @@ function fillSettings() {
   qsAll('input[name="visibility"]').forEach(r => r.checked = r.value === user.visibility);
 }
 
+const SETTINGS_RULES = {
+  'set-name': v => !V.isRequired(v) ? 'Please enter your name.' : v.trim().length < 2 ? 'Name must be at least 2 characters.' : ''
+};
+const settingsLive = V.liveCheck(byId('settings-form'), SETTINGS_RULES);
+
 byId('settings-form').addEventListener('submit', e => {
   e.preventDefault();
+  settingsLive.markSubmitted();
+  const firstBad = V.validateForm(SETTINGS_RULES);
+  if (firstBad) { firstBad.focus(); return; }
   const name = byId('set-name').value.trim();
-  if (!name) return;
   user.name = name;
   user.country = byId('set-country').value;
   user.platform = byId('set-platform').value;
   user.currency = byId('set-currency').value;
   user.visibility = document.querySelector('input[name="visibility"]:checked').value;
   saveUser();
+  Auth.rename(user.name);                            // the navbar shows the new name
   renderAll();
   toast('Settings saved');
 });
 
-byId('settings-reset').addEventListener('click', () => { fillSettings(); toast('Changes discarded'); });
+byId('settings-reset').addEventListener('click', () => { fillSettings(); settingsLive.reset(); toast('Changes discarded'); });
 
 /* ---------- Security ---------- */
 function renderSecurity() {
   byId('sec-2fa').checked = user.twoFA;
   byId('sec-alerts').checked = user.alerts;
-  const sessions = [{ device: '💻 This browser', place: 'Astana, Kazakhstan · now', current: true }];
+  const sessions = [{ icon: 'laptop', device: 'This browser', place: 'Astana, Kazakhstan · now', current: true }];
   if (!user.sessionsCleared) {
-    sessions.push({ device: '📱 iPhone · NBN app', place: 'Astana, Kazakhstan · 2 days ago' });
-    sessions.push({ device: '🖥️ Windows · Chrome', place: 'Almaty, Kazakhstan · last week' });
+    sessions.push({ icon: 'phone', device: 'iPhone · NBN app', place: 'Astana, Kazakhstan · 2 days ago' });
+    sessions.push({ icon: 'pc-display', device: 'Windows · Chrome', place: 'Almaty, Kazakhstan · last week' });
   }
   byId('session-list').innerHTML = sessions.map(s => `
     <li class="list-group-item d-flex justify-content-between align-items-center gap-2 px-0">
-      <span class="d-flex flex-column">${s.device}<small class="text-body-tertiary">${s.place}</small></span>${s.current ? '<span class="badge rounded-pill border border-success text-success">Current</span>' : ''}</li>`).join('');
+      <span class="d-flex align-items-center gap-2"><i class="bi bi-${s.icon} fs-5" aria-hidden="true"></i><span class="d-flex flex-column">${s.device}<small class="text-body-tertiary">${s.place}</small></span></span>${s.current ? '<span class="badge rounded-pill border border-success text-success">Current</span>' : ''}</li>`).join('');
   byId('sessions-out').disabled = !!user.sessionsCleared;
 }
 
+// each error is shown under its own field
+const PASSWORD_RULES = {
+  'pw-current': v => !V.isRequired(v) ? 'Enter your current password.' : v !== user.password ? 'Current password is incorrect.' : '',
+  'pw-new': v => !V.isRequired(v) ? 'Enter a new password.'
+               : !V.isStrongPassword(v) ? 'Use 8+ characters with a letter, a digit and a special character.'
+               : v === byId('pw-current').value ? 'The new password must be different.' : '',
+  'pw-confirm': v => !V.isRequired(v) ? 'Please repeat the new password.' : v !== byId('pw-new').value ? 'The new passwords do not match.' : ''
+};
+const passwordLive = V.liveCheck(byId('password-form'), PASSWORD_RULES);
+
 byId('password-form').addEventListener('submit', e => {
   e.preventDefault();
+  passwordLive.markSubmitted();
   const msg = byId('pw-msg');
-  const current = byId('pw-current').value, next = byId('pw-new').value, again = byId('pw-confirm').value;
-  let error = '';
-  if (current !== user.password) error = 'Current password is incorrect.';
-  else if (next.length < 6) error = 'New password must be at least 6 characters.';
-  else if (next !== again) error = 'The new passwords do not match.';
-  else if (next === current) error = 'The new password must be different.';
-  if (error) { msg.textContent = error; msg.className = 'small mb-3 text-danger'; return; }
-  user.password = next;
+  msg.textContent = '';
+  const firstBad = V.validateForm(PASSWORD_RULES);
+  if (firstBad) { firstBad.focus(); return; }
+  user.password = byId('pw-new').value;
   saveUser();
   byId('password-form').reset();
+  passwordLive.reset();
   msg.textContent = 'Password updated. Use it the next time you log in.';
   msg.className = 'small mb-3 text-success';
   toast('Password changed');
@@ -428,7 +489,7 @@ function renderNotifications() {
   byId('notif-read-all').disabled = unread === 0;
   byId('notif-list').innerHTML = NOTIFICATIONS.map(n => `
     <li class="list-group-item d-flex align-items-start gap-3 py-3 ${user.read.includes(n.id) ? '' : 'border-start border-3 border-primary is-unread'}" data-id="${n.id}">
-      <span class="fs-5" aria-hidden="true">${n.icon}</span>
+      <i class="bi bi-${n.icon} fs-5 text-primary" aria-hidden="true"></i>
       <span class="d-flex flex-column flex-grow-1 gap-1"><strong>${n.title}</strong><span class="small text-body-secondary">${n.text}</span><small class="text-body-tertiary">${n.time}</small></span>
       ${user.read.includes(n.id) ? '' : `<button type="button" class="btn btn-link btn-sm text-nowrap p-0" aria-label="Mark “${n.title}” as read">Mark read</button>`}
     </li>`).join('');
@@ -459,5 +520,6 @@ qsAll('[data-pref]').forEach(input => input.addEventListener('change', () => {
 }));
 
 /* ---------- Start ---------- */
-const savedEmail = session('get');
-if (savedEmail && ACCOUNTS[savedEmail]) showProfile(savedEmail);
+// somebody is logged in ("nbn-current-user") → show the profile right away
+const me = Auth.current();
+if (me && getAccount(me.email)) showProfile(me.email);

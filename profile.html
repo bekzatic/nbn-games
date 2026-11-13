@@ -9,6 +9,7 @@
   <title>NBN Games — Profile</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
@@ -23,6 +24,8 @@
   <!-- Our scripts. `defer` = the browser downloads them now and runs them
        after the HTML is parsed, in exactly this order. -->
   <script src="js/script.js" defer></script>
+  <script src="js/validators.js" defer></script>
+  <script src="js/auth.js" defer></script>
   <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
   <script src="js/sound.js" defer></script>
   <script src="js/music.js" defer></script>
@@ -45,12 +48,23 @@
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
         <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="36"></a>
-        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <button type="button" class="btn btn-outline-secondary icon-btn" data-theme-toggle aria-label="Switch theme">☀️</button>
-          <button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off">🔊</button>
-          <a href="profile.html#wishlist" class="btn btn-outline-secondary position-relative d-none d-sm-inline-block" aria-label="Wishlist">♥<span class="wish-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="btn btn-secondary d-inline-flex align-items-center gap-1" aria-current="page">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4 nav-actions">
+          <!-- Day / Night switch (js/theme-toggle.js) -->
+          <button type="button" class="theme-switch" data-theme-toggle aria-pressed="false" aria-label="Day theme">
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i><i class="bi bi-sun-fill" aria-hidden="true"></i><span class="theme-switch__thumb" aria-hidden="true"></span>
+          </button>
+          <!-- Settings: language (js/i18n.js), sound (js/sound.js), music (js/music.js) -->
+          <div class="dropdown">
+            <button type="button" class="btn btn-outline-secondary icon-btn settings-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Settings"><i class="bi bi-gear" aria-hidden="true"></i></button>
+            <div class="dropdown-menu dropdown-menu-end settings-menu">
+              <span class="dropdown-header px-0 pt-0">Settings</span>
+              <div class="settings-row"><span>Language</span><span id="lang-slot"></span></div>
+              <div class="settings-row"><span>Sound &amp; music</span><span class="d-flex gap-2"><button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off"><i class="bi bi-volume-up" aria-hidden="true"></i></button></span></div>
+            </div>
+          </div>
+          <a href="profile.html#wishlist" class="btn btn-outline-secondary icon-btn position-relative" aria-label="Wishlist"><i class="bi bi-heart" aria-hidden="true"></i><span class="wish-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary icon-btn position-relative" aria-label="Cart"><i class="bi bi-cart3" aria-hidden="true"></i><span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary nav-profile d-inline-flex align-items-center gap-2 active" aria-current="page"><i class="bi bi-person-circle" aria-hidden="true"></i><span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -60,6 +74,7 @@
           <ul class="navbar-nav ms-lg-auto gap-lg-4 pt-2 pt-lg-0">
             <li class="nav-item"><a class="nav-link px-lg-1" href="index.html">Home</a></li>
             <li class="nav-item"><a class="nav-link px-lg-1" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="deals.html">Deals</a></li>
             <li class="nav-item"><a class="nav-link px-lg-1" href="about.html">About us</a></li>
             <li class="nav-item"><a class="nav-link px-lg-1" href="about.html#contact">Contact</a></li>
           </ul>
@@ -75,14 +90,14 @@
       <aside class="col-12 col-lg-3 d-none" id="profile-aside" aria-label="Profile menu">
         <div class="bg-body-secondary border rounded-3 p-2 p-lg-3">
           <ul class="nav nav-pills flex-row flex-lg-column gap-1" id="profile-sidebar">
-            <li class="nav-item"><a href="#profile" class="nav-link active" data-section="profile">👤 Profile</a></li>
-            <li class="nav-item"><a href="#games" class="nav-link" data-section="games">🎮 My games</a></li>
-            <li class="nav-item"><a href="#wishlist" class="nav-link d-flex align-items-center gap-2" data-section="wishlist">♥ Wishlist <span class="badge rounded-pill text-bg-secondary ms-lg-auto js-wish-count">0</span></a></li>
-            <li class="nav-item"><a href="#wallet" class="nav-link" data-section="wallet">💳 Wallet</a></li>
-            <li class="nav-item"><a href="#settings" class="nav-link" data-section="settings">⚙️ Settings</a></li>
-            <li class="nav-item"><a href="#security" class="nav-link" data-section="security">🔒 Security</a></li>
-            <li class="nav-item"><a href="#notifications" class="nav-link d-flex align-items-center gap-2" data-section="notifications">🔔 Notifications <span class="badge rounded-pill text-bg-primary ms-lg-auto" id="notif-badge" hidden>0</span></a></li>
-            <li class="nav-item mt-lg-2"><a href="#" id="logout-link" class="nav-link text-primary">↩ Log out</a></li>
+            <li class="nav-item"><a href="#profile" class="nav-link active" data-section="profile"><i class="bi bi-person" aria-hidden="true"></i> Profile</a></li>
+            <li class="nav-item"><a href="#games" class="nav-link" data-section="games"><i class="bi bi-controller" aria-hidden="true"></i> My games</a></li>
+            <li class="nav-item"><a href="#wishlist" class="nav-link d-flex align-items-center gap-2" data-section="wishlist"><i class="bi bi-heart" aria-hidden="true"></i> Wishlist <span class="badge rounded-pill text-bg-secondary ms-lg-auto js-wish-count">0</span></a></li>
+            <li class="nav-item"><a href="#wallet" class="nav-link" data-section="wallet"><i class="bi bi-wallet2" aria-hidden="true"></i> Wallet</a></li>
+            <li class="nav-item"><a href="#settings" class="nav-link" data-section="settings"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a></li>
+            <li class="nav-item"><a href="#security" class="nav-link" data-section="security"><i class="bi bi-shield-lock" aria-hidden="true"></i> Security</a></li>
+            <li class="nav-item"><a href="#notifications" class="nav-link d-flex align-items-center gap-2" data-section="notifications"><i class="bi bi-bell" aria-hidden="true"></i> Notifications <span class="badge rounded-pill text-bg-primary ms-lg-auto" id="notif-badge" hidden>0</span></a></li>
+            <li class="nav-item mt-lg-2"><a href="#" id="logout-link" class="nav-link text-primary"><i class="bi bi-box-arrow-left" aria-hidden="true"></i> Log out</a></li>
           </ul>
         </div>
       </aside>
@@ -97,20 +112,20 @@
               <p class="text-body-secondary mb-4">Sign in to see your profile, library and wallet.</p>
 
               <!-- Bootstrap form with input groups -->
-              <form id="login-form">
+              <form id="login-form" novalidate>
                 <div class="mb-3">
                   <label for="login-email" class="form-label fw-semibold">Email</label>
                   <div class="input-group">
                     <span class="input-group-text" aria-hidden="true">@</span>
-                    <input type="email" class="form-control" id="login-email" name="email" placeholder="you@example.com" required autocomplete="username">
+                    <input type="text" inputmode="email" class="form-control" id="login-email" name="email" placeholder="you@example.com" autocomplete="username">
                   </div>
                 </div>
                 <div class="mb-3">
                   <label for="login-password" class="form-label fw-semibold">Password</label>
                   <div class="input-group">
-                    <span class="input-group-text" aria-hidden="true">🔑</span>
-                    <input type="password" class="form-control" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
-                    <button type="button" class="btn btn-outline-secondary" id="toggle-password" aria-label="Show password" aria-pressed="false" title="Show password">👁</button>
+                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-key" aria-hidden="true"></i></span>
+                    <input type="password" class="form-control" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password">
+                    <button type="button" class="btn btn-outline-secondary" id="toggle-password" aria-label="Show password" aria-pressed="false" title="Show password"><i class="bi bi-eye" aria-hidden="true"></i></button>
                   </div>
                 </div>
                 <p id="login-error" class="text-danger small mb-3" role="alert" hidden>Incorrect email or password. Try again.</p>
@@ -125,7 +140,7 @@
             <div class="card p-4 p-md-5 my-lg-4" id="signup-card" hidden>
               <span class="eyebrow mb-2">New here?</span>
               <h2 class="h3 mb-2">Create your account</h2>
-              <p class="text-body-secondary mb-4">All fields are required. Password: at least 8 characters, with a letter and a number.</p>
+              <p class="text-body-secondary mb-4">All fields are required. Password: at least 8 characters with a letter, a digit and a special character (e.g. !, #, ?).</p>
 
               <form id="signup-form" novalidate>
                 <div class="mb-3">
@@ -135,13 +150,21 @@
                 </div>
                 <div class="mb-3">
                   <label for="su-email" class="form-label fw-semibold">Email</label>
-                  <input type="email" class="form-control" id="su-email" name="su-email" placeholder="you@example.com" autocomplete="email" aria-describedby="su-email-error">
+                  <input type="text" inputmode="email" class="form-control" id="su-email" name="su-email" placeholder="you@example.com" autocomplete="email" aria-describedby="su-email-error">
                   <div class="invalid-feedback" id="su-email-error"></div>
+                </div>
+                <div class="mb-3">
+                  <label for="su-phone" class="form-label fw-semibold">Phone</label>
+                  <input type="tel" class="form-control" id="su-phone" name="su-phone" placeholder="+7 7XX XXX XX XX" autocomplete="tel" aria-describedby="su-phone-error">
+                  <div class="invalid-feedback" id="su-phone-error"></div>
                 </div>
                 <div class="mb-3">
                   <label for="su-password" class="form-label fw-semibold">Password</label>
                   <input type="password" class="form-control" id="su-password" name="su-password" placeholder="At least 8 characters" autocomplete="new-password" aria-describedby="su-password-error">
                   <div class="invalid-feedback" id="su-password-error"></div>
+                  <!-- password strength meter (js/form-validation.js) -->
+                  <div class="pw-meter mt-2" aria-hidden="true"><span class="pw-meter__bar" id="pw-meter-bar"></span></div>
+                  <div class="form-text" id="pw-meter-text" aria-live="polite">Password strength: —</div>
                 </div>
                 <div class="mb-3">
                   <label for="su-confirm" class="form-label fw-semibold">Confirm password</label>
@@ -190,6 +213,7 @@
               <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Account status</span><span>Verified ✓</span></li>
               <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Country</span><span id="info-country">—</span></li>
               <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Main platform</span><span id="info-platform">—</span></li>
+              <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Phone</span><span id="info-phone">—</span></li>
               <li class="list-group-item d-flex justify-content-between gap-3 py-3"><span class="text-body-tertiary">Registration date</span><span id="profile-joined">—</span></li>
             </ul>
           </section>
@@ -205,6 +229,7 @@
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4" id="library-grid"></div>
             <div class="empty-state rounded-3 text-center p-5" id="library-empty" hidden>
+              <span class="empty-icon" aria-hidden="true"><i class="bi bi-controller"></i></span>
               <h2 class="h5">No games found</h2>
               <p class="text-body-secondary">Try another search or buy something new in the catalog.</p>
               <a href="catalog.html" class="btn btn-primary btn-sm">Open catalog</a>
@@ -216,9 +241,9 @@
             <h2 class="h2 mb-4">Wishlist (<span class="js-wish-count">0</span>)</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4" id="wish-grid"></div>
             <div class="empty-state rounded-3 text-center p-5" id="wish-empty" hidden>
-              <span class="fs-1 d-block mb-2" aria-hidden="true">♡</span>
+              <span class="empty-icon" aria-hidden="true"><i class="bi bi-heart" aria-hidden="true"></i></span>
               <h2 class="h5">Your wishlist is empty</h2>
-              <p class="text-body-secondary">Press "♡ Wishlist" on any game page to save it here.</p>
+              <p class="text-body-secondary">Press "Wishlist" on any game page to save it here.</p>
               <a href="catalog.html" class="btn btn-primary">Browse catalog</a>
             </div>
           </section>
@@ -236,7 +261,7 @@
               </div>
 
               <div class="col-12 col-md-7">
-                <form class="card p-4" id="topup-form">
+                <form class="card p-4" id="topup-form" novalidate>
                   <h2 class="h5 mb-3">Top up balance</h2>
                   <!-- button group for quick amounts -->
                   <div class="btn-group flex-wrap mb-3" role="group" aria-label="Quick amounts" id="amount-chips">
@@ -273,11 +298,11 @@
           <!-- ===================== SETTINGS ===================== -->
           <section class="panel" data-panel="settings" hidden>
             <h2 class="h2 mb-4">Settings</h2>
-            <form class="card p-4" id="settings-form">
+            <form class="card p-4" id="settings-form" novalidate>
               <div class="row g-3">
                 <div class="col-12 col-md-6">
                   <label for="set-name" class="form-label fw-semibold">Display name</label>
-                  <input type="text" class="form-control" id="set-name" required>
+                  <input type="text" class="form-control" id="set-name" autocomplete="name">
                 </div>
                 <div class="col-12 col-md-6">
                   <label for="set-country" class="form-label fw-semibold">Country</label>
@@ -311,23 +336,23 @@
 
             <div class="row g-4 align-items-start">
               <div class="col-12 col-xl-6">
-                <form class="card p-4" id="password-form">
+                <form class="card p-4" id="password-form" novalidate>
                   <h2 class="h5 mb-3">Change password</h2>
                   <!-- hidden: tells the browser's password manager which account this password belongs to -->
-                  <input type="email" id="pw-username" name="username" autocomplete="username" aria-label="Account email" hidden>
+                  <input type="text" id="pw-username" name="username" autocomplete="username" aria-label="Account email" hidden>
 
                   <div class="mb-3">
                     <label for="pw-current" class="form-label fw-semibold">Current password</label>
-                    <input type="password" class="form-control" id="pw-current" required autocomplete="current-password">
+                    <input type="password" class="form-control" id="pw-current" autocomplete="current-password">
                   </div>
                   <div class="mb-3">
                     <label for="pw-new" class="form-label fw-semibold">New password</label>
-                    <input type="password" class="form-control" id="pw-new" required minlength="6" autocomplete="new-password">
-                    <div class="form-text">At least 6 characters.</div>
+                    <input type="password" class="form-control" id="pw-new" autocomplete="new-password">
+                    <div class="form-text">At least 8 characters with a letter, a digit and a special character.</div>
                   </div>
                   <div class="mb-3">
                     <label for="pw-confirm" class="form-label fw-semibold">Repeat new password</label>
-                    <input type="password" class="form-control" id="pw-confirm" required minlength="6" autocomplete="new-password">
+                    <input type="password" class="form-control" id="pw-confirm" autocomplete="new-password">
                   </div>
                   <p class="small mb-3" id="pw-msg" role="status"></p>
                   <button type="submit" class="btn btn-primary w-100">Update password</button>
@@ -391,17 +416,23 @@
   <footer class="site-footer pt-5 pb-4 mt-5">
     <div class="container">
       <div class="row gy-4">
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-lg-4">
           <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
-          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <p class="text-body-secondary small mb-3">Digital game keys for PC, PlayStation and Xbox — instant delivery and honest prices for gamers in Kazakhstan.</p>
+          <ul class="list-unstyled d-flex gap-2 mb-0">
+            <li><a class="social-link" href="https://github.com/bekzatic/nbn-games" target="_blank" rel="noopener" aria-label="NBN Games on GitHub (new tab)"><i class="bi bi-github" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="https://t.me/share/url?url=https%3A%2F%2Fbekzatic.github.io%2Fnbn-games%2F" target="_blank" rel="noopener" aria-label="Share NBN Games on Telegram (new tab)"><i class="bi bi-telegram" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="https://wa.me/?text=https%3A%2F%2Fbekzatic.github.io%2Fnbn-games%2F" target="_blank" rel="noopener" aria-label="Share NBN Games on WhatsApp (new tab)"><i class="bi bi-whatsapp" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="mailto:hello@nbngames.kz" aria-label="Email NBN Games"><i class="bi bi-envelope" aria-hidden="true"></i></a></li>
+          </ul>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
             <li><a class="footer-link" href="index.html">Home</a></li>
             <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="deals.html">Deals</a></li>
             <li><a class="footer-link" href="cart.html">Cart</a></li>
-            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
@@ -412,25 +443,25 @@
             <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
-        <div class="col-12 col-md-4 col-lg-3">
-          <h2 class="h6 text-white mb-3">Team Next Step</h2>
+        <div class="col-12 col-md-4 col-lg-4">
+          <h2 class="h6 text-white mb-3">Contacts</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
-            <li>Bekzat Amanbek</li>
-            <li>Nurkhan Nurzhau</li>
-            <li>Nursultan Rassulov</li>
+            <li class="d-flex gap-2"><i class="bi bi-geo-alt text-primary" aria-hidden="true"></i><span>Astana, Kazakhstan</span></li>
+            <li class="d-flex gap-2"><i class="bi bi-envelope text-primary" aria-hidden="true"></i><a class="footer-link" href="mailto:hello@nbngames.kz">hello@nbngames.kz</a></li>
+            <li class="d-flex gap-2"><i class="bi bi-clock text-primary" aria-hidden="true"></i><span>Mon–Fri, 9:00–18:00</span></li>
           </ul>
         </div>
       </div>
       <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><i class="bi bi-clock" aria-hidden="true"></i><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
-          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
-          <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
+          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg><i class="bi bi-palette" aria-hidden="true"></i> Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2" data-open-popup><i class="bi bi-envelope" aria-hidden="true"></i> Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© <span class="js-year">2026</span> NBN Games. Student project by Team Next Step.</p>
+        <p class="mb-0">© <span class="js-year">2026</span> NBN Games · Team Next Step: Bekzat Amanbek, Nurkhan Nurzhau, Nursultan Rassulov.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Bekzat Amanbek</strong></p>
       </div>
     </div>
@@ -453,7 +484,7 @@
             </div>
             <div>
               <label for="popup-email" class="form-label fw-semibold">Email</label>
-              <input type="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+              <input type="text" inputmode="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
             </div>
             <p class="popup-msg small mt-3 mb-0" role="status" aria-live="polite"></p>
           </div>

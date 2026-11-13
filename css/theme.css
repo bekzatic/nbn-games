@@ -1,10 +1,34 @@
-/* theme.css — NBN Games colours and fonts for Bootstrap 5.3 (dark mode).
-   Only Bootstrap variables are changed here, so every Bootstrap
-   component (buttons, cards, forms, tables...) picks up our colours. */
+/* theme.css — the NBN design system for Bootstrap 5.3.
+   1. Tokens that are the same in both themes: spacing scale, radii,
+      animation timings.
+   2. Colour + shadow tokens for the Night theme (default) and the Day
+      theme. They are plugged into Bootstrap's own variables, so every
+      Bootstrap component (buttons, cards, forms, tables...) uses them.
+   Our CSS files use ONLY these variables — no colour or spacing is
+   written by hand twice. */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
-/* NBN colours, plugged into Bootstrap's own variables */
+/* ---------- 1. Shared tokens (both themes) ---------- */
+:root {
+  /* spacing scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+  --space-section: 40px;               /* between page sections: 40 px on phones … */
+  /* radii */
+  --radius-sm: 8px; --radius: 10px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 999px;
+  /* animations: short and "ease-out" (fast start, soft stop) */
+  --dur-fast: 150ms; --dur: 200ms; --dur-slow: 300ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  /* wallet card: deep orange, white text stays readable in both themes */
+  --nbn-wallet-start: #c2410c; --nbn-wallet-end: #7c2d12;
+  --nbn-overlay: rgba(11, 13, 16, .85); /* dark round buttons over pictures (carousel) */
+}
+@media (min-width: 768px) {
+  :root { --space-section: 64px; }     /* … and 64 px from tablets up */
+}
+
+/* ---------- 2. Night theme (default) ---------- */
 :root,
 [data-bs-theme="dark"] {
   --nbn-bg: #0b0d10;
@@ -18,13 +42,20 @@
   --nbn-accent: #ff5a1f;
   --nbn-accent-hover: #ff7a45;
   --nbn-accent-deep: #c2410c;          /* darker orange: start of the warm gradients */
+  --nbn-accent-active: #e84d15;        /* a button while it is pressed */
   --nbn-green: #3ecf6e;
+  --nbn-success: var(--nbn-green);
+  --nbn-danger: #ff6b4a;
   --nbn-yellow: #f2c94c;
   --nbn-yellow-rgb: 242, 201, 76;
   --nbn-on-accent: #0b0d10;
   --nbn-footer: #111419;
   --nbn-nav-bg: rgba(11, 13, 16, 0.92);
   --nbn-table-hover: #232830;
+  /* shadows: deep on the dark page */
+  --nbn-shadow-sm: 0 2px 6px rgba(0, 0, 0, .35);
+  --nbn-shadow-md: 0 8px 20px rgba(0, 0, 0, .4);
+  --nbn-shadow-lg: 0 16px 32px rgba(0, 0, 0, .45);
 
   --bs-body-bg: var(--nbn-bg);
   --bs-body-bg-rgb: 11, 13, 16;
@@ -53,11 +84,13 @@
   --bs-link-hover-color-rgb: 255, 122, 69;
   --bs-success: var(--nbn-green);
   --bs-success-rgb: 62, 207, 110;
-  --bs-danger: #ff6b4a;
+  --bs-danger: var(--nbn-danger);
   --bs-danger-rgb: 255, 107, 74;
   --bs-focus-ring-color: rgba(255, 90, 31, 0.35);
-  --bs-border-radius: 10px;
-  --bs-border-radius-lg: 12px;
+  --bs-border-radius: var(--radius);
+  --bs-border-radius-sm: var(--radius-sm);
+  --bs-border-radius-lg: var(--radius-lg);
+  --bs-border-radius-xl: var(--radius-xl);
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -76,8 +109,8 @@ h1, h2, h3, h4, h5, h6,
   --bs-btn-hover-bg: var(--nbn-accent-hover);
   --bs-btn-hover-border-color: var(--nbn-accent-hover);
   --bs-btn-active-color: var(--nbn-on-accent);
-  --bs-btn-active-bg: #e84d15;
-  --bs-btn-active-border-color: #e84d15;
+  --bs-btn-active-bg: var(--nbn-accent-active);
+  --bs-btn-active-border-color: var(--nbn-accent-active);
   --bs-btn-disabled-color: var(--nbn-on-accent);
   --bs-btn-disabled-bg: var(--nbn-accent);
   --bs-btn-disabled-border-color: var(--nbn-accent);
@@ -121,19 +154,19 @@ h1, h2, h3, h4, h5, h6,
 .form-select:focus {
   background-color: var(--nbn-bg);
   border-color: var(--nbn-accent);
-  box-shadow: 0 0 0 0.2rem rgba(255, 90, 31, 0.25);
+  box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color);
 }
 
 .form-control::placeholder { color: var(--nbn-dim); }
 
-.form-check-input { border-color: #7a828e; }
+.form-check-input { border-color: var(--nbn-dim); }
 
 .form-check-input:checked {
   background-color: var(--nbn-accent);
   border-color: var(--nbn-accent);
 }
 
-.form-check-input:focus { box-shadow: 0 0 0 0.2rem rgba(255, 90, 31, 0.25); border-color: var(--nbn-accent); }
+.form-check-input:focus { box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color); border-color: var(--nbn-accent); }
 
 .input-group-text {
   background-color: var(--nbn-surface-2);
@@ -142,7 +175,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* Nav pills (catalog filters, profile menu) */
 .nav-pills {
-  --bs-nav-pills-link-active-bg: rgba(255, 90, 31, 0.14);
+  --bs-nav-pills-link-active-bg: var(--bs-primary-bg-subtle);
   --bs-nav-pills-link-active-color: var(--nbn-accent);
   --bs-nav-link-color: var(--nbn-muted);
   --bs-nav-link-hover-color: var(--nbn-accent);
@@ -214,13 +247,20 @@ h1, h2, h3, h4, h5, h6,
   --nbn-accent: #c2410c;
   --nbn-accent-hover: #a3360a;
   --nbn-accent-deep: #9a3412;
+  --nbn-accent-active: #8a2e08;
   --nbn-green: #15803d;
+  --nbn-success: var(--nbn-green);
+  --nbn-danger: #c0392b;
   --nbn-yellow: #b7791f;
   --nbn-yellow-rgb: 183, 121, 31;
   --nbn-on-accent: #ffffff;
   --nbn-footer: #ece9e2;
   --nbn-nav-bg: rgba(246, 244, 239, 0.92);
   --nbn-table-hover: #e6e2da;
+  /* shadows: soft and warm on the light page — cards stand out from the background */
+  --nbn-shadow-sm: 0 1px 2px rgba(60, 45, 30, .06), 0 2px 8px rgba(60, 45, 30, .06);
+  --nbn-shadow-md: 0 6px 18px rgba(60, 45, 30, .10);
+  --nbn-shadow-lg: 0 14px 30px rgba(60, 45, 30, .14);
 
   --bs-body-bg: var(--nbn-bg);
   --bs-body-bg-rgb: 246, 244, 239;
@@ -248,7 +288,7 @@ h1, h2, h3, h4, h5, h6,
   --bs-link-hover-color-rgb: 163, 54, 10;
   --bs-success: var(--nbn-green);
   --bs-success-rgb: 21, 128, 61;
-  --bs-danger: #c0392b;
+  --bs-danger: var(--nbn-danger);
   --bs-danger-rgb: 192, 57, 43;
   --bs-focus-ring-color: rgba(194, 65, 12, 0.3);
 }
@@ -258,10 +298,14 @@ h1, h2, h3, h4, h5, h6,
 [data-bs-theme="light"] .btn-outline-light { --bs-btn-hover-bg: transparent; }
 [data-bs-theme="light"] .navbar-toggler-icon { filter: invert(1) brightness(.2); }
 [data-bs-theme="light"] .btn-close { filter: none; }
+/* Day theme: white cards with a soft shadow on the warm grey page (not just inverted colours) */
+[data-bs-theme="light"] .card,
+[data-bs-theme="light"] .list-group,
+[data-bs-theme="light"] .accordion-item { box-shadow: var(--nbn-shadow-sm); }
 
 /* smooth colour change while the theme switches (class added by js/theme-toggle.js) */
 .theme-anim, .theme-anim body, .theme-anim .card, .theme-anim .site-nav, .theme-anim .site-footer {
-  transition: background-color .5s ease, color .5s ease, border-color .5s ease !important;
+  transition: background-color var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out) !important;
 }
 
 /* ==========================================================

@@ -9,6 +9,7 @@
   <title>NBN Games — Home</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/components.css">
@@ -23,6 +24,8 @@
   <!-- Our scripts. `defer` = the browser downloads them now and runs them
        after the HTML is parsed, in exactly this order. -->
   <script src="js/script.js" defer></script>
+  <script src="js/validators.js" defer></script>
+  <script src="js/auth.js" defer></script>
   <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
   <script src="js/sound.js" defer></script>
   <script src="js/music.js" defer></script>
@@ -36,6 +39,7 @@
   <script src="js/i18n.js" defer></script>
   <script src="js/games-api.js" defer></script>
   <script src="js/recently-viewed.js" defer></script>
+  <script src="js/deals-api.js" defer></script>
   <script src="js/home.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -46,12 +50,23 @@
     <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
       <div class="container">
         <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="36"></a>
-        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4">
-          <button type="button" class="btn btn-outline-secondary icon-btn" data-theme-toggle aria-label="Switch theme">☀️</button>
-          <button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off">🔊</button>
-          <a href="profile.html#wishlist" class="btn btn-outline-secondary position-relative d-none d-sm-inline-block" aria-label="Wishlist">♥<span class="wish-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="cart.html" class="btn btn-outline-secondary position-relative" aria-label="Cart">🛒<span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
-          <a href="profile.html" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">👤 <span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4 nav-actions">
+          <!-- Day / Night switch (js/theme-toggle.js) -->
+          <button type="button" class="theme-switch" data-theme-toggle aria-pressed="false" aria-label="Day theme">
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i><i class="bi bi-sun-fill" aria-hidden="true"></i><span class="theme-switch__thumb" aria-hidden="true"></span>
+          </button>
+          <!-- Settings: language (js/i18n.js), sound (js/sound.js), music (js/music.js) -->
+          <div class="dropdown">
+            <button type="button" class="btn btn-outline-secondary icon-btn settings-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Settings"><i class="bi bi-gear" aria-hidden="true"></i></button>
+            <div class="dropdown-menu dropdown-menu-end settings-menu">
+              <span class="dropdown-header px-0 pt-0">Settings</span>
+              <div class="settings-row"><span>Language</span><span id="lang-slot"></span></div>
+              <div class="settings-row"><span>Sound &amp; music</span><span class="d-flex gap-2"><button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off"><i class="bi bi-volume-up" aria-hidden="true"></i></button></span></div>
+            </div>
+          </div>
+          <a href="profile.html#wishlist" class="btn btn-outline-secondary icon-btn position-relative" aria-label="Wishlist"><i class="bi bi-heart" aria-hidden="true"></i><span class="wish-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary icon-btn position-relative" aria-label="Cart"><i class="bi bi-cart3" aria-hidden="true"></i><span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary nav-profile d-inline-flex align-items-center gap-2"><i class="bi bi-person-circle" aria-hidden="true"></i><span class="d-none d-sm-inline small fw-medium">Profile</span></a>
           <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -61,6 +76,7 @@
           <ul class="navbar-nav ms-lg-auto gap-lg-4 pt-2 pt-lg-0">
             <li class="nav-item"><a class="nav-link px-lg-1 active" aria-current="page" href="index.html">Home</a></li>
             <li class="nav-item"><a class="nav-link px-lg-1" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="deals.html">Deals</a></li>
             <li class="nav-item"><a class="nav-link px-lg-1" href="about.html">About us</a></li>
             <li class="nav-item"><a class="nav-link px-lg-1" href="about.html#contact">Contact</a></li>
           </ul>
@@ -77,11 +93,12 @@
           <div class="col-12 col-lg-6 order-2 order-lg-1">
             <span class="eyebrow d-inline-block mb-3" id="greeting" aria-live="polite">Your next level</span>
             <h1 class="mb-3">Games bring us together</h1>
-            <p class="lead text-body-secondary mb-4">Thousands of games for PC, PlayStation and Xbox — one click away. Deals, new releases and a community that lives games every day.</p>
-            <!-- Bootstrap buttons in different sizes / styles -->
+            <!-- who the site is for + what you can do here -->
+            <p class="lead text-body-secondary mb-4">A digital game store for students and young gamers in Kazakhstan: find a game for PC, PlayStation or Xbox, compare its price with other stores and get the key in a minute. Prices in tenge, interface in English, Russian and Kazakh.</p>
+            <!-- one main action (filled) + one secondary (outline) -->
             <div class="d-flex flex-wrap gap-3">
-              <a href="catalog.html" class="btn btn-primary btn-lg px-4">Browse catalog</a>
-              <a href="about.html" class="btn btn-outline-light btn-lg px-4">About us</a>
+              <a href="catalog.html" class="btn btn-primary btn-lg px-4 d-inline-flex align-items-center gap-2"><i class="bi bi-grid" aria-hidden="true"></i> Browse catalog</a>
+              <a href="deals.html" class="btn btn-outline-light btn-lg px-4 d-inline-flex align-items-center gap-2"><i class="bi bi-lightning-charge" aria-hidden="true"></i> Today's deals</a>
             </div>
             <div class="row row-cols-3 g-3 mt-4 mt-lg-5">
               <div class="col"><div class="h3 fw-bold text-white mb-0"><span data-count-to="42" data-suffix="+" data-duration="1600">42+</span></div><small class="text-body-tertiary">games in catalog</small></div>
@@ -97,7 +114,7 @@
     </section>
 
     <!-- Bootstrap carousel — 9 games, indicators + prev/next controls, placed in the grid -->
-    <section class="py-5" aria-labelledby="featured-title">
+    <section class="section-pad" aria-labelledby="featured-title">
       <div class="container">
         <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-4">
           <h2 id="featured-title" class="mb-0">Featured games</h2>
@@ -125,7 +142,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">⚔️ RPG · 2020</span>
+                  <span class="eyebrow"><i class="bi bi-shield-shaded" aria-hidden="true"></i> RPG · 2020</span>
                   <h3 class="h2 mb-0">Cyberpunk 2077</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Cyberpunk 2077 is an open-world action RPG set in Night City, a megalopolis obsessed with power, glamour and body modification. Become a mercenary and decide who you want to be.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Xbox</span></div>
@@ -145,7 +162,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">🎮 Action · 2022</span>
+                  <span class="eyebrow"><i class="bi bi-crosshair" aria-hidden="true"></i> Action · 2022</span>
                   <h3 class="h2 mb-0">Elden Ring</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Rise, Tarnished, and explore the Lands Between — a vast open world full of hidden dungeons, legendary bosses and a story written with George R. R. Martin.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Xbox</span></div>
@@ -165,7 +182,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">🗺️ Adventure · 2018</span>
+                  <span class="eyebrow"><i class="bi bi-compass" aria-hidden="true"></i> Adventure · 2018</span>
                   <h3 class="h2 mb-0">Red Dead Redemption 2</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">America, 1899. Arthur Morgan and the Van der Linde gang are outlaws on the run across a huge, living frontier as the age of the Wild West comes to an end.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Xbox</span></div>
@@ -185,7 +202,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">⚔️ RPG · 2015</span>
+                  <span class="eyebrow"><i class="bi bi-shield-shaded" aria-hidden="true"></i> RPG · 2015</span>
                   <h3 class="h2 mb-0">The Witcher 3</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">As monster slayer Geralt of Rivia, search for your adopted daughter Ciri in a war-torn open world full of meaningful choices. Includes both story expansions.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Xbox</span></div>
@@ -205,7 +222,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">🎮 Action · 2018</span>
+                  <span class="eyebrow"><i class="bi bi-crosshair" aria-hidden="true"></i> Action · 2018</span>
                   <h3 class="h2 mb-0">God of War</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Kratos lives as a man in the realm of Norse gods and monsters. Together with his son Atreus he must fight to survive — and learn to be a father.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span></div>
@@ -225,7 +242,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">🏎️ Racing · 2021</span>
+                  <span class="eyebrow"><i class="bi bi-speedometer2" aria-hidden="true"></i> Racing · 2021</span>
                   <h3 class="h2 mb-0">Forza Horizon 5</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Explore the vibrant open world of Mexico in hundreds of the world&#x27;s greatest cars — races, festivals and seasons that change every week.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Xbox</span></div>
@@ -245,7 +262,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">🗺️ Adventure · 2022</span>
+                  <span class="eyebrow"><i class="bi bi-compass" aria-hidden="true"></i> Adventure · 2022</span>
                   <h3 class="h2 mb-0">The Last of Us Part I</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Twenty years after a pandemic, hardened survivor Joel is hired to smuggle 14-year-old Ellie out of a military quarantine zone on a brutal journey across the U.S.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span></div>
@@ -265,7 +282,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">⚔️ RPG · 2023</span>
+                  <span class="eyebrow"><i class="bi bi-shield-shaded" aria-hidden="true"></i> RPG · 2023</span>
                   <h3 class="h2 mb-0">Baldur&#x27;s Gate 3</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Gather your party and return to the Forgotten Realms in a huge turn-based RPG based on Dungeons &amp; Dragons, where every choice shapes the story.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">macOS</span></div>
@@ -285,7 +302,7 @@
               </div>
               <div class="col-12 col-md-7 d-flex">
                 <div class="slide-text d-flex flex-column justify-content-center gap-2 px-4 px-md-5 pt-4 pb-5 py-md-4">
-                  <span class="eyebrow">🎮 Action · 2020</span>
+                  <span class="eyebrow"><i class="bi bi-crosshair" aria-hidden="true"></i> Action · 2020</span>
                   <h3 class="h2 mb-0">DOOM Eternal</h3>
                   <p class="slide-desc text-body-secondary mb-1 d-none d-sm-block">Hell&#x27;s armies have invaded Earth. Become the Slayer and rip and tear through demons with the most powerful arsenal in the series, from the super shotgun to the Crucible blade.</p>
                   <div class="d-flex flex-wrap gap-2"><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Windows</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">PlayStation</span><span class="badge rounded-pill border border-secondary-subtle text-body-secondary fw-normal">Xbox</span></div>
@@ -314,7 +331,7 @@
     </section>
 
     <!-- Bootstrap cards (image, title, text) placed with .card-group -->
-    <section class="py-5" aria-labelledby="popular-title">
+    <section class="section-pad" aria-labelledby="popular-title">
       <div class="container">
         <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-4">
           <h2 id="popular-title" class="mb-0">Popular games</h2>
@@ -324,7 +341,7 @@
         <div class="row g-4">
           <div class="col-12 col-lg-6">
             <div class="card-group h-100">
-      <article class="card game-card h-100">
+      <article class="card game-card">
         <a href="game.html?id=cyberpunk-2077" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
           <span class="sale-badge badge text-bg-primary position-absolute top-0 start-0 m-2">Sale</span><div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Cyberpunk_2077.jpg" alt="Cyberpunk 2077 cover"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
@@ -341,7 +358,7 @@
           </div>
         </div>
       </article>
-      <article class="card game-card h-100">
+      <article class="card game-card">
         <a href="game.html?id=grand-theft-auto-v" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
           <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Grand_Theft_Auto_V.png" alt="Grand Theft Auto V cover"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
@@ -362,7 +379,7 @@
           </div>
           <div class="col-12 col-lg-6">
             <div class="card-group h-100">
-      <article class="card game-card h-100">
+      <article class="card game-card">
         <a href="game.html?id=elden-ring" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
           <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Elden_Ring.jpg" alt="Elden Ring cover"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
@@ -379,7 +396,7 @@
           </div>
         </div>
       </article>
-      <article class="card game-card h-100">
+      <article class="card game-card">
         <a href="game.html?id=forza-horizon-5" class="d-flex flex-column flex-grow-1 text-reset text-decoration-none">
           <div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="images/Forza_Horizon_5.jpg" alt="Forza Horizon 5 cover"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
@@ -410,7 +427,7 @@
     </section>
 
     <!-- random gaming fact — fetch() + content changed with textContent -->
-    <section class="py-5" aria-labelledby="fact-title">
+    <section class="section-pad" aria-labelledby="fact-title">
       <div class="container">
         <div class="card p-4 p-md-5">
           <div class="row align-items-center g-4">
@@ -420,7 +437,7 @@
               <p class="fact-text lead mb-0" id="fact-text">Press the button to get a random fact from the world of games.</p>
             </div>
             <div class="col-12 col-lg-4 text-lg-end">
-              <button type="button" class="btn btn-primary btn-lg px-4" id="fact-btn">🎲 New fact</button>
+              <button type="button" class="btn btn-primary btn-lg px-4" id="fact-btn"><i class="bi bi-dice-5" aria-hidden="true"></i> New fact</button>
               <p class="small text-body-tertiary mt-2 mb-0">or press <kbd>F</kbd> on the keyboard</p>
             </div>
           </div>
@@ -430,7 +447,7 @@
 
     <!-- three-column section (col-lg-4) -->
     <!-- "Recently viewed" — filled by js/recently-viewed.js from localStorage; hidden until you open a game -->
-    <section class="py-4" id="recent-section" aria-labelledby="recent-title" hidden>
+    <section class="section-pad" id="recent-section" aria-labelledby="recent-title" hidden>
       <div class="container">
         <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-3">
           <h2 id="recent-title" class="h4 mb-0">Recently viewed</h2>
@@ -440,8 +457,19 @@
       </div>
     </section>
 
+    <!-- Live deals from the CheapShark public API (js/deals-api.js) -->
+    <section class="section-pad" aria-labelledby="deals-title">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-4">
+          <h2 id="deals-title" class="mb-0">Live deals</h2>
+          <span class="small text-body-tertiary">Biggest discounts right now · prices in USD · data: CheapShark</span>
+        </div>
+        <div id="live-deals"></div>
+      </div>
+    </section>
+
     <!-- animated number counter (data-count-to, js/script.js) -->
-    <section class="py-5" aria-labelledby="stats-title">
+    <section class="section-pad" aria-labelledby="stats-title">
       <div class="container">
         <div class="stats-band p-4 p-md-5">
           <h2 id="stats-title" class="h4 mb-4 text-center">NBN Games in numbers</h2>
@@ -455,27 +483,27 @@
       </div>
     </section>
 
-    <section class="py-5" aria-labelledby="why-title">
+    <section class="section-pad" aria-labelledby="why-title">
       <div class="container">
         <h2 id="why-title" class="mb-4">Why NBN Games</h2>
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4">
             <div class="value-card bg-body-secondary border rounded-3 h-100 p-4 d-flex flex-column gap-2">
-              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true">⚡</span>
+              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true"><i class="bi bi-lightning-charge" aria-hidden="true"></i></span>
               <h3 class="h5 text-primary mb-0 mt-2">Instant delivery</h3>
               <p class="text-body-secondary mb-0">Your activation key lands in your library right after payment — no waiting.</p>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
             <div class="value-card bg-body-secondary border rounded-3 h-100 p-4 d-flex flex-column gap-2">
-              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true">💸</span>
+              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true"><i class="bi bi-piggy-bank" aria-hidden="true"></i></span>
               <h3 class="h5 text-primary mb-0 mt-2">Fair prices</h3>
               <p class="text-body-secondary mb-0">We track discounts across every platform and offer the best price in the region.</p>
             </div>
           </div>
           <div class="col-12 col-md-12 col-lg-4">
             <div class="value-card bg-body-secondary border rounded-3 h-100 p-4 d-flex flex-column gap-2">
-              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true">🤝</span>
+              <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle fs-4 lh-1 align-self-start p-2" aria-hidden="true"><i class="bi bi-people" aria-hidden="true"></i></span>
               <h3 class="h5 text-primary mb-0 mt-2">Real community</h3>
               <p class="text-body-secondary mb-0">Reviews and ratings from real players, not bots.</p>
             </div>
@@ -484,7 +512,7 @@
       </div>
     </section>
     <!-- Newsletter: Bootstrap grid + input-group -->
-    <section class="py-5" aria-labelledby="news-title">
+    <section class="section-pad" aria-labelledby="news-title">
       <div class="container">
         <div class="newsletter p-4 p-md-5">
           <div class="row align-items-center g-4">
@@ -493,9 +521,9 @@
               <p class="text-body-secondary mb-0">One short email a week with the best deals. No spam, unsubscribe any time.</p>
             </div>
             <div class="col-12 col-lg-6">
-              <form id="news-form" class="input-group input-group-lg">
+              <form id="news-form" class="input-group input-group-lg" novalidate>
                 <label for="news-email" class="visually-hidden">Email</label>
-                <input type="email" id="news-email" class="form-control" placeholder="you@example.com" required>
+                <input type="text" inputmode="email" autocomplete="email" id="news-email" class="form-control" placeholder="you@example.com">
                 <button class="btn btn-primary" type="submit">Subscribe</button>
               </form>
             </div>
@@ -508,17 +536,23 @@
   <footer class="site-footer pt-5 pb-4 mt-5">
     <div class="container">
       <div class="row gy-4">
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-lg-4">
           <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
-          <p class="text-body-secondary small mb-0">Games for PC, PlayStation and Xbox with instant delivery and honest prices.</p>
+          <p class="text-body-secondary small mb-3">Digital game keys for PC, PlayStation and Xbox — instant delivery and honest prices for gamers in Kazakhstan.</p>
+          <ul class="list-unstyled d-flex gap-2 mb-0">
+            <li><a class="social-link" href="https://github.com/bekzatic/nbn-games" target="_blank" rel="noopener" aria-label="NBN Games on GitHub (new tab)"><i class="bi bi-github" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="https://t.me/share/url?url=https%3A%2F%2Fbekzatic.github.io%2Fnbn-games%2F" target="_blank" rel="noopener" aria-label="Share NBN Games on Telegram (new tab)"><i class="bi bi-telegram" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="https://wa.me/?text=https%3A%2F%2Fbekzatic.github.io%2Fnbn-games%2F" target="_blank" rel="noopener" aria-label="Share NBN Games on WhatsApp (new tab)"><i class="bi bi-whatsapp" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="mailto:hello@nbngames.kz" aria-label="Email NBN Games"><i class="bi bi-envelope" aria-hidden="true"></i></a></li>
+          </ul>
         </div>
         <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
           <h2 class="h6 text-white mb-3">Store</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0">
             <li><a class="footer-link" href="index.html">Home</a></li>
             <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="deals.html">Deals</a></li>
             <li><a class="footer-link" href="cart.html">Cart</a></li>
-            <li><a class="footer-link" href="media-queries.html">Media queries demo</a></li>
           </ul>
         </nav>
         <div class="col-6 col-md-4 col-lg-2">
@@ -529,25 +563,25 @@
             <li><a class="footer-link" href="profile.html">My account</a></li>
           </ul>
         </div>
-        <div class="col-12 col-md-4 col-lg-3">
-          <h2 class="h6 text-white mb-3">Team Next Step</h2>
+        <div class="col-12 col-md-4 col-lg-4">
+          <h2 class="h6 text-white mb-3">Contacts</h2>
           <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
-            <li>Bekzat Amanbek</li>
-            <li>Nurkhan Nurzhau</li>
-            <li>Nursultan Rassulov</li>
+            <li class="d-flex gap-2"><i class="bi bi-geo-alt text-primary" aria-hidden="true"></i><span>Astana, Kazakhstan</span></li>
+            <li class="d-flex gap-2"><i class="bi bi-envelope text-primary" aria-hidden="true"></i><a class="footer-link" href="mailto:hello@nbngames.kz">hello@nbngames.kz</a></li>
+            <li class="d-flex gap-2"><i class="bi bi-clock text-primary" aria-hidden="true"></i><span>Mon–Fri, 9:00–18:00</span></li>
           </ul>
         </div>
       </div>
       <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
-        <div class="d-flex align-items-center gap-2 text-body-secondary"><span aria-hidden="true">🕒</span><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><i class="bi bi-clock" aria-hidden="true"></i><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
         <div class="d-flex flex-wrap gap-2">
-          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg>🎨 Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
-          <button type="button" class="btn btn-primary btn-sm" data-open-popup>✉️ Subscribe</button>
+          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg><i class="bi bi-palette" aria-hidden="true"></i> Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2" data-open-popup><i class="bi bi-envelope" aria-hidden="true"></i> Subscribe</button>
         </div>
       </div>
       <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
-        <p class="mb-0">© <span class="js-year">2026</span> NBN Games. Student project by Team Next Step.</p>
+        <p class="mb-0">© <span class="js-year">2026</span> NBN Games · Team Next Step: Bekzat Amanbek, Nurkhan Nurzhau, Nursultan Rassulov.</p>
         <p class="mb-0">Page created by: <strong class="text-white">Nurkhan Nurzhau</strong></p>
       </div>
     </div>
@@ -570,7 +604,7 @@
             </div>
             <div>
               <label for="popup-email" class="form-label fw-semibold">Email</label>
-              <input type="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+              <input type="text" inputmode="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
             </div>
             <p class="popup-msg small mt-3 mb-0" role="status" aria-live="polite"></p>
           </div>

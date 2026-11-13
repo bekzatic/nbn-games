@@ -192,7 +192,7 @@ const Music = {
     const on = !this.playing;
     this.remember(on);
     if (on) this.start(); else this.stop();
-    if (window.showToast) showToast(on ? '🎵 8-bit music on' : 'Music off');
+    if (window.showToast) showToast(on ? '8-bit music on' : 'Music off', 'info');
   },
 
   // follows the site-wide mute (🔊 button / M key)
@@ -216,13 +216,13 @@ const Music = {
 window.Music = Music;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // the 🎵 button is created here, next to the 🔊 button (no extra HTML needed)
+  // the music button is created here, next to the sound button (no extra HTML needed)
   document.querySelectorAll('[data-sound-toggle]').forEach(soundBtn => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'btn btn-outline-secondary icon-btn music-btn';
     btn.setAttribute('data-music-toggle', '');
-    btn.textContent = '🎵';
+    btn.innerHTML = '<i class="bi bi-music-note-beamed" aria-hidden="true"></i>';
     btn.addEventListener('click', () => Music.toggle());
     soundBtn.after(btn);
   });

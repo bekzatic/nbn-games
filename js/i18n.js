@@ -30,8 +30,18 @@
     'My account':         { ru: 'Мой аккаунт',        kz: 'Менің аккаунтым' },
     'Media queries demo': { ru: 'Демо media queries', kz: 'Media queries демо' },
     'Team Next Step':     { ru: 'Команда Next Step',  kz: 'Next Step командасы' },
-    '🎨 Change background': { ru: '🎨 Сменить фон',    kz: '🎨 Фонды өзгерту' },
-    '✉️ Subscribe':       { ru: '✉️ Подписаться',     kz: '✉️ Жазылу' },
+    'Change background':  { ru: 'Сменить фон',        kz: 'Фонды өзгерту' },
+    'Subscribe':          { ru: 'Подписаться',        kz: 'Жазылу' },
+    'Deals':              { ru: 'Скидки',             kz: 'Жеңілдіктер' },
+    'Contacts':           { ru: 'Контакты',           kz: 'Байланыс' },
+    'Settings':           { ru: 'Настройки',          kz: 'Баптаулар' },
+    'Language':           { ru: 'Язык',               kz: 'Тіл' },
+    'Sound & music':      { ru: 'Звук и музыка',      kz: 'Дыбыс және музыка' },
+    'Wishlist':           { ru: 'Избранное',          kz: 'Таңдаулылар' },
+    'In wishlist':        { ru: 'В избранном',        kz: 'Таңдаулыларда' },
+    'Copy link':          { ru: 'Скопировать ссылку', kz: 'Сілтемені көшіру' },
+    'New fact':           { ru: 'Новый факт',         kz: 'Жаңа факт' },
+    'Digital game keys for PC, PlayStation and Xbox — instant delivery and honest prices for gamers in Kazakhstan.': { ru: 'Цифровые ключи игр для PC, PlayStation и Xbox — мгновенная доставка и честные цены для геймеров Казахстана.', kz: 'PC, PlayStation және Xbox ойындарының цифрлық кілттері — Қазақстан геймерлеріне жедел жеткізу және әділ баға.' },
     'Add to cart':        { ru: 'В корзину',          kz: 'Себетке қосу' },
     'Get for free':       { ru: 'Получить бесплатно', kz: 'Тегін алу' },
     'Details':            { ru: 'Подробнее',          kz: 'Толығырақ' },
@@ -75,8 +85,79 @@
     'Name: A → Z':        { ru: 'Название: A → Z',    kz: 'Атауы: A → Z' },
     'Rating: high → low': { ru: 'Рейтинг: сначала лучшие', kz: 'Рейтинг: ең жоғарысы бірінші' },
     'Reset filters':      { ru: 'Сбросить фильтры',   kz: 'Сүзгілерді тазалау' },
-    '🕒 Show current time': { ru: '🕒 Показать время', kz: '🕒 Уақытты көрсету' },
-    'Our time now:':      { ru: 'Сейчас у нас:',      kz: 'Қазір бізде:' }
+    'Show current time':  { ru: 'Показать время',     kz: 'Уақытты көрсету' },
+    'Our time now:':      { ru: 'Сейчас у нас:',      kz: 'Қазір бізде:' },
+    // live prices from the CheapShark API (js/deals-api.js)
+    'Live deals':         { ru: 'Скидки дня',         kz: 'Күннің жеңілдіктері' },
+    'Biggest discounts right now · prices in USD · data: CheapShark': { ru: 'Самые большие скидки прямо сейчас · цены в USD · данные: CheapShark', kz: 'Қазіргі ең үлкен жеңілдіктер · бағалар USD-мен · деректер: CheapShark' },
+    'Prices in other stores': { ru: 'Цены в других магазинах', kz: 'Басқа дүкендердегі бағалар' },
+    'Prices in USD · data: CheapShark': { ru: 'Цены в USD · данные: CheapShark', kz: 'Бағалар USD-мен · деректер: CheapShark' },
+    'Loading deals…':     { ru: 'Загружаем скидки…',  kz: 'Жеңілдіктер жүктелуде…' },
+    'Looking for prices in other stores…': { ru: 'Ищем цены в других магазинах…', kz: 'Басқа дүкендердегі бағаларды іздеп жатырмыз…' },
+    'Could not load the deals. Check your internet connection.': { ru: 'Не удалось загрузить скидки. Проверьте подключение к интернету.', kz: 'Жеңілдіктерді жүктеу мүмкін болмады. Интернет байланысын тексеріңіз.' },
+    'Could not load prices from other stores.': { ru: 'Не удалось загрузить цены из других магазинов.', kz: 'Басқа дүкендердің бағаларын жүктеу мүмкін болмады.' },
+    'No deals right now — try again later.': { ru: 'Сейчас скидок нет — попробуйте позже.', kz: 'Қазір жеңілдік жоқ — кейінірек қайталап көріңіз.' },
+    'This game was not found in other stores.': { ru: 'Эта игра не найдена в других магазинах.', kz: 'Бұл ойын басқа дүкендерден табылмады.' },
+    'Retry':              { ru: 'Повторить',          kz: 'Қайталау' },
+    'View deal ↗':        { ru: 'Открыть скидку ↗',   kz: 'Жеңілдікті ашу ↗' },
+    'Go to store ↗':      { ru: 'В магазин ↗',        kz: 'Дүкенге өту ↗' },
+    'Best price':         { ru: 'Лучшая цена',        kz: 'Ең тиімді баға' },
+    'Free':               { ru: 'Бесплатно',          kz: 'Тегін' },
+    // forms: field names and hints
+    'Phone':              { ru: 'Телефон',            kz: 'Телефон' },
+    'All fields are required. Password: at least 8 characters with a letter, a digit and a special character (e.g. !, #, ?).': { ru: 'Все поля обязательны. Пароль: минимум 8 символов, буква, цифра и спецсимвол (например !, #, ?).', kz: 'Барлық өрістер міндетті. Құпиясөз: кемінде 8 таңба, әріп, сан және арнайы таңба (мысалы !, #, ?).' },
+    'At least 8 characters with a letter, a digit and a special character.': { ru: 'Минимум 8 символов: буква, цифра и спецсимвол.', kz: 'Кемінде 8 таңба: әріп, сан және арнайы таңба.' },
+    'Password strength: —':      { ru: 'Надёжность пароля: —',       kz: 'Құпиясөз беріктігі: —' },
+    'Password strength: weak':   { ru: 'Надёжность пароля: слабый',  kz: 'Құпиясөз беріктігі: әлсіз' },
+    'Password strength: medium': { ru: 'Надёжность пароля: средний', kz: 'Құпиясөз беріктігі: орташа' },
+    'Password strength: strong': { ru: 'Надёжность пароля: надёжный', kz: 'Құпиясөз беріктігі: мықты' },
+    // form errors (js/validators.js + the form scripts)
+    'Please enter your name.':   { ru: 'Введите ваше имя.',          kz: 'Атыңызды енгізіңіз.' },
+    'Name must be at least 2 characters.': { ru: 'Имя должно содержать минимум 2 символа.', kz: 'Аты кемінде 2 таңбадан тұруы керек.' },
+    'Email is required.':        { ru: 'Введите email.',             kz: 'Email енгізіңіз.' },
+    'Enter a valid email, e.g. name@example.com.': { ru: 'Введите корректный email, например name@example.com.', kz: 'Дұрыс email енгізіңіз, мысалы name@example.com.' },
+    'An account with this email already exists.': { ru: 'Аккаунт с таким email уже существует.', kz: 'Бұл email-мен аккаунт бар.' },
+    'Phone number is required.': { ru: 'Введите номер телефона.',    kz: 'Телефон нөмірін енгізіңіз.' },
+    'Enter a Kazakhstan number: +7 7XX XXX XX XX.': { ru: 'Введите номер Казахстана: +7 7XX XXX XX XX.', kz: 'Қазақстан нөмірін енгізіңіз: +7 7XX XXX XX XX.' },
+    'Password is required.':     { ru: 'Введите пароль.',            kz: 'Құпиясөзді енгізіңіз.' },
+    'Use 8+ characters with a letter, a digit and a special character.': { ru: 'Нужно минимум 8 символов: буква, цифра и спецсимвол.', kz: 'Кемінде 8 таңба қажет: әріп, сан және арнайы таңба.' },
+    'Please repeat your password.': { ru: 'Повторите пароль.',       kz: 'Құпиясөзді қайталаңыз.' },
+    'Passwords do not match.':   { ru: 'Пароли не совпадают.',       kz: 'Құпиясөздер сәйкес келмейді.' },
+    'You must accept the terms to continue.': { ru: 'Чтобы продолжить, примите условия.', kz: 'Жалғастыру үшін шарттарды қабылдаңыз.' },
+    'Enter an amount.':          { ru: 'Введите сумму.',             kz: 'Соманы енгізіңіз.' },
+    'Enter an amount between 100 and 500 000 ₸.': { ru: 'Введите сумму от 100 до 500 000 ₸.', kz: '100-ден 500 000 ₸-ге дейінгі соманы енгізіңіз.' },
+    'Enter your current password.': { ru: 'Введите текущий пароль.', kz: 'Қазіргі құпиясөзді енгізіңіз.' },
+    'Current password is incorrect.': { ru: 'Текущий пароль неверный.', kz: 'Қазіргі құпиясөз қате.' },
+    'Enter a new password.':     { ru: 'Введите новый пароль.',      kz: 'Жаңа құпиясөзді енгізіңіз.' },
+    'The new password must be different.': { ru: 'Новый пароль должен отличаться от текущего.', kz: 'Жаңа құпиясөз қазіргіден өзгеше болуы керек.' },
+    'Please repeat the new password.': { ru: 'Повторите новый пароль.', kz: 'Жаңа құпиясөзді қайталаңыз.' },
+    'The new passwords do not match.': { ru: 'Новые пароли не совпадают.', kz: 'Жаңа құпиясөздер сәйкес келмейді.' },
+    'Please write a message.':   { ru: 'Напишите сообщение.',        kz: 'Хабарлама жазыңыз.' },
+    'The message is too short — at least 10 characters.': { ru: 'Сообщение слишком короткое — минимум 10 символов.', kz: 'Хабарлама тым қысқа — кемінде 10 таңба.' },
+    'Enter a promo code.':       { ru: 'Введите промокод.',          kz: 'Промокодты енгізіңіз.' },
+    'Unknown promo code.':       { ru: 'Неизвестный промокод.',      kz: 'Белгісіз промокод.' },
+    'Please tick this box to place the order.': { ru: 'Отметьте этот пункт, чтобы оформить заказ.', kz: 'Тапсырыс беру үшін осы белгіні қойыңыз.' },
+    // home hero + the Deals page (deals.html)
+    "Today's deals":      { ru: 'Скидки дня',         kz: 'Күннің жеңілдіктері' },
+    'A digital game store for students and young gamers in Kazakhstan: find a game for PC, PlayStation or Xbox, compare its price with other stores and get the key in a minute. Prices in tenge, interface in English, Russian and Kazakh.': { ru: 'Магазин цифровых игр для студентов и молодых геймеров Казахстана: найдите игру для PC, PlayStation или Xbox, сравните цену с другими магазинами и получите ключ за минуту. Цены в тенге, интерфейс на английском, русском и казахском.', kz: 'Қазақстандағы студенттер мен жас геймерлерге арналған цифрлық ойындар дүкені: PC, PlayStation немесе Xbox ойынын табыңыз, бағасын басқа дүкендермен салыстырыңыз және кілтті бір минутта алыңыз. Бағалар теңгемен, интерфейс ағылшын, орыс және қазақ тілдерінде.' },
+    'Game deals':         { ru: 'Скидки на игры',     kz: 'Ойындарға жеңілдіктер' },
+    'Live prices · CheapShark API': { ru: 'Живые цены · CheapShark API', kz: 'Нақты бағалар · CheapShark API' },
+    'The biggest discounts on PC games from 30+ stores, updated live. Choose a store, a price limit or the sort order and grab a key before the sale ends.': { ru: 'Самые большие скидки на PC-игры из 30+ магазинов в реальном времени. Выберите магазин, предел цены или сортировку и успейте купить ключ до конца акции.', kz: '30+ дүкеннен PC ойындарына ең үлкен жеңілдіктер, нақты уақытта. Дүкенді, баға шегін немесе сұрыптауды таңдап, акция біткенше кілтті алыңыз.' },
+    'All deals':          { ru: 'Все скидки',         kz: 'Барлық жеңілдіктер' },
+    'All stores':         { ru: 'Все магазины',       kz: 'Барлық дүкендер' },
+    'Max price':          { ru: 'Макс. цена',         kz: 'Ең жоғары баға' },
+    'Any price':          { ru: 'Любая цена',         kz: 'Кез келген баға' },
+    'Under $5':           { ru: 'До $5',              kz: '$5-ға дейін' },
+    'Under $10':          { ru: 'До $10',             kz: '$10-ға дейін' },
+    'Under $20':          { ru: 'До $20',             kz: '$20-ға дейін' },
+    'Sort by':            { ru: 'Сортировка',         kz: 'Сұрыптау' },
+    'Biggest discount':   { ru: 'Самая большая скидка', kz: 'Ең үлкен жеңілдік' },
+    'Lowest price':       { ru: 'Самая низкая цена',  kz: 'Ең төмен баға' },
+    'Best deal rating':   { ru: 'Лучшие предложения', kz: 'Ең тиімді ұсыныстар' },
+    'Newest':             { ru: 'Новые',              kz: 'Жаңалары' },
+    'Show more deals':    { ru: 'Показать ещё скидки', kz: 'Тағы жеңілдік көрсету' },
+    'No deals match these filters — try another store or price.': { ru: 'Под эти фильтры скидок нет — попробуйте другой магазин или цену.', kz: 'Бұл сүзгілерге жеңілдік жоқ — басқа дүкен немесе баға таңдаңыз.' },
+    'Prices in USD · data: CheapShark · a click opens the store on CheapShark in a new tab': { ru: 'Цены в USD · данные: CheapShark · клик открывает магазин через CheapShark в новой вкладке', kz: 'Бағалар USD-мен · деректер: CheapShark · басу дүкенді CheapShark арқылы жаңа бетте ашады' }
   };
 
   /* Texts with a number inside, e.g. the catalog counter "12 games".
@@ -141,13 +222,13 @@
     let message;
     switch (lang) {
       case 'ru':
-        htmlLang = 'ru'; message = 'Язык: русский 🇷🇺';
+        htmlLang = 'ru'; message = 'Язык: русский';
         break;
       case 'kz':
-        htmlLang = 'kk'; message = 'Тіл: қазақша 🇰🇿';
+        htmlLang = 'kk'; message = 'Тіл: қазақша';
         break;
       default:
-        lang = 'en'; htmlLang = 'en'; message = 'Language: English 🇬🇧';
+        lang = 'en'; htmlLang = 'en'; message = 'Language: English';
     }
     current = lang;
     document.documentElement.lang = htmlLang;
@@ -160,10 +241,11 @@
     }
   }
 
-  // create the selector in the navbar (before the theme button)
+  // create the selector: inside the ⚙ Settings menu (#lang-slot), or before the theme button on older pages
   function addSelector() {
+    const slot = document.getElementById('lang-slot');
     const anchor = document.querySelector('[data-theme-toggle]');
-    if (!anchor) return;
+    if (!slot && !anchor) return;
     const select = document.createElement('select');
     select.className = 'form-select form-select-sm lang-select w-auto';
     select.setAttribute('aria-label', 'Language');
@@ -174,7 +256,8 @@
       select.appendChild(option);
     });
     select.addEventListener('change', () => setLanguage(select.value, true));
-    anchor.parentElement.insertBefore(select, anchor);
+    if (slot) slot.appendChild(select);
+    else anchor.parentElement.insertBefore(select, anchor);
   }
 
   document.addEventListener('DOMContentLoaded', () => {

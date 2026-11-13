@@ -16,7 +16,9 @@
       The search looks at the title, platforms and developer.
    3. Filters <-> address bar — ?genre=rpg&price=low&q=witcher&sort=rating
       is saved after every change and read on load, so a filtered
-      catalog can be shared as a link.
+      catalog can be shared as a link. The same string is kept in
+      localStorage ("nbn-catalog-filters"): coming back to catalog.html
+      without filters in the address restores the last search + filters.
    4. Events — filter buttons (one delegated handler), live search
       (.on('keyup input')), sort, keyboard ("/" focuses the search,
       Escape clears it), reset buttons.
@@ -61,7 +63,7 @@
     // a game with oldPrice is on sale: the same "Sale" badge as on the home page + the old price crossed out
     const sale = game.oldPrice ? '<span class="sale-badge badge text-bg-primary position-absolute top-0 start-0 m-2">Sale</span>' : '';
     // "★ 4.9" on the right of the price row (the star is decoration, screen readers hear the words)
-    const rating = `<span class="ms-auto small fw-normal text-body-secondary text-nowrap"><span class="card-rating-star" aria-hidden="true">★</span> <span aria-hidden="true">${game.rating.toFixed(1)}</span><span class="visually-hidden">Rating ${game.rating.toFixed(1)} out of 5</span></span>`;
+    const rating = `<span class="small fw-normal text-body-secondary text-nowrap"><span class="card-rating-star" aria-hidden="true">★</span> <span aria-hidden="true">${game.rating.toFixed(1)}</span><span class="visually-hidden">Rating ${game.rating.toFixed(1)} out of 5</span></span>`;
     const buyLabel = game.price === 0 ? 'Get for free' : 'Add to cart';   // same words as on the game page
     const oldPrice = game.oldPrice ? `<span class="text-decoration-line-through text-body-tertiary small fw-normal">${NBN.formatPrice(game.oldPrice)}</span>` : '';
     return `
@@ -71,8 +73,12 @@
             ${sale}<div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover lazy" src="${PLACEHOLDER}" data-src="${game.img}" alt="${title} cover"></div>
             <div class="card-body d-flex flex-column gap-1 p-3">
               <h3 class="card-title h6 fw-bold mb-0">${title}</h3>
-              <p class="card-text small text-body-secondary mb-0">${game.platforms.join(' · ')}</p>
-              <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--${band}" aria-hidden="true"></span>${NBN.formatPrice(game.price)}${oldPrice}${rating}</div>
+              <!-- title → genre + platforms (icons) → rating → price -->
+              <div class="card-text small text-body-secondary d-flex align-items-center justify-content-between gap-2">
+                <span class="d-inline-flex align-items-center gap-1">${NBN.genreIcon(game.genre)} ${game.genreLabel}</span>${NBN.platformIcons(game.platforms)}
+              </div>
+              ${rating}
+              <div class="d-flex align-items-center flex-wrap gap-2 fw-semibold mt-auto pt-2"><span class="price-dot price-dot--${band}" aria-hidden="true"></span>${NBN.formatPrice(game.price)}${oldPrice}${sale ? `<span class="badge text-bg-primary">−${Math.round((1 - game.price / game.oldPrice) * 100)}%</span>` : ''}</div>
             </div>
           </a>
           <div class="card-footer border-0 px-3 pb-3 pt-0">
@@ -93,7 +99,7 @@
     });
     return genres.map(first => `
       <section class="mb-5" data-genre-section="${first.genre}" aria-label="${first.genreLabel} games">
-        <h2 class="h4 d-flex align-items-center gap-2 mb-3"><span aria-hidden="true">${first.emoji}</span><span>${first.genreLabel}</span></h2>
+        <h2 class="h4 d-flex align-items-center gap-2 mb-3"><span class="text-primary">${NBN.genreIcon(first.genre)}</span><span>${first.genreLabel}</span></h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
           ${games.filter(g => g.genre === first.genre).map(renderCard).join('')}
         </div>
@@ -183,6 +189,7 @@
   }
 
   /* ---------- filters <-> address bar ---------- */
+  const SAVED_KEY = 'nbn-catalog-filters';   // last search + filters (localStorage)
   const URL_KEYS = { genre: 'genre', price: 'price', platform: 'platform', search: 'q', sort: 'sort' };
 
   function saveToUrl() {
@@ -192,6 +199,16 @@
     });
     const query = params.toString();
     history.replaceState(null, '', location.pathname + (query ? '?' + query : ''));
+    // the same filters are remembered in localStorage → restored when the user comes back to the catalog
+    try { localStorage.setItem(SAVED_KEY, query); } catch (e) { /* storage blocked */ }
+  }
+
+  // came to catalog.html without filters in the address? → put the last saved ones there
+  // (a link with its own filters, e.g. ?genre=rpg from a game page, always wins)
+  function restoreSavedFilters() {
+    let saved = '';
+    try { saved = localStorage.getItem(SAVED_KEY) || ''; } catch (e) { /* storage blocked */ }
+    if (!location.search && saved) history.replaceState(null, '', location.pathname + '?' + saved);
   }
 
   // marks one filter button as active (and the others in its list as not active)
@@ -290,8 +307,15 @@
 
   /* ---------- start: load the data, build the cards, apply the filters ---------- */
   async function start() {
+    // skeleton: grey card shapes in the real grid while the data is on its way
+    let skeleton = '';
+    for (let i = 0; i < 6; i++) {
+      skeleton += '<div class="col"><div class="card h-100 placeholder-glow" aria-hidden="true"><span class="placeholder ratio ratio-16x9 rounded-top"></span>' +
+                  '<div class="card-body d-grid gap-2"><span class="placeholder col-8"></span><span class="placeholder col-5"></span><span class="placeholder col-4"></span></div></div></div>';
+    }
     $content.attr('aria-busy', 'true').html(
-      '<p class="text-body-secondary d-flex align-items-center gap-2"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span>Loading games…</p>');
+      '<p class="visually-hidden" role="status">Loading games…</p>' +
+      `<div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">${skeleton}</div>`);
     $count.text('');
 
     let games;
@@ -301,7 +325,7 @@
       // no internet / file opened from disk / server error → a clear message + a way to try again
       $content.attr('aria-busy', 'false').html(
         '<div class="alert alert-warning d-flex flex-wrap align-items-center gap-3" role="alert">' +
-          '<span>⚠️ Could not load the games. Check your connection and try again.</span>' +
+          '<i class="bi bi-exclamation-triangle" aria-hidden="true"></i><span>Could not load the games. Check your connection and try again.</span>' +
           '<button type="button" class="btn btn-sm btn-outline-primary" id="catalog-retry">Try again</button>' +
         '</div>');
       return;
@@ -313,6 +337,7 @@
     $cols.each(function (i) { this.dataset.order = i; });     // remember the original order (for "default" sorting)
     if (window.revealOnScroll) revealOnScroll($sections.get());   // sections slide in like on other pages (js/main.js)
 
+    restoreSavedFilters();
     loadFromUrl();
     refresh();
   }

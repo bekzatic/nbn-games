@@ -1,7 +1,7 @@
 /* ==========================================================
    Day / Night theme switch
    Author: Bekzat Amanbek
-   Pages: every page — ☀️ / 🌙 button in the navbar.
+   Pages: every page — the sun / moon switch in the navbar.
 
    This file is loaded in <head> (not at the bottom), so the saved
    theme is applied BEFORE the page is drawn — no white/black flash.
@@ -31,9 +31,9 @@
     if (bar) bar.setAttribute('content', theme === 'light' ? '#f6f4ef' : '#0b0d10');
     document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
       const isDay = theme === 'light';
-      btn.textContent = isDay ? '🌙' : '☀️';
-      btn.setAttribute('aria-label', isDay ? 'Switch to night theme' : 'Switch to day theme');
-      btn.setAttribute('title', isDay ? 'Night theme' : 'Day theme');
+      // the switch is a toggle button: "Day theme" pressed = Day, not pressed = Night (CSS moves the knob)
+      btn.setAttribute('aria-pressed', String(isDay));
+      btn.setAttribute('title', isDay ? 'Switch to night theme' : 'Switch to day theme');
     });
     document.dispatchEvent(new CustomEvent('nbn:themechange', { detail: { theme } }));
   }
@@ -52,11 +52,8 @@
         applyTheme(next);
         try { localStorage.setItem(KEY, next); } catch (e) { /* ignore */ }
         if (window.SoundFX) SoundFX.play('toggle');
-        // a small spin animation on the button itself
-        btn.style.transform = 'rotate(360deg) scale(1.15)';
-        setTimeout(() => { btn.style.transform = ''; }, 400);
         setTimeout(() => root.classList.remove('theme-anim'), 700);
-        if (window.showToast) showToast(next === 'light' ? 'Day theme ☀️' : 'Night theme 🌙');
+        if (window.showToast) showToast(next === 'light' ? 'Day theme' : 'Night theme', 'info');
       });
     });
   });

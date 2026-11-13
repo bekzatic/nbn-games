@@ -76,7 +76,8 @@
      type: 'success' | 'error' | 'info' | 'cart' | 'heart' | 'copy'
      Hovering a toast pauses it; × closes it at once.
      ========================================================== */
-  const ICONS = { success: '✓', error: '!', info: 'i', cart: '🛒', heart: '♥', copy: '📋' };
+  // Bootstrap Icons names — the same icon set as everywhere on the site
+  const ICONS = { success: 'check-lg', error: 'exclamation-lg', info: 'info-lg', cart: 'cart3', heart: 'heart-fill', copy: 'clipboard-check' };
   const TOAST_TIME = 3200;
   let $toastBox = null;
 
@@ -91,7 +92,7 @@
 
     const $toast = $(
       '<div class="nbn-toast nbn-toast--' + type + '">' +
-        '<span class="nbn-toast__icon" aria-hidden="true">' + ICONS[type] + '</span>' +
+        '<span class="nbn-toast__icon" aria-hidden="true"><i class="bi bi-' + ICONS[type] + '"></i></span>' +
         '<span class="nbn-toast__text"></span>' +
         '<button type="button" class="nbn-toast__close" aria-label="Close notification">×</button>' +
         '<span class="nbn-toast__timer" aria-hidden="true"></span>' +
@@ -231,7 +232,7 @@
 
   /* ==========================================================
      "Copy" buttons
-     <button class="copy-btn" data-copy="NEXTSTEP">📋</button>
+     <button class="copy-btn" data-copy="NEXTSTEP"><i class="bi bi-clipboard"></i></button>
      (data-copy="url" copies the address of the current page)
      Click → the text goes to the clipboard, the icon becomes ✓ and a
      tooltip "Copied to clipboard!" appears, then everything returns.
@@ -282,7 +283,7 @@
     if ($btn.data('icon') === undefined) $btn.data('icon', $btn.html());
     // icon-only button → "✓", button with a text label → "✓ Copied"
     const hasLabel = $('<div>').html($btn.data('icon')).text().trim().length > 2;
-    $btn.addClass('is-copied').html('<span aria-hidden="true">✓</span>' + (hasLabel ? ' Copied' : ''));
+    $btn.addClass('is-copied').html('<i class="bi bi-check-lg" aria-hidden="true"></i>' + (hasLabel ? ' Copied' : ''));
 
     let $tip = $btn.find('.copy-tip');
     if (!$tip.length) $tip = $('<span class="copy-tip" role="status">Copied to clipboard!</span>');
@@ -344,7 +345,7 @@
     function updateStatus() {
       const total = $('img.lazy').length;
       const waiting = $('img.lazy[data-src]').length;     // data-src is removed once the picture is loaded
-      if ($status.length) $status.text(total ? '🖼 ' + (total - waiting) + ' / ' + total + ' covers loaded' : '');
+      if ($status.length) $status.text(total ? (total - waiting) + ' / ' + total + ' covers loaded' : '');
     }
 
     function check() {

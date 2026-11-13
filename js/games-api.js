@@ -36,6 +36,21 @@ window.NBN = window.NBN || {};
     return request;
   };
 
+  // one icon per genre (Bootstrap Icons) — the same on every page instead of emoji
+  const GENRE_ICONS = { action: 'crosshair', adventure: 'compass', rpg: 'shield-shaded', strategy: 'grid-3x3-gap',
+                        simulation: 'buildings', sport: 'dribbble', racing: 'speedometer2' };
+  NBN.genreIcon = function (genre) {
+    return `<i class="bi bi-${GENRE_ICONS[genre] || 'controller'}" aria-hidden="true"></i>`;
+  };
+
+  // platform → icon; the name is kept for screen readers (and for the catalog search)
+  const PLATFORM_ICONS = { Windows: 'windows', macOS: 'apple', PlayStation: 'playstation', Xbox: 'xbox' };
+  NBN.platformIcons = function (platforms) {
+    return '<span class="platform-icons">' + platforms.map(p =>
+      `<i class="bi bi-${PLATFORM_ICONS[p] || 'display'}" title="${p}" aria-hidden="true"></i><span class="visually-hidden">${p}</span>`
+    ).join('') + '</span>';
+  };
+
   // 0 → "Free", 14999 → "14 999 ₸" (the same format on every page)
   NBN.formatPrice = function (price) {
     return price === 0 ? 'Free' : price.toLocaleString('en-US').replace(/,/g, ' ') + ' ₸';

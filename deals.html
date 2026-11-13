@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- NBN Games — live game deals from the CheapShark public API (js/deals-page.js) | Team Next Step -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live discounts on PC games from 30+ stores: filter by store and price, sort by discount or rating.">
+  <meta name="theme-color" content="#0b0d10">
+  <title>NBN Games — Deals</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/jquery-features.css">
+  <!-- loaded in <head> so the saved Day/Night theme is applied before the page is drawn -->
+  <script src="js/theme-toggle.js"></script>
+  <!-- jQuery from the CDN; if the CDN is offline, js/jquery-fallback.js loads our local copy.
+       No `defer` here: jQuery must exist before our scripts run. -->
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous"></script>
+  <script src="js/jquery-fallback.js"></script>
+  <!-- Our scripts. `defer` = the browser downloads them now and runs them
+       after the HTML is parsed, in exactly this order. -->
+  <script src="js/script.js" defer></script>
+  <script src="js/validators.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/wishlist.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/popup.js" defer></script>
+  <script src="js/bg-color.js" defer></script>
+  <script src="js/datetime.js" defer></script>
+  <script src="js/keyboard-nav.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/deals-api.js" defer></script>
+  <script src="js/deals-page.js" defer></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content">Skip to main content</a>
+
+  <!-- Bootstrap navbar — collapses into a hamburger menu below 992px -->
+  <header>
+    <nav class="navbar navbar-expand-lg sticky-top site-nav py-2" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand me-auto" href="index.html"><img src="images/logo-mark.png" alt="NBN Games — home" height="36"></a>
+        <div class="d-flex align-items-center gap-2 order-lg-last ms-lg-4 nav-actions">
+          <!-- Day / Night switch (js/theme-toggle.js) -->
+          <button type="button" class="theme-switch" data-theme-toggle aria-pressed="false" aria-label="Day theme">
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i><i class="bi bi-sun-fill" aria-hidden="true"></i><span class="theme-switch__thumb" aria-hidden="true"></span>
+          </button>
+          <!-- Settings: language (js/i18n.js), sound (js/sound.js), music (js/music.js) -->
+          <div class="dropdown">
+            <button type="button" class="btn btn-outline-secondary icon-btn settings-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Settings"><i class="bi bi-gear" aria-hidden="true"></i></button>
+            <div class="dropdown-menu dropdown-menu-end settings-menu">
+              <span class="dropdown-header px-0 pt-0">Settings</span>
+              <div class="settings-row"><span>Language</span><span id="lang-slot"></span></div>
+              <div class="settings-row"><span>Sound &amp; music</span><span class="d-flex gap-2"><button type="button" class="btn btn-outline-secondary icon-btn" data-sound-toggle aria-label="Sound on or off"><i class="bi bi-volume-up" aria-hidden="true"></i></button></span></div>
+            </div>
+          </div>
+          <a href="profile.html#wishlist" class="btn btn-outline-secondary icon-btn position-relative" aria-label="Wishlist"><i class="bi bi-heart" aria-hidden="true"></i><span class="wish-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="cart.html" class="btn btn-outline-secondary icon-btn position-relative" aria-label="Cart"><i class="bi bi-cart3" aria-hidden="true"></i><span class="cart-badge badge rounded-pill text-bg-primary position-absolute top-0 start-100 translate-middle">0</span></a>
+          <a href="profile.html" class="btn btn-outline-secondary nav-profile d-inline-flex align-items-center gap-2"><i class="bi bi-person-circle" aria-hidden="true"></i><span class="d-none d-sm-inline small fw-medium">Profile</span></a>
+          <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
+                  aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav ms-lg-auto gap-lg-4 pt-2 pt-lg-0">
+            <li class="nav-item"><a class="nav-link px-lg-1" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1 active" aria-current="page" href="deals.html">Deals</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="about.html">About us</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-1" href="about.html#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="flex-grow-1">
+    <section class="hero section-pad">
+      <div class="container">
+        <span class="eyebrow"><i class="bi bi-lightning-charge" aria-hidden="true"></i> Live prices · CheapShark API</span>
+        <h1 class="mt-2 mb-3">Game deals</h1>
+        <p class="lead text-body-secondary mb-0">The biggest discounts on PC games from 30+ stores, updated live. Choose a store, a price limit or the sort order and grab a key before the sale ends.</p>
+      </div>
+    </section>
+
+    <section class="section-pad" aria-labelledby="deals-list-title">
+      <div class="container">
+        <h2 id="deals-list-title" class="h4 mb-4">All deals</h2>
+        <!-- the filters change the list right away (no submit button) -->
+        <form id="deals-filters" class="row g-3 align-items-end mb-4" novalidate>
+          <div class="col-12 col-md-4">
+            <label for="deal-store" class="form-label fw-semibold">Store</label>
+            <select id="deal-store" class="form-select"><option value="">All stores</option></select>
+          </div>
+          <div class="col-6 col-md-4">
+            <label for="deal-price" class="form-label fw-semibold">Max price</label>
+            <select id="deal-price" class="form-select">
+              <option value="">Any price</option><option value="5">Under $5</option><option value="10">Under $10</option><option value="20">Under $20</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-4">
+            <label for="deal-sort" class="form-label fw-semibold">Sort by</label>
+            <select id="deal-sort" class="form-select">
+              <option value="Savings">Biggest discount</option><option value="Price">Lowest price</option><option value="Deal Rating">Best deal rating</option><option value="Recent">Newest</option>
+            </select>
+          </div>
+        </form>
+        <div id="deals-grid"></div>
+        <div class="text-center mt-4"><button type="button" class="btn btn-outline-primary" id="deals-more" hidden>Show more deals</button></div>
+        <p class="small text-body-tertiary text-center mt-4 mb-0">Prices in USD · data: CheapShark · a click opens the store on CheapShark in a new tab</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer pt-5 pb-4 mt-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-lg-4">
+          <img src="images/logo-mark.png" alt="NBN Games logo" height="30" class="mb-3">
+          <p class="text-body-secondary small mb-3">Digital game keys for PC, PlayStation and Xbox — instant delivery and honest prices for gamers in Kazakhstan.</p>
+          <ul class="list-unstyled d-flex gap-2 mb-0">
+            <li><a class="social-link" href="https://github.com/bekzatic/nbn-games" target="_blank" rel="noopener" aria-label="NBN Games on GitHub (new tab)"><i class="bi bi-github" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="https://t.me/share/url?url=https%3A%2F%2Fbekzatic.github.io%2Fnbn-games%2F" target="_blank" rel="noopener" aria-label="Share NBN Games on Telegram (new tab)"><i class="bi bi-telegram" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="https://wa.me/?text=https%3A%2F%2Fbekzatic.github.io%2Fnbn-games%2F" target="_blank" rel="noopener" aria-label="Share NBN Games on WhatsApp (new tab)"><i class="bi bi-whatsapp" aria-hidden="true"></i></a></li>
+            <li><a class="social-link" href="mailto:hello@nbngames.kz" aria-label="Email NBN Games"><i class="bi bi-envelope" aria-hidden="true"></i></a></li>
+          </ul>
+        </div>
+        <nav class="col-6 col-md-4 col-lg-2" aria-label="Footer">
+          <h2 class="h6 text-white mb-3">Store</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0">
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="catalog.html">Catalog</a></li>
+            <li><a class="footer-link" href="deals.html">Deals</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+          </ul>
+        </nav>
+        <div class="col-6 col-md-4 col-lg-2">
+          <h2 class="h6 text-white mb-3">Company</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0">
+            <li><a class="footer-link" href="about.html">About us</a></li>
+            <li><a class="footer-link" href="about.html#contact">Contact</a></li>
+            <li><a class="footer-link" href="profile.html">My account</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4 col-lg-4">
+          <h2 class="h6 text-white mb-3">Contacts</h2>
+          <ul class="list-unstyled small d-grid gap-2 mb-0 text-body-secondary">
+            <li class="d-flex gap-2"><i class="bi bi-geo-alt text-primary" aria-hidden="true"></i><span>Astana, Kazakhstan</span></li>
+            <li class="d-flex gap-2"><i class="bi bi-envelope text-primary" aria-hidden="true"></i><a class="footer-link" href="mailto:hello@nbngames.kz">hello@nbngames.kz</a></li>
+            <li class="d-flex gap-2"><i class="bi bi-clock text-primary" aria-hidden="true"></i><span>Mon–Fri, 9:00–18:00</span></li>
+          </ul>
+        </div>
+      </div>
+      <!-- Footer tools: date & time — Bekzat Amanbek · background colour — Nursultan Rassulov · subscribe popup — Nurkhan Nurzhau -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 mt-4 border rounded-3 bg-body-tertiary small">
+        <div class="d-flex align-items-center gap-2 text-body-secondary"><i class="bi bi-clock" aria-hidden="true"></i><span><span class="js-weekday"></span>, <span class="js-datetime fw-semibold text-white">Loading…</span></span></div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" data-change-bg><i class="bi bi-palette" aria-hidden="true"></i> Change background <span class="bg-color-swatch d-inline-block rounded-circle border border-secondary" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2" data-open-popup><i class="bi bi-envelope" aria-hidden="true"></i> Subscribe</button>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 border-top border-secondary-subtle pt-3 mt-4 small text-body-secondary">
+        <p class="mb-0">© <span class="js-year">2026</span> NBN Games · Team Next Step: Bekzat Amanbek, Nurkhan Nurzhau, Nursultan Rassulov.</p>
+        <p class="mb-0">Page created by: <strong class="text-white">Team Next Step</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Subscribe popup: Bootstrap modal markup, opened and closed by our own js/popup.js -->
+  <div id="subscribe-popup" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="popup-title" hidden>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-secondary-subtle">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h4" id="popup-title">Get the best deals 🎮</h2>
+          <button type="button" class="btn-close popup-close" aria-label="Close"></button>
+        </div>
+        <form novalidate>
+          <div class="modal-body">
+            <p class="small text-body-secondary">One short email a week with sales and new releases.</p>
+            <div class="mb-3">
+              <label for="popup-name" class="form-label fw-semibold">Name</label>
+              <input type="text" class="form-control" id="popup-name" name="popup-name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div>
+              <label for="popup-email" class="form-label fw-semibold">Email</label>
+              <input type="text" inputmode="email" class="form-control" id="popup-email" name="popup-email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <p class="popup-msg small mt-3 mb-0" role="status" aria-live="polite"></p>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

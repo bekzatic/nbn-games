@@ -21,14 +21,14 @@
   const success = document.getElementById('form-success');
   const failure = document.getElementById('form-error');
   const submitBtn = document.getElementById('contact-submit');
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const V = window.Validators;            // shared checks: js/validators.js
   const RULES = {
-    fullname: v => !v.trim() ? 'Please enter your name.'
+    fullname: v => !V.isRequired(v) ? 'Please enter your name.'
                  : v.trim().length < 2 ? 'Name must be at least 2 characters.' : '',
-    email:    v => !v.trim() ? 'Email is required.'
-                 : !EMAIL_RE.test(v.trim()) ? 'Enter a valid email, e.g. name@example.com.' : '',
-    message:  v => !v.trim() ? 'Please write a message.'
-                 : v.trim().length < 10 ? `Message is too short (${v.trim().length}/10 characters).` : ''
+    email:    v => !V.isRequired(v) ? 'Email is required.'
+                 : !V.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : '',
+    message:  v => !V.isRequired(v) ? 'Please write a message.'
+                 : v.trim().length < 10 ? 'The message is too short — at least 10 characters.' : ''
   };
   // GitHub Pages hosts only static files → there the form talks to our Vercel function
   const API = /\.github\.io$/.test(location.hostname) ? 'https://nbngames-store.vercel.app/api/contact' : '/api/contact';
@@ -44,13 +44,7 @@
 
   // checks one field, shows / hides its error text; returns true when the value is OK
   function check(el) {
-    const msg = RULES[el.id](el.value);
-    el.classList.toggle('is-invalid', !!msg);
-    el.classList.toggle('is-valid', !msg);
-    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
-    const fb = el.parentElement.querySelector('.invalid-feedback');
-    if (fb) fb.textContent = msg;
-    return !msg;
+    return V.setError(el, RULES[el.id](el.value));
   }
 
   /* Sends the data and returns the server's answer, e.g. { ok: true, ticket: "NBN-…" }.
@@ -94,7 +88,6 @@
     form.reset();
     updateCounter();                       // the empty form starts from 0 again
     tried = false;
-    form.querySelectorAll('.is-valid').forEach(el => el.classList.remove('is-valid'));
     success.textContent = `Thanks, ${answer.name}! Your message has been sent. Ticket number: ${answer.ticket} — we'll reply within a working day.`;
     success.hidden = false;
     if (window.SoundFX) SoundFX.play('success');
@@ -103,7 +96,7 @@
 
   // callback #2 — something went wrong (the text says what)
   function handleError(text) {
-    failure.textContent = '⚠️ ' + text;
+    failure.textContent = text;
     failure.hidden = false;
     if (window.SoundFX) SoundFX.play('error');
     if (window.showToast) showToast('Message not sent — ' + text, 'error');

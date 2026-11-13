@@ -32,14 +32,15 @@
   function showGreeting() {
     const el = document.getElementById('greeting');
     if (!el) return;
-    let text;
+    let text, icon;
     switch (partOfDay(new Date().getHours())) {
-      case 'morning':   text = '☀️ Good morning, player! Coffee and a quick match?'; break;
-      case 'afternoon': text = '🎮 Good afternoon! Perfect time for a new game.'; break;
-      case 'evening':   text = '🌆 Good evening! Your next level is waiting.'; break;
-      default:          text = '🌙 Still awake? One more game won\'t hurt.';
+      case 'morning':   icon = 'sunrise';     text = 'Good morning, player! Coffee and a quick match?'; break;
+      case 'afternoon': icon = 'controller';  text = 'Good afternoon! Perfect time for a new game.'; break;
+      case 'evening':   icon = 'sunset';      text = 'Good evening! Your next level is waiting.'; break;
+      default:          icon = 'moon-stars';  text = 'Still awake? One more game won\'t hurt.';
     }
-    el.textContent = text;
+    el.innerHTML = `<i class="bi bi-${icon}" aria-hidden="true"></i> `;   // the icon…
+    el.append(text);                                                    // …and the text as plain text
   }
 
   /* ---------- 2. Load more games ---------- */
@@ -63,7 +64,7 @@
             ${sale}<div class="ratio ratio-16x9"><img class="card-img-top object-fit-cover" src="${g.img}" alt="${escapeHtml(g.title)} cover" loading="lazy"></div>
             <div class="card-body d-flex flex-column gap-1 p-3">
               <h3 class="card-title h6 fw-bold mb-0">${escapeHtml(g.title)}</h3>
-              <p class="card-text small text-body-secondary mb-0">${g.emoji} ${g.genreLabel} · ★ ${g.rating.toFixed(1)}</p>
+              <p class="card-text small text-body-secondary mb-0">${NBN.genreIcon(g.genre)} ${g.genreLabel} · <span class="card-rating-star" aria-hidden="true">★</span> ${g.rating.toFixed(1)}</p>
               <div class="fw-semibold mt-auto pt-2">${formatPrice(g.price)}</div>
             </div>
           </a>
@@ -107,7 +108,7 @@
       showNextPage();
     } catch (err) {
       moreBtn.textContent = 'Try again';
-      moreInfo.textContent = '⚠️ Could not load more games. Check your connection and try again.';
+      moreInfo.textContent = 'Could not load more games. Check your connection and try again.';
       if (window.showToast) showToast('Could not load more games', 'error');
     } finally {
       moreBtn.disabled = false;          // `finally` runs after success AND after an error
@@ -183,10 +184,19 @@
   /* ---------- 4. Newsletter: no backend, just say thanks ---------- */
   const newsForm = document.getElementById('news-form');
   if (newsForm) {
+    // checked with js/validators.js; the error appears under the field (no browser bubbles)
+    const NEWS_RULES = {
+      'news-email': v => !Validators.isRequired(v) ? 'Email is required.' : !Validators.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : ''
+    };
+    const newsLive = Validators.liveCheck(newsForm, NEWS_RULES);
     newsForm.addEventListener('submit', e => {
       e.preventDefault();
+      newsLive.markSubmitted();
+      const firstBad = Validators.validateForm(NEWS_RULES);
+      if (firstBad) { firstBad.focus(); return; }
       const done = () => {
         newsForm.reset();
+        newsLive.reset();
         if (window.SoundFX) SoundFX.play('success');
         if (window.showToast) showToast('Form submitted successfully — you are subscribed!', 'success');
       };
