@@ -10,9 +10,12 @@
       in a WeakMap, so switching back to EN always works.
    3. setLanguage() uses a SWITCH to choose the language, the
       <html lang> attribute and the message for the toast.
-   4. The choice is saved in localStorage; cards that JavaScript adds
-      later (Load more, cart…) are translated by a MutationObserver.
-   Game titles, descriptions and form texts stay in English.
+   4. The choice is saved in localStorage; everything JavaScript adds
+      or changes later (cards, toasts, form errors…) is translated by a
+      MutationObserver.
+   5. Not only the text: placeholder, title, aria-label and alt too.
+   Most of the texts are in js/i18n-dict.js (loaded right before this file).
+   Game titles and store names stay as they are (they are names).
    ========================================================== */
 
 (function () {
@@ -160,37 +163,59 @@
     'Prices in USD · data: CheapShark · a click opens the store on CheapShark in a new tab': { ru: 'Цены в USD · данные: CheapShark · клик открывает магазин через CheapShark в новой вкладке', kz: 'Бағалар USD-мен · деректер: CheapShark · басу дүкенді CheapShark арқылы жаңа бетте ашады' }
   };
 
-  /* Texts with a number inside, e.g. the catalog counter "12 games".
-     Each pattern: a regular expression + a function that builds the translation. */
-  const PATTERNS = [
+  // the big part of the dictionary (pages, forms, errors, toasts) is in js/i18n-dict.js
+  Object.assign(DICTIONARY, window.I18N_EXTRA || {});
+
+  // the other way round: Russian / Kazakh text → English key. So a text that is
+  // already translated (e.g. saved by a script) is still recognised after a switch.
+  const REVERSE = {};
+  Object.keys(DICTIONARY).forEach(en => {
+    ['ru', 'kz'].forEach(l => { const v = DICTIONARY[en][l]; if (v && v !== en && !REVERSE[v]) REVERSE[v] = en; });
+  });
+  // the English key of a text in any of our languages, or null
+  const toEnglish = text => (lookup(text) !== null ? text : (REVERSE[text] || null));
+
+  /* Texts with a changing part inside, e.g. "12 games" or "Thanks, Bekzat!".
+     Each pattern: a regular expression + a function per language that gets
+     the captured parts ((\d+), (.+) …) and builds the translation.
+     t(x) translates a captured part too, if the dictionary knows it. */
+  const t = x => lookup(x) || x;
+  const PATTERNS = (window.I18N_PATTERNS || []).concat([
     {
       re: /^(\d+) games?$/,
       ru: n => `${n} ${ruPlural(n, 'игра', 'игры', 'игр')}`,
       kz: n => `${n} ойын`
     }
-  ];
+  ]);
 
   // Russian plural: 1 игра, 2 игры, 5 игр, 21 игра, 11 игр
   function ruPlural(n, one, few, many) {
+    n = Number(n);
     const mod10 = n % 10;
     const mod100 = n % 100;
     if (mod10 === 1 && mod100 !== 11) return one;
     if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
     return many;
   }
+  window.I18N_HELPERS = { ruPlural, t };
 
   // English text → text in the current language (or null if we don't know it)
   function lookup(en) {
-    if (DICTIONARY[en]) return current === 'en' ? en : DICTIONARY[en][current];
+    if (Object.prototype.hasOwnProperty.call(DICTIONARY, en)) return current === 'en' ? en : DICTIONARY[en][current];
     for (const p of PATTERNS) {
       const m = en.match(p.re);
-      if (m) return current === 'en' ? en : p[current](Number(m[1]));
+      if (m) return current === 'en' ? en : p[current](...m.slice(1));
     }
     return null;
   }
 
   const LANGS = ['en', 'ru', 'kz'];
-  const original = new WeakMap();     // text node → its English text
+  const ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];   // attributes with text for people
+  const SKIP = 'script, style, textarea, .lang-select, [data-no-i18n]';   // text inside these stays as it is
+  const SKIP_ATTR = 'script, style, [data-no-i18n]';                       // attributes: only these are skipped
+  const norm = s => s.trim().replace(/\s+/g, ' ');                         // line breaks / double spaces → one space
+  const original = new WeakMap();     // text node → { en: English text, shown: what we put there }
+  const originalAttr = new WeakMap(); // element → { attribute: { en, shown } }
   let current = 'en';
 
   function load() {
@@ -199,22 +224,50 @@
 
   // translate one text node into the current language
   function translateNode(node) {
-    if (!original.has(node)) {
-      const text = node.nodeValue.trim();
-      if (!text || lookup(text) === null) return;   // we don't know this text — leave it
-      original.set(node, text);
+    if (node.parentElement && node.parentElement.closest(SKIP)) return;
+    const raw = node.nodeValue.trim();
+    const text = norm(raw);
+    let info = original.get(node);
+    if (!info || text !== info.shown) {             // first time, or a script has put a new English text
+      const en = text && toEnglish(text);
+      if (!en) { original.delete(node); return; }    // we don't know it — leave it
+      info = { en };
+      original.set(node, info);
     }
-    const value = lookup(original.get(node));
+    const value = lookup(info.en);
+    info.shown = value;
     // keep the spaces around the text (they matter between inline elements)
-    node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), value);
+    if (text !== value) node.nodeValue = node.nodeValue.replace(raw, () => value);
+  }
+
+  // the same for placeholder / title / aria-label / alt
+  function translateAttrs(el) {
+    if (el.closest(SKIP_ATTR)) return;
+    ATTRS.forEach(name => {
+      if (!el.hasAttribute(name)) return;
+      const now = norm(el.getAttribute(name));
+      const all = originalAttr.get(el) || {};
+      let info = all[name];
+      if (!info || now !== info.shown) {
+        const en = now && toEnglish(now);
+        if (!en) { delete all[name]; return; }
+        info = all[name] = { en };
+        originalAttr.set(el, all);
+      }
+      const value = lookup(info.en);
+      info.shown = value;
+      if (now !== value) el.setAttribute(name, value);
+    });
   }
 
   function translatePage(root) {
-    const walker = document.createTreeWalker(root || document.body, NodeFilter.SHOW_TEXT);
+    root = root || document.documentElement;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     let node;
-    while ((node = walker.nextNode())) {
-      if (node.parentElement && !node.parentElement.closest('script, style, .lang-select')) translateNode(node);
-    }
+    while ((node = walker.nextNode())) translateNode(node);
+    if (root.nodeType !== Node.ELEMENT_NODE) return;
+    if (root.matches(ATTRS.map(a => `[${a}]`).join(','))) translateAttrs(root);
+    root.querySelectorAll(ATTRS.map(a => `[${a}]`).join(',')).forEach(translateAttrs);
   }
 
   function setLanguage(lang, withEffects) {
@@ -260,17 +313,27 @@
     else anchor.parentElement.insertBefore(select, anchor);
   }
 
+  // other scripts can ask for a translation: I18N.t('Add to cart') → 'В корзину'
+  window.I18N = { t, lang: () => current };
+
   document.addEventListener('DOMContentLoaded', () => {
     addSelector();
     setLanguage(load(), false);
 
-    // new cards / buttons added by other scripts get translated too
+    /* Everything that other scripts add or change later is translated too:
+       new cards and toasts (childList), a changed text (characterData),
+       a new placeholder / title / aria-label / alt (attributes).
+       Our own changes are recognised by info.shown, so there is no endless loop. */
     new MutationObserver(records => {
       if (current === 'en') return;
-      records.forEach(r => r.addedNodes.forEach(n => {
-        if (n.nodeType === Node.TEXT_NODE) translateNode(n);
-        else if (n.nodeType === Node.ELEMENT_NODE) translatePage(n);
-      }));
-    }).observe(document.body, { childList: true, subtree: true });
+      records.forEach(r => {
+        if (r.type === 'characterData') translateNode(r.target);
+        else if (r.type === 'attributes') translateAttrs(r.target);
+        else r.addedNodes.forEach(n => {
+          if (n.nodeType === Node.TEXT_NODE) translateNode(n);
+          else if (n.nodeType === Node.ELEMENT_NODE) translatePage(n);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS });
   });
 })();

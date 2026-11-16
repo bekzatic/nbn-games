@@ -6,6 +6,11 @@
    written to the Vercel function log.
    ========================================================== */
 
+// the SAME checks as in the browser — so a request sent around the page (curl, DevTools) is checked too
+const V = require('../js/validators.js');
+const TOPICS = ['support', 'partnership', 'feedback'];
+const PLATFORMS = ['pc', 'playstation', 'xbox', 'switch'];
+
 // The GitHub Pages copy of the site (bekzatic.github.io) may call this function too
 const ALLOWED_ORIGINS = ['https://bekzatic.github.io'];
 
@@ -25,16 +30,20 @@ module.exports = (req, res) => {
   }
 
   const body = typeof req.body === 'string' ? safeParse(req.body) : (req.body || {});
-  const name = String(body.fullname || '').trim();
-  const email = String(body.email || '').trim();
-  const message = String(body.message || '').trim();
+  const name = V.clean(body.fullname);
+  const email = V.clean(body.email).toLowerCase();
+  const message = V.clean(body.message);
+  const topic = String(body.topic || '');
+  const platform = String(body.platform || '');
 
-  if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || message.length < 10) {
-    return res.status(400).json({ ok: false, error: 'Please check the form fields.' });
-  }
+  // the first problem found → 400 with the same text the form shows under the field
+  const error = V.nameError(name) || V.emailError(email) || V.messageError(message, 10, 1000)
+    || (TOPICS.includes(topic) ? '' : 'Please choose the purpose of contact.')
+    || (PLATFORMS.includes(platform) ? '' : 'Please choose one of the options.');
+  if (error) return res.status(400).json({ ok: false, error });
 
   const ticket = 'NBN-' + Date.now().toString(36).toUpperCase().slice(-6);
-  console.log('Contact form', ticket, { name, topic: body.topic, platform: body.platform });
+  console.log('Contact form', ticket, { name, topic, platform });
   return res.status(200).json({ ok: true, ticket, name, receivedAt: new Date().toISOString() });
 };
 

@@ -29,8 +29,8 @@
   const msg = popup.querySelector('.popup-msg');
   // the fields are checked with js/validators.js — errors appear under each field
   const RULES = {
-    'popup-name': v => !Validators.isRequired(v) ? 'Please enter your name.' : '',
-    'popup-email': v => !Validators.isRequired(v) ? 'Email is required.' : !Validators.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : ''
+    'popup-name': v => Validators.nameError(v),
+    'popup-email': v => Validators.emailError(v)
   };
   const live = Validators.liveCheck(form, RULES);
   let backdrop = null;
@@ -103,8 +103,8 @@
     msg.textContent = '';
     const firstBad = Validators.validateForm(RULES);
     if (firstBad) { firstBad.focus(); return; }
-    const name = form.elements['popup-name'].value.trim();
-    const email = form.elements['popup-email'].value.trim();
+    const name = Validators.clean(form.elements['popup-name'].value);
+    const email = Validators.clean(form.elements['popup-email'].value).toLowerCase();
     // spinner + "Please wait…" on the button (NBN.withSpinner), then the success message + toast
     const finish = () => {
       msg.textContent = `Thanks, ${name}! Deals will be sent to ${email}.`;

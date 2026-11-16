@@ -186,7 +186,7 @@
   if (newsForm) {
     // checked with js/validators.js; the error appears under the field (no browser bubbles)
     const NEWS_RULES = {
-      'news-email': v => !Validators.isRequired(v) ? 'Email is required.' : !Validators.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : ''
+      'news-email': v => Validators.emailError(v)
     };
     const newsLive = Validators.liveCheck(newsForm, NEWS_RULES);
     newsForm.addEventListener('submit', e => {

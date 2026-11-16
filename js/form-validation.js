@@ -27,15 +27,10 @@
 
   // Each rule returns an error message, or '' when the value is fine.
   const RULES = {
-    'su-name': v => !V.isRequired(v) ? 'Please enter your name.'
-                  : v.trim().length < 2 ? 'Name must be at least 2 characters.' : '',
-    'su-email': v => !V.isRequired(v) ? 'Email is required.'
-                   : !V.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.'
-                   : Auth.findUser(v) ? 'An account with this email already exists.' : '',
-    'su-phone': v => !V.isRequired(v) ? 'Phone number is required.'
-                   : !V.isPhone(v) ? 'Enter a Kazakhstan number: +7 7XX XXX XX XX.' : '',
-    'su-password': v => !V.isRequired(v) ? 'Password is required.'
-                      : !V.isStrongPassword(v) ? 'Use 8+ characters with a letter, a digit and a special character.' : '',
+    'su-name': v => V.nameError(v),
+    'su-email': v => V.emailError(v) || (Auth.findUser(V.clean(v)) ? 'An account with this email already exists.' : ''),
+    'su-phone': v => V.phoneError(v),
+    'su-password': v => V.passwordError(v),
     'su-confirm': v => !V.isRequired(v) ? 'Please repeat your password.'
                      : v !== value('su-password') ? 'Passwords do not match.' : '',
     'su-terms': checked => (checked ? '' : 'You must accept the terms to continue.')
@@ -68,7 +63,8 @@
     const firstBad = V.validateForm(RULES);
     if (firstBad) { firstBad.focus(); return; }
 
-    const data = { name: value('su-name'), email: value('su-email'), phone: value('su-phone'), password: value('su-password') };
+    // cleaned values: exactly what the rules above have checked
+    const data = { name: V.clean(value('su-name')), email: V.clean(value('su-email')), phone: V.clean(value('su-phone')), password: value('su-password') };
     const result = Auth.register(data);
     if (!result.ok) {                       // e.g. registered in another tab a moment ago
       V.setError(document.getElementById('su-email'), 'An account with this email already exists.');

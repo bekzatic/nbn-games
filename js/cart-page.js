@@ -119,19 +119,20 @@ cartItemsEl.addEventListener('click', (e) => {
       break;
   }
   renderCart();
-if (CART_MISSING) {
-  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
-  document.getElementById('checkout-btn').disabled = true;
-}
 });
 
 document.getElementById('promo-form').addEventListener('submit', e => {
   e.preventDefault();
   const input = document.getElementById('promo-input');
-  const code = input.value.trim().toUpperCase();
+  const code = Validators.clean(input.value).toUpperCase();
   // empty field → the error under the field (js/validators.js), nothing else happens
   if (!Validators.isRequired(code)) {
     Validators.setError(input, 'Enter a promo code.');
+    input.focus();
+    return;
+  }
+  if (!/^[A-Z0-9]{3,20}$/.test(code)) {             // a code is 3–20 Latin letters / digits
+    Validators.setError(input, 'A promo code has only Latin letters and digits.');
     input.focus();
     return;
   }
@@ -150,10 +151,6 @@ document.getElementById('promo-form').addEventListener('submit', e => {
     input.classList.add('shake');
   }
   renderCart();
-if (CART_MISSING) {
-  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
-  document.getElementById('checkout-btn').disabled = true;
-}
 });
 
 /* ==========================================================
@@ -180,23 +177,34 @@ const Checkout = {
   /* the rules of every step (js/validators.js); each returns an error text or '' */
   RULES: {
     1: {
-      'co-name': v => !Validators.isRequired(v) ? 'Please enter your name.' : v.trim().length < 2 ? 'Name must be at least 2 characters.' : '',
-      'co-email': v => !Validators.isRequired(v) ? 'Email is required.' : !Validators.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : '',
-      'co-phone': v => !Validators.isRequired(v) ? 'Phone number is required.' : !Validators.isPhone(v) ? 'Enter a Kazakhstan number: +7 7XX XXX XX XX.' : ''
+      'co-name': v => Validators.nameError(v),
+      'co-email': v => Validators.emailError(v),
+      'co-phone': v => Validators.phoneError(v)
     },
-    2: {},                                     // step 2 has defaults for everything
+    2: {                                       // a value changed in DevTools is not accepted
+      'co-platform': (v, el) => Validators.choiceError(el)
+    },
     3: { 'co-agree': checked => checked ? '' : 'Please tick this box to place the order.' }
   },
 
   // read the inputs of the form into this.order
   saveInputs() {
     const f = this.el.form.elements;
-    this.order.name = f.name.value.trim();
-    this.order.email = f.email.value.trim();
-    this.order.phone = f.phone.value.trim();
+    this.order.name = Validators.clean(f.name.value);
+    this.order.email = Validators.clean(f.email.value).toLowerCase();
+    this.order.phone = Validators.clean(f.phone.value);
     this.order.platform = f.platform.value;
     this.order.method = f.method.value;
     this.order.gift = f.gift.checked;
+  },
+
+  // the payment method must be one of our three radio buttons
+  METHODS: ['NBN Wallet', 'Kaspi QR', 'Bank card'],
+  methodOk() {
+    const chosen = this.el.form.querySelector('input[name="method"]:checked');
+    const ok = !!chosen && this.METHODS.includes(chosen.value);
+    if (!ok) toast('Please choose a payment method', 'error');
+    return ok;
   },
 
   // check the current step; returns true when it is OK
@@ -271,13 +279,22 @@ const Checkout = {
 
   next() {
     this.saveInputs();
-    if (!this.validate(this.step)) {
+    if (!this.validate(this.step) || (this.step === 2 && !this.methodOk())) {
       if (window.SoundFX) SoundFX.play('error');
       return;
     }
     if (window.SoundFX) SoundFX.play('click');
-    if (this.step < this.LAST) this.showStep(this.step + 1);
-    else this.placeOrder();
+    if (this.step < this.LAST) { this.showStep(this.step + 1); return; }
+    // the last step: check ALL steps again — skipping a step (e.g. from DevTools) does not work
+    for (let s = 1; s <= this.LAST; s++) {
+      if (!this.validate(s) || (s === 2 && !this.methodOk())) {
+        if (s !== this.step) this.showStep(s);
+        if (window.SoundFX) SoundFX.play('error');
+        return;
+      }
+    }
+    if (!getCart().length) { toast('Your cart is empty'); this.close(); return; }
+    this.placeOrder();
   },
 
   back() {
@@ -297,10 +314,6 @@ const Checkout = {
     saveCart([]);
     setPromo(0);                              // the code was used for this order
     renderCart();
-if (CART_MISSING) {
-  cartItemsEl.innerHTML = '<li class="alert alert-warning mb-0" role="alert">The cart could not load right now. Please refresh the page.</li>';
-  document.getElementById('checkout-btn').disabled = true;
-}
     if (window.SoundFX) SoundFX.play('success');
     launchConfetti();
   }
@@ -308,7 +321,7 @@ if (CART_MISSING) {
 
 /* the buttons pass Checkout methods as callbacks */
 // live re-check of the checkout fields after the first failed "Next" (js/validators.js)
-Checkout.live = Validators.liveCheck(Checkout.el.form, Object.assign({}, Checkout.RULES[1], Checkout.RULES[3]));
+Checkout.live = Validators.liveCheck(Checkout.el.form, Object.assign({}, Checkout.RULES[1], Checkout.RULES[2], Checkout.RULES[3]));
 document.getElementById('checkout-btn').addEventListener('click', () => Checkout.open());
 Checkout.el.next.addEventListener('click', () => Checkout.next());
 Checkout.el.back.addEventListener('click', () => Checkout.back());

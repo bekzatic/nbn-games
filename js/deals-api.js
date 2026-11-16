@@ -80,7 +80,7 @@ window.DealsAPI = (function () {
     return `
       <div class="col">
         <article class="card game-card deal-card h-100">
-          <div class="deal-thumb"><img src="${esc(d.thumb)}" alt="${esc(d.title)}" loading="lazy"></div>
+          <div class="deal-thumb ratio ratio-16x9"><img class="object-fit-contain" src="${esc(d.thumb)}" alt="${esc(d.title)}" loading="lazy"></div>
           <div class="card-body d-flex flex-column gap-1 p-3">
             <h3 class="card-title h6 fw-bold mb-0">${esc(d.title)}</h3>
             <div class="d-flex align-items-center flex-wrap gap-2 mt-auto pt-2">

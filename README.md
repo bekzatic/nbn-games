@@ -95,13 +95,14 @@ nbn-games/
 │   ├── games-api.js          NBN.loadGames() — the one place that loads data/games.json
 │   ├── deals-api.js          CheapShark public API: live deals + prices in other stores (cache 10 min)
 │   ├── deals-page.js         deals.html: filters + "Show more deals"
-│   ├── validators.js         isEmail, isStrongPassword, isPhone, isRequired + errors under the fields
+│   ├── validators.js         one set of rules for every form (browser + api/contact.js) + errors under the fields
 │   ├── auth.js               sign up / log in / log out in localStorage, user name in the navbar
 │   ├── catalog.js            catalog cards (renderCard), filters, sort, live search, URL
 │   ├── jq-search.js          autocomplete, highlighting in the catalog, FAQ search
 │   ├── game.js · home.js · cart-page.js · profile.js · about.js     one file per page
 │   ├── cart.js · wishlist.js · recently-viewed.js                    shared data in localStorage
-│   ├── main.js · popup.js · bg-color.js · datetime.js · keyboard-nav.js · i18n.js · sound.js · music.js
+│   ├── i18n.js · i18n-dict.js   EN / RU / KZ: the engine + every text of the site
+│   ├── main.js · popup.js · bg-color.js · datetime.js · keyboard-nav.js · sound.js · music.js
 │   ├── accordion.js · contact-form.js · form-validation.js
 │   └── vendor/jquery-4.0.0.min.js   local copy of jQuery
 │
@@ -130,7 +131,7 @@ scripts it uses (for example `accordion.js` and `contact-form.js` only on `about
 | Feature | How it works | File | Author |
 |---|---|---|---|
 | Day / Night theme ☀️ 🌙 | switches `data-bs-theme` on `<html>`, saved in localStorage, sends the `nbn:themechange` event | `js/theme-toggle.js`, `css/theme.css` | Bekzat Amanbek |
-| Language EN / RU / KZ | walks all text nodes (`TreeWalker`) and replaces known texts; a `MutationObserver` translates cards added later; Russian plurals (1 игра / 2 игры / 5 игр) | `js/i18n.js` | Bekzat Amanbek |
+| Language EN / RU / KZ | the **whole site**: texts, buttons, placeholders, `title` / `aria-label` / `alt`, tab titles, form errors, toasts, game descriptions and the clock. A `TreeWalker` replaces known texts; a `MutationObserver` translates everything scripts add or change later; patterns for texts with a number or a name ("12 games", "Thanks, Bekzat!"), Russian plurals (1 игра / 2 игры / 5 игр). Names of games, stores and studios stay as they are | `js/i18n.js`, `js/i18n-dict.js` | Bekzat Amanbek |
 | Sound effects 🔊 + **M** key | Web Audio API, no audio files; a new sound stops the previous one (no overlapping) | `js/sound.js` | Nursultan Rassulov |
 | 8-bit background music 🎵 | our own chiptune written as arrays of notes (A minor, 96 BPM), off by default, follows the mute | `js/music.js` | Nursultan Rassulov |
 | Toast notifications | `NBN.notify(text, type)` — `.fadeIn()`, timer line, `.fadeOut()`, hover pauses, max 4 | `js/script.js` | Team |
@@ -154,6 +155,23 @@ JavaScript checks the fields; the error text appears under the field (Bootstrap 
 `.invalid-feedback`, never `alert`), the first wrong field gets the focus, and after the first
 submit every field is re-checked while typing. Forms: newsletter, subscribe popup, sign up, log in,
 settings, change password, wallet top-up, contact, promo code, checkout (with phone).
+
+The same field is checked the same way in every form, so there is no "easy" form to get around:
+
+| Field | Rule |
+|---|---|
+| Name | 2–50 letters of any alphabet (Latin, Russian, Kazakh); parts joined by one space, `-` or `'` — no digits, symbols or HTML |
+| Email | `name@domain.zone`, no spaces, no `..`, at most 254 characters |
+| Phone | Kazakhstan: `+7 7XX XXX XX XX` (or 8 …) |
+| Password | 8–64 characters, a letter, a digit and a special character, no spaces; a new password must differ from the old one |
+| Message | 10–1000 characters, at least 5 letters and 3 different characters ("aaaaaaaaaa" or ".........." are not messages) |
+| Lists / radio buttons | the value must be one of the options the page came with — a value changed in DevTools is rejected |
+
+Spaces around and inside the values are cleaned before saving. Other protections: the contact form
+is checked **again on the server** (`api/contact.js` uses the same `js/validators.js`), so a request
+sent around the page gets a 400; the checkout re-checks **all** steps before the order (jumping to
+the last step does not work); a form can't be sent twice while it is sending; after 5 wrong
+passwords the login waits 30 seconds.
 
 ### Home — `index.html` (page author: Nurkhan Nurzhau)
 
@@ -235,6 +253,13 @@ rules (`css/media-queries.css`). An old study page: it is kept in the project, b
 from the shop (the Deals page took its place in the navigation).
 
 ---
+
+## Updates and the browser cache
+
+Every local CSS / JS link has a version, e.g. `css/theme.css?v=20261116`. After a change the
+number is raised, so the browser downloads the new file instead of using an old saved copy
+(an old CSS file with a new page made the deal cards look broken). Deal covers also use
+Bootstrap's `.ratio` + `.object-fit-contain`, so they stay inside their frame even without our CSS.
 
 ## Design system
 

@@ -146,10 +146,25 @@ function showLogin() {
 
 // the login form: first the fields themselves, then email + password against the saved accounts
 const LOGIN_RULES = {
-  'login-email': v => !V.isRequired(v) ? 'Email is required.' : !V.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : '',
+  'login-email': v => V.emailError(v),
   'login-password': v => !V.isRequired(v) ? 'Password is required.' : ''
 };
 const loginLive = V.liveCheck(loginForm, LOGIN_RULES);
+
+// 5 wrong passwords in a row → the form is locked for 30 seconds (kept in sessionStorage)
+const LOCK_KEY = 'nbn-login-lock';
+function loginLockSeconds() {
+  let lock = {};
+  try { lock = JSON.parse(sessionStorage.getItem(LOCK_KEY)) || {}; } catch (e) { /* no storage → no lock */ }
+  return Math.max(0, Math.ceil(((lock.until || 0) - Date.now()) / 1000));
+}
+function loginAttempt(ok) {
+  try {
+    const lock = JSON.parse(sessionStorage.getItem(LOCK_KEY)) || { fails: 0 };
+    const fails = ok ? 0 : (lock.fails || 0) + 1;
+    sessionStorage.setItem(LOCK_KEY, JSON.stringify(fails >= 5 ? { fails: 0, until: Date.now() + 30000 } : { fails }));
+  } catch (e) { /* ignore */ }
+}
 
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -158,9 +173,18 @@ loginForm.addEventListener('submit', e => {
   const firstBad = V.validateForm(LOGIN_RULES);
   if (firstBad) { firstBad.focus(); return; }
 
-  const mail = byId('login-email').value.trim().toLowerCase();
+  // too many wrong passwords → wait 30 s (password guessing is not an option)
+  const lockLeft = loginLockSeconds();
+  if (lockLeft > 0) {
+    loginError.textContent = `Too many attempts. Try again in ${lockLeft} s.`;
+    loginError.hidden = false;
+    return;
+  }
+
+  const mail = V.clean(byId('login-email').value).toLowerCase();
   const button = loginForm.querySelector('[type="submit"]');
   const ok = !!getAccount(mail) && passwordFor(mail) === byId('login-password').value;
+  loginAttempt(ok);
   // spinner + "Please wait…" while we "check" the password, then a toast (NBN.withSpinner in js/script.js)
   const finish = () => {
     if (ok) {
@@ -168,6 +192,7 @@ loginForm.addEventListener('submit', e => {
       showProfile(mail);
       if (window.showToast) showToast(`Successfully logged in — welcome, ${user.name.split(' ')[0]}!`, 'success');
     } else {
+      loginError.textContent = 'Incorrect email or password. Try again.';
       loginError.hidden = false;
       if (window.showToast) showToast('Wrong email or password', 'error');
     }
@@ -369,7 +394,8 @@ const TOPUP_RULES = {
     if (!V.isRequired(v)) return 'Enter an amount.';
     if (!/^\d+$/.test(v.replace(/\s/g, '')) || amount < 100 || amount > 500000) return 'Enter an amount between 100 and 500 000 ₸.';
     return '';
-  }
+  },
+  'topup-method': (v, el) => V.choiceError(el)
 };
 const topupLive = V.liveCheck(byId('topup-form'), TOPUP_RULES);
 
@@ -403,8 +429,12 @@ function fillSettings() {
 }
 
 const SETTINGS_RULES = {
-  'set-name': v => !V.isRequired(v) ? 'Please enter your name.' : v.trim().length < 2 ? 'Name must be at least 2 characters.' : ''
+  'set-name': v => V.nameError(v),
+  'set-country': (v, el) => V.choiceError(el),
+  'set-platform': (v, el) => V.choiceError(el),
+  'set-currency': (v, el) => V.choiceError(el)
 };
+const VISIBILITY = ['public', 'friends', 'private'];
 const settingsLive = V.liveCheck(byId('settings-form'), SETTINGS_RULES);
 
 byId('settings-form').addEventListener('submit', e => {
@@ -412,12 +442,14 @@ byId('settings-form').addEventListener('submit', e => {
   settingsLive.markSubmitted();
   const firstBad = V.validateForm(SETTINGS_RULES);
   if (firstBad) { firstBad.focus(); return; }
-  const name = byId('set-name').value.trim();
+  const visibility = document.querySelector('input[name="visibility"]:checked');
+  if (!visibility || !VISIBILITY.includes(visibility.value)) { toast('Please choose who can see your profile', 'error'); return; }
+  const name = V.clean(byId('set-name').value);
   user.name = name;
   user.country = byId('set-country').value;
   user.platform = byId('set-platform').value;
   user.currency = byId('set-currency').value;
-  user.visibility = document.querySelector('input[name="visibility"]:checked').value;
+  user.visibility = visibility.value;
   saveUser();
   Auth.rename(user.name);                            // the navbar shows the new name
   renderAll();
@@ -445,8 +477,7 @@ function renderSecurity() {
 const PASSWORD_RULES = {
   'pw-current': v => !V.isRequired(v) ? 'Enter your current password.' : v !== user.password ? 'Current password is incorrect.' : '',
   'pw-new': v => !V.isRequired(v) ? 'Enter a new password.'
-               : !V.isStrongPassword(v) ? 'Use 8+ characters with a letter, a digit and a special character.'
-               : v === byId('pw-current').value ? 'The new password must be different.' : '',
+               : V.passwordError(v) || (v === byId('pw-current').value ? 'The new password must be different.' : ''),
   'pw-confirm': v => !V.isRequired(v) ? 'Please repeat the new password.' : v !== byId('pw-new').value ? 'The new passwords do not match.' : ''
 };
 const passwordLive = V.liveCheck(byId('password-form'), PASSWORD_RULES);

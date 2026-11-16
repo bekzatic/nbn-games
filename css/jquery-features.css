@@ -13,6 +13,12 @@ mark.hl {
   color: #111;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
 }
+/* Day theme: a bright, clear yellow (the darker theme yellow looked brown on the light page) */
+[data-bs-theme="light"] mark.hl {
+  background: #ffe066;
+  color: #1b1d21;
+  box-shadow: 0 0 0 1px rgba(214, 160, 0, .55);
+}
 .faq-dim { opacity: .45; transition: opacity .2s; }
 .faq-match { border-color: var(--bs-primary) !important; }
 
@@ -238,6 +244,6 @@ img.lazy.is-loaded { opacity: 1; animation: lazyFade .5s ease; background: none;
 
 /* ---------- CheapShark deals (js/deals-api.js) ---------- */
 /* the API pictures have different sizes → a fixed area, the picture fits inside it */
-.deal-thumb { height: 120px; display: flex; align-items: center; justify-content: center; background: var(--nbn-surface-2); overflow: hidden; }
-.deal-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.deal-thumb { background: var(--nbn-surface-2); overflow: hidden; }   /* size: Bootstrap .ratio (16:9) */
+.deal-thumb img { object-fit: contain; }
 .deal-skeleton-img { display: block; height: 96px; }

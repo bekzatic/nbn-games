@@ -51,10 +51,14 @@
     const re = query ? new RegExp('(' + escapeRegExp(query) + ')', 'gi') : null;
     $elements.each(function () {
       const $el = $(this);
-      if ($el.data('hl-original') === undefined) $el.data('hl-original', $el.text());
+      // no marks inside → take the text as it is NOW (it may have been translated since the last search)
+      const marked = $el.find('mark.hl').length > 0;
+      if (!marked) $el.data('hl-original', $el.text());
       const original = $el.data('hl-original');
-      $el.html(escapeHtml(original));                 // restore the clean text (removes old marks)
-      if (!re) return;
+      if (!re) {                                      // empty search: put the clean text back (only if we changed it)
+        if (marked) $el.text(original);
+        return;
+      }
 
       $el.empty();
       original.split(re).forEach(function (part, i) {

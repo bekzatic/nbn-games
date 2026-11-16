@@ -22,29 +22,40 @@
   const failure = document.getElementById('form-error');
   const submitBtn = document.getElementById('contact-submit');
   const V = window.Validators;            // shared checks: js/validators.js
+  const MSG_MIN = 10;
+  const MSG_MAX = 1000;
+  const TOPICS = ['support', 'partnership', 'feedback'];
+  // the same checks as every other form (js/validators.js) — and api/contact.js checks them AGAIN on the server
   const RULES = {
-    fullname: v => !V.isRequired(v) ? 'Please enter your name.'
-                 : v.trim().length < 2 ? 'Name must be at least 2 characters.' : '',
-    email:    v => !V.isRequired(v) ? 'Email is required.'
-                 : !V.isEmail(v) ? 'Enter a valid email, e.g. name@example.com.' : '',
-    message:  v => !V.isRequired(v) ? 'Please write a message.'
-                 : v.trim().length < 10 ? 'The message is too short — at least 10 characters.' : ''
+    fullname: v => V.nameError(v),                     // letters only, 2–50
+    email:    v => V.emailError(v),
+    platform: (v, el) => V.choiceError(el),            // a value changed in DevTools is not accepted
+    message:  v => V.messageError(v, MSG_MIN, MSG_MAX) // 10–1000 characters of real words
   };
   // GitHub Pages hosts only static files → there the form talks to our Vercel function
   const API = /\.github\.io$/.test(location.hostname) ? 'https://nbngames-store.vercel.app/api/contact' : '/api/contact';
   const TIMEOUT_MS = 10000;          // no answer after 10 s → stop waiting and say so
   let tried = false;
+  let sending = false;               // true while fetch() runs → a second submit is ignored
 
   // live counter under the message: "3 / 10 characters minimum" → "✓ 24 characters"
   const counter = document.getElementById('message-count');
   function updateCounter() {
-    const n = form.elements.message.value.trim().length;
-    counter.textContent = n < 10 ? `${n} / 10 characters minimum` : `✓ ${n} characters`;
+    const n = V.clean(form.elements.message.value).length;
+    counter.textContent = n < MSG_MIN ? `${n} / ${MSG_MIN} characters minimum`
+                        : n > MSG_MAX ? `${n} / ${MSG_MAX} characters — too long`
+                        : `✓ ${n} / ${MSG_MAX} characters`;
   }
 
   // checks one field, shows / hides its error text; returns true when the value is OK
   function check(el) {
-    return V.setError(el, RULES[el.id](el.value));
+    return V.setError(el, RULES[el.id](el.value, el));
+  }
+
+  // the radio buttons "Purpose of contact": exactly one of OUR values must be chosen
+  function checkTopic() {
+    const chosen = form.querySelector('input[name="topic"]:checked');
+    return V.setError(form.elements.topic[0], chosen && TOPICS.includes(chosen.value) ? '' : 'Please choose the purpose of contact.');
   }
 
   /* Sends the data and returns the server's answer, e.g. { ok: true, ticket: "NBN-…" }.
@@ -106,10 +117,12 @@
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
+    if (sending) return;                     // already sending — no double message
     tried = true;
     success.hidden = true;
     failure.hidden = true;
     const bad = Object.keys(RULES).map(id => form.elements[id]).filter(el => !check(el));
+    if (!checkTopic()) bad.push(form.elements.topic[0]);
     if (bad.length) {
       bad[0].focus();
       form.classList.remove('shake');
@@ -120,9 +133,17 @@
     }
 
     // collect all fields into one object
-    const data = Object.fromEntries(new FormData(form).entries());
-    data.subscribe = form.elements.subscribe.checked;
+    // only the fields we know, cleaned (no extra spaces) — exactly what was checked above
+    const data = {
+      fullname: V.clean(form.elements.fullname.value),
+      email: V.clean(form.elements.email.value).toLowerCase(),
+      platform: form.elements.platform.value,
+      topic: form.querySelector('input[name="topic"]:checked').value,
+      message: V.clean(form.elements.message.value),
+      subscribe: form.elements.subscribe.checked
+    };
 
+    sending = true;
     setLoading(true);
     const started = Date.now();
     try {
@@ -134,11 +155,17 @@
       handleError(err.message);
     } finally {
       setLoading(false);                           // runs after success AND after an error
+      sending = false;
     }
   });
 
   form.addEventListener('input', e => {
     if (e.target.id === 'message') updateCounter();
     if (tried && RULES[e.target.id]) check(e.target);
+  });
+  form.addEventListener('change', e => {
+    if (!tried) return;
+    if (e.target.name === 'topic') checkTopic();
+    else if (RULES[e.target.id]) check(e.target);
   });
 })();
