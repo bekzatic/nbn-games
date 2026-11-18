@@ -196,7 +196,13 @@
   .featured-carousel .carousel-control-next { bottom: auto; height: 220px; }
 }
 
+/* the arrows: a narrow click zone (Bootstrap's 15 % covered the text, and a click on the
+   text changed the slide), and the text keeps a gap to the right arrow */
+.featured-carousel .carousel-control-prev,
+.featured-carousel .carousel-control-next { width: 72px; }
+
 @media (min-width: 768px) {
+  .featured-carousel .slide-text { padding-right: 88px !important; }
   .slide-cover { height: 420px; }
   .slide-text { min-height: 420px; }
 }
