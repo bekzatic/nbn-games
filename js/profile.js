@@ -151,6 +151,14 @@ const LOGIN_RULES = {
 };
 const loginLive = V.liveCheck(loginForm, LOGIN_RULES);
 
+// a demo account button fills email + password, the user only presses "Log in"
+document.querySelectorAll('[data-demo]').forEach(btn => btn.addEventListener('click', () => {
+  byId('login-email').value = btn.dataset.demo;
+  byId('login-password').value = btn.dataset.demoPass;
+  loginLive.reset();
+  loginForm.querySelector('[type="submit"]').focus();
+}));
+
 // 5 wrong passwords in a row → the form is locked for 30 seconds (kept in sessionStorage)
 const LOCK_KEY = 'nbn-login-lock';
 function loginLockSeconds() {

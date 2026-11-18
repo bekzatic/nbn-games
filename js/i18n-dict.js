@@ -192,6 +192,9 @@
 
     /* ---------- catalog + game cards ---------- */
     'Filters': { ru: 'Фильтры', kz: 'Сүзгілер' },
+    'Search games or developers…': { ru: 'Поиск игр или разработчиков…', kz: 'Ойын немесе әзірлеуші іздеу…' },
+    'View cart': { ru: 'Открыть корзину', kz: 'Себетті ашу' },
+    'No time to register? Try a demo account:': { ru: 'Нет времени регистрироваться? Войдите в демо-аккаунт:', kz: 'Тіркелуге уақыт жоқ па? Демо аккаунтпен кіріңіз:' },
     'Search games': { ru: 'Поиск игр', kz: 'Ойын іздеу' },
     'Sort games': { ru: 'Сортировка игр', kz: 'Ойындарды сұрыптау' },
     'Clear search': { ru: 'Очистить поиск', kz: 'Іздеуді тазалау' },
@@ -693,6 +696,8 @@
     // dates: "September 10, 2025" and "16 Nov 2026"
     { re: new RegExp(`^(${monthRe}) (\\d{1,2}), (\\d{4})$`), ru: dateRu, kz: dateKz },
     { re: new RegExp(`^(\\d{1,2}) (${shortRe}) (\\d{4})$`), ru: (d, m, y) => dateRu(MONTHS_EN[SHORT_EN.indexOf(m)], d, y), kz: (d, m, y) => dateKz(MONTHS_EN[SHORT_EN.indexOf(m)], d, y) },
+    // "Action · " before a price in another element
+    { re: /^(.+) ·$/, ru: s => `${t(s)} ·`, kz: s => `${t(s)} ·` },
     // "Racing · 19 999 ₸", "Astana, Kazakhstan · 2 days ago": every part on its own (the last pattern)
     { re: /^(.+ · .+)$/, ru: s => s.split(' · ').map(t).join(' · '), kz: s => s.split(' · ').map(t).join(' · ') }
   ];

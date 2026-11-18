@@ -13,10 +13,10 @@
 (function () {
   let toast, toastBody;
 
-  window.showToast = function (text, type) {
+  window.showToast = function (text, type, action) {
     // all messages use the jQuery toasts (NBN.notify in js/script.js);
     // the Bootstrap toast below is only a backup if jQuery did not load
-    if (window.NBN && NBN.notify) { NBN.notify(text, type); return; }
+    if (window.NBN && NBN.notify) { NBN.notify(text, type, action); return; }
     if (!toast) {
       const wrap = document.createElement('div');
       wrap.className = 'toast-container position-fixed bottom-0 start-50 translate-middle-x p-3';

@@ -100,7 +100,9 @@ function handleAddToCart(btn) {
   const original = btn.textContent;
   btn.textContent = 'Added ✓';
   btn.disabled = true;
-  if (window.showToast) window.showToast(`${name} added to cart`, 'cart');   // toast with the 🛒 icon
+  // toast with the cart icon + a "View cart" link (not needed on the cart page itself)
+  const onCartPage = /\/cart(\.html)?$/.test(location.pathname);   // Vercel shows /cart, GitHub Pages /cart.html
+  if (window.showToast) window.showToast(`${name} added to cart`, 'cart', onCartPage ? null : { label: 'View cart', href: 'cart.html' });
   setTimeout(() => {
     btn.textContent = original;
     btn.disabled = false;

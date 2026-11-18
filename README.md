@@ -254,6 +254,16 @@ from the shop (the Deals page took its place in the navigation).
 
 ---
 
+## Easy to use
+
+- **Catalog on phones:** the filters are folded behind one "Filters" button (with the number of
+  filters that are on), the games come two per row, and the search placeholder is short.
+- **After "Add to cart":** the toast has a "View cart" link.
+- **Cart:** the − / + buttons are 40 × 40 px, easy to hit with a finger.
+- **Log in:** demo account buttons fill the form — one more click and you are in.
+- **Game page on phones:** the "Add to cart" button is full width.
+- **Deals:** quick filter chips, a counter and "Reset filters" (see the Deals section).
+
 ## Updates and the browser cache
 
 Every local CSS / JS link has a version, e.g. `css/theme.css?v=20261116`. After a change the

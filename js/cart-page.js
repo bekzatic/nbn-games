@@ -70,7 +70,7 @@ function renderCart() {
             <h2 class="h6 fw-bold mb-1">${item.name}</h2>
             <p class="small text-body-secondary mb-0">Digital key · ${formatTenge(item.price)} each</p>
           </div>
-          <div class="btn-group btn-group-sm" role="group" aria-label="Quantity of ${item.name.replace(/"/g, '&quot;')}">
+          <div class="btn-group cart-qty" role="group" aria-label="Quantity of ${item.name.replace(/"/g, '&quot;')}">
             <button class="btn btn-outline-light" type="button" data-action="minus" aria-label="One less ${item.name.replace(/"/g, '&quot;')}">−</button>
             <span class="btn btn-outline-light disabled fw-semibold" aria-live="polite">${item.qty}</span>
             <button class="btn btn-outline-light" type="button" data-action="plus" aria-label="One more ${item.name.replace(/"/g, '&quot;')}"${item.qty >= MAX_QTY ? ` disabled title="Max ${MAX_QTY} keys per game"` : ''}>+</button>

@@ -100,7 +100,7 @@
     return genres.map(first => `
       <section class="mb-5" data-genre-section="${first.genre}" aria-label="${first.genreLabel} games">
         <h2 class="h4 d-flex align-items-center gap-2 mb-3"><span class="text-primary">${NBN.genreIcon(first.genre)}</span><span>${first.genreLabel}</span></h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">
+        <div class="row row-cols-2 row-cols-xl-3 g-2 g-sm-3 g-md-4">
           ${games.filter(g => g.genre === first.genre).map(renderCard).join('')}
         </div>
       </section>`).join('');
@@ -149,6 +149,9 @@
     // "Reset filters" next to the counter only while a filter or a search is on
     const filtered = state.genre !== 'all' || state.platform !== 'all' || state.price !== 'all' || state.search !== '';
     $('#clear-filters').prop('hidden', !filtered);
+    // phones: the "Filters" button shows how many filters are on (genre, platform, price)
+    const on = ['genre', 'platform', 'price'].filter(k => state[k] !== 'all').length;
+    $('#filters-count').text(on).prop('hidden', !on);
     if (!$cols.length) return;                     // the data is not loaded yet
 
     // 1) jQuery .filter() keeps only the cards that match, .not() gives the rest
@@ -315,7 +318,7 @@
     }
     $content.attr('aria-busy', 'true').html(
       '<p class="visually-hidden" role="status">Loading games…</p>' +
-      `<div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 g-md-4">${skeleton}</div>`);
+      `<div class="row row-cols-2 row-cols-xl-3 g-2 g-sm-3 g-md-4">${skeleton}</div>`);
     $count.text('');
 
     let games;

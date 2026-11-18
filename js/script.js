@@ -85,7 +85,8 @@
   const TOAST_TIME = 3200;
   let $toastBox = null;
 
-  NBN.notify = function (text, type) {
+  // action (optional): { label: 'View cart', href: 'cart.html' } → a link inside the toast
+  NBN.notify = function (text, type, action) {
     type = ICONS[type] ? type : 'info';
     if (!$toastBox) {         // the container is created the first time it is needed
       $toastBox = $('<div>', { 'class': 'nbn-toasts', role: 'status', 'aria-live': 'polite' }).appendTo('body');
@@ -103,6 +104,9 @@
       '</div>'
     );
     $toast.find('.nbn-toast__text').text(text);           // .text() → safe, no HTML injection
+    if (action && action.href) {
+      $('<a>', { 'class': 'nbn-toast__action', href: action.href }).text(action.label).insertAfter($toast.find('.nbn-toast__text'));
+    }
     $toast.hide().appendTo($toastBox).fadeIn(250);
 
     // the thin line at the bottom shrinks while the toast is waiting
