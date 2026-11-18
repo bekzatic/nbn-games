@@ -307,6 +307,25 @@
     /* ---------- deals ---------- */
     'Live prices · CheapShark API': { ru: 'Живые цены · CheapShark API', kz: 'Тірі бағалар · CheapShark API' },
     'Could not load more deals': { ru: 'Не удалось загрузить ещё скидки', kz: 'Тағы жеңілдік жүктеу мүмкін болмады' },
+    'View deal': { ru: 'Открыть скидку', kz: 'Жеңілдікті ашу' },
+    'Deal of the moment': { ru: 'Скидка момента', kz: 'Сәттің жеңілдігі' },
+    '30+ stores': { ru: '30+ магазинов', kz: '30+ дүкен' },
+    'Updated every 10 minutes': { ru: 'Обновление каждые 10 минут', kz: 'Әр 10 минут сайын жаңарады' },
+    'Discounts up to −100%': { ru: 'Скидки до −100%', kz: '−100%-ға дейін жеңілдік' },
+    'Quick filters': { ru: 'Быстрые фильтры', kz: 'Жылдам сүзгілер' },
+    'Free now': { ru: 'Бесплатно сейчас', kz: 'Қазір тегін' },
+    'Best rated': { ru: 'Лучший рейтинг', kz: 'Ең жоғары баға' },
+    'Free only': { ru: 'Только бесплатные', kz: 'Тек тегін' },
+    // Steam review words on the deal cards
+    'Overwhelmingly Positive': { ru: 'Крайне положительные', kz: 'Өте жоғары оң' },
+    'Very Positive': { ru: 'Очень положительные', kz: 'Өте оң' },
+    'Positive': { ru: 'Положительные', kz: 'Оң' },
+    'Mostly Positive': { ru: 'В основном положительные', kz: 'Көбіне оң' },
+    'Mixed': { ru: 'Смешанные', kz: 'Аралас' },
+    'Mostly Negative': { ru: 'В основном отрицательные', kz: 'Көбіне теріс' },
+    'Negative': { ru: 'Отрицательные', kz: 'Теріс' },
+    'Very Negative': { ru: 'Очень отрицательные', kz: 'Өте теріс' },
+    'Overwhelmingly Negative': { ru: 'Крайне отрицательные', kz: 'Өте жоғары теріс' },
 
     /* ---------- about ---------- */
     'NBN Games is a small team that grew out of a shared passion for games. We\'re building the store we\'d actually want to use: fast, honest about pricing, and free of noise.': { ru: 'NBN Games — небольшая команда, которую объединила любовь к играм. Мы делаем магазин, которым хотели бы пользоваться сами: быстрый, с честными ценами и без лишнего шума.', kz: 'NBN Games — ойындарға деген ортақ құмарлықтан туған шағын команда. Біз өзіміз пайдаланғымыз келетін дүкен жасап жатырмыз: жылдам, бағасы әділ және артық шусыз.' },
@@ -650,6 +669,10 @@
     { re: /^(\d+) GB \(SSD\)$/, ru: n => `${n} ГБ (SSD)`, kz: n => `${n} ГБ (SSD)` },
     { re: /^(.+) \((\d+)-bit\)$/, ru: (os, b) => `${os} (${b}-бит)`, kz: (os, b) => `${os} (${b}-бит)` },
     { re: /^(.+) \((\d+) GB\)$/, ru: (g, n) => `${g} (${n} ГБ)`, kz: (g, n) => `${g} (${n} ГБ)` },
+    // deals
+    { re: /^Showing (\d+) deals?$/, ru: n => `Показано ${n} ${ruPlural(n, 'предложение', 'предложения', 'предложений')}`, kz: n => `${n} ұсыныс көрсетілді` },
+    { re: /^You save (.+)$/, ru: s => `Экономия ${s}`, kz: s => `Үнемдеу ${s}` },
+    { re: /^View deal: (.+) \(new tab\)$/, ru: g => `Открыть скидку: ${g} (новая вкладка)`, kz: g => `Жеңілдікті ашу: ${g} (жаңа бет)` },
     // cart + checkout
     { re: /^Digital key · (.+) each$/, ru: p => `Цифровой ключ · ${p} за шт.`, kz: p => `Цифрлық кілт · данасы ${p}` },
     { re: /^Place order · (.+)$/, ru: p => `Оформить заказ · ${p}`, kz: p => `Тапсырыс беру · ${p}` },
