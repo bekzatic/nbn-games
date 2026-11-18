@@ -388,7 +388,7 @@
      Start: $(document).ready() runs when the HTML is ready
      ========================================================== */
   $(document).ready(function () {
-    console.log('jQuery is ready!');
+    document.documentElement.dataset.jquery = 'ready';   // a mark that jQuery started (no console.log in the final code)
 
     initScrollProgress();
     initCounters();

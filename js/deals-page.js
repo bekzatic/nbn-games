@@ -31,6 +31,7 @@
 
   let page = 0;
   let shown = 0;                       // how many cards are in the list now
+  let lastRequest = 0;                 // number of the newest request: an older answer that comes later is ignored
 
   // the address of the next request, built from the three filters
   function query() {
@@ -85,9 +86,11 @@
     } else {
       $more.prop('disabled', true).text('Loading…');
     }
+    const request = ++lastRequest;
     try {
       await DealsAPI.loadStores().catch(() => []);   // the store logos on the cards (cached)
       const deals = await DealsAPI.getJSON(query());
+      if (request !== lastRequest) return;           // the filters changed while we waited → a newer list is coming
       if (reset && !deals.length) { DealsAPI.showEmpty($grid[0], 'No deals match these filters — try another store or price.'); return; }
       if (reset) $grid.attr('aria-busy', 'false').html(`<div class="${DealsAPI.GRID}" id="deals-row"></div>`);
       $('#deals-row').append(deals.map(DealsAPI.dealCard).join(''));
@@ -95,6 +98,7 @@
       updateCount();
       $more.prop('hidden', deals.length < PAGE_SIZE);   // a short page = there is nothing more
     } catch (err) {
+      if (request !== lastRequest) return;
       if (reset) DealsAPI.showError($grid[0], 'Could not load the deals. Check your internet connection.', () => load(true));
       else {
         page--;                                       // the same page will be asked again next time

@@ -52,6 +52,8 @@ function renderCart() {
   const cart = getCart();
   const totals = cartTotals();
   headingEl.textContent = `Your cart (${totals.count})`;
+  // empty cart: the only main action is "Browse catalog" — no "Proceed to checkout" next to it
+  document.getElementById('checkout-btn').hidden = cart.length === 0;
 
   if (cart.length === 0) {
     cartItemsEl.innerHTML = `

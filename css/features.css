@@ -256,3 +256,8 @@
   /* game page: the main button is full width */
   .game-buy-btn { width: 100%; }
 }
+/* footer "Subscribe" (secondary, outline): in the Day theme the darker orange keeps WCAG AA (4.5:1) */
+[data-bs-theme="light"] .site-footer .btn-outline-primary {
+  --bs-btn-color: var(--bs-primary-text-emphasis);
+  --bs-btn-border-color: var(--bs-primary-text-emphasis);
+}

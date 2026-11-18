@@ -87,7 +87,7 @@ mark.hl {
   transform: translateX(50%) scale(.8);
   padding: .1rem .45rem;
   border-radius: 999px;
-  font: 700 .7rem/1.4 system-ui, sans-serif;
+  font: 700 .7rem/1.4 'Inter', sans-serif;
   color: var(--nbn-on-accent);
   background: var(--nbn-accent);
   box-shadow: var(--nbn-shadow-sm);

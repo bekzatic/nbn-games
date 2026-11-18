@@ -90,7 +90,7 @@
     const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
     if (e.key !== '?' || typing) return;      // "?" = Shift + / ; ignored while typing in a field
     if (window.showToast) {
-      showToast('⌨️ Shortcuts: / search the catalog · Esc clear · F new fact · M mute · ← → menu · ↑↑↓↓←→←→ B A retro mode', 'info');
+      showToast('Shortcuts: / search the catalog · Esc clear · F new fact · M mute · ← → menu · ↑↑↓↓←→←→ B A retro mode', 'info');
     }
   });
 })();
